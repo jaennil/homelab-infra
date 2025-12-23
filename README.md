@@ -44,6 +44,16 @@ kubectl apply -f apps/
 | [sticker-bot](https://github.com/jaennil/quick-stickers-tg-bot) | sticker-bot |
 | [vmservice](https://github.com/jaennil/vmservice) | vmservice |
 | [guide-helper](https://github.com/jaennil/guide_helper) | guide-helper |
+| webdav (Obsidian sync) | webdav |
+
+## WebDAV Setup
+
+```bash
+# Create secret with credentials
+cp webdav/secret.yaml.example webdav/secret.yaml
+# Edit webdav/secret.yaml with your password
+kubectl apply -f webdav/secret.yaml
+```
 
 ## Repo Secrets
 
