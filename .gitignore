@@ -1,3 +1,4 @@
 repo-secrets.yaml
 *.secret.yaml
 webdav/secret.yaml
+tuna/secret.yaml

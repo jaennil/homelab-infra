@@ -45,14 +45,22 @@ kubectl apply -f apps/
 | [vmservice](https://github.com/jaennil/vmservice) | vmservice |
 | [guide-helper](https://github.com/jaennil/guide_helper) | guide-helper |
 | webdav (Obsidian sync) | webdav |
+| tuna (k8s.ru.tuna.am tunnel) | tuna |
 
 ## WebDAV Setup
 
 ```bash
-# Create secret with credentials
 cp webdav/secret.yaml.example webdav/secret.yaml
 # Edit webdav/secret.yaml with your password
 kubectl apply -f webdav/secret.yaml
+```
+
+## Tuna Tunnel Setup
+
+```bash
+cp tuna/secret.yaml.example tuna/secret.yaml
+# Edit tuna/secret.yaml with your tuna token
+kubectl apply -f tuna/secret.yaml
 ```
 
 ## Repo Secrets
