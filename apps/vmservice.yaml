@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/jaennil/vmservice
     targetRevision: main
-    path: k8s
+    path: k8s/overlays/production
   destination:
     server: https://kubernetes.default.svc
     namespace: vmservice
