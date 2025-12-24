@@ -18,7 +18,7 @@ stringData:
       routes:
         - receiver: 'null'
           matchers:
-            - alertname =~ "InfoInhibitor|Watchdog"
+            - alertname =~ "InfoInhibitor|Watchdog|KubeSchedulerDown|KubeControllerManagerDown|KubeProxyDown"
 
     receivers:
       - name: 'null'
