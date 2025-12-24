@@ -1,25 +1,26 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: kibana-transport
+  namespace: logging
+spec:
+  insecureSkipVerify: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: kibana
   namespace: logging
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
-    traefik.ingress.kubernetes.io/service.serversscheme: https
 spec:
-  ingressClassName: traefik
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`kibana.dubrovskih.ru`)
+      kind: Rule
+      services:
+        - name: kibana-kb-http
+          port: 5601
+          scheme: https
+          serversTransport: kibana-transport
   tls:
-    - hosts:
-        - kibana.dubrovskih.ru
-      secretName: kibana-tls
-  rules:
-    - host: kibana.dubrovskih.ru
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: kibana-kb-http
-                port:
-                  number: 5601
+    secretName: kibana-tls
