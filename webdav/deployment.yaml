@@ -15,11 +15,27 @@ spec:
       labels:
         app: webdav
     spec:
+      securityContext:
+        runAsNonRoot: false  # webdav needs root for apache
       containers:
         - name: webdav
-          image: bytemark/webdav:latest
+          image: bytemark/webdav:2.4
           ports:
             - containerPort: 80
+          securityContext:
+            allowPrivilegeEscalation: false
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 30
           env:
             - name: AUTH_TYPE
               value: "Basic"
