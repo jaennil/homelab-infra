@@ -90,11 +90,11 @@ spec:
               mountPath: /var/lib/grafana/dashboards
           resources:
             requests:
-              memory: "32Mi"
+              memory: "64Mi"
               cpu: "10m"
             limits:
-              memory: "64Mi"
-              cpu: "50m"
+              memory: "256Mi"
+              cpu: "100m"
       volumes:
         - name: datasources
           configMap:
