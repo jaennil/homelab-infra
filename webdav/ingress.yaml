@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: webdav-ingress
   namespace: webdav
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - webdav.dubrovskih.ru
+      secretName: webdav-tls
   rules:
     - host: webdav.dubrovskih.ru
       http:
