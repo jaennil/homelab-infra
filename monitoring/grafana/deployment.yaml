@@ -55,9 +55,7 @@ spec:
             - name: GF_AUTH_ANONYMOUS_ORG_ROLE
               value: "Viewer"
             - name: GF_SERVER_ROOT_URL
-              value: "https://k8s.dubrovskih.ru/grafana"
-            - name: GF_SERVER_SERVE_FROM_SUB_PATH
-              value: "true"
+              value: "https://grafana.dubrovskih.ru"
           volumeMounts:
             - name: datasources
               mountPath: /etc/grafana/provisioning/datasources
