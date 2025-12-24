@@ -5,8 +5,13 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     traefik.ingress.kubernetes.io/service.serversscheme: https
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - dashboard.dubrovskih.ru
+      secretName: dashboard-tls
   rules:
     - host: dashboard.dubrovskih.ru
       http:

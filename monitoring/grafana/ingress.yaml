@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: grafana
   namespace: monitoring
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - grafana.dubrovskih.ru
+      secretName: grafana-tls
   rules:
     - host: grafana.dubrovskih.ru
       http:
