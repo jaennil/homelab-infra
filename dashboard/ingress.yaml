@@ -5,6 +5,7 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: kubernetes-dashboard-stripprefix@kubernetescrd
+    traefik.ingress.kubernetes.io/service.serversscheme: https
 spec:
   ingressClassName: traefik
   rules:
