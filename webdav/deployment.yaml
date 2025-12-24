@@ -19,20 +19,18 @@ spec:
         runAsNonRoot: false  # webdav needs root for apache
       containers:
         - name: webdav
-          image: bytemark/webdav:2.4
+          image: bytemark/webdav:latest
           ports:
             - containerPort: 80
           securityContext:
             allowPrivilegeEscalation: false
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 30
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 30
