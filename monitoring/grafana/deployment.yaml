@@ -55,7 +55,7 @@ spec:
             - name: GF_AUTH_ANONYMOUS_ORG_ROLE
               value: "Viewer"
             - name: GF_SERVER_ROOT_URL
-              value: "http://k8s.ru.tuna.am/grafana"
+              value: "https://k8s.dubrovskih.ru/grafana"
             - name: GF_SERVER_SERVE_FROM_SUB_PATH
               value: "true"
           volumeMounts:

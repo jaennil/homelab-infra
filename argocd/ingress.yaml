@@ -3,16 +3,37 @@ kind: Ingress
 metadata:
   name: argocd-ingress
   namespace: argocd
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: argocd-stripprefix@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
-    - host: k8s.ru.tuna.am
+    - host: k8s.dubrovskih.ru
       http:
         paths:
-          - path: /
+          - path: /argocd
             pathType: Prefix
             backend:
               service:
                 name: argocd-server
                 port:
                   number: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: argocd
+spec:
+  stripPrefix:
+    prefixes:
+      - /argocd
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+  namespace: argocd
+data:
+  server.basehref: /argocd
+  server.rootpath: /argocd

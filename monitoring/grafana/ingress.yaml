@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: k8s.ru.tuna.am
+    - host: k8s.dubrovskih.ru
       http:
         paths:
           - path: /grafana
