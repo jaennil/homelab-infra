@@ -13,6 +13,11 @@ data:
         url: http://prometheus:9090
         isDefault: true
         editable: false
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki.logging:3100
+        editable: false
 ---
 apiVersion: v1
 kind: ConfigMap
