@@ -11,6 +11,8 @@ spec:
     targetRevision: 80.6.0
     helm:
       values: |
+        crds:
+          enabled: true
         prometheus:
           enabled: false
         alertmanager:
