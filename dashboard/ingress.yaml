@@ -1,26 +1,24 @@
-apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: dashboard-transport
+  name: dashboard-ingress
   namespace: kubernetes-dashboard
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
-  insecureSkipVerify: true
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: dashboard
-  namespace: kubernetes-dashboard
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`dashboard.dubrovskih.ru`)
-      kind: Rule
-      services:
-        - name: kubernetes-dashboard
-          port: 443
-          scheme: https
-          serversTransport: dashboard-transport
+  ingressClassName: traefik
   tls:
-    secretName: dashboard-tls
+    - hosts:
+        - dashboard.dubrovskih.ru
+      secretName: dashboard-tls
+  rules:
+    - host: dashboard.dubrovskih.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard-kong-proxy
+                port:
+                  number: 443
