@@ -19,6 +19,9 @@ data:
         pipeline_stages:
           - cri: {}
         relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            action: keep
+            regex: ${HOSTNAME}
           - source_labels: [__meta_kubernetes_pod_controller_name]
             regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
             target_label: __tmp_controller_name
@@ -65,6 +68,12 @@ spec:
           image: grafana/promtail:3.0.0
           args:
             - -config.file=/etc/promtail/promtail.yaml
+            - -config.expand-env=true
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           ports:
             - containerPort: 9080
               name: http
