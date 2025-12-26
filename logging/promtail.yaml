@@ -19,6 +19,14 @@ data:
         pipeline_stages:
           - cri: {}
         relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_controller_name]
+            regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
+            target_label: __tmp_controller_name
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name, __meta_kubernetes_pod_label_app, __tmp_controller_name, __meta_kubernetes_pod_name]
+            regex: ^;*([^;]+)(;.*)?$
+            target_label: app
+            action: replace
           - source_labels: [__meta_kubernetes_pod_node_name]
             target_label: node
           - source_labels: [__meta_kubernetes_namespace]
@@ -27,11 +35,11 @@ data:
             target_label: pod
           - source_labels: [__meta_kubernetes_pod_container_name]
             target_label: container
-          - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_pod_name, __meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
+          - replacement: /var/log/pods/*$1/*.log
             separator: /
-            regex: (.*)/(.*)/(.*)/(.*)
-            replacement: /var/log/pods/$1_$2_$3/$4/*.log
+            source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
             target_label: __path__
+            action: replace
 ---
 apiVersion: apps/v1
 kind: DaemonSet
