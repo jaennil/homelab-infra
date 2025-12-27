@@ -10,19 +10,15 @@ spec:
     chart: longhorn
     targetRevision: 1.7.2
     helm:
+      skipCrds: false
       values: |
         defaultSettings:
           defaultReplicaCount: 2
           defaultDataPath: /var/lib/longhorn
         persistence:
           defaultClassReplicaCount: 2
-        resources:
-          requests:
-            cpu: 25m
-            memory: 64Mi
-          limits:
-            cpu: 250m
-            memory: 256Mi
+        preUpgradeChecker:
+          jobEnabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
@@ -32,3 +28,5 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
