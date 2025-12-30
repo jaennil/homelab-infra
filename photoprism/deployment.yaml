@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photoprism
+  namespace: photoprism
+  labels:
+    app: photoprism
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photoprism
+  template:
+    metadata:
+      labels:
+        app: photoprism
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: jaennil-pc
+      containers:
+        - name: photoprism
+          image: photoprism/photoprism:latest
+          ports:
+            - containerPort: 2342
+              name: http
+          env:
+            - name: PHOTOPRISM_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: photoprism-credentials
+                  key: username
+            - name: PHOTOPRISM_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: photoprism-credentials
+                  key: password
+            - name: PHOTOPRISM_SITE_URL
+              value: "https://media.dubrovskih.ru/"
+            - name: PHOTOPRISM_ORIGINALS_LIMIT
+              value: "5000"
+            - name: PHOTOPRISM_HTTP_COMPRESSION
+              value: "gzip"
+            - name: PHOTOPRISM_DATABASE_DRIVER
+              value: "sqlite"
+            - name: PHOTOPRISM_DETECT_NSFW
+              value: "false"
+            - name: PHOTOPRISM_UPLOAD_NSFW
+              value: "true"
+          volumeMounts:
+            - name: originals
+              mountPath: /photoprism/originals
+              readOnly: true
+            - name: storage
+              mountPath: /photoprism/storage
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+          livenessProbe:
+            httpGet:
+              path: /api/v1/status
+              port: 2342
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/v1/status
+              port: 2342
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      volumes:
+        - name: originals
+          hostPath:
+            path: /home/jaennil/photos
+            type: Directory
+        - name: storage
+          persistentVolumeClaim:
+            claimName: photoprism-storage
