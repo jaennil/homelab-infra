@@ -21,51 +21,67 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - name: webdav
-          image: ghcr.io/hacdias/webdav:v5
+        - name: sftpgo
+          image: drakkan/sftpgo:v2.6-alpine
           ports:
-            - containerPort: 8080
+            - name: webdav
+              containerPort: 8080
+            - name: admin
+              containerPort: 8081
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-          livenessProbe:
-            tcpSocket:
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 30
-          readinessProbe:
-            tcpSocket:
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 30
           env:
-            - name: WD_AUTH
-              value: "true"
-            - name: WD_USERNAME
+            - name: SFTPGO_WEBDAVD__BINDINGS__0__PORT
+              value: "8080"
+            - name: SFTPGO_WEBDAVD__BINDINGS__0__ADDRESS
+              value: "0.0.0.0"
+            - name: SFTPGO_HTTPD__BINDINGS__0__PORT
+              value: "8081"
+            - name: SFTPGO_HTTPD__BINDINGS__0__ADDRESS
+              value: "0.0.0.0"
+            - name: SFTPGO_SFTPD__BINDINGS__0__PORT
+              value: "0"
+            - name: SFTPGO_DATA_PROVIDER__DRIVER
+              value: "sqlite"
+            - name: SFTPGO_DATA_PROVIDER__NAME
+              value: "/data/sftpgo.db"
+            - name: SFTPGO_DEFAULT_ADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: webdav-credentials
                   key: username
-            - name: WD_PASSWORD
+            - name: SFTPGO_DEFAULT_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: webdav-credentials
                   key: password
-            - name: WD_PORT
-              value: "8080"
-            - name: WD_DIR
-              value: "/data"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: admin
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: admin
+            initialDelaySeconds: 5
+            periodSeconds: 10
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: srv
+              mountPath: /srv/sftpgo
           resources:
             requests:
-              memory: "32Mi"
+              memory: "64Mi"
               cpu: "50m"
             limits:
-              memory: "128Mi"
-              cpu: "200m"
+              memory: "256Mi"
+              cpu: "500m"
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: webdav-data
+        - name: srv
+          emptyDir: {}
