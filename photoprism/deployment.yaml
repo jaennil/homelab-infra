@@ -46,6 +46,8 @@ spec:
               value: "false"
             - name: PHOTOPRISM_UPLOAD_NSFW
               value: "true"
+            - name: PHOTOPRISM_AUTH_MODE
+              value: "public"
           volumeMounts:
             - name: originals
               mountPath: /photoprism/originals
