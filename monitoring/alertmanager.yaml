@@ -29,10 +29,10 @@ stringData:
             parse_mode: HTML
             message: |
               {{ range .Alerts }}
-              <b>{{ .Status | toUpper }}</b>: {{ .Labels.alertname }}
-              <b>Namespace:</b> {{ .Labels.namespace }}
-              <b>Pod:</b> {{ .Labels.pod }}
-              <b>Summary:</b> {{ .Annotations.summary }}
+              {{ if eq .Status "firing" }}🔥 <b>FIRING</b>{{ else }}✅ <b>RESOLVED</b>{{ end }}: {{ .Labels.alertname }}
+              📦 <b>Namespace:</b> {{ .Labels.namespace }}
+              🔹 <b>Pod:</b> {{ .Labels.pod }}
+              📝 <b>Summary:</b> {{ .Annotations.summary }}
               {{ .Annotations.description }}
               {{ end }}
 ---
