@@ -7,6 +7,7 @@ spec:
   valuesContent: |
     deployment:
       replicas: 3
+    nodeSelector: {}
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
