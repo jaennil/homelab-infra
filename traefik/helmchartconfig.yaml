@@ -7,11 +7,5 @@ spec:
   valuesContent: |
     deployment:
       replicas: 3
+      kind: DaemonSet
     nodeSelector: {}
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: traefik
