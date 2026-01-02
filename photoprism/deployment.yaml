@@ -36,6 +36,8 @@ spec:
                   key: password
             - name: PHOTOPRISM_SITE_URL
               value: "https://media.dubrovskih.ru/"
+            - name: PHOTOPRISM_PUBLIC
+              value: "true"
             - name: PHOTOPRISM_ORIGINALS_LIMIT
               value: "5000"
             - name: PHOTOPRISM_HTTP_COMPRESSION
