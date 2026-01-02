@@ -49,7 +49,7 @@ spec:
             - name: PHOTOPRISM_UPLOAD_NSFW
               value: "true"
             - name: PHOTOPRISM_WORKERS
-              value: "4"
+              value: "8"
           volumeMounts:
             - name: originals
               mountPath: /photoprism/originals
@@ -57,11 +57,11 @@ spec:
               mountPath: /photoprism/storage
           resources:
             requests:
-              memory: "2Gi"
-              cpu: "1000m"
+              memory: "6Gi"
+              cpu: "3000m"
             limits:
-              memory: "4Gi"
-              cpu: "2000m"
+              memory: "10Gi"
+              cpu: "6000m"
           livenessProbe:
             httpGet:
               path: /api/v1/status
