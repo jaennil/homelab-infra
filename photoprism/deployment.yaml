@@ -49,7 +49,6 @@ spec:
           volumeMounts:
             - name: originals
               mountPath: /photoprism/originals
-              readOnly: true
             - name: storage
               mountPath: /photoprism/storage
           resources:
