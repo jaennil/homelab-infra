@@ -48,6 +48,8 @@ spec:
               value: "false"
             - name: PHOTOPRISM_UPLOAD_NSFW
               value: "true"
+            - name: PHOTOPRISM_WORKERS
+              value: "4"
           volumeMounts:
             - name: originals
               mountPath: /photoprism/originals
@@ -55,8 +57,8 @@ spec:
               mountPath: /photoprism/storage
           resources:
             requests:
-              memory: "512Mi"
-              cpu: "200m"
+              memory: "2Gi"
+              cpu: "1000m"
             limits:
               memory: "4Gi"
               cpu: "2000m"
