@@ -22,3 +22,21 @@ data:
       trusted_proxies:
         - 10.42.0.0/16
         - 10.43.0.0/16
+
+    shell_command:
+      shutdown_raspberrypi: 'ssh -i /config/.ssh/id_ed25519 -o StrictHostKeyChecking=no jaennil@192.168.3.40 "sudo shutdown -h now"'
+      reboot_raspberrypi: 'ssh -i /config/.ssh/id_ed25519 -o StrictHostKeyChecking=no jaennil@192.168.3.40 "sudo reboot"'
+
+    button:
+      - platform: template
+        buttons:
+          raspberrypi_shutdown:
+            friendly_name: "Выключить Raspberry Pi"
+            icon_template: mdi:power
+            turn_on:
+              service: shell_command.shutdown_raspberrypi
+          raspberrypi_reboot:
+            friendly_name: "Перезагрузить Raspberry Pi"
+            icon_template: mdi:restart
+            turn_on:
+              service: shell_command.reboot_raspberrypi
