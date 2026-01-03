@@ -28,6 +28,9 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: configuration
+              mountPath: /config/configuration.yaml
+              subPath: configuration.yaml
           env:
             - name: TZ
               value: "Europe/Moscow"
@@ -56,3 +59,6 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: home-assistant-config
+        - name: configuration
+          configMap:
+            name: home-assistant-config
