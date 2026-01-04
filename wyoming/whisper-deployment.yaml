@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wyoming-whisper
+  namespace: wyoming
+  labels:
+    app.kubernetes.io/name: wyoming-whisper
+    app.kubernetes.io/component: stt
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wyoming-whisper
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wyoming-whisper
+        app.kubernetes.io/component: stt
+    spec:
+      containers:
+        - name: whisper
+          image: rhasspy/wyoming-whisper:latest
+          args:
+            - --model
+            - small
+            - --language
+            - ru
+            - --beam-size
+            - "1"
+            - --device
+            - cpu
+          ports:
+            - name: wyoming
+              containerPort: 10300
+              protocol: TCP
+          volumeMounts:
+            - name: cache
+              mountPath: /data
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+          livenessProbe:
+            tcpSocket:
+              port: 10300
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: 10300
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: wyoming-whisper-cache

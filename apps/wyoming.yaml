@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wyoming
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/jaennil/homelab-infra
+    targetRevision: main
+    path: wyoming
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wyoming
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

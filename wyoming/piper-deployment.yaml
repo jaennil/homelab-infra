@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wyoming-piper
+  namespace: wyoming
+  labels:
+    app.kubernetes.io/name: wyoming-piper
+    app.kubernetes.io/component: tts
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wyoming-piper
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wyoming-piper
+        app.kubernetes.io/component: tts
+    spec:
+      containers:
+        - name: piper
+          image: rhasspy/wyoming-piper:latest
+          args:
+            - --voice
+            - ru_RU-irina-medium
+          ports:
+            - name: wyoming
+              containerPort: 10200
+              protocol: TCP
+          volumeMounts:
+            - name: cache
+              mountPath: /data
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            tcpSocket:
+              port: 10200
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: 10200
+            initialDelaySeconds: 15
+            periodSeconds: 10
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: wyoming-piper-cache

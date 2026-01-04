@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wyoming-whisper-cache
+  namespace: wyoming
+  labels:
+    app.kubernetes.io/name: wyoming-whisper
+    app.kubernetes.io/component: stt
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: longhorn
