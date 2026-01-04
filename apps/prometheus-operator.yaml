@@ -20,9 +20,9 @@ spec:
         grafana:
           enabled: false
         nodeExporter:
-          enabled: false
+          enabled: true
         kubeStateMetrics:
-          enabled: false
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
