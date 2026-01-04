@@ -31,7 +31,6 @@ spec:
             - --bind-random-subdomains-length=6
             - --force-requested-subdomains=true
             - --verify-ssl=false
-            - --cleanup=true
             - --log-to-client=true
           ports:
             - name: ssh
