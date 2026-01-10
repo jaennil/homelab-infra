@@ -9,6 +9,16 @@ spec:
     repoURL: https://kubernetes.github.io/dashboard
     chart: kubernetes-dashboard
     targetRevision: 7.10.0
+    helm:
+      values: |
+        api:
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
   destination:
     server: https://kubernetes.default.svc
     namespace: kubernetes-dashboard
