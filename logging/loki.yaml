@@ -112,6 +112,7 @@ metadata:
   name: loki-data
   namespace: logging
 spec:
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
