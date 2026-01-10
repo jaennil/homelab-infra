@@ -16,6 +16,8 @@ spec:
           defaultReplicaCount: 2
           defaultDataPath: /var/lib/longhorn
           storageReservedPercentageForDefaultDisk: 10
+          nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+          replicaAutoBalance: best-effort
         persistence:
           defaultClassReplicaCount: 2
         preUpgradeChecker:
