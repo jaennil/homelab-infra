@@ -18,6 +18,19 @@ data:
         access: proxy
         url: http://loki.logging:3100
         editable: false
+      - name: Jaeger
+        type: jaeger
+        access: proxy
+        url: http://jaeger.observability:16686
+        editable: false
+        jsonData:
+          tracesToLogs:
+            datasourceUid: Loki
+            tags: ['job', 'instance', 'pod', 'namespace']
+          tracesToMetrics:
+            datasourceUid: Prometheus
+          nodeGraph:
+            enabled: true
 ---
 apiVersion: v1
 kind: ConfigMap
