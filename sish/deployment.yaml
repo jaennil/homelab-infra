@@ -17,6 +17,21 @@ spec:
       labels:
         app.kubernetes.io/name: sish
     spec:
+      initContainers:
+        - name: generate-keys
+          image: alpine:latest
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /data/keys/ssh_host_ed25519_key ]; then
+                apk add --no-cache openssh-keygen
+                mkdir -p /data/keys
+                ssh-keygen -t ed25519 -f /data/keys/ssh_host_ed25519_key -N ""
+              fi
+          volumeMounts:
+            - name: data
+              mountPath: /data
       containers:
         - name: sish
           image: antoniomika/sish:latest
