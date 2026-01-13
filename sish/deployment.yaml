@@ -37,6 +37,7 @@ spec:
         - name: sish
           image: antoniomika/sish:latest
           args:
+            - --debug
             - --ssh-address=:2222
             - --http-address=:8080
             - --domain=tunnel.dubrovskih.ru
