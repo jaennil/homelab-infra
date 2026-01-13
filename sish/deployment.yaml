@@ -29,6 +29,7 @@ spec:
                 mkdir -p /data/keys
                 ssh-keygen -t ed25519 -f /data/keys/ssh_host_ed25519_key -N ""
               fi
+              rm -f /data/keys/*.pub
           volumeMounts:
             - name: data
               mountPath: /data
