@@ -39,6 +39,8 @@ spec:
           args:
             - --debug
             - --ssh-address=:2222
+            - --cleanup-unbound-timeout=2m
+            - --idle-connection-timeout=60m
             - --http-address=:8080
             - --domain=tunnel.dubrovskih.ru
             - --private-keys-directory=/data/keys
