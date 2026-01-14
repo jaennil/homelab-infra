@@ -1,3 +1,21 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: longhorn-basic-auth
+  namespace: longhorn-system
+type: Opaque
+data:
+  users: amFlbm5pbDokYXByMSR4aU5kcGF4QiQ0OEl4SVVTWFZiUGN5dXVBRk5TLzMu
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: longhorn-basic-auth
+  namespace: longhorn-system
+spec:
+  basicAuth:
+    secret: longhorn-basic-auth
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -22,6 +40,8 @@ spec:
   routes:
     - match: Host(`longhorn.dubrovskih.ru`)
       kind: Rule
+      middlewares:
+        - name: longhorn-basic-auth
       services:
         - name: longhorn-frontend
           port: 80
