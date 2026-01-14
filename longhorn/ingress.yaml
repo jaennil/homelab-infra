@@ -5,7 +5,7 @@ metadata:
   namespace: longhorn-system
 type: Opaque
 data:
-  users: amFlbm5pbDokYXByMSRiZG1DbG9TUyRiQXkuRTlkb2lhcmJPS0UweVZoaWgx
+  users: amFlbm5pbDokYXByMSRnQ2FPZmtoRyQub1A1QU5LbXdYejhINDZmcHNVZXIx
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
