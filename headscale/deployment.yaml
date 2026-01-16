@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: headscale
-          image: headscale/headscale:latest
+          image: ghcr.io/juanfont/headscale:latest
           command:
             - headscale
             - serve
