@@ -86,13 +86,19 @@ metadata:
 data:
   init.sh: |
     #!/bin/sh
+    # Get server URL from kubelet config, replace localhost with control plane IP
+    SERVER_URL=$(sed -n 's/.*server: \(.*\)/\1/p' /var/lib/rancher/k3s/agent/kubelet.kubeconfig)
+    # If it's localhost:6444 (agent proxy), use control plane IP directly
+    if echo "$SERVER_URL" | grep -q "127.0.0.1:6444"; then
+        SERVER_URL="https://192.168.3.43:6443"
+    fi
     cat > /etc/kubernetes/kubeconfig <<EOF
         apiVersion: v1
         kind: Config
         name: kilo
         clusters:
         - cluster:
-            server: $(sed -n 's/.*server: \(.*\)/\1/p' /var/lib/rancher/k3s/agent/kubelet.kubeconfig)
+            server: ${SERVER_URL}
             certificate-authority: /var/lib/rancher/k3s/agent/server-ca.crt
         users:
         - name: kilo
