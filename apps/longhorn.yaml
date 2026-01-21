@@ -13,13 +13,13 @@ spec:
       skipCrds: false
       values: |
         defaultSettings:
-          defaultReplicaCount: 1
+          defaultReplicaCount: 2
           defaultDataPath: /var/lib/longhorn
           storageReservedPercentageForDefaultDisk: 10
           nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
           replicaAutoBalance: best-effort
         persistence:
-          defaultClassReplicaCount: 1
+          defaultClassReplicaCount: 2
         preUpgradeChecker:
           jobEnabled: false
   destination:
