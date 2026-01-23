@@ -57,11 +57,11 @@ spec:
               mountPath: /photoprism/storage
           resources:
             requests:
-              memory: "6Gi"
-              cpu: "3000m"
+              memory: "512Mi"
+              cpu: "100m"
             limits:
-              memory: "10Gi"
-              cpu: "6000m"
+              memory: "2Gi"
+              cpu: "2000m"
           livenessProbe:
             httpGet:
               path: /api/v1/status
