@@ -48,6 +48,8 @@ spec:
               value: "true"
             - name: PHOTOPRISM_WORKERS
               value: "8"
+            - name: PHOTOPRISM_DISABLE_PLACES
+              value: "true"
           volumeMounts:
             - name: originals
               mountPath: /photoprism/originals
