@@ -217,9 +217,72 @@ data:
           }
         },
         {
+          "title": "Disk Health (SMART)",
+          "type": "stat",
+          "gridPos": {"h": 6, "w": 24, "x": 0, "y": 32},
+          "targets": [
+            {
+              "expr": "smartctl_device_smart_healthy",
+              "legendFormat": "{{device}} ({{model_name}})",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [
+                {"type": "value", "options": {"0": {"text": "UNHEALTHY", "color": "red"}}},
+                {"type": "value", "options": {"1": {"text": "HEALTHY", "color": "green"}}}
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {"color": "red", "value": null},
+                  {"color": "green", "value": 1}
+                ]
+              }
+            }
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": ["lastNotNull"]
+            },
+            "textMode": "value_and_name",
+            "colorMode": "background"
+          }
+        },
+        {
+          "title": "Disk Temperature (SMART)",
+          "type": "timeseries",
+          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 38},
+          "targets": [
+            {
+              "expr": "smartctl_device_temperature{temperature_type=\"current\"}",
+              "legendFormat": "{{device}} ({{model_name}})",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 20
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {"color": "green", "value": null},
+                  {"color": "yellow", "value": 45},
+                  {"color": "red", "value": 55}
+                ]
+              }
+            }
+          }
+        },
+        {
           "title": "Uptime",
           "type": "stat",
-          "gridPos": {"h": 4, "w": 24, "x": 0, "y": 32},
+          "gridPos": {"h": 4, "w": 24, "x": 0, "y": 46},
           "targets": [
             {
               "expr": "(time() - node_boot_time_seconds) * on(instance) group_left(nodename) node_uname_info",

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: smartctl-exporter
+  namespace: monitoring
+  labels:
+    app: smartctl-exporter
+spec:
+  selector:
+    matchLabels:
+      app: smartctl-exporter
+  template:
+    metadata:
+      labels:
+        app: smartctl-exporter
+    spec:
+      hostNetwork: true
+      containers:
+        - name: smartctl-exporter
+          image: prometheuscommunity/smartctl-exporter:v0.12.0
+          args:
+            - "--smartctl.path=/usr/sbin/smartctl"
+            - "--web.listen-address=:9633"
+          ports:
+            - containerPort: 9633
+              name: metrics
+              hostPort: 9633
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: dev
+              mountPath: /dev
+            - name: run-udev
+              mountPath: /run/udev
+              readOnly: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+      volumes:
+        - name: dev
+          hostPath:
+            path: /dev
+        - name: run-udev
+          hostPath:
+            path: /run/udev
+      tolerations:
+        - operator: Exists

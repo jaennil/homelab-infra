@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smartctl-exporter
+  namespace: monitoring
+  labels:
+    app: smartctl-exporter
+spec:
+  selector:
+    app: smartctl-exporter
+  ports:
+    - name: metrics
+      port: 9633
+      targetPort: 9633
+  clusterIP: None
