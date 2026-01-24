@@ -15,6 +15,7 @@ spec:
         app: smartctl-exporter
     spec:
       hostNetwork: true
+      hostPID: true
       nodeSelector:
         kubernetes.io/arch: amd64
       containers:
@@ -29,6 +30,7 @@ spec:
               hostPort: 9633
           securityContext:
             privileged: true
+            runAsUser: 0
             capabilities:
               add:
                 - SYS_RAWIO
