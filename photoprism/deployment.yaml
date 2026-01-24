@@ -15,8 +15,6 @@ spec:
       labels:
         app: photoprism
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: jaennil-pc
       containers:
         - name: photoprism
           image: photoprism/photoprism:latest
@@ -76,9 +74,8 @@ spec:
             periodSeconds: 10
       volumes:
         - name: originals
-          hostPath:
-            path: /home/jaennil/photos
-            type: Directory
+          persistentVolumeClaim:
+            claimName: photoprism-originals
         - name: storage
           persistentVolumeClaim:
             claimName: photoprism-storage
