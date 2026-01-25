@@ -46,9 +46,8 @@ spec:
             - --private-keys-directory=/data/keys
             - --authentication=false
             - --bind-random-ports=false
-            - --bind-random-subdomains=true
-            - --bind-random-subdomains-length=6
-            - --force-requested-subdomains=true
+            - --bind-random-subdomains=false
+            - --force-requested-subdomains=false
             - --verify-ssl=false
             - --log-to-client=true
           ports:
