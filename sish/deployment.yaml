@@ -37,7 +37,6 @@ spec:
         - name: sish
           image: antoniomika/sish:latest
           args:
-            - --debug
             - --ssh-address=:2222
             - --cleanup-unbound-timeout=2m
             - --idle-connection-timeout=60m
