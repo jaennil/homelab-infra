@@ -222,7 +222,7 @@ data:
           "gridPos": {"h": 6, "w": 24, "x": 0, "y": 32},
           "targets": [
             {
-              "expr": "smartctl_device_smart_healthy",
+              "expr": "smartctl_device_smart_status",
               "legendFormat": "{{device}} ({{model_name}})",
               "refId": "A"
             }
@@ -256,7 +256,7 @@ data:
           "gridPos": {"h": 8, "w": 24, "x": 0, "y": 38},
           "targets": [
             {
-              "expr": "smartctl_device_temperature{temperature_type=\"current\"}",
+              "expr": "smartctl_device_temperature",
               "legendFormat": "{{device}} ({{model_name}})",
               "refId": "A"
             }
