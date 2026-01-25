@@ -47,8 +47,14 @@ spec:
             - name: PHOTOPRISM_UPLOAD_NSFW
               value: "true"
             - name: PHOTOPRISM_WORKERS
-              value: "8"
+              value: "2"
             - name: PHOTOPRISM_DISABLE_PLACES
+              value: "true"
+            - name: PHOTOPRISM_DISABLE_TENSORFLOW
+              value: "true"
+            - name: PHOTOPRISM_DISABLE_FACES
+              value: "true"
+            - name: PHOTOPRISM_DISABLE_CLASSIFICATION
               value: "true"
           volumeMounts:
             - name: originals
@@ -57,11 +63,11 @@ spec:
               mountPath: /photoprism/storage
           resources:
             requests:
-              memory: "2Gi"
-              cpu: "500m"
+              memory: "512Mi"
+              cpu: "250m"
             limits:
-              memory: "6Gi"
-              cpu: "4000m"
+              memory: "2Gi"
+              cpu: "2000m"
           livenessProbe:
             httpGet:
               path: /api/v1/status
