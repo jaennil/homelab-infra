@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: shutdown-jaennil-pc
+  namespace: power-management
+spec:
+  schedule: "0 0 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: raspberrypi
+          containers:
+          - name: shutdown
+            image: alpine:latest
+            command:
+            - sh
+            - -c
+            - |
+              set -e
+              echo "Starting shutdown at $(date)"
+
+              apk add --no-cache openssh-client
+
+              mkdir -p ~/.ssh
+              cp /ssh/id_rsa ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+
+              echo "Connecting to jaennil-pc..."
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+                -i ~/.ssh/id_rsa jaennil@192.168.3.4 \
+                "echo 'naen' | sudo -S shutdown -h now" || true
+
+              echo "Shutdown command sent at $(date)"
+            volumeMounts:
+            - name: ssh-key
+              mountPath: /ssh
+              readOnly: true
+          volumes:
+          - name: ssh-key
+            secret:
+              secretName: ssh-key
+              defaultMode: 0400
+          restartPolicy: OnFailure

@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: prepare-shutdown
+  namespace: power-management
+spec:
+  schedule: "55 23 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: power-manager
+          nodeSelector:
+            kubernetes.io/hostname: raspberrypi
+          containers:
+          - name: prepare
+            image: bitnami/kubectl:latest
+            command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "Starting prepare-shutdown at $(date)"
+
+              # Scale down сервисов
+              echo "Scaling down services..."
+              kubectl scale deployment -n photoprism photoprism --replicas=0 || true
+              kubectl scale deployment -n webdav webdav --replicas=0 || true
+              kubectl scale deployment -n sish sish --replicas=0 || true
+              kubectl scale deployment -n observability jaeger --replicas=0 || true
+              kubectl scale deployment -n observability otel-collector --replicas=0 || true
+              kubectl scale deployment -n guide-helper --all --replicas=0 || true
+              kubectl scale deployment -n sticker-bot --all --replicas=0 || true
+
+              # Подождать завершения подов
+              echo "Waiting for pods to terminate..."
+              sleep 30
+
+              # Cordon jaennil-pc
+              echo "Cordoning jaennil-pc..."
+              kubectl cordon jaennil-pc
+
+              echo "Preparation complete at $(date)"
+          restartPolicy: OnFailure

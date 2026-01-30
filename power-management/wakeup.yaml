@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wakeup-jaennil-pc
+  namespace: power-management
+spec:
+  schedule: "0 10 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: raspberrypi
+          hostNetwork: true
+          containers:
+          - name: wakeup
+            image: alpine:latest
+            command:
+            - sh
+            - -c
+            - |
+              set -e
+              echo "Starting wakeup at $(date)"
+
+              apk add --no-cache wakeonlan
+
+              # MAC address of jaennil-pc (enp5s0)
+              MAC="fc:aa:14:a8:9e:16"
+
+              echo "Sending WoL magic packet to $MAC..."
+              wakeonlan -i 192.168.3.255 $MAC
+
+              # Повторить несколько раз для надёжности
+              sleep 2
+              wakeonlan -i 192.168.3.255 $MAC
+              sleep 2
+              wakeonlan -i 192.168.3.255 $MAC
+
+              echo "WoL packets sent at $(date)"
+          restartPolicy: OnFailure
