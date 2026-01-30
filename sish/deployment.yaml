@@ -51,6 +51,7 @@ spec:
             - --log-to-client=true
             - --admin-console=true
             - --admin-console-token=sish-admin-secret
+            - --service-console-domain=sish.dubrovskih.ru
           ports:
             - name: ssh
               containerPort: 2222
