@@ -18,13 +18,3 @@ spec:
                 name: sish-http
                 port:
                   number: 8080
-    - host: "sish.dubrovskih.ru"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: sish-http
-                port:
-                  number: 8080
