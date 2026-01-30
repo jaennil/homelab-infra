@@ -49,8 +49,8 @@ spec:
             - --force-requested-subdomains=false
             - --verify-ssl=false
             - --log-to-client=true
-            - --admin-console=true
-            - --admin-console-token=sish-admin-secret
+            - --service-console=true
+            - --service-console-token=sish-admin-secret
           ports:
             - name: ssh
               containerPort: 2222
