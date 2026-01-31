@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: landing-tls
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt
     kind: ClusterIssuer
   dnsNames:
     - dubrovskih.ru
