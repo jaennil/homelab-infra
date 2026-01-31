@@ -1,16 +1,22 @@
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: landing
   namespace: landing
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`dubrovskih.ru`)
-      kind: Rule
-      services:
-        - name: landing
-          port: 80
+  ingressClassName: traefik
+  rules:
+    - host: dubrovskih.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: landing
+                port:
+                  number: 80
   tls:
-    secretName: landing-tls
+    - hosts:
+        - dubrovskih.ru
+      secretName: landing-tls
