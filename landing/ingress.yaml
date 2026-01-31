@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`dubrovskih.ru`) || Host(`www.dubrovskih.ru`)
+    - match: Host(`dubrovskih.ru`)
       kind: Rule
       services:
         - name: landing
