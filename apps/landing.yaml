@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/jaennil/homelab-infra.git
-    path: landing
+    repoURL: https://github.com/jaennil/landing.git
+    path: k8s/overlays/production
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
