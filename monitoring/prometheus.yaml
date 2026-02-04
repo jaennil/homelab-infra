@@ -43,6 +43,7 @@ metadata:
   name: main
   namespace: monitoring
 spec:
+  image: prom/prometheus:v3.2.1
   replicas: 1
   serviceAccountName: prometheus
   securityContext:
