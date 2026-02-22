@@ -37,3 +37,9 @@ data:
             icon: mdi:restart
             press:
               - service: shell_command.reboot_raspberrypi
+  automations.yaml: |
+    []
+  scripts.yaml: |
+    # Scripts
+  scenes.yaml: |
+    []
