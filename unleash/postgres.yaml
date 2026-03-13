@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: unleash-postgres
+  namespace: unleash
+spec:
+  instances: 1
+  storage:
+    size: 2Gi
+  bootstrap:
+    initdb:
+      database: unleash
+      owner: unleash
+      secret:
+        name: unleash-postgres-credentials
