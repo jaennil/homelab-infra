@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: unleash
-          image: unleashorg/unleash-server:6
+          image: ghcr.io/jaennil/unleash-server:6
           ports:
             - containerPort: 4242
           env:
