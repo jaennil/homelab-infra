@@ -13,6 +13,8 @@ spec:
       labels:
         app: unleash
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: unleash
           image: ghcr.io/jaennil/unleash-server:6
