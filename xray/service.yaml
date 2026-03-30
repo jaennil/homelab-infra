@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray
+  namespace: proxy
+spec:
+  selector:
+    app: xray
+  ports:
+    - port: 1080
+      targetPort: 1080
+      name: socks
+    - port: 1081
+      targetPort: 1081
+      name: http
+  type: ClusterIP
