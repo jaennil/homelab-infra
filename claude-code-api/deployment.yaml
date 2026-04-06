@@ -20,10 +20,17 @@ spec:
       initContainers:
         - name: fix-permissions
           image: busybox
-          command: ['sh', '-c', 'cd /src-claude && find . -maxdepth 1 -mindepth 1 | xargs -I{} cp -a {} /dest-claude/ && chmod -R 777 /dest-claude/']
+          command:
+            - sh
+            - -c
+            - |
+              cd /host-claude
+              find . -maxdepth 1 -mindepth 1 ! -name .credentials.json -exec cp -a {} /dest-claude/ \;
+              ln -sf /host-claude/.credentials.json /dest-claude/.credentials.json
+              chmod -R 777 /dest-claude/
           volumeMounts:
             - name: claude-auth-host
-              mountPath: /src-claude
+              mountPath: /host-claude
               readOnly: true
             - name: claude-auth
               mountPath: /dest-claude
@@ -49,6 +56,9 @@ spec:
           volumeMounts:
             - name: claude-auth
               mountPath: /home/claudeuser/.claude
+            - name: claude-auth-host
+              mountPath: /host-claude
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /health
