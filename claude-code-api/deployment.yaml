@@ -37,9 +37,6 @@ spec:
       containers:
         - name: claude-code-api
           image: ghcr.io/jaennil/life-dashboard/claude-code-api:latest
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
           env:
             - name: USE_CLAUDE_MAX
               value: "true"
