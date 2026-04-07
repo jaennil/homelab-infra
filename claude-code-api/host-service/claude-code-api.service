@@ -1,0 +1,26 @@
+[Unit]
+Description=Claude Code API (host service)
+After=network-online.target k3s.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=jaennil
+Group=jaennil
+WorkingDirectory=/home/jaennil/services/guide_helper/claude-code-api
+Environment=HOME=/home/jaennil
+Environment=PATH=/home/jaennil/services/guide_helper/claude-code-api/.venv/bin:/home/jaennil/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONUNBUFFERED=1
+Environment=USE_CLAUDE_MAX=true
+Environment=HOST=0.0.0.0
+Environment=PORT=8000
+Environment=HTTP_PROXY=http://10.43.101.33:1081
+Environment=HTTPS_PROXY=http://10.43.101.33:1081
+Environment=NO_PROXY=127.0.0.1,localhost,192.168.3.4
+ExecStart=/home/jaennil/services/guide_helper/claude-code-api/.venv/bin/python -m claude_code_api.main
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

@@ -1,13 +1,13 @@
 apiVersion: v1
-kind: Service
+kind: Endpoints
 metadata:
   name: claude-code-api
   namespace: claude-code-api
   labels:
     app: claude-code-api
-spec:
-  ports:
-    - port: 8000
-      targetPort: 8000
-      name: http
-  type: ClusterIP
+subsets:
+  - addresses:
+      - ip: 192.168.3.4
+    ports:
+      - port: 8000
+        name: http
