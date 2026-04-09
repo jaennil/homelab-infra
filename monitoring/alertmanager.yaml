@@ -26,6 +26,8 @@ stringData:
         telegram_configs:
           - bot_token_file: /etc/alertmanager/secrets/alertmanager-telegram/bot-token
             chat_id: 659782773
+            http_config:
+              proxy_url: http://xray.proxy.svc.cluster.local:1081
             parse_mode: HTML
             message: |
               {{ range .Alerts }}
