@@ -4,7 +4,7 @@ metadata:
   name: default
   namespace: argocd
   annotations:
-    notifications.argoproj.io/subscribe.on-deployed.telegram: "659782773"
+    notifications.argoproj.io/subscribe.on-deployed.telegram-direct: ""
 spec:
   clusterResourceWhitelist:
     - group: '*'

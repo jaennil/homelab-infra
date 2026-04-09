@@ -10,17 +10,21 @@ metadata:
 data:
   context: |
     argocdUrl: https://argocd.dubrovskih.ru
-  service.telegram: |
-    token: $telegram-token
+  service.webhook.telegram-direct: |
+    url: https://api.telegram.org/bot$telegram-token/sendMessage
+    headers:
+      - name: Content-Type
+        value: application/json
   template.app-deployed: |
-    message: |
-      New version deployed in ArgoCD.
-      App: {{.app.metadata.name}}
-      Revision: {{or .app.status.operationState.syncResult.revision .app.status.sync.revision}}
-      Namespace: {{.app.spec.destination.namespace}}
-      Repo: {{if .app.spec.source}}{{.app.spec.source.repoURL}}{{else if .app.spec.sources}}{{range $index, $source := .app.spec.sources}}{{if $index}}, {{end}}{{ $source.repoURL }}{{end}}{{end}}
-      Finished: {{.app.status.operationState.finishedAt}}
-      URL: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+    webhook:
+      telegram-direct:
+        method: POST
+        body: |
+          {
+            "chat_id": "659782773",
+            "text": "New version deployed in ArgoCD.\nApp: {{.app.metadata.name}}\nRevision: {{or .app.status.operationState.syncResult.revision .app.status.sync.revision}}\nNamespace: {{.app.spec.destination.namespace}}\nRepo: {{if .app.spec.source}}{{.app.spec.source.repoURL}}{{else if .app.spec.sources}}{{range $index, $source := .app.spec.sources}}{{if $index}}, {{end}}{{ $source.repoURL }}{{end}}{{end}}\nFinished: {{.app.status.operationState.finishedAt}}\nURL: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "disable_web_page_preview": true
+          }
   trigger.on-deployed: |
     - description: Application is synced and healthy. Triggered once per deployed revision.
       oncePer: app.status?.operationState.syncResult.revision
