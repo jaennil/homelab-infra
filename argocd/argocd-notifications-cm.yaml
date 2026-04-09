@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/component: notifications-controller
+    app.kubernetes.io/name: argocd-notifications-controller
+    app.kubernetes.io/part-of: argocd
+data:
+  context: |
+    argocdUrl: https://argocd.dubrovskih.ru
+  service.telegram: |
+    token: $telegram-token
+  template.app-deployed: |
+    message: |
+      New version deployed in ArgoCD.
+      App: {{.app.metadata.name}}
+      Revision: {{or .app.status.operationState.syncResult.revision .app.status.sync.revision}}
+      Namespace: {{.app.spec.destination.namespace}}
+      Repo: {{if .app.spec.source}}{{.app.spec.source.repoURL}}{{else if .app.spec.sources}}{{range $index, $source := .app.spec.sources}}{{if $index}}, {{end}}{{ $source.repoURL }}{{end}}{{end}}
+      Finished: {{.app.status.operationState.finishedAt}}
+      URL: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+  trigger.on-deployed: |
+    - description: Application is synced and healthy. Triggered once per deployed revision.
+      oncePer: app.status?.operationState.syncResult.revision
+      when: app.status?.operationState?.phase in ['Succeeded'] and app.status.sync.status == 'Synced' and app.status.health.status == 'Healthy'
+      send:
+        - app-deployed
