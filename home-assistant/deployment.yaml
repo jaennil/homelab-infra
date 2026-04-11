@@ -33,6 +33,15 @@ spec:
             - name: configuration
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
+            - name: configuration
+              mountPath: /config/automations.yaml
+              subPath: automations.yaml
+            - name: configuration
+              mountPath: /config/scripts.yaml
+              subPath: scripts.yaml
+            - name: configuration
+              mountPath: /config/scenes.yaml
+              subPath: scenes.yaml
           env:
             - name: TZ
               value: "Europe/Moscow"
