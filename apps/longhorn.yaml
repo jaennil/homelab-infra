@@ -15,6 +15,7 @@ spec:
         defaultSettings:
           defaultReplicaCount: 1
           defaultDataPath: /var/lib/longhorn
+          guaranteedInstanceManagerCPU: 5
           storageReservedPercentageForDefaultDisk: 10
           nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
           replicaAutoBalance: best-effort
