@@ -11,14 +11,26 @@ spec:
     targetRevision: 7.10.0
     helm:
       values: |
+        auth:
+          resources:
+            requests:
+              cpu: 25m
         api:
           resources:
             limits:
               cpu: 500m
               memory: 1Gi
             requests:
-              cpu: 100m
+              cpu: 25m
               memory: 256Mi
+        web:
+          resources:
+            requests:
+              cpu: 25m
+        metricsScraper:
+          resources:
+            requests:
+              cpu: 25m
   destination:
     server: https://kubernetes.default.svc
     namespace: kubernetes-dashboard
