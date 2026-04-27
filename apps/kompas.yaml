@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kompas
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/jaennil/kompas
+    targetRevision: main
+    path: k8s/overlays/production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kompas
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      # CNPG can take a few minutes for initdb on first sync; allow ServerSide
+      # apply to avoid races with the operator updating its own status fields.
+      - ServerSideApply=true
