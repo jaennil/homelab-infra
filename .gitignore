@@ -3,3 +3,4 @@ repo-secrets.yaml
 webdav/secret.yaml
 tuna/secret.yaml
 sealed-secrets-master-key-BACKUP.yaml
+.codex/
