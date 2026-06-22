@@ -45,6 +45,8 @@ metadata:
 spec:
   image: prom/prometheus:v3.2.1
   replicas: 1
+  nodeSelector:
+    kubernetes.io/hostname: jaennil-pc
   serviceAccountName: prometheus
   securityContext:
     fsGroup: 65534
@@ -66,7 +68,7 @@ spec:
       memory: 400Mi
       cpu: 75m
     limits:
-      memory: 3Gi
+      memory: 6Gi
       cpu: 500m
   retention: 15d
   storage:
