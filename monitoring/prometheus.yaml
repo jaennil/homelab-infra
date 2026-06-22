@@ -68,7 +68,7 @@ spec:
       memory: 400Mi
       cpu: 75m
     limits:
-      memory: 6Gi
+      memory: 3Gi
       cpu: 500m
   retention: 15d
   storage:
