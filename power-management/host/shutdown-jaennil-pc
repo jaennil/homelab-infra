@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+if [ "${1:-}" = "--check" ]; then
+  echo "shutdown-jaennil-pc is ready"
+  exit 0
+fi
+
+logger -t shutdown-jaennil-pc "Power-off requested"
+exec /usr/bin/systemctl poweroff

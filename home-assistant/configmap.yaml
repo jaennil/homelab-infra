@@ -23,9 +23,21 @@ data:
         - 10.42.0.0/16
         - 10.43.0.0/16
 
+    wake_on_lan:
+
     shell_command:
       shutdown_raspberrypi: 'ssh -i /config/.ssh/id_ed25519 -o StrictHostKeyChecking=no jaennil@192.168.3.40 "sudo shutdown -h now"'
       reboot_raspberrypi: 'ssh -i /config/.ssh/id_ed25519 -o StrictHostKeyChecking=no jaennil@192.168.3.40 "sudo reboot"'
+      shutdown_jaennil_pc: 'ssh -i /config/.ssh/jaennil-pc/id_ed25519 -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/config/.ssh/jaennil-pc/known_hosts jaennil@192.168.3.4 "sudo -n /usr/local/sbin/shutdown-jaennil-pc"'
+
+    switch:
+      - platform: wake_on_lan
+        name: "Jaennil PC"
+        mac: "fc:aa:14:a8:9e:16"
+        host: 192.168.3.4
+        broadcast_address: 192.168.3.255
+        turn_off:
+          - action: shell_command.shutdown_jaennil_pc
 
     template:
       - button:

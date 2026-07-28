@@ -1,0 +1,6 @@
+[Unit]
+Description=Shut down jaennil-pc
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/shutdown-jaennil-pc

@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+case "${SSH_ORIGINAL_COMMAND:-}" in
+  "sudo -n /usr/local/sbin/shutdown-jaennil-pc")
+    exec sudo -n /usr/local/sbin/shutdown-jaennil-pc
+    ;;
+  "sudo -n /usr/local/sbin/shutdown-jaennil-pc --check")
+    exec sudo -n /usr/local/sbin/shutdown-jaennil-pc --check
+    ;;
+  *)
+    echo "Command is not allowed" >&2
+    exit 126
+    ;;
+esac

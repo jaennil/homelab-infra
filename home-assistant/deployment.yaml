@@ -20,6 +20,8 @@ spec:
       annotations:
         configmap.reloader.stakater.com/reload: "home-assistant-config"
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: raspberrypi
       containers:
         - name: home-assistant
           image: ghcr.io/home-assistant/home-assistant:stable
@@ -30,6 +32,9 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: ssh-jaennil-pc
+              mountPath: /config/.ssh/jaennil-pc
+              readOnly: true
             - name: configuration
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
@@ -70,6 +75,10 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: home-assistant-config
+        - name: ssh-jaennil-pc
+          secret:
+            secretName: home-assistant-ssh-jaennil-pc
+            defaultMode: 0400
         - name: configuration
           configMap:
             name: home-assistant-config
