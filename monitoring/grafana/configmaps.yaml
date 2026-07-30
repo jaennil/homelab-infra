@@ -43,6 +43,7 @@ data:
         database: lifedashboard
         editable: false
         jsonData:
+          database: lifedashboard
           sslmode: require
           postgresVersion: 1500
           timescaledb: false
