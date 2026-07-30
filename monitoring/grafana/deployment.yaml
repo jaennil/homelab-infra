@@ -124,10 +124,10 @@ spec:
               mountPath: /var/lib/grafana/dashboards
           resources:
             requests:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "10m"
             limits:
-              memory: "512Mi"
+              memory: "1Gi"
               cpu: "100m"
         - name: sidecar
           image: kiwigrid/k8s-sidecar:1.27.1
