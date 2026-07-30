@@ -38,6 +38,8 @@ spec:
       app: grafana
   template:
     metadata:
+      annotations:
+        reloader.stakater.com/auto: "true"
       labels:
         app: grafana
     spec:
@@ -77,6 +79,33 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin
+                  key: password
+            - name: GF_DATABASE_TYPE
+              value: postgres
+            - name: GF_DATABASE_HOST
+              value: grafana-postgres-rw.monitoring.svc.cluster.local:5432
+            - name: GF_DATABASE_NAME
+              value: grafana
+            - name: GF_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-postgres-app
+                  key: username
+            - name: GF_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-postgres-app
+                  key: password
+            - name: GF_DATABASE_SSL_MODE
+              value: require
+            - name: GF_DATABASE_MAX_OPEN_CONN
+              value: "20"
+            - name: GF_DATABASE_MAX_IDLE_CONN
+              value: "5"
+            - name: GRAFANA_READER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-datasource-postgres
                   key: password
             - name: GF_AUTH_ANONYMOUS_ENABLED
               value: "true"
