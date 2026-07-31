@@ -120,7 +120,7 @@ spec:
             - name: HTTPS_PROXY
               value: "http://xray.proxy.svc.cluster.local:1081"
             - name: NO_PROXY
-              value: "localhost,127.0.0.1,.svc,.svc.cluster.local,10.0.0.0/8"
+              value: "localhost,127.0.0.1,prometheus,loki.logging,jaeger.observability,project-ai-usage.ru.tuna.am,.svc,.svc.cluster.local,10.0.0.0/8"
           volumeMounts:
             - name: datasources
               mountPath: /etc/grafana/provisioning/datasources
