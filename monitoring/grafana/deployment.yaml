@@ -115,6 +115,8 @@ spec:
               value: "true"
             - name: GF_SERVER_ROOT_URL
               value: "https://grafana.dubrovskih.ru"
+            - name: GOMEMLIMIT
+              value: "768MiB"
             - name: HTTP_PROXY
               value: "http://xray.proxy.svc.cluster.local:1081"
             - name: HTTPS_PROXY
@@ -131,10 +133,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "10m"
+              cpu: "50m"
             limits:
               memory: "1Gi"
-              cpu: "100m"
+              cpu: "500m"
         - name: sidecar
           image: kiwigrid/k8s-sidecar:1.27.1
           env:
