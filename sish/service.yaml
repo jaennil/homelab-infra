@@ -19,6 +19,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: bbtop-agent-tunnel
+  namespace: sish
+  labels:
+    app.kubernetes.io/name: bbtop-agent
+spec:
+  type: ClusterIP
+  ports:
+    - name: metrics
+      port: 9099
+      targetPort: 19099
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: sish
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: sish-http
   namespace: sish
   labels:
