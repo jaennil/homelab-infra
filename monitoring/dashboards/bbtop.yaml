@@ -439,6 +439,35 @@ data:
           ],
           "title": "Fan speed",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "description": "All temperatures exposed by Linux hwmon. Sensor names come from the kernel driver labels when available.",
+          "fieldConfig": {
+            "defaults": {
+              "min": 0,
+              "unit": "celsius"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 38
+          },
+          "id": 13,
+          "targets": [
+            {
+              "expr": "bbtop_temperature_celsius",
+              "legendFormat": "{{chip}} · {{sensor}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Hardware temperatures",
+          "type": "timeseries"
         }
       ],
       "refresh": "5s",
@@ -458,5 +487,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 1
+      "version": 2
     }
