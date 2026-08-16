@@ -531,6 +531,35 @@ data:
           ],
           "title": "Estimated laptop power draw",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "max": 100,
+              "min": 0,
+              "unit": "percent"
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 62
+          },
+          "id": 16,
+          "targets": [
+            {
+              "expr": "bbtop_battery_charge_percent",
+              "legendFormat": "{{battery}} · {{status}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Battery charge",
+          "type": "timeseries"
         }
       ],
       "refresh": "5s",
@@ -550,5 +579,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 4
+      "version": 5
     }
