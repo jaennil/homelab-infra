@@ -786,6 +786,40 @@ data:
           ],
           "title": "NVMe errors and unsafe shutdowns",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "description": "Per-process disk reads and writes. This measures I/O throughput, not filesystem space owned by a process.",
+          "fieldConfig": {
+            "defaults": {
+              "min": 0,
+              "unit": "Bps"
+            }
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 99
+          },
+          "id": 24,
+          "targets": [
+            {
+              "expr": "topk(10, rate(bbtop_process_read_bytes_total[$__rate_interval]))",
+              "legendFormat": "read · {{name}} ({{pid}})",
+              "refId": "A"
+            },
+            {
+              "expr": "topk(10, rate(bbtop_process_write_bytes_total[$__rate_interval]))",
+              "legendFormat": "write · {{name}} ({{pid}})",
+              "refId": "B"
+            }
+          ],
+          "title": "Top process disk I/O",
+          "type": "timeseries"
         }
       ],
       "refresh": "5s",
@@ -805,5 +839,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 7
+      "version": 8
     }
