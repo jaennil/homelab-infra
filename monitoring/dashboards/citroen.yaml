@@ -1,0 +1,1432 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-citroen
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  citroen.json: |
+    {
+      "uid": "citroen-c4",
+      "title": "Citroen C4",
+      "tags": [
+        "citroen",
+        "car",
+        "telemetry"
+      ],
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "refresh": "30s",
+      "time": {
+        "from": "now-24h",
+        "to": "now"
+      },
+      "templating": {
+        "list": [
+          {
+            "name": "param",
+            "label": "Параметр",
+            "type": "query",
+            "datasource": {
+              "type": "postgres",
+              "uid": "citroen-postgres"
+            },
+            "query": "SELECT name FROM param ORDER BY name",
+            "multi": true,
+            "includeAll": false,
+            "refresh": 1,
+            "current": {
+              "text": [
+                "MP_REGIME_MOTEUR_AFFICHE"
+              ],
+              "value": [
+                "MP_REGIME_MOTEUR_AFFICHE"
+              ]
+            }
+          }
+        ]
+      },
+      "panels": [
+        {
+          "id": 1,
+          "type": "row",
+          "title": "Обзор",
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "panels": []
+        },
+        {
+          "id": 2,
+          "type": "stat",
+          "title": "Обороты",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 1
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_REGIME_MOTEUR_AFFICHE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "rotrpm",
+              "decimals": 1
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "graphMode": "area",
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 3,
+          "type": "stat",
+          "title": "Скорость",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 1
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "velocitykmh",
+              "decimals": 1
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "graphMode": "area",
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 4,
+          "type": "stat",
+          "title": "Питание BSI",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 1
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "volt",
+              "decimals": 1
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "graphMode": "area",
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 5,
+          "type": "stat",
+          "title": "Масло",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 12,
+            "y": 1
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "decimals": 1
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "graphMode": "area",
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 6,
+          "type": "stat",
+          "title": "Ключ",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 16,
+            "y": 1
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_POSITION_CLE_CONTACT') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "decimals": 1
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "graphMode": "area",
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 7,
+          "type": "stat",
+          "title": "Силовой агрегат",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 20,
+            "y": 1
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_ETAT_GMP') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "decimals": 1
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "graphMode": "area",
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 8,
+          "type": "timeseries",
+          "title": "Обороты и скорость",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 5
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_REGIME_MOTEUR_AFFICHE', 'MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 9,
+          "type": "row",
+          "title": "Обозреватель - любой из параметров",
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 13
+          },
+          "panels": []
+        },
+        {
+          "id": 10,
+          "type": "timeseries",
+          "title": "Выбранные параметры",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 14
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN (${param:sqlstring}) AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 13,
+          "type": "row",
+          "title": "Температуры (7)",
+          "collapsed": true,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 24
+          },
+          "panels": [
+            {
+              "id": 11,
+              "type": "timeseries",
+              "title": "RESISTANCE_CAPTEUR_TEMPERA, TEMPERATURE_BATTERIE_12V, TEMPERATURE_EVAPORATEUR, TEMPERATURE_EXTERIEURE",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE', 'MP_TEMPERATURE_BATTERIE_12V', 'MP_TEMPERATURE_EVAPORATEUR', 'MP_TEMPERATURE_EXTERIEURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 12,
+              "type": "timeseries",
+              "title": "TEMPERATURE_EXTERIEURE_CAL, TEMPERATURE_HUILE_MOTEUR_C, TEMPERATURE_HUILE_MESUREE",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EXTERIEURE_CALCULEE', 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE', 'TEMPERATURE_HUILE_MESUREE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "celsius",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 16,
+          "type": "row",
+          "title": "Напряжения и ток (7)",
+          "collapsed": true,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 25
+          },
+          "panels": [
+            {
+              "id": 14,
+              "type": "timeseries",
+              "title": "TENSION_ALIMENTION_BSI, TENSION_ALIMENTION_BSI_AU_, TENSION_BATTERIE, TENSION_BATTERIE_AU_REPOS",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI', 'MP_TENSION_ALIMENTION_BSI_AU_REVEIL', 'MP_TENSION_BATTERIE', 'MP_TENSION_BATTERIE_AU_REPOS') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "volt",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 15,
+              "type": "timeseries",
+              "title": "TENSION_BATTERIE_PREDITE_D, TENSION_CONSIGNE_ALTERNATE, TENSION_ESTIMEE_BATTERIE_D",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_BATTERIE_PREDITE_DE_DEMARRAGE', 'MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_TENSION_ESTIMEE_BATTERIE_DEMANDE_REDEMARRAGE_MOTEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 20,
+          "type": "row",
+          "title": "Проценты (12)",
+          "collapsed": true,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 26
+          },
+          "panels": [
+            {
+              "id": 17,
+              "type": "timeseries",
+              "title": "COMMANDE_ECLAIRAGE_AFFICHE, COMMANDE_ECLAIRAGE_ECLAIRE, COMMANDE_ECLAIRAGE_LATERAL, COMMANDE_ECLAIRAGE_PLAFONN",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS', 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR', 'MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "percent",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 18,
+              "type": "timeseries",
+              "title": "COMMANDE_ECLAIRAGE_PLAFONN, COMMANDE_LED_ALARME, COMMANDE_RESISTANCES_ADDIT, COMMANDE_TEMOIN_FEUX_DETRE",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT', 'MP_COMMANDE_LED_ALARME', 'MP_COMMANDE_RESISTANCES_ADDITIONNELLES', 'MP_COMMANDE_TEMOIN_FEUX_DETRESSE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "percent",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 19,
+              "type": "timeseries",
+              "title": "ETAT_DE_CHARGE_BATTERIE_12, NIVEAU_HUILE_MOTEUR_AFFICH, NIVEAU_HUILE_MOTEUR_MESURE, NIVEAU_HUILE_MOTEUR_MOYENN",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 7
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_ETAT_DE_CHARGE_BATTERIE_12V', 'MP_NIVEAU_HUILE_MOTEUR_AFFICHE', 'MP_NIVEAU_HUILE_MOTEUR_MESURE', 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "percent",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 29,
+          "type": "row",
+          "title": "Пробег и обслуживание (30)",
+          "collapsed": true,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 27
+          },
+          "panels": [
+            {
+              "id": 21,
+              "type": "timeseries",
+              "title": "A6T_BSI_DURAVMAINT_000_New, AAS_BSI_SLPREMAINT_000, AFFICHAGE_CLE_DE_MAINTENAN, AM8_BSI_SLMAINT200_000",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_A6T_BSI_DURAVMAINT_000_New', 'MP_AAS_BSI_SLPREMAINT_000', 'MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_AM8_BSI_SLMAINT200_000') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 22,
+              "type": "timeseries",
+              "title": "AUTONOMIE_CARBURANT_CALCUL, B96_BSI_DUREE_AVANT_PR_MAI, BSI_DERN_COND_MAINT_ALIM_C, COMPTEUR_NOMBRE_DE_MAINTEN",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "lengthkm",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 23,
+              "type": "timeseries",
+              "title": "COND_ABUSIVE_MAINT_CAN_LS_, COND_MAINT_CAN_LS_ACTIVATI, COND_MAINT_LIN2_CPC_COMMAN, DERNIERE_CONDITION_MAINTIE",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 7
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COND_ABUSIVE_MAINT_CAN_LS_HABITACLE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_DERNIERE_CONDITION_MAINTIEN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 24,
+              "type": "timeseries",
+              "title": "DERNIERE_COND_MAINT_LIN2, DERN_COND_ABUS_MAINT_CAN_I, DETECTION_PAR_BSI_APPUI_MA, DISTANCE_DEPUIS_DERNIERE_R",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 7
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_DERNIERE_COND_MAINT_LIN2', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 25,
+              "type": "timeseries",
+              "title": "KILOMETRAGE_ODOMETRE_LORS_, KILOMETRAGE_TOTAL, KILOMETRAGE_TOTAL_APRES_SA, KILOMETRAGE_TOTAL_AVANT_SA",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 14
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_ODOMETRE_LORS_DERNIERE_RAZ_MAINTENANCE', 'MP_KILOMETRAGE_TOTAL', 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE', 'MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "lengthkm",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 26,
+              "type": "timeseries",
+              "title": "KILOMETRAGE_TRAJET1, KILOMETRAGE_TRAJET2, KM_PARTIEL_MEMORISE_EN_BSI, KM_TOTAL_MEMORISE_EN_BSI",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 14
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TRAJET1', 'MP_KILOMETRAGE_TRAJET2', 'MP_KM_PARTIEL_MEMORISE_EN_BSI', 'MP_KM_TOTAL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "lengthkm",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 27,
+              "type": "timeseries",
+              "title": "NOMBRE_JOURS_DEPUIS_DENIER, NOMBRE_JOURS_RESTANT_AVANT, NOMBRE_KILOMETRE_AVANT_MAI, NOMBRE_SAUT_ANORMAUX_KILOM",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 21
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT', 'MP_NOMBRE_JOURS_RESTANT_AVANT_MAINTENANCE', 'MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE', 'MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 28,
+              "type": "timeseries",
+              "title": "SEUIL_MAINTENANCE_KILOMETR, SEUIL_MAINTENANCE_TEMPOREL",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 21
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", p.name AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 31,
+          "type": "row",
+          "title": "Состояния и флаги (256)",
+          "collapsed": true,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 28
+          },
+          "panels": [
+            {
+              "id": 30,
+              "type": "table",
+              "title": "Состояния и флаги: текущие значения",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 16,
+                "w": 24,
+                "x": 0,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "SELECT p.name AS \"Параметр\", p.unit AS \"Ед.\", l.value AS \"Значение\",\n       l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('CMD_FONCTION_BLACK_PANEL', 'DID_0203', 'DID_FF00', 'DID_FFFF', 'ID_NOM_DU_FOURNISSEUR', 'ID_REFERENCE_LOGICIEL', 'ID_TRACABILITE_DATE_FABRICATION', 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE', 'LAVAGEPROJ', 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL', 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR', 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR', 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE', 'MP_ALERTE_PRESSION_HUILE_FAIBLE', 'MP_ANGLE_VOLANT', 'MP_ANNEE_AFFICHEE', 'MP_APPUI_BOUTON_SECURITE_ENFANT', 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE', 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE', 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP', 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR', 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE', 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION', 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION', 'MP_BSI_ANTI_SCANNING', 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB', 'MP_BSI_CONTACT_VERROU_PORTE_AVD', 'MP_BSI_CONTACT_VERROU_PORTE_AVG', 'MP_BSI_ETAT_PUSH_TRAPPE_CARB', 'MP_BSI_VIERGE_DE_CODE_ADC', 'MP_CALCULATEUR_MOTEUR_VERROUILLE', 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE', 'MP_CEINTURE_AVANT_DROITE_BOUCLEE', 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE', 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE', 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE', 'MP_CLE_OU_BADGE_RECONNUE', 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE', 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES', 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME', 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE', 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES', 'MP_COMMANDE_BROUILLARD_ARRIERE', 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE', 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT', 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE', 'MP_COMMANDE_DES_FEUX_DE_RECUL', 'MP_COMMANDE_DES_FEUX_STOP', 'MP_COMMANDE_ECLAIRAGE_COFFRE', 'MP_COMMANDE_ESSUYAGE_ARRIERE', 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE', 'MP_COMMANDE_FEUX_DE_POSITION', 'MP_COMMANDE_LED_BOUTON_STOP_START', 'MP_COMMANDE_LEVES_VITRES_FILAIRE', 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE', 'MP_COMMANDE_OUVERTURE_COFFRE', 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE', 'MP_COMMANDE_SERRURES_EN_COURS', 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS', 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM', 'MP_COMPTEUR_REDEMARRAGE_STOP_START', 'MP_COMPTEUR_TEMPOREL_VEHICULE', 'MP_COMPTEUR_TOPS_ROUE_ARD', 'MP_COMPTEUR_TOPS_ROUE_ARG', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM', 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE', 'MP_CONSIGNE_PULSEUR_AFFICHEE', 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDES_VOLANT', 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDE_ECRAN', 'MP_CONSOMMATION_CARBURANT_INSTANTANEE', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2', 'MP_CONSOMMATION_CARBURANT_RAPIDE', 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN', 'MP_DA26', 'MP_DA4E', 'MP_DEFAUT_TOP_ROUE_ARD', 'MP_DEFAUT_TOP_ROUE_ARG', 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT', 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION', 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL', 'MP_DEMANDE_DES_FEUX_DE_DETRESSE', 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE', 'MP_DEMANDE_ESSUI_AUTOMATIQUE', 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT', 'MP_DEMANDE_FEUX_DE_DETRESSE', 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP', 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP', 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION', 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT', 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE', 'MP_DEMANDE_MODE_BVA_BVMP_SPORT', 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR', 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE', 'MP_DEMANDE_RAZ_TRAJET1', 'MP_DEMANDE_RAZ_TRAJET2', 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION', 'MP_DERNIERE_CONDITION_REVEIL_BSI', 'MP_DERNIERE_COND_REVEIL_LIN2', 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM', 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE', 'MP_DETECTION_PASSAGER_AVANT', 'MP_DETECTION_PRESENCE_CONDUCTEUR', 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR', 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT', 'MP_DMD_AFFICHAGE_DES_MENUS_MATT', 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC', 'MP_DUREE_TRAJET1', 'MP_DUREE_TRAJET2', 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL', 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS', 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM', 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE', 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX', 'MP_ETAT_COFFRE', 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS', 'MP_ETAT_COMMANDE_DE_DEGIVRAGE', 'MP_ETAT_COMMUTATEUR_STOP_AND_START', 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR', 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START', 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION', 'MP_ETAT_ENDORMISSEMENT_BSI', 'MP_ETAT_ENVOI_DONNEE_ADC_CMM', 'MP_ETAT_FONCTIONNEMENT_BSI', 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES', 'MP_ETAT_FONCTION_SECURITE_ENFANT', 'MP_ETAT_GMP', 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE', 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE', 'MP_ETAT_LUNETTE', 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV', 'MP_ETAT_PRINCIPAL', 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM', 'MP_ETAT_RESEAU_ELECTRIQUE', 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR', 'MP_ETAT_TRAPPE_CARBURANT', 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE', 'MP_ETAT_VERROUILLAGE_VEHICULE', 'MP_FONCTION_DE_REGULATION_A_AFFICHER', 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION', 'MP_HEURE_AFFICHEE', 'MP_HEURE_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_IMPEDANCE_JAUGE_CARBURANT', 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE', 'MP_INFORMATION_JOUR_NUIT', 'MP_INFORMATION_MARCHE_ARRIERE', 'MP_INFORMATION_PRESENCE_REMORQUE', 'MP_INFO_GMP', 'MP_JOUR', 'MP_JOUR_SEMAINE', 'MP_LAVAGE_EN_COURS', 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE', 'MP_MINUTES_AFFICHEE', 'MP_MODE_ESSUYAGE_AUTOMATIQUE', 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION', 'MP_MOIS_AFFICHE', 'MP_MOTIF_VERROUILLAGE_VEHICULE', 'MP_NB_CLE_OU_BADGE_APPRI', 'MP_NIVEAU_CARBURANT_AFFICHE', 'MP_NIVEAU_CARBURANT_CALCULE', 'MP_NIVEAU_CARBURANT_MESURE', 'MP_NIVEAU_ETAT_CHARGE_BATTERIE', 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS', 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE', 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES', 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS', 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS', 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS', 'MP_PORTE_ARRIERE_DROITE', 'MP_PORTE_ARRIERE_GAUCHE', 'MP_PORTE_AVANT_DROITE', 'MP_PORTE_AVANT_GAUCHE', 'MP_POSITION_CAPOT', 'MP_POSITION_CLE_CONTACT', 'MP_POSITION_CLE_EN_PLUS_DEM2', 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE', 'MP_POSITION_LEVIER_VITESSE', 'MP_POSITION_TOIT_OUVRANT', 'MP_PRESENCE_CLE_OU_BADGE', 'MP_PRESSION_FLUIDE_FRIGORIGENE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON', 'MP_REGIME_MOTEUR_AFFICHE', 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI', 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE', 'MP_RESISTANCE_INTERNE_BATTERIE', 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_ENFANT_DROIT_ACTIVEE', 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE', 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_REGIME_MOTEUR', 'MP_SERRURE_AVANT_DROITE_VERROUILLE', 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE', 'MP_SIGNALISATION_EFFRACTION', 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE', 'MP_STATUS_CHARGE_BATTERIE', 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE', 'MP_TELECOMMANDE_RECONNUE', 'MP_TYPE_AFFICHAGE_HEURE_DATE', 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE', 'MP_VIN', 'MP_VITESSE_LACET', 'MP_VITESSE_MEMORISEE_ATTEINTE', 'MP_VITESSE_VEHICULE_a')\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "custom": {
+                    "align": "auto"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "showHeader": true,
+                "footer": {
+                  "show": false
+                },
+                "sortBy": [
+                  {
+                    "displayName": "Параметр",
+                    "desc": false
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 33,
+          "type": "row",
+          "title": "Конфигурация (4)",
+          "collapsed": true,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 29
+          },
+          "panels": [
+            {
+              "id": 32,
+              "type": "table",
+              "title": "Конфигурация: текущие значения",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 16,
+                "w": 24,
+                "x": 0,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "SELECT p.name AS \"Параметр\", p.unit AS \"Ед.\", l.value AS \"Значение\",\n       l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('CFG_A3R_BSI_ABAV_000', 'CFG_A9F_BSI_OPTMAE_000', 'CFG_BRD_BSI_UCECAN_UDS_AUS_000', 'CFG_BRF_BSI_UCECAN_UDS_MAE_000')\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "custom": {
+                    "align": "auto"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "showHeader": true,
+                "footer": {
+                  "show": false
+                },
+                "sortBy": [
+                  {
+                    "displayName": "Параметр",
+                    "desc": false
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
