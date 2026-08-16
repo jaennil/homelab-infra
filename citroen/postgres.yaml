@@ -1,0 +1,35 @@
+# Телеметрия Citroen C4, снимаемая с машины через Lexia 3.
+# Собирается ноутбуком в SQLite и досылается сюда скриптом sync.py
+# из репозитория c4-can. Ноутбук - сборщик, этот кластер - архив.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: citroen
+spec:
+  instances: 1
+  enableSuperuserAccess: true
+  storage:
+    # ~1 ГБ в год при полном снимке 316 параметров раз в 10 с
+    size: 20Gi
+  bootstrap:
+    initdb:
+      database: car
+      owner: car
+      secret:
+        name: citroen-postgres-credentials
+      postInitApplicationSQL:
+        # Читающая роль для Grafana. Пароль ей выставит блок managed ниже;
+        # здесь только права, в том числе на таблицы, которые sync.py создаст позже.
+        - CREATE ROLE grafana_reader LOGIN
+        - GRANT CONNECT ON DATABASE car TO grafana_reader
+        - GRANT USAGE ON SCHEMA public TO grafana_reader
+        - GRANT SELECT ON ALL TABLES IN SCHEMA public TO grafana_reader
+        - ALTER DEFAULT PRIVILEGES FOR ROLE car IN SCHEMA public GRANT SELECT ON TABLES TO grafana_reader
+  managed:
+    roles:
+      - name: grafana_reader
+        ensure: present
+        login: true
+        passwordSecret:
+          name: citroen-grafana-reader

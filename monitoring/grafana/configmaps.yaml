@@ -52,6 +52,26 @@ data:
           connMaxLifetime: 14400
         secureJsonData:
           password: $GRAFANA_READER_PASSWORD
+      - name: Citroen C4
+        uid: citroen-postgres
+        type: postgres
+        access: proxy
+        url: postgres-rw.citroen.svc.cluster.local:5432
+        user: grafana_reader
+        database: car
+        editable: false
+        jsonData:
+          database: car
+          sslmode: require
+          postgresVersion: 1700
+          timescaledb: false
+          maxOpenConns: 5
+          maxIdleConns: 2
+          connMaxLifetime: 14400
+        secureJsonData:
+          # тот же пароль, что и у life-dashboard: роль grafana_reader в базе car
+          # заведена с ним же, поэтому деплой Grafana менять не требуется
+          password: $GRAFANA_READER_PASSWORD
 ---
 apiVersion: v1
 kind: ConfigMap
