@@ -4,17 +4,19 @@ metadata:
   name: grafana-alerting
   namespace: monitoring
 data:
-  # Точка доставки называется как уже существовавшая в интерфейсе ("Telegram"),
-  # поэтому не появляется дубля, а настройка переезжает в git. Бот тот же, что
-  # у alertmanager - секрет alertmanager-telegram; токен приходит переменной
-  # окружения, чтобы не лежать в репозитории открытым.
+  # Имя намеренно отличается от созданной ранее через интерфейс точки "Telegram":
+  # две одноимённые делают маршрутизацию неоднозначной, а удалить старую Grafana
+  # не дала (403, на неё ссылалась политика). Старая осталась неиспользуемой,
+  # её можно убрать из интерфейса. Бот тот же, что у alertmanager - секрет
+  # alertmanager-telegram; токен приходит переменной окружения, чтобы не лежать
+  # в репозитории открытым.
   # Своё оформление сообщения намеренно НЕ задаём: точка доставки общая, и шаблон
   # применился бы и к остальным алертам, поменяв им вид.
   contactpoints.yaml: |
     apiVersion: 1
     contactPoints:
       - orgId: 1
-        name: Telegram
+        name: Telegram (git)
         receivers:
           - uid: telegram-main
             type: telegram
@@ -31,7 +33,7 @@ data:
     apiVersion: 1
     policies:
       - orgId: 1
-        receiver: Telegram
+        receiver: Telegram (git)
         group_by: [alertname]
         group_wait: 30s
         group_interval: 5m
