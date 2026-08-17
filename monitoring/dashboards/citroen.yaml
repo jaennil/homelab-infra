@@ -917,7 +917,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_BATTERIE_AU_REPOS') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_BATTERIE_AU_REPOS') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: полный заряд' AS metric, 12.7\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: полный заряд', 12.7\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: около 50% заряда' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: около 50% заряда', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 12.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 12.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -927,10 +927,160 @@ data:
                 "lineWidth": 2,
                 "fillOpacity": 15,
                 "showPoints": "never",
-                "spanNulls": true
-              }
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 12.0,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 12.4,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 12.7,
+                    "color": "green"
+                  }
+                ]
+              },
+              "min": 11,
+              "max": 17
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: полный заряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "green"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: около 50% заряда"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: глубокий разряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -942,10 +1092,11 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
-          }
+          },
+          "description": "ВНИМАНИЕ: сам ряд похож на неверно отмасштабированный. Показывает 16.1 В, что для покоящегося свинцового аккумулятора невозможно (предел около 13 В). Сырое значение 1610 при множителе из базы DiagBox 0.01. Если поделить на 128, выходит 12.58 В - как по учебнику, но подгонять множитель по одному красиво выглядящему числу я не стал. Проверяется мультиметром на клеммах после ночного простоя. Сами границы верны для напряжения покоя: 12.7 - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд."
         },
         {
           "id": 11,
