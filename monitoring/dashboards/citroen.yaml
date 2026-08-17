@@ -191,7 +191,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -203,7 +203,7 @@ data:
                 "showPoints": "never",
                 "spanNulls": true,
                 "thresholdsStyle": {
-                  "mode": "dashed+area"
+                  "mode": "area"
                 }
               },
               "thresholds": {
@@ -230,7 +230,131 @@ data:
               "min": 80,
               "max": 150
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: высокая нагрузка"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: долго держать нельзя"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: масло деградирует"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -242,7 +366,7 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -271,7 +395,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 11.5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 11.5\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ нормы покоя' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ нормы покоя', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: перезаряд' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: перезаряд', 15.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -283,7 +407,7 @@ data:
                 "showPoints": "never",
                 "spanNulls": true,
                 "thresholdsStyle": {
-                  "mode": "dashed+area"
+                  "mode": "area"
                 }
               },
               "thresholds": {
@@ -310,7 +434,131 @@ data:
               "min": 10,
               "max": 16
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: глубокий разряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: низ нормы покоя"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: перезаряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -322,7 +570,7 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
