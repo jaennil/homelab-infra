@@ -628,7 +628,7 @@ data:
             {
               "id": 15,
               "type": "timeseries",
-              "title": "Сопротивление датчик тем · Температура АКБ 12v · Температура evaporateur · Температура exterieure",
+              "title": "Resistance capteur темпе · Температура АКБ 12v · Температура evaporateur · Температура exterieure",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -750,7 +750,7 @@ data:
             {
               "id": 18,
               "type": "timeseries",
-              "title": "Напряжение питание BSI · Напряжение питание BSI п · Напряжение АКБ · Напряжение АКБ покой",
+              "title": "Напряжение alimention bs · Напряжение alimention bs · Напряжение АКБ · Напряжение АКБ repos",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -804,7 +804,7 @@ data:
             {
               "id": 19,
               "type": "timeseries",
-              "title": "Напряжение АКБ прогнозна · Напряжение задание alter · Напряжение оценочная АКБ",
+              "title": "Напряжение АКБ predite d · Напряжение consigne alte · Напряжение estimee АКБ з",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -872,7 +872,7 @@ data:
             {
               "id": 21,
               "type": "timeseries",
-              "title": "Команда освещение affich · Команда освещение подсве · Команда освещение боково · Команда освещение плафон",
+              "title": "Команда освещение affich · Команда освещение eclair · Команда освещение latera · Команда освещение plafon",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -926,7 +926,7 @@ data:
             {
               "id": 22,
               "type": "timeseries",
-              "title": "Команда освещение плафон · Команда led сигнализация · Команда resistances addi · Команда лампа огни авари",
+              "title": "Команда освещение plafon · Команда led alarme · Команда resistances addi · Команда temoin огни detr",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -980,7 +980,7 @@ data:
             {
               "id": 23,
               "type": "timeseries",
-              "title": "Состояние заряд АКБ 12v · Уровень масло двигатель  · Уровень масло двигатель  · Уровень масло двигатель ",
+              "title": "Состояние charge АКБ 12v · Уровень масло двигатель  · Уровень масло двигатель  · Уровень масло двигатель ",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1048,7 +1048,7 @@ data:
             {
               "id": 25,
               "type": "timeseries",
-              "title": "A6t BSI срок до ТО · Aas BSI предупреждение о · Индикация ключ обслужива · Am8 BSI межсервисный инт",
+              "title": "A6t bsi duravmaint · Aas bsi slpremaint · Affichage ключ обслужива · Am8 bsi slmaint200",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1102,7 +1102,7 @@ data:
             {
               "id": 26,
               "type": "timeseries",
-              "title": "Запас хода топливо расчё · B96 BSI длительность пер · BSI последний условие об · Счётчик количество обслу",
+              "title": "Autonomie топливо calcul · B96 bsi duree передний p · Bsi dern cond maint alim · Счётчик количество обслу",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1156,7 +1156,7 @@ data:
             {
               "id": 27,
               "type": "timeseries",
-              "title": "Условие abusive обслужив · Условие обслуживание CAN · Условие обслуживание LIN · Последняя condition main",
+              "title": "Cond abusive maint can l · Cond maint can ls activa · Cond maint lin2 cpc кома · Derniere condition maint",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1210,7 +1210,7 @@ data:
             {
               "id": 28,
               "type": "timeseries",
-              "title": "Последняя условие обслуж · Последний условие abus о · Обнаружение BSI нажатие  · Расстояние depuis послед",
+              "title": "Derniere cond maint lin2 · Dern cond abus maint can · Detection bsi appui main · Distance depuis derniere",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1264,7 +1264,7 @@ data:
             {
               "id": 29,
               "type": "timeseries",
-              "title": "Пробег odometre lors пос · Пробег всего · Пробег всего apres скачо · Пробег всего передний ск",
+              "title": "Пробег odometre lors der · Пробег total · Пробег total apres saut  · Пробег total передний sa",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1318,7 +1318,7 @@ data:
             {
               "id": 30,
               "type": "timeseries",
-              "title": "Пробег поездка 1 · Пробег поездка 2 · Км частичный сохранённый · Км всего сохранённый BSI",
+              "title": "Пробег trajet1 · Пробег trajet2 · Km partiel memorise bsi · Km total memorise bsi",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1372,7 +1372,7 @@ data:
             {
               "id": 31,
               "type": "timeseries",
-              "title": "Количество jours depuis  · Количество jours restant · Количество kilometre пер · Количество скачок anorma",
+              "title": "Количество jours depuis  · Количество jours restant · Количество kilometre пер · Количество saut anormaux",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1426,7 +1426,7 @@ data:
             {
               "id": 32,
               "type": "timeseries",
-              "title": "Порог обслуживание kilom · Порог обслуживание tempo",
+              "title": "Seuil обслуживание kilom · Seuil обслуживание tempo",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
