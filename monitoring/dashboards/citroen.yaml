@@ -652,7 +652,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_CARBURANT_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_CARBURANT_MESURE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: резерв, пора на АЗС' AS metric, 10\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: резерв, пора на АЗС', 10\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: насос хуже охлаждается' AS metric, 5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: насос хуже охлаждается', 5\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -662,10 +662,115 @@ data:
                 "lineWidth": 2,
                 "fillOpacity": 15,
                 "showPoints": "never",
-                "spanNulls": true
-              }
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 5,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 10,
+                    "color": "green"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 61
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: резерв, пора на АЗС"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: насос хуже охлаждается"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -677,10 +782,11 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
-          }
+          },
+          "description": "Бак примерно 61 л (посчитано: 49.5 л при указателе 81%). Ниже 10 л - резерв. Ниже 5 л реальный риск: погружной насос охлаждается и смазывается самим бензином, и при малом остатке греется сильнее, а на торможении и в повороте может хватить воздуха. Плюс со дна тянется осадок. А вот распространённое \"не ниже половины бака\" - миф, до резерва ездить нормально."
         },
         {
           "id": 8,
