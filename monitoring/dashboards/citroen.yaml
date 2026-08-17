@@ -726,14 +726,47 @@ data:
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
+              "unit": "rotrpm",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
-                "showPoints": "never"
+                "showPoints": "never",
+                "axisLabel": "об/мин"
               }
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Скорость автомобиля"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "velocitykmh"
+                  },
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  },
+                  {
+                    "id": "custom.axisLabel",
+                    "value": "км/ч"
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 2
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "yellow"
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -820,7 +853,7 @@ data:
           }
         },
         {
-          "id": 19,
+          "id": 21,
           "type": "row",
           "title": "Температуры (7)",
           "collapsed": true,
@@ -834,7 +867,7 @@ data:
             {
               "id": 17,
               "type": "timeseries",
-              "title": "Сопротивление датчика темп · Температура АКБ · Температура за бортом · Температура за бортом (рас",
+              "title": "Сопротивление датчика темп",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -854,7 +887,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE', 'MP_TEMPERATURE_BATTERIE_12V', 'MP_TEMPERATURE_EXTERIEURE', 'MP_TEMPERATURE_EXTERIEURE_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -888,7 +921,7 @@ data:
             {
               "id": 18,
               "type": "timeseries",
-              "title": "Температура испарителя · Температура масла (замер) · Температура масла (расчётн",
+              "title": "Температура АКБ · Температура за бортом · Температура за бортом (рас · Температура масла (замер)",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -908,7 +941,115 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EVAPORATEUR', 'TEMPERATURE_HUILE_MESUREE', 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_BATTERIE_12V', 'MP_TEMPERATURE_EXTERIEURE', 'MP_TEMPERATURE_EXTERIEURE_CALCULEE', 'TEMPERATURE_HUILE_MESUREE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "celsius",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 19,
+              "type": "timeseries",
+              "title": "Температура масла (расчётн",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 7
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "celsius",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 20,
+              "type": "timeseries",
+              "title": "Температура испарителя",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 7
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EVAPORATEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -942,7 +1083,7 @@ data:
           ]
         },
         {
-          "id": 22,
+          "id": 24,
           "type": "row",
           "title": "Напряжения и ток (7)",
           "collapsed": true,
@@ -954,9 +1095,9 @@ data:
           },
           "panels": [
             {
-              "id": 20,
+              "id": 22,
               "type": "timeseries",
-              "title": "Задание напряжения генерат · Напряжение АКБ · Напряжение АКБ в покое · Напряжение питания BSI",
+              "title": "Напряжение АКБ · Напряжение АКБ в покое · Напряжение питания BSI · Напряжение питания BSI при",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -976,61 +1117,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_TENSION_BATTERIE', 'MP_TENSION_BATTERIE_AU_REPOS', 'MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "",
-                  "custom": {
-                    "lineWidth": 1,
-                    "fillOpacity": 8,
-                    "showPoints": "never"
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "displayMode": "table",
-                  "placement": "bottom",
-                  "calcs": [
-                    "last",
-                    "min",
-                    "max",
-                    "mean"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            },
-            {
-              "id": 21,
-              "type": "timeseries",
-              "title": "Напряжение питания BSI при · Оценка напряжения АКБ для  · Прогноз напряжения АКБ при",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 7,
-                "w": 12,
-                "x": 12,
-                "y": 0
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI_AU_REVEIL', 'MP_TENSION_ESTIMEE_BATTERIE_DEMANDE_REDEMARRAGE_MOTEUR', 'MP_TENSION_BATTERIE_PREDITE_DE_DEMARRAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_BATTERIE', 'MP_TENSION_BATTERIE_AU_REPOS', 'MP_TENSION_ALIMENTION_BSI', 'MP_TENSION_ALIMENTION_BSI_AU_REVEIL') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1060,11 +1147,65 @@ data:
                   "sort": "desc"
                 }
               }
+            },
+            {
+              "id": 23,
+              "type": "timeseries",
+              "title": "Задание напряжения генерат · Оценка напряжения АКБ для  · Прогноз напряжения АКБ при",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 0
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_TENSION_ESTIMEE_BATTERIE_DEMANDE_REDEMARRAGE_MOTEUR', 'MP_TENSION_BATTERIE_PREDITE_DE_DEMARRAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
             }
           ]
         },
         {
-          "id": 26,
+          "id": 28,
           "type": "row",
           "title": "Проценты (12)",
           "collapsed": true,
@@ -1076,7 +1217,7 @@ data:
           },
           "panels": [
             {
-              "id": 23,
+              "id": 25,
               "type": "timeseries",
               "title": "Дополнительные электронагр · Заряд АКБ · Лампа в кнопке аварийки · Наружная боковая подсветка",
               "datasource": {
@@ -1130,7 +1271,7 @@ data:
               }
             },
             {
-              "id": 24,
+              "id": 26,
               "type": "timeseries",
               "title": "Освещение заднего плафона · Освещение переднего плафон · Подсветка дисплеев и кнопо · Подсветка салона",
               "datasource": {
@@ -1184,7 +1325,7 @@ data:
               }
             },
             {
-              "id": 25,
+              "id": 27,
               "type": "timeseries",
               "title": "Светодиод сигнализации · Уровень масла (замер) · Уровень масла (индикация) · Уровень масла (среднее)",
               "datasource": {
@@ -1240,7 +1381,7 @@ data:
           ]
         },
         {
-          "id": 35,
+          "id": 39,
           "type": "row",
           "title": "Пробег и обслуживание (30)",
           "collapsed": true,
@@ -1252,117 +1393,9 @@ data:
           },
           "panels": [
             {
-              "id": 27,
-              "type": "timeseries",
-              "title": "Аномальных скачков пробега · Выполнено обслуживаний · Дней до обслуживания · Дней с последнего сброса Т",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 7,
-                "w": 12,
-                "x": 0,
-                "y": 0
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES', 'MP_NOMBRE_JOURS_RESTANT_AVANT_MAINTENANCE', 'MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "ms",
-                  "custom": {
-                    "lineWidth": 1,
-                    "fillOpacity": 8,
-                    "showPoints": "never"
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "displayMode": "table",
-                  "placement": "bottom",
-                  "calcs": [
-                    "last",
-                    "min",
-                    "max",
-                    "mean"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            },
-            {
-              "id": 28,
-              "type": "timeseries",
-              "title": "Запас хода · Индикация ключа обслуживан · Интервал ТО по времени · Интервал ТО по пробегу",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 7,
-                "w": 12,
-                "x": 12,
-                "y": 0
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_A6T_BSI_DURAVMAINT_000_New', 'MP_AM8_BSI_SLMAINT200_000') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "lengthkm",
-                  "custom": {
-                    "lineWidth": 1,
-                    "fillOpacity": 8,
-                    "showPoints": "never"
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "displayMode": "table",
-                  "placement": "bottom",
-                  "calcs": [
-                    "last",
-                    "min",
-                    "max",
-                    "mean"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            },
-            {
               "id": 29,
               "type": "timeseries",
-              "title": "Км до обслуживания · Команда удержания LIN2 · Ненормальное удержание шин · Ненормальное удержание шин",
+              "title": "Индикация ключа обслуживан · Команда удержания LIN2 · Ненормальное удержание шин · Ненормальное удержание шин",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1371,7 +1404,7 @@ data:
                 "h": 7,
                 "w": 12,
                 "x": 0,
-                "y": 7
+                "y": 0
               },
               "targets": [
                 {
@@ -1382,12 +1415,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_COND_ABUSIVE_MAINT_CAN_LS_HABITACLE', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_COND_ABUSIVE_MAINT_CAN_LS_HABITACLE', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "lengthkm",
+                  "unit": "",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -1416,7 +1449,7 @@ data:
             {
               "id": 30,
               "type": "timeseries",
-              "title": "Последняя причина удержани · Последняя причина удержани · Последняя причина удержани · Предупреждение о ТО за, км",
+              "title": "Последняя причина удержани · Последняя причина удержани · Последняя причина удержани · Просрочено ТО по времени",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1425,7 +1458,7 @@ data:
                 "h": 7,
                 "w": 12,
                 "x": 12,
-                "y": 7
+                "y": 0
               },
               "targets": [
                 {
@@ -1436,7 +1469,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_DERNIERE_COND_MAINT_LIN2', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'MP_AAS_BSI_SLPREMAINT_000') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_DERNIERE_COND_MAINT_LIN2', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1470,7 +1503,7 @@ data:
             {
               "id": 31,
               "type": "timeseries",
-              "title": "Пробег до скачка · Пробег на момент последнег · Пробег общий · Пробег общий, сохранённый ",
+              "title": "Просрочено ТО по пробегу · Удержание кнопки брелока · Удержание шины: идёт поста",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1479,6 +1512,168 @@ data:
                 "h": 7,
                 "w": 12,
                 "x": 0,
+                "y": 7
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 32,
+              "type": "timeseries",
+              "title": "Дней до обслуживания · Дней с последнего сброса Т",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 7
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_JOURS_RESTANT_AVANT_MAINTENANCE', 'MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 33,
+              "type": "timeseries",
+              "title": "Запас хода · Интервал ТО по пробегу · Км до обслуживания · Предупреждение о ТО за, км",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 14
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_AM8_BSI_SLMAINT200_000', 'MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE', 'MP_AAS_BSI_SLPREMAINT_000') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "lengthkm",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 34,
+              "type": "timeseries",
+              "title": "Пробег до скачка · Пробег на момент последнег · Пробег общий · Пробег общий, сохранённый ",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
                 "y": 14
               },
               "targets": [
@@ -1522,7 +1717,7 @@ data:
               }
             },
             {
-              "id": 32,
+              "id": 35,
               "type": "timeseries",
               "title": "Пробег поездки 1 · Пробег поездки 2 · Пробег после скачка · Пробег с последнего сброса",
               "datasource": {
@@ -1532,8 +1727,8 @@ data:
               "gridPos": {
                 "h": 7,
                 "w": 12,
-                "x": 12,
-                "y": 14
+                "x": 0,
+                "y": 21
               },
               "targets": [
                 {
@@ -1576,9 +1771,9 @@ data:
               }
             },
             {
-              "id": 33,
+              "id": 36,
               "type": "timeseries",
-              "title": "Пробег частичный, сохранён · Просрочено ТО по времени · Просрочено ТО по пробегу · Срок до следующего ТО",
+              "title": "Пробег частичный, сохранён",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1586,7 +1781,7 @@ data:
               "gridPos": {
                 "h": 7,
                 "w": 12,
-                "x": 0,
+                "x": 12,
                 "y": 21
               },
               "targets": [
@@ -1598,7 +1793,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KM_PARTIEL_MEMORISE_EN_BSI', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE', 'MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KM_PARTIEL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1630,9 +1825,9 @@ data:
               }
             },
             {
-              "id": 34,
+              "id": 37,
               "type": "timeseries",
-              "title": "Удержание кнопки брелока · Удержание шины: идёт поста",
+              "title": "Интервал ТО по времени · Срок до следующего ТО",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1640,8 +1835,8 @@ data:
               "gridPos": {
                 "h": 7,
                 "w": 12,
-                "x": 12,
-                "y": 21
+                "x": 0,
+                "y": 28
               },
               "targets": [
                 {
@@ -1652,7 +1847,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_A6T_BSI_DURAVMAINT_000_New', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1682,11 +1877,65 @@ data:
                   "sort": "desc"
                 }
               }
+            },
+            {
+              "id": 38,
+              "type": "timeseries",
+              "title": "Аномальных скачков пробега · Выполнено обслуживаний",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 28
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "ms",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
             }
           ]
         },
         {
-          "id": 37,
+          "id": 41,
           "type": "row",
           "title": "Состояния и флаги (256)",
           "collapsed": true,
@@ -1698,7 +1947,7 @@ data:
           },
           "panels": [
             {
-              "id": 36,
+              "id": 40,
               "type": "table",
               "title": "Состояния и флаги: текущие значения",
               "datasource": {
@@ -1747,7 +1996,7 @@ data:
           ]
         },
         {
-          "id": 39,
+          "id": 43,
           "type": "row",
           "title": "Конфигурация (4)",
           "collapsed": true,
@@ -1759,7 +2008,7 @@ data:
           },
           "panels": [
             {
-              "id": 38,
+              "id": 42,
               "type": "table",
               "title": "Конфигурация: текущие значения",
               "datasource": {
