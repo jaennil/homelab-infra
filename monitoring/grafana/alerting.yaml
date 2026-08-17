@@ -4,30 +4,34 @@ metadata:
   name: grafana-alerting
   namespace: monitoring
 data:
-  # Точка доставки. Бот тот же, что у alertmanager - секрет alertmanager-telegram,
-  # токен приезжает переменной окружения, чтобы не лежать в репозитории открытым.
+  # Точка доставки называется как уже существовавшая в интерфейсе ("Telegram"),
+  # поэтому не появляется дубля, а настройка переезжает в git. Бот тот же, что
+  # у alertmanager - секрет alertmanager-telegram; токен приходит переменной
+  # окружения, чтобы не лежать в репозитории открытым.
+  # Своё оформление сообщения намеренно НЕ задаём: точка доставки общая, и шаблон
+  # применился бы и к остальным алертам, поменяв им вид.
   contactpoints.yaml: |
     apiVersion: 1
     contactPoints:
       - orgId: 1
-        name: telegram
+        name: Telegram
         receivers:
           - uid: telegram-main
             type: telegram
             settings:
               bottoken: $__env{TELEGRAM_BOT_TOKEN}
               chatid: "659782773"
-              parse_mode: HTML
-              message: |
-                <b>{{ .CommonLabels.alertname }}</b>
-                {{ range .Alerts }}{{ .Annotations.summary }}
-                {{ end }}
 
+  # ВАЖНО: этот файл управляет КОРНЕВОЙ политикой, то есть маршрутизацией всех
+  # алертов Grafana, а не только машинных. До него корень был настроен через
+  # интерфейс и указывал на Telegram - здесь то же поведение, но уже в git.
+  # Побочный эффект: политику теперь нельзя править из интерфейса (provenance=file),
+  # изменения только через этот файл.
   policies.yaml: |
     apiVersion: 1
     policies:
       - orgId: 1
-        receiver: telegram
+        receiver: Telegram
         group_by: [alertname]
         group_wait: 30s
         group_interval: 5m
