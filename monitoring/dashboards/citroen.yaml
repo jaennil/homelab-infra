@@ -855,7 +855,7 @@ data:
         {
           "id": 21,
           "type": "row",
-          "title": "Температуры (7)",
+          "title": "Температуры (6)",
           "collapsed": true,
           "gridPos": {
             "h": 1,
@@ -921,7 +921,7 @@ data:
             {
               "id": 18,
               "type": "timeseries",
-              "title": "Температура АКБ · Температура за бортом · Температура за бортом (рас · Температура масла (замер)",
+              "title": "Температура за бортом · Температура за бортом (рас",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -941,7 +941,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_BATTERIE_12V', 'MP_TEMPERATURE_EXTERIEURE', 'MP_TEMPERATURE_EXTERIEURE_CALCULEE', 'TEMPERATURE_HUILE_MESUREE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EXTERIEURE', 'MP_TEMPERATURE_EXTERIEURE_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -975,7 +975,7 @@ data:
             {
               "id": 19,
               "type": "timeseries",
-              "title": "Температура масла (расчётн",
+              "title": "Температура масла (замер) · Температура масла (расчётн",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -995,7 +995,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('TEMPERATURE_HUILE_MESUREE', 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1085,7 +1085,7 @@ data:
         {
           "id": 24,
           "type": "row",
-          "title": "Напряжения и ток (7)",
+          "title": "Напряжения и ток (3)",
           "collapsed": true,
           "gridPos": {
             "h": 1,
@@ -1097,7 +1097,7 @@ data:
             {
               "id": 22,
               "type": "timeseries",
-              "title": "Напряжение АКБ · Напряжение АКБ в покое · Напряжение питания BSI · Напряжение питания BSI при",
+              "title": "Напряжение АКБ в покое · Напряжение питания BSI",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1117,7 +1117,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_BATTERIE', 'MP_TENSION_BATTERIE_AU_REPOS', 'MP_TENSION_ALIMENTION_BSI', 'MP_TENSION_ALIMENTION_BSI_AU_REVEIL') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_BATTERIE_AU_REPOS', 'MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1151,7 +1151,7 @@ data:
             {
               "id": 23,
               "type": "timeseries",
-              "title": "Задание напряжения генерат · Оценка напряжения АКБ для  · Прогноз напряжения АКБ при",
+              "title": "Задание напряжения генерат",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1171,7 +1171,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_TENSION_ESTIMEE_BATTERIE_DEMANDE_REDEMARRAGE_MOTEUR', 'MP_TENSION_BATTERIE_PREDITE_DE_DEMARRAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_CONSIGNE_ALTERNATEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1207,7 +1207,7 @@ data:
         {
           "id": 28,
           "type": "row",
-          "title": "Проценты (12)",
+          "title": "Проценты (9)",
           "collapsed": true,
           "gridPos": {
             "h": 1,
@@ -1219,7 +1219,7 @@ data:
             {
               "id": 25,
               "type": "timeseries",
-              "title": "Дополнительные электронагр · Заряд АКБ · Лампа в кнопке аварийки · Наружная боковая подсветка",
+              "title": "Дополнительные электронагр · Светодиод сигнализации",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1239,7 +1239,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_RESISTANCES_ADDITIONNELLES', 'MP_ETAT_DE_CHARGE_BATTERIE_12V', 'MP_COMMANDE_TEMOIN_FEUX_DETRESSE', 'MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_RESISTANCES_ADDITIONNELLES', 'MP_COMMANDE_LED_ALARME') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1273,7 +1273,7 @@ data:
             {
               "id": 26,
               "type": "timeseries",
-              "title": "Освещение заднего плафона · Освещение переднего плафон · Подсветка дисплеев и кнопо · Подсветка салона",
+              "title": "Лампа в кнопке аварийки · Подсветка салона · Уровень масла (среднее)",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1293,7 +1293,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT', 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS', 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_TEMOIN_FEUX_DETRESSE', 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR', 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1327,7 +1327,7 @@ data:
             {
               "id": 27,
               "type": "timeseries",
-              "title": "Светодиод сигнализации · Уровень масла (замер) · Уровень масла (индикация) · Уровень масла (среднее)",
+              "title": "Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафон · Подсветка дисплеев и кнопо",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1347,7 +1347,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_LED_ALARME', 'MP_NIVEAU_HUILE_MOTEUR_MESURE', 'MP_NIVEAU_HUILE_MOTEUR_AFFICHE', 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT', 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1381,9 +1381,9 @@ data:
           ]
         },
         {
-          "id": 39,
+          "id": 41,
           "type": "row",
-          "title": "Пробег и обслуживание (30)",
+          "title": "Пробег и обслуживание (24)",
           "collapsed": true,
           "gridPos": {
             "h": 1,
@@ -1395,7 +1395,7 @@ data:
             {
               "id": 29,
               "type": "timeseries",
-              "title": "Индикация ключа обслуживан · Команда удержания LIN2 · Ненормальное удержание шин · Ненормальное удержание шин",
+              "title": "Индикация ключа обслуживан · Просрочено ТО по времени · Просрочено ТО по пробегу · Удержание кнопки брелока",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1415,7 +1415,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_COND_ABUSIVE_MAINT_CAN_LS_HABITACLE', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE', 'MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1449,7 +1449,7 @@ data:
             {
               "id": 30,
               "type": "timeseries",
-              "title": "Последняя причина удержани · Последняя причина удержани · Последняя причина удержани · Просрочено ТО по времени",
+              "title": "Удержание шины: идёт поста",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1469,7 +1469,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_DERNIERE_COND_MAINT_LIN2', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1503,7 +1503,7 @@ data:
             {
               "id": 31,
               "type": "timeseries",
-              "title": "Просрочено ТО по пробегу · Удержание кнопки брелока · Удержание шины: идёт поста",
+              "title": "Ненормальное удержание шин · Ненормальное удержание шин · Последняя причина удержани · Последняя причина удержани",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1523,7 +1523,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COND_ABUSIVE_MAINT_CAN_LS_HABITACLE', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM', 'MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_DERNIERE_COND_MAINT_LIN2') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1557,7 +1557,7 @@ data:
             {
               "id": 32,
               "type": "timeseries",
-              "title": "Дней до обслуживания · Дней с последнего сброса Т",
+              "title": "Последняя причина удержани",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1577,7 +1577,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_JOURS_RESTANT_AVANT_MAINTENANCE', 'MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_BSI_DERN_COND_MAINT_ALIM_CPC') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1611,7 +1611,7 @@ data:
             {
               "id": 33,
               "type": "timeseries",
-              "title": "Запас хода · Интервал ТО по пробегу · Км до обслуживания · Предупреждение о ТО за, км",
+              "title": "Дней с последнего сброса Т",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1631,12 +1631,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_AM8_BSI_SLMAINT200_000', 'MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE', 'MP_AAS_BSI_SLPREMAINT_000') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "lengthkm",
+                  "unit": "",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -1665,7 +1665,7 @@ data:
             {
               "id": 34,
               "type": "timeseries",
-              "title": "Пробег до скачка · Пробег на момент последнег · Пробег общий · Пробег общий, сохранённый ",
+              "title": "Пробег до скачка · Пробег после скачка",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1685,7 +1685,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE', 'MP_KILOMETRAGE_ODOMETRE_LORS_DERNIERE_RAZ_MAINTENANCE', 'MP_KILOMETRAGE_TOTAL', 'MP_KM_TOTAL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE', 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1719,7 +1719,7 @@ data:
             {
               "id": 35,
               "type": "timeseries",
-              "title": "Пробег поездки 1 · Пробег поездки 2 · Пробег после скачка · Пробег с последнего сброса",
+              "title": "Запас хода · Км до обслуживания · Пробег с последнего сброса · Пробег частичный, сохранён",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1739,7 +1739,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TRAJET1', 'MP_KILOMETRAGE_TRAJET2', 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE', 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE', 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER', 'MP_KM_PARTIEL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1773,7 +1773,7 @@ data:
             {
               "id": 36,
               "type": "timeseries",
-              "title": "Пробег частичный, сохранён",
+              "title": "Пробег поездки 1 · Пробег поездки 2",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1793,7 +1793,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KM_PARTIEL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TRAJET1', 'MP_KILOMETRAGE_TRAJET2') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1827,7 +1827,7 @@ data:
             {
               "id": 37,
               "type": "timeseries",
-              "title": "Интервал ТО по времени · Срок до следующего ТО",
+              "title": "Пробег общий · Пробег общий, сохранённый ",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1847,12 +1847,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_A6T_BSI_DURAVMAINT_000_New', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TOTAL', 'MP_KM_TOTAL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "lengthkm",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -1881,7 +1881,7 @@ data:
             {
               "id": 38,
               "type": "timeseries",
-              "title": "Аномальных скачков пробега · Выполнено обслуживаний",
+              "title": "Пробег на момент последнег",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -1901,7 +1901,115 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_ODOMETRE_LORS_DERNIERE_RAZ_MAINTENANCE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "lengthkm",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 39,
+              "type": "timeseries",
+              "title": "Аномальных скачков пробега",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 35
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "ms",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "never"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 40,
+              "type": "timeseries",
+              "title": "Выполнено обслуживаний",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 12,
+                "y": 35
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1935,9 +2043,9 @@ data:
           ]
         },
         {
-          "id": 41,
+          "id": 43,
           "type": "row",
-          "title": "Состояния и флаги (256)",
+          "title": "Состояния и флаги (246)",
           "collapsed": true,
           "gridPos": {
             "h": 1,
@@ -1947,7 +2055,7 @@ data:
           },
           "panels": [
             {
-              "id": 40,
+              "id": 42,
               "type": "table",
               "title": "Состояния и флаги: текущие значения",
               "datasource": {
@@ -1969,7 +2077,7 @@ data:
                   },
                   "format": "table",
                   "rawQuery": true,
-                  "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('MP_BSI_VIERGE_DE_CODE_ADC', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM', 'MP_VIN', 'MP_DEMANDE_FEUX_DE_DETRESSE', 'MP_MODE_ESSUYAGE_AUTOMATIQUE', 'MP_ETAT_VERROUILLAGE_VEHICULE', 'MP_ETAT_COFFRE', 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE', 'MP_TELECOMMANDE_RECONNUE', 'ID_REFERENCE_LOGICIEL', 'MP_INFORMATION_MARCHE_ARRIERE', 'MP_RESISTANCE_INTERNE_BATTERIE', 'MP_HEURE_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE', 'MP_COMMANDE_FEUX_DE_POSITION', 'MP_ANNEE_AFFICHEE', 'MP_PRESSION_FLUIDE_FRIGORIGENE', 'MP_INFO_GMP', 'ID_TRACABILITE_DATE_FABRICATION', 'MP_INFORMATION_JOUR_NUIT', 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START', 'MP_JOUR', 'MP_JOUR_SEMAINE', 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE', 'MP_SECURITE_ENFANT_DROIT_ACTIVEE', 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR', 'MP_DUREE_TRAJET1', 'MP_DUREE_TRAJET2', 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE', 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE', 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE', 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT', 'MP_CONSIGNE_PULSEUR_AFFICHEE', 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDES_VOLANT', 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDE_ECRAN', 'MP_VITESSE_MEMORISEE_ATTEINTE', 'MP_COMMANDE_BROUILLARD_ARRIERE', 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE', 'MP_COMMANDE_ESSUYAGE_ARRIERE', 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE', 'MP_PORTE_ARRIERE_GAUCHE', 'MP_PORTE_ARRIERE_DROITE', 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP', 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP', 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL', 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE', 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION', 'MP_DEMANDE_DES_FEUX_DE_DETRESSE', 'MP_DEMANDE_ESSUI_AUTOMATIQUE', 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION', 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT', 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE', 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE', 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC', 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR', 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE', 'MP_DMD_AFFICHAGE_DES_MENUS_MATT', 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE', 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION', 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START', 'MP_DEMANDE_MODE_BVA_BVMP_SPORT', 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT', 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT', 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL', 'MP_ETAT_ENDORMISSEMENT_BSI', 'MP_SIGNALISATION_EFFRACTION', 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE', 'MP_BSI_ANTI_SCANNING', 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR', 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_REGIME_MOTEUR', 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE', 'MP_LAVAGE_EN_COURS', 'MP_COMMANDE_SERRURES_EN_COURS', 'MP_POSITION_CAPOT', 'MP_PRESENCE_CLE_OU_BADGE', 'MP_CLE_OU_BADGE_RECONNUE', 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE', 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX', 'MP_BSI_ETAT_PUSH_TRAPPE_CARB', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS', 'MP_BSI_CONTACT_VERROU_PORTE_AVG', 'MP_BSI_CONTACT_VERROU_PORTE_AVD', 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME', 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM', 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD', 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS', 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE', 'MP_ETAT_TRAPPE_CARBURANT', 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE', 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV', 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR', 'MP_MOIS_AFFICHE', 'MP_MINUTES_AFFICHEE', 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE', 'MP_APPUI_BOUTON_SECURITE_ENFANT', 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM', 'DID_0203', 'MP_DA26', 'MP_DA4E', 'DID_FF00', 'DID_FFFF', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM', 'MP_DETECTION_PRESENCE_CONDUCTEUR', 'MP_DETECTION_PASSAGER_AVANT', 'MP_INFORMATION_PRESENCE_REMORQUE', 'MP_ETAT_COMMANDE_DE_DEGIVRAGE', 'MP_REGIME_MOTEUR_AFFICHE', 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS', 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS', 'MP_NB_CLE_OU_BADGE_APPRI', 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES', 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS', 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE', 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION', 'LAVAGEPROJ', 'MP_COMMANDE_ECLAIRAGE_COFFRE', 'MP_ETAT_PRINCIPAL', 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN', 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI', 'MP_DEFAUT_TOP_ROUE_ARG', 'MP_DEFAUT_TOP_ROUE_ARD', 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR', 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE', 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE', 'MP_COMMANDE_OUVERTURE_COFFRE', 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB', 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE', 'MP_FONCTION_DE_REGULATION_A_AFFICHER', 'MP_ETAT_ENVOI_DONNEE_ADC_CMM', 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE', 'MP_PORTE_AVANT_GAUCHE', 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE', 'MP_PORTE_AVANT_DROITE', 'MP_SERRURE_AVANT_DROITE_VERROUILLE', 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE', 'MP_ETAT_COMMUTATEUR_STOP_AND_START', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS', 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES', 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL', 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE', 'MP_POSITION_CLE_CONTACT', 'MP_POSITION_CLE_EN_PLUS_DEM2', 'MP_POSITION_TOIT_OUVRANT', 'MP_POSITION_LEVIER_VITESSE', 'MP_DERNIERE_COND_REVEIL_LIN2', 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE', 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM', 'MP_DERNIERE_CONDITION_REVEIL_BSI', 'ID_NOM_DU_FOURNISSEUR', 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT', 'MP_ALERTE_PRESSION_HUILE_FAIBLE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE', 'MP_MOTIF_VERROUILLAGE_VEHICULE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE', 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION', 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES', 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE', 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION', 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS', 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE', 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR', 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE', 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE', 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM', 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP', 'MP_CONSOMMATION_CARBURANT_INSTANTANEE', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2', 'MP_CONSOMMATION_CARBURANT_RAPIDE', 'MP_ETAT_FONCTIONNEMENT_BSI', 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION', 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE', 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE', 'MP_CEINTURE_AVANT_DROITE_BOUCLEE', 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE', 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE', 'MP_DEMANDE_RAZ_TRAJET1', 'MP_DEMANDE_RAZ_TRAJET2', 'MP_COMMANDE_LED_BOUTON_STOP_START', 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE', 'MP_VITESSE_VEHICULE_a', 'MP_VITESSE_LACET', 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM', 'MP_IMPEDANCE_JAUGE_CARBURANT', 'MP_ETAT_RESEAU_ELECTRIQUE', 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR', 'MP_ETAT_GMP', 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM', 'MP_STATUS_CHARGE_BATTERIE', 'MP_ETAT_LUNETTE', 'MP_COMMANDE_LEVES_VITRES_FILAIRE', 'MP_COMMANDE_DES_FEUX_STOP', 'MP_COMPTEUR_TOPS_ROUE_ARG', 'MP_COMPTEUR_TOPS_ROUE_ARD', 'MP_COMPTEUR_TEMPOREL_VEHICULE', 'MP_COMPTEUR_REDEMARRAGE_STOP_START', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM', 'MP_ANGLE_VOLANT', 'MP_NIVEAU_ETAT_CHARGE_BATTERIE', 'MP_NIVEAU_CARBURANT_MESURE', 'MP_NIVEAU_CARBURANT_CALCULE', 'MP_NIVEAU_CARBURANT_AFFICHE', 'MP_COMMANDE_DES_FEUX_DE_RECUL', 'MP_TYPE_AFFICHAGE_HEURE_DATE', 'CMD_FONCTION_BLACK_PANEL', 'MP_ETAT_FONCTION_SECURITE_ENFANT', 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES', 'MP_HEURE_AFFICHEE', 'MP_CALCULATEUR_MOTEUR_VERROUILLE', 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE')\nORDER BY 1"
+                  "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('MP_BSI_VIERGE_DE_CODE_ADC', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM', 'MP_DEMANDE_FEUX_DE_DETRESSE', 'MP_MODE_ESSUYAGE_AUTOMATIQUE', 'MP_ETAT_VERROUILLAGE_VEHICULE', 'MP_ETAT_COFFRE', 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE', 'MP_TELECOMMANDE_RECONNUE', 'ID_REFERENCE_LOGICIEL', 'MP_INFORMATION_MARCHE_ARRIERE', 'MP_RESISTANCE_INTERNE_BATTERIE', 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE', 'MP_COMMANDE_FEUX_DE_POSITION', 'MP_ANNEE_AFFICHEE', 'MP_PRESSION_FLUIDE_FRIGORIGENE', 'MP_INFO_GMP', 'ID_TRACABILITE_DATE_FABRICATION', 'MP_INFORMATION_JOUR_NUIT', 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START', 'MP_JOUR', 'MP_JOUR_SEMAINE', 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE', 'MP_SECURITE_ENFANT_DROIT_ACTIVEE', 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR', 'MP_DUREE_TRAJET1', 'MP_DUREE_TRAJET2', 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE', 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE', 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE', 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT', 'MP_CONSIGNE_PULSEUR_AFFICHEE', 'MP_VITESSE_MEMORISEE_ATTEINTE', 'MP_COMMANDE_BROUILLARD_ARRIERE', 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE', 'MP_COMMANDE_ESSUYAGE_ARRIERE', 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE', 'MP_PORTE_ARRIERE_GAUCHE', 'MP_PORTE_ARRIERE_DROITE', 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP', 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP', 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL', 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE', 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION', 'MP_DEMANDE_DES_FEUX_DE_DETRESSE', 'MP_DEMANDE_ESSUI_AUTOMATIQUE', 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION', 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT', 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE', 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE', 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC', 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR', 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE', 'MP_DMD_AFFICHAGE_DES_MENUS_MATT', 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE', 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION', 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START', 'MP_DEMANDE_MODE_BVA_BVMP_SPORT', 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT', 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT', 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL', 'MP_SIGNALISATION_EFFRACTION', 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE', 'MP_BSI_ANTI_SCANNING', 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR', 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_REGIME_MOTEUR', 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE', 'MP_LAVAGE_EN_COURS', 'MP_COMMANDE_SERRURES_EN_COURS', 'MP_POSITION_CAPOT', 'MP_PRESENCE_CLE_OU_BADGE', 'MP_CLE_OU_BADGE_RECONNUE', 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE', 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX', 'MP_BSI_ETAT_PUSH_TRAPPE_CARB', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS', 'MP_BSI_CONTACT_VERROU_PORTE_AVG', 'MP_BSI_CONTACT_VERROU_PORTE_AVD', 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME', 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM', 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD', 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS', 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE', 'MP_ETAT_TRAPPE_CARBURANT', 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE', 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV', 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR', 'MP_MOIS_AFFICHE', 'MP_MINUTES_AFFICHEE', 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE', 'MP_APPUI_BOUTON_SECURITE_ENFANT', 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM', 'MP_DA26', 'MP_DA4E', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM', 'MP_DETECTION_PRESENCE_CONDUCTEUR', 'MP_DETECTION_PASSAGER_AVANT', 'MP_INFORMATION_PRESENCE_REMORQUE', 'MP_ETAT_COMMANDE_DE_DEGIVRAGE', 'MP_REGIME_MOTEUR_AFFICHE', 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS', 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS', 'MP_NB_CLE_OU_BADGE_APPRI', 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES', 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS', 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE', 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION', 'LAVAGEPROJ', 'MP_COMMANDE_ECLAIRAGE_COFFRE', 'MP_ETAT_PRINCIPAL', 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN', 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI', 'MP_DEFAUT_TOP_ROUE_ARG', 'MP_DEFAUT_TOP_ROUE_ARD', 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR', 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE', 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE', 'MP_COMMANDE_OUVERTURE_COFFRE', 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB', 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE', 'MP_FONCTION_DE_REGULATION_A_AFFICHER', 'MP_ETAT_ENVOI_DONNEE_ADC_CMM', 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE', 'MP_PORTE_AVANT_GAUCHE', 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE', 'MP_PORTE_AVANT_DROITE', 'MP_SERRURE_AVANT_DROITE_VERROUILLE', 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE', 'MP_ETAT_COMMUTATEUR_STOP_AND_START', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS', 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES', 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL', 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE', 'MP_POSITION_CLE_CONTACT', 'MP_POSITION_CLE_EN_PLUS_DEM2', 'MP_POSITION_TOIT_OUVRANT', 'MP_POSITION_LEVIER_VITESSE', 'MP_DERNIERE_COND_REVEIL_LIN2', 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE', 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM', 'MP_DERNIERE_CONDITION_REVEIL_BSI', 'ID_NOM_DU_FOURNISSEUR', 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT', 'MP_ALERTE_PRESSION_HUILE_FAIBLE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE', 'MP_MOTIF_VERROUILLAGE_VEHICULE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE', 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION', 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES', 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE', 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION', 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS', 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE', 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR', 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE', 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE', 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM', 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2', 'MP_CONSOMMATION_CARBURANT_RAPIDE', 'MP_ETAT_FONCTIONNEMENT_BSI', 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION', 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE', 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE', 'MP_CEINTURE_AVANT_DROITE_BOUCLEE', 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE', 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE', 'MP_DEMANDE_RAZ_TRAJET1', 'MP_DEMANDE_RAZ_TRAJET2', 'MP_COMMANDE_LED_BOUTON_STOP_START', 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE', 'MP_VITESSE_VEHICULE_a', 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM', 'MP_IMPEDANCE_JAUGE_CARBURANT', 'MP_ETAT_RESEAU_ELECTRIQUE', 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR', 'MP_ETAT_GMP', 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM', 'MP_STATUS_CHARGE_BATTERIE', 'MP_ETAT_LUNETTE', 'MP_COMMANDE_LEVES_VITRES_FILAIRE', 'MP_COMMANDE_DES_FEUX_STOP', 'MP_COMPTEUR_TOPS_ROUE_ARG', 'MP_COMPTEUR_TOPS_ROUE_ARD', 'MP_COMPTEUR_TEMPOREL_VEHICULE', 'MP_COMPTEUR_REDEMARRAGE_STOP_START', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM', 'MP_ANGLE_VOLANT', 'MP_NIVEAU_ETAT_CHARGE_BATTERIE', 'MP_NIVEAU_CARBURANT_MESURE', 'MP_NIVEAU_CARBURANT_CALCULE', 'MP_NIVEAU_CARBURANT_AFFICHE', 'MP_COMMANDE_DES_FEUX_DE_RECUL', 'MP_TYPE_AFFICHAGE_HEURE_DATE', 'CMD_FONCTION_BLACK_PANEL', 'MP_ETAT_FONCTION_SECURITE_ENFANT', 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES', 'MP_HEURE_AFFICHEE', 'MP_CALCULATEUR_MOTEUR_VERROUILLE', 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE')\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -1996,9 +2104,9 @@ data:
           ]
         },
         {
-          "id": 43,
+          "id": 45,
           "type": "row",
-          "title": "Конфигурация (4)",
+          "title": "Конфигурация (1)",
           "collapsed": true,
           "gridPos": {
             "h": 1,
@@ -2008,7 +2116,7 @@ data:
           },
           "panels": [
             {
-              "id": 42,
+              "id": 44,
               "type": "table",
               "title": "Конфигурация: текущие значения",
               "datasource": {
@@ -2030,7 +2138,7 @@ data:
                   },
                   "format": "table",
                   "rawQuery": true,
-                  "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('CFG_BRF_BSI_UCECAN_UDS_MAE_000', 'CFG_BRD_BSI_UCECAN_UDS_AUS_000', 'CFG_A9F_BSI_OPTMAE_000', 'CFG_A3R_BSI_ABAV_000')\nORDER BY 1"
+                  "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('CFG_BRF_BSI_UCECAN_UDS_MAE_000')\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
