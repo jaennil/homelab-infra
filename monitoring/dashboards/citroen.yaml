@@ -648,7 +648,7 @@ data:
         {
           "id": 13,
           "type": "timeseries",
-          "title": "Скорость рыскания",
+          "title": "Расход текущий",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -668,12 +668,12 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_VITESSE_LACET') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_CONSOMMATION_CARBURANT_RAPIDE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
+              "unit": "suffix: л/100км",
               "custom": {
                 "lineWidth": 2,
                 "fillOpacity": 15,
