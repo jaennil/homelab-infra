@@ -107,6 +107,14 @@ spec:
                 secretKeyRef:
                   name: grafana-datasource-postgres
                   key: password
+            # тот же бот, что у alertmanager - секрет alertmanager-telegram.
+            # Подставляется в provisioning алертов через $__env{TELEGRAM_BOT_TOKEN},
+            # чтобы токен не лежал в репозитории открытым.
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: alertmanager-telegram
+                  key: bot-token
             - name: GF_AUTH_ANONYMOUS_ENABLED
               value: "true"
             - name: GF_AUTH_ANONYMOUS_ORG_ROLE
@@ -130,6 +138,8 @@ spec:
               mountPath: /etc/grafana/provisioning/dashboards
             - name: dashboards
               mountPath: /var/lib/grafana/dashboards
+            - name: alerting
+              mountPath: /etc/grafana/provisioning/alerting
           resources:
             requests:
               memory: "256Mi"
@@ -169,6 +179,9 @@ spec:
             name: grafana-dashboards-provider
         - name: dashboards
           emptyDir: {}
+        - name: alerting
+          configMap:
+            name: grafana-alerting
 ---
 apiVersion: v1
 kind: Service

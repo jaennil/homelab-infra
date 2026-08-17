@@ -1,0 +1,169 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-alerting
+  namespace: monitoring
+data:
+  # Точка доставки. Бот тот же, что у alertmanager - секрет alertmanager-telegram,
+  # токен приезжает переменной окружения, чтобы не лежать в репозитории открытым.
+  contactpoints.yaml: |
+    apiVersion: 1
+    contactPoints:
+      - orgId: 1
+        name: telegram
+        receivers:
+          - uid: telegram-main
+            type: telegram
+            settings:
+              bottoken: $__env{TELEGRAM_BOT_TOKEN}
+              chatid: "659782773"
+              parse_mode: HTML
+              message: |
+                <b>{{ .CommonLabels.alertname }}</b>
+                {{ range .Alerts }}{{ .Annotations.summary }}
+                {{ end }}
+
+  policies.yaml: |
+    apiVersion: 1
+    policies:
+      - orgId: 1
+        receiver: telegram
+        group_by: [alertname]
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 4h
+
+  rules.yaml: |
+    apiVersion: 1
+    groups:
+      - orgId: 1
+        name: citroen
+        folder: Citroen
+        # Раз в минуту: данные приходят пачками при подключённой Lexia,
+        # чаще смысла нет.
+        interval: 1m
+        rules:
+          - uid: citroen-oil-temp-warn
+            title: Температура масла высокая
+            condition: C
+            # Машина стоит - данных нет, и это не повод для алерта,
+            # поэтому noDataState OK.
+            noDataState: OK
+            execErrState: OK
+            for: 5m
+            labels:
+              severity: warning
+              service: citroen
+            annotations:
+              summary: "Масло выше 125 °C ({{ $values.B }} °C). Долго так держать не стоит."
+            data:
+              - refId: A
+                relativeTimeRange: { from: 600, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: time_series
+                  rawQuery: true
+                  rawSql: |
+                    SELECT r.ts AS "time", r.value
+                    FROM reading r JOIN param p ON p.id = r.param_id
+                    WHERE p.name = 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE'
+                      AND $__timeFilter(r.ts)
+                    ORDER BY 1
+              - refId: B
+                datasourceUid: __expr__
+                model:
+                  refId: B
+                  type: reduce
+                  expression: A
+                  reducer: last
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: gt, params: [125] }
+
+          - uid: citroen-oil-temp-crit
+            title: Температура масла критическая
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 1m
+            labels:
+              severity: critical
+              service: citroen
+            annotations:
+              summary: "Масло выше 140 °C ({{ $values.B }} °C). Искать причину."
+            data:
+              - refId: A
+                relativeTimeRange: { from: 600, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: time_series
+                  rawQuery: true
+                  rawSql: |
+                    SELECT r.ts AS "time", r.value
+                    FROM reading r JOIN param p ON p.id = r.param_id
+                    WHERE p.name = 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE'
+                      AND $__timeFilter(r.ts)
+                    ORDER BY 1
+              - refId: B
+                datasourceUid: __expr__
+                model:
+                  refId: B
+                  type: reduce
+                  expression: A
+                  reducer: last
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: gt, params: [140] }
+
+          - uid: citroen-batt-low
+            title: Напряжение бортсети низкое
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 10m
+            labels:
+              severity: warning
+              service: citroen
+            annotations:
+              summary: "Питание BSI ниже 11.5 В ({{ $values.B }} В). Похоже на разряд АКБ."
+            data:
+              - refId: A
+                relativeTimeRange: { from: 900, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: time_series
+                  rawQuery: true
+                  rawSql: |
+                    SELECT r.ts AS "time", r.value
+                    FROM reading r JOIN param p ON p.id = r.param_id
+                    WHERE p.name = 'MP_TENSION_ALIMENTION_BSI'
+                      AND $__timeFilter(r.ts)
+                    ORDER BY 1
+              - refId: B
+                datasourceUid: __expr__
+                model:
+                  refId: B
+                  type: reduce
+                  expression: A
+                  reducer: last
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: lt, params: [11.5] }
