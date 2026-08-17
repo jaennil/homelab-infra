@@ -40,7 +40,9 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                "lastNotNull"
+                "lastNotNull",
+                "mean",
+                "max"
               ],
               "values": false
             }
@@ -81,7 +83,9 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                "lastNotNull"
+                "lastNotNull",
+                "mean",
+                "max"
               ],
               "values": false
             }
@@ -120,7 +124,9 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                "lastNotNull"
+                "lastNotNull",
+                "mean",
+                "max"
               ],
               "values": false
             }
@@ -196,6 +202,20 @@ data:
             "y": 5
           },
           "id": 5,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_cpu_usage_percent",
@@ -223,6 +243,20 @@ data:
             "y": 5
           },
           "id": 6,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_memory_total_bytes - bbtop_memory_available_bytes",
@@ -255,6 +289,20 @@ data:
             "y": 13
           },
           "id": 7,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "rate(bbtop_network_receive_bytes_total[$__rate_interval])",
@@ -311,6 +359,20 @@ data:
             "y": 13
           },
           "id": 8,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "rate(bbtop_disk_read_bytes_total[$__rate_interval])",
@@ -344,6 +406,20 @@ data:
             "y": 21
           },
           "id": 9,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "topk(10, bbtop_process_cpu_usage_percent)",
@@ -371,6 +447,20 @@ data:
             "y": 21
           },
           "id": 10,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "topk(10, bbtop_process_resident_memory_bytes)",
@@ -401,6 +491,20 @@ data:
             "y": 30
           },
           "id": 12,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "100 * bbtop_filesystem_used_bytes / bbtop_filesystem_size_bytes",
@@ -430,6 +534,20 @@ data:
             "y": 30
           },
           "id": 11,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_fan_speed_rpm",
@@ -459,6 +577,20 @@ data:
             "y": 38
           },
           "id": 13,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_temperature_celsius",
@@ -488,6 +620,20 @@ data:
             "y": 46
           },
           "id": 14,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_power_watts",
@@ -522,6 +668,20 @@ data:
             "y": 54
           },
           "id": 16,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_battery_charge_percent",
@@ -550,6 +710,20 @@ data:
             "y": 62
           },
           "id": 17,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_voltage_volts",
@@ -578,6 +752,20 @@ data:
             "y": 62
           },
           "id": 18,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_current_amperes",
@@ -607,6 +795,20 @@ data:
             "y": 70
           },
           "id": 19,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_temperature_limit_celsius",
@@ -635,6 +837,20 @@ data:
             "y": 70
           },
           "id": 20,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_cpu_frequency_hertz",
@@ -672,6 +888,17 @@ data:
             "y": 78
           },
           "id": 21,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "mean"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_mains_online",
@@ -701,6 +928,20 @@ data:
             "y": 83
           },
           "id": 22,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_nvme_percentage_used",
@@ -734,6 +975,20 @@ data:
             "y": 83
           },
           "id": 23,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "bbtop_nvme_media_errors_total",
@@ -773,6 +1028,20 @@ data:
             "y": 91
           },
           "id": 24,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "topk(10, rate(bbtop_process_read_bytes_total[$__rate_interval]))",
@@ -807,6 +1076,20 @@ data:
             "y": 100
           },
           "id": 25,
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max",
+                "mean",
+                "median"
+              ]
+            }
+          },
           "targets": [
             {
               "expr": "topk(10, rate(bbtop_process_network_receive_bytes_total[$__rate_interval]))",
@@ -840,5 +1123,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 11
+      "version": 12
     }
