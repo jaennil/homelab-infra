@@ -277,6 +277,7 @@ data:
             "type": "prometheus",
             "uid": "Prometheus"
           },
+          "description": "Uplink throughput, summed over physical interfaces only. Bridges, veth pairs and loopback carry copies of traffic their uplink counts again, so including them would multiply it. Rates are computed per interface and summed afterwards, which keeps one interface disappearing from looking like a burst.",
           "fieldConfig": {
             "defaults": {
               "unit": "Bps"
@@ -305,12 +306,12 @@ data:
           },
           "targets": [
             {
-              "expr": "rate(bbtop_network_receive_bytes_total[$__rate_interval])",
+              "expr": "sum(rate(bbtop_network_receive_bytes_total{kind=\"physical\"}[$__rate_interval]))",
               "legendFormat": "receive",
               "refId": "A"
             },
             {
-              "expr": "rate(bbtop_network_transmit_bytes_total[$__rate_interval])",
+              "expr": "sum(rate(bbtop_network_transmit_bytes_total{kind=\"physical\"}[$__rate_interval]))",
               "legendFormat": "transmit",
               "refId": "B"
             }
@@ -1123,5 +1124,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 12
+      "version": 13
     }
