@@ -1121,7 +1121,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_HUILE_MOTEUR_MOYENNE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_HUILE_MOTEUR_MOYENNE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: рабочий уровень' AS metric, 40\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: рабочий уровень', 40\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: пора долить' AS metric, 20\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: пора долить', 20\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1131,10 +1131,115 @@ data:
                 "lineWidth": 2,
                 "fillOpacity": 15,
                 "showPoints": "never",
-                "spanNulls": true
-              }
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 20,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 40,
+                    "color": "green"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 100
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: рабочий уровень"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "green"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: пора долить"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -1146,10 +1251,11 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
-          }
+          },
+          "description": "Процент между метками min и max на щупе, а не от объёма картера. Ниже 20% пора долить, ниже нуля - уровень под минимумом. Точная привязка процентов к меткам не проверена на этой машине."
         },
         {
           "id": 12,
@@ -1227,7 +1333,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: обычный расход' AS metric, 9\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: обычный расход', 9\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: много, город и пробки' AS metric, 11\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: много, город и пробки', 11\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: искать причину' AS metric, 14\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: искать причину', 14\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1237,10 +1343,160 @@ data:
                 "lineWidth": 2,
                 "fillOpacity": 15,
                 "showPoints": "never",
-                "spanNulls": true
-              }
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "green"
+                  },
+                  {
+                    "value": 9,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 11,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 14,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 20
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: обычный расход"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: много, город и пробки"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: искать причину"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -1252,10 +1508,11 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
-          }
+          },
+          "description": "Средний расход по счётчику поездки 1. У этой машины он 8 л/100 км, что для бензинового двигателя нормально. Выше 11 - обычно город и пробки, выше 14 стоит искать причину: свечи, датчик кислорода, забитый фильтр. Внимание: счётчик поездки 1 упёрся в 9999 км, поэтому средний расход считается за очень длинный период и на изменения реагирует медленно - сбрось счётчик поездки, чтобы он ожил."
         },
         {
           "id": 14,
@@ -1280,7 +1537,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: планировать ТО' AS metric, 1500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: планировать ТО', 1500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: ТО вплотную' AS metric, 500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: ТО вплотную', 500\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1290,10 +1547,115 @@ data:
                 "lineWidth": 2,
                 "fillOpacity": 15,
                 "showPoints": "never",
-                "spanNulls": true
-              }
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 500,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 1500,
+                    "color": "green"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 11000
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: планировать ТО"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: ТО вплотную"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
@@ -1305,10 +1667,11 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
-          }
+          },
+          "description": "Интервал у этой машины около 10 400 км (посчитано: 9784 км пройдено с последнего сброса плюс 630 остатка). Ниже 1500 км - пора планировать, ниже 500 - записываться."
         },
         {
           "id": 15,
@@ -1399,6 +1762,61 @@ data:
         },
         {
           "id": 16,
+          "type": "timeseries",
+          "title": "Обороты / скорость (для расчёта передачи)",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 58
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r1.ts AS \"time\", 'обороты / скорость' AS metric,\n       r1.value / r2.value AS value\nFROM reading r1\nJOIN param p1 ON p1.id = r1.param_id\n     AND p1.name = 'MP_REGIME_MOTEUR_AFFICHE'\nJOIN reading r2 ON r2.ts = r1.ts\nJOIN param p2 ON p2.id = r2.param_id\n     AND p2.name = 'MP_VITESSE_VEHICULE_a'\n-- ниже 15 км/ч сцепление буксует и отношение бессмысленно\nWHERE r2.value > 15 AND $__timeFilter(r1.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "description": "Каждой передаче соответствует своё отношение оборотов к скорости, поэтому по нему передача определяется однозначно. Набери данных в поездке с ровной скоростью на каждой передаче - на графике проявятся горизонтальные полосы, и я привяжу их к номерам передач."
+        },
+        {
+          "id": 17,
           "type": "row",
           "title": "Обозреватель - любой из параметров",
           "collapsed": false,
@@ -1406,12 +1824,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 58
+            "y": 66
           },
           "panels": []
         },
         {
-          "id": 17,
+          "id": 18,
           "type": "timeseries",
           "title": "Выбранные параметры",
           "datasource": {
@@ -1422,7 +1840,7 @@ data:
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 59
+            "y": 67
           },
           "targets": [
             {
@@ -1465,7 +1883,7 @@ data:
           }
         },
         {
-          "id": 22,
+          "id": 23,
           "type": "row",
           "title": "Температуры (6)",
           "collapsed": true,
@@ -1473,11 +1891,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 69
+            "y": 77
           },
           "panels": [
             {
-              "id": 18,
+              "id": 19,
               "type": "timeseries",
               "title": "Сопротивление датчика темп",
               "datasource": {
@@ -1531,7 +1949,7 @@ data:
               }
             },
             {
-              "id": 19,
+              "id": 20,
               "type": "timeseries",
               "title": "Температура за бортом · Температура за бортом (рас",
               "datasource": {
@@ -1585,7 +2003,7 @@ data:
               }
             },
             {
-              "id": 20,
+              "id": 21,
               "type": "timeseries",
               "title": "Температура масла (замер) · Температура масла (расчётн",
               "datasource": {
@@ -1639,7 +2057,7 @@ data:
               }
             },
             {
-              "id": 21,
+              "id": 22,
               "type": "timeseries",
               "title": "Температура испарителя",
               "datasource": {
@@ -1695,7 +2113,7 @@ data:
           ]
         },
         {
-          "id": 25,
+          "id": 26,
           "type": "row",
           "title": "Напряжения и ток (3)",
           "collapsed": true,
@@ -1703,11 +2121,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 70
+            "y": 78
           },
           "panels": [
             {
-              "id": 23,
+              "id": 24,
               "type": "timeseries",
               "title": "Напряжение АКБ в покое · Напряжение питания BSI",
               "datasource": {
@@ -1761,7 +2179,7 @@ data:
               }
             },
             {
-              "id": 24,
+              "id": 25,
               "type": "timeseries",
               "title": "Задание напряжения генерат",
               "datasource": {
@@ -1817,7 +2235,7 @@ data:
           ]
         },
         {
-          "id": 29,
+          "id": 30,
           "type": "row",
           "title": "Проценты (9)",
           "collapsed": true,
@@ -1825,11 +2243,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 71
+            "y": 79
           },
           "panels": [
             {
-              "id": 26,
+              "id": 27,
               "type": "timeseries",
               "title": "Дополнительные электронагр · Светодиод сигнализации",
               "datasource": {
@@ -1883,7 +2301,7 @@ data:
               }
             },
             {
-              "id": 27,
+              "id": 28,
               "type": "timeseries",
               "title": "Лампа в кнопке аварийки · Подсветка салона · Уровень масла (среднее)",
               "datasource": {
@@ -1937,7 +2355,7 @@ data:
               }
             },
             {
-              "id": 28,
+              "id": 29,
               "type": "timeseries",
               "title": "Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафон · Подсветка дисплеев и кнопо",
               "datasource": {
@@ -1993,7 +2411,7 @@ data:
           ]
         },
         {
-          "id": 41,
+          "id": 42,
           "type": "row",
           "title": "Пробег и обслуживание (21)",
           "collapsed": true,
@@ -2001,11 +2419,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 72
+            "y": 80
           },
           "panels": [
             {
-              "id": 30,
+              "id": 31,
               "type": "timeseries",
               "title": "Индикация ключа обслуживан · Просрочено ТО по времени · Просрочено ТО по пробегу · Удержание кнопки брелока",
               "datasource": {
@@ -2059,7 +2477,7 @@ data:
               }
             },
             {
-              "id": 31,
+              "id": 32,
               "type": "timeseries",
               "title": "Удержание шины: идёт поста",
               "datasource": {
@@ -2113,7 +2531,7 @@ data:
               }
             },
             {
-              "id": 32,
+              "id": 33,
               "type": "timeseries",
               "title": "Ненормальное удержание шин · Последняя причина удержани",
               "datasource": {
@@ -2167,7 +2585,7 @@ data:
               }
             },
             {
-              "id": 33,
+              "id": 34,
               "type": "timeseries",
               "title": "Дней с последнего сброса Т",
               "datasource": {
@@ -2221,7 +2639,7 @@ data:
               }
             },
             {
-              "id": 34,
+              "id": 35,
               "type": "timeseries",
               "title": "Пробег до скачка · Пробег после скачка",
               "datasource": {
@@ -2275,7 +2693,7 @@ data:
               }
             },
             {
-              "id": 35,
+              "id": 36,
               "type": "timeseries",
               "title": "Запас хода · Км до обслуживания · Пробег с последнего сброса · Пробег частичный, сохранён",
               "datasource": {
@@ -2329,7 +2747,7 @@ data:
               }
             },
             {
-              "id": 36,
+              "id": 37,
               "type": "timeseries",
               "title": "Пробег поездки 1 · Пробег поездки 2",
               "datasource": {
@@ -2383,7 +2801,7 @@ data:
               }
             },
             {
-              "id": 37,
+              "id": 38,
               "type": "timeseries",
               "title": "Пробег общий · Пробег общий, сохранённый ",
               "datasource": {
@@ -2437,7 +2855,7 @@ data:
               }
             },
             {
-              "id": 38,
+              "id": 39,
               "type": "timeseries",
               "title": "Пробег при последнем сброс",
               "datasource": {
@@ -2491,7 +2909,7 @@ data:
               }
             },
             {
-              "id": 39,
+              "id": 40,
               "type": "timeseries",
               "title": "Аномальных скачков пробега",
               "datasource": {
@@ -2545,7 +2963,7 @@ data:
               }
             },
             {
-              "id": 40,
+              "id": 41,
               "type": "timeseries",
               "title": "Выполнено обслуживаний",
               "datasource": {
@@ -2601,7 +3019,7 @@ data:
           ]
         },
         {
-          "id": 43,
+          "id": 44,
           "type": "row",
           "title": "Состояния и флаги (242)",
           "collapsed": true,
@@ -2609,11 +3027,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 73
+            "y": 81
           },
           "panels": [
             {
-              "id": 42,
+              "id": 43,
               "type": "table",
               "title": "Состояния и флаги: текущие значения",
               "datasource": {
@@ -2662,7 +3080,7 @@ data:
           ]
         },
         {
-          "id": 45,
+          "id": 46,
           "type": "row",
           "title": "Конфигурация (1)",
           "collapsed": true,
@@ -2670,11 +3088,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 74
+            "y": 82
           },
           "panels": [
             {
-              "id": 44,
+              "id": 45,
               "type": "table",
               "title": "Конфигурация: текущие значения",
               "datasource": {
