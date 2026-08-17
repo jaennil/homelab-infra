@@ -474,7 +474,7 @@ data:
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "description": "Component power from Linux hwmon. The battery series is its charging or discharging power.",
+          "description": "Component power from Linux hwmon: these series cover parts such as the SoC package, not the whole machine. The battery series is charging power while plugged in, and while discharging it equals total laptop draw - the only state where total draw is measurable, because the charger exposes no telemetry.",
           "fieldConfig": {
             "defaults": {
               "min": 0,
@@ -508,35 +508,6 @@ data:
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "description": "Estimated total laptop draw from battery voltage and current. It is available only while the laptop is discharging; it cannot represent charger wall power.",
-          "fieldConfig": {
-            "defaults": {
-              "min": 0,
-              "unit": "watt"
-            }
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 24,
-            "x": 0,
-            "y": 54
-          },
-          "id": 15,
-          "targets": [
-            {
-              "expr": "bbtop_laptop_power_estimate_watts",
-              "legendFormat": "laptop draw · {{source}}",
-              "refId": "A"
-            }
-          ],
-          "title": "Estimated laptop power draw",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "fieldConfig": {
             "defaults": {
               "max": 100,
@@ -548,7 +519,7 @@ data:
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 62
+            "y": 54
           },
           "id": 16,
           "targets": [
@@ -576,7 +547,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 70
+            "y": 62
           },
           "id": 17,
           "targets": [
@@ -604,7 +575,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 70
+            "y": 62
           },
           "id": 18,
           "targets": [
@@ -633,7 +604,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 78
+            "y": 70
           },
           "id": 19,
           "targets": [
@@ -661,7 +632,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 78
+            "y": 70
           },
           "id": 20,
           "targets": [
@@ -690,7 +661,7 @@ data:
             "h": 5,
             "w": 12,
             "x": 0,
-            "y": 86
+            "y": 78
           },
           "id": 21,
           "options": {
@@ -731,7 +702,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 91
+            "y": 83
           },
           "id": 22,
           "targets": [
@@ -764,7 +735,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 91
+            "y": 83
           },
           "id": 23,
           "targets": [
@@ -803,7 +774,7 @@ data:
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 99
+            "y": 91
           },
           "id": 24,
           "targets": [
@@ -837,7 +808,7 @@ data:
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 108
+            "y": 100
           },
           "id": 25,
           "targets": [
@@ -873,5 +844,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 9
+      "version": 10
     }
