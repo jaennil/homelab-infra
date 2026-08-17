@@ -650,32 +650,28 @@ data:
             "type": "prometheus",
             "uid": "Prometheus"
           },
+          "description": "Charger connection state over time. On means the mains supply is online; the gaps are the intervals the laptop spent on battery, when total power draw is measurable.",
           "fieldConfig": {
             "defaults": {
               "max": 1,
               "min": 0,
-              "unit": "bool"
+              "unit": "bool_on_off",
+              "custom": {
+                "lineInterpolation": "stepAfter",
+                "lineWidth": 2,
+                "fillOpacity": 25,
+                "showPoints": "never",
+                "spanNulls": true
+              }
             }
           },
           "gridPos": {
             "h": 5,
-            "w": 12,
+            "w": 24,
             "x": 0,
             "y": 78
           },
           "id": 21,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "values": false
-            }
-          },
           "targets": [
             {
               "expr": "bbtop_mains_online",
@@ -684,7 +680,7 @@ data:
             }
           ],
           "title": "External power connected",
-          "type": "stat"
+          "type": "timeseries"
         },
         {
           "datasource": {
@@ -844,5 +840,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 10
+      "version": 11
     }
