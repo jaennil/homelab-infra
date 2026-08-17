@@ -71,8 +71,8 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
+            "h": 7,
+            "w": 12,
             "x": 0,
             "y": 1
           },
@@ -124,9 +124,9 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 6,
+            "h": 7,
+            "w": 12,
+            "x": 12,
             "y": 1
           },
           "targets": [
@@ -177,10 +177,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 12,
-            "y": 1
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 8
           },
           "targets": [
             {
@@ -226,7 +226,9 @@ data:
                     "color": "red"
                   }
                 ]
-              }
+              },
+              "min": 80,
+              "max": 150
             },
             "overrides": []
           },
@@ -255,10 +257,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 18,
-            "y": 1
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 8
           },
           "targets": [
             {
@@ -304,7 +306,9 @@ data:
                     "color": "orange"
                   }
                 ]
-              }
+              },
+              "min": 10,
+              "max": 16
             },
             "overrides": []
           },
@@ -333,10 +337,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
+            "h": 7,
+            "w": 12,
             "x": 0,
-            "y": 7
+            "y": 15
           },
           "targets": [
             {
@@ -386,10 +390,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 6,
-            "y": 7
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 15
           },
           "targets": [
             {
@@ -439,10 +443,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 12,
-            "y": 7
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 22
           },
           "targets": [
             {
@@ -492,10 +496,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 18,
-            "y": 7
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 22
           },
           "targets": [
             {
@@ -545,10 +549,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
+            "h": 7,
+            "w": 12,
             "x": 0,
-            "y": 13
+            "y": 29
           },
           "targets": [
             {
@@ -598,10 +602,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 6,
-            "y": 13
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 29
           },
           "targets": [
             {
@@ -651,10 +655,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 12,
-            "y": 13
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 36
           },
           "targets": [
             {
@@ -704,10 +708,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
-            "x": 18,
-            "y": 13
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 36
           },
           "targets": [
             {
@@ -757,10 +761,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 6,
-            "w": 6,
+            "h": 7,
+            "w": 12,
             "x": 0,
-            "y": 19
+            "y": 43
           },
           "targets": [
             {
@@ -813,7 +817,7 @@ data:
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 25
+            "y": 50
           },
           "targets": [
             {
@@ -897,7 +901,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 33
+            "y": 58
           },
           "panels": []
         },
@@ -913,7 +917,7 @@ data:
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 34
+            "y": 59
           },
           "targets": [
             {
@@ -964,7 +968,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 44
+            "y": 69
           },
           "panels": [
             {
@@ -976,7 +980,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 0
@@ -1030,7 +1034,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 0
@@ -1084,7 +1088,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 7
@@ -1138,7 +1142,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 7
@@ -1194,7 +1198,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 45
+            "y": 70
           },
           "panels": [
             {
@@ -1206,7 +1210,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 0
@@ -1260,7 +1264,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 0
@@ -1316,7 +1320,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 46
+            "y": 71
           },
           "panels": [
             {
@@ -1328,7 +1332,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 0
@@ -1382,7 +1386,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 0
@@ -1436,7 +1440,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 7
@@ -1492,7 +1496,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 47
+            "y": 72
           },
           "panels": [
             {
@@ -1504,7 +1508,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 0
@@ -1558,7 +1562,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 0
@@ -1612,7 +1616,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 7
@@ -1666,7 +1670,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 7
@@ -1720,7 +1724,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 14
@@ -1774,7 +1778,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 14
@@ -1828,7 +1832,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 21
@@ -1882,7 +1886,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 21
@@ -1936,7 +1940,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 28
@@ -1990,7 +1994,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 12,
                 "y": 28
@@ -2044,7 +2048,7 @@ data:
                 "uid": "citroen-postgres"
               },
               "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 12,
                 "x": 0,
                 "y": 35
@@ -2100,7 +2104,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 48
+            "y": 73
           },
           "panels": [
             {
@@ -2161,7 +2165,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 49
+            "y": 74
           },
           "panels": [
             {
