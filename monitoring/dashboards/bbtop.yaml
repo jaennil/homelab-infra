@@ -40,9 +40,7 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                "lastNotNull",
-                "mean",
-                "max"
+                "lastNotNull"
               ],
               "values": false
             }
@@ -83,9 +81,7 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                "lastNotNull",
-                "mean",
-                "max"
+                "lastNotNull"
               ],
               "values": false
             }
@@ -124,9 +120,7 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                "lastNotNull",
-                "mean",
-                "max"
+                "lastNotNull"
               ],
               "values": false
             }
@@ -1322,5 +1316,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 16
+      "version": 17
     }
