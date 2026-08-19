@@ -15,3 +15,9 @@ spec:
       path: /metrics
       interval: 5s
       scrapeTimeout: 3s
+      relabelings:
+        # Default instance is the tunnel pod IP, which changes whenever that pod
+        # is rescheduled, splitting the series and breaking saved links.
+        - targetLabel: instance
+          replacement: jaennil-honor
+          action: replace

@@ -20,3 +20,8 @@ spec:
     - targetLabel: job
       replacement: bbtop-node
       action: replace
+    # A host name rather than an address keeps dashboard links valid and matches
+    # what the exporter reports on bbtop_info.
+    - targetLabel: instance
+      replacement: jaennil-pc
+      action: replace

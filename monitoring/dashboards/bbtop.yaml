@@ -49,7 +49,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_cpu_usage_percent{instance=\"$instance\"}",
+              "expr": "bbtop_cpu_usage_percent{instance=\"$host\"}",
               "legendFormat": "CPU",
               "refId": "A"
             }
@@ -92,7 +92,7 @@ data:
           },
           "targets": [
             {
-              "expr": "100 * (1 - bbtop_memory_available_bytes{instance=\"$instance\"} / bbtop_memory_total_bytes{instance=\"$instance\"})",
+              "expr": "100 * (1 - bbtop_memory_available_bytes{instance=\"$host\"} / bbtop_memory_total_bytes{instance=\"$host\"})",
               "legendFormat": "Memory",
               "refId": "A"
             }
@@ -133,12 +133,12 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_processes{instance=\"$instance\"}",
+              "expr": "bbtop_processes{instance=\"$host\"}",
               "legendFormat": "all",
               "refId": "A"
             },
             {
-              "expr": "bbtop_processes_running{instance=\"$instance\"}",
+              "expr": "bbtop_processes_running{instance=\"$host\"}",
               "legendFormat": "running",
               "refId": "B"
             }
@@ -177,7 +177,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_uptime_seconds{instance=\"$instance\"}",
+              "expr": "bbtop_uptime_seconds{instance=\"$host\"}",
               "legendFormat": "uptime",
               "refId": "A"
             }
@@ -218,7 +218,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_cpu_usage_percent{instance=\"$instance\"}",
+              "expr": "bbtop_cpu_usage_percent{instance=\"$host\"}",
               "legendFormat": "CPU",
               "refId": "A"
             }
@@ -259,12 +259,12 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_memory_total_bytes{instance=\"$instance\"} - bbtop_memory_available_bytes{instance=\"$instance\"}",
+              "expr": "bbtop_memory_total_bytes{instance=\"$host\"} - bbtop_memory_available_bytes{instance=\"$host\"}",
               "legendFormat": "used",
               "refId": "A"
             },
             {
-              "expr": "bbtop_memory_available_bytes{instance=\"$instance\"}",
+              "expr": "bbtop_memory_available_bytes{instance=\"$host\"}",
               "legendFormat": "available",
               "refId": "B"
             }
@@ -306,12 +306,12 @@ data:
           },
           "targets": [
             {
-              "expr": "sum(rate(bbtop_network_receive_bytes_total{kind=\"physical\",instance=\"$instance\"}[$__rate_interval]))",
+              "expr": "sum(rate(bbtop_network_receive_bytes_total{kind=\"physical\",instance=\"$host\"}[$__rate_interval]))",
               "legendFormat": "receive",
               "refId": "A"
             },
             {
-              "expr": "sum(rate(bbtop_network_transmit_bytes_total{kind=\"physical\",instance=\"$instance\"}[$__rate_interval]))",
+              "expr": "sum(rate(bbtop_network_transmit_bytes_total{kind=\"physical\",instance=\"$host\"}[$__rate_interval]))",
               "legendFormat": "transmit",
               "refId": "B"
             }
@@ -376,12 +376,12 @@ data:
           },
           "targets": [
             {
-              "expr": "rate(bbtop_disk_read_bytes_total{instance=\"$instance\"}[$__rate_interval])",
+              "expr": "rate(bbtop_disk_read_bytes_total{instance=\"$host\"}[$__rate_interval])",
               "legendFormat": "read",
               "refId": "A"
             },
             {
-              "expr": "rate(bbtop_disk_write_bytes_total{instance=\"$instance\"}[$__rate_interval])",
+              "expr": "rate(bbtop_disk_write_bytes_total{instance=\"$host\"}[$__rate_interval])",
               "legendFormat": "write",
               "refId": "B"
             }
@@ -423,7 +423,7 @@ data:
           },
           "targets": [
             {
-              "expr": "topk(10, bbtop_process_cpu_usage_percent{instance=\"$instance\"})",
+              "expr": "topk(10, bbtop_process_cpu_usage_percent{instance=\"$host\"})",
               "legendFormat": "{{name}} ({{pid}})",
               "refId": "A"
             }
@@ -464,7 +464,7 @@ data:
           },
           "targets": [
             {
-              "expr": "topk(10, bbtop_process_resident_memory_bytes{instance=\"$instance\"})",
+              "expr": "topk(10, bbtop_process_resident_memory_bytes{instance=\"$host\"})",
               "legendFormat": "{{name}} ({{pid}})",
               "refId": "A"
             }
@@ -508,7 +508,7 @@ data:
           },
           "targets": [
             {
-              "expr": "100 * bbtop_filesystem_used_bytes{instance=\"$instance\"} / bbtop_filesystem_size_bytes{instance=\"$instance\"}",
+              "expr": "100 * bbtop_filesystem_used_bytes{instance=\"$host\"} / bbtop_filesystem_size_bytes{instance=\"$host\"}",
               "legendFormat": "{{mountpoint}} · {{device}}",
               "refId": "A"
             }
@@ -551,7 +551,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_fan_speed_rpm{instance=\"$instance\"}",
+              "expr": "bbtop_fan_speed_rpm{instance=\"$host\"}",
               "legendFormat": "{{chip}} · {{sensor}}",
               "refId": "A"
             }
@@ -594,7 +594,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_temperature_celsius{instance=\"$instance\"}",
+              "expr": "bbtop_temperature_celsius{instance=\"$host\"}",
               "legendFormat": "{{chip}} · {{sensor}}",
               "refId": "A"
             }
@@ -637,12 +637,12 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_power_watts{instance=\"$instance\"}",
+              "expr": "bbtop_power_watts{instance=\"$host\"}",
               "legendFormat": "{{chip}} · {{sensor}} · {{reading}}",
               "refId": "A"
             },
             {
-              "expr": "bbtop_battery_power_watts{instance=\"$instance\"}",
+              "expr": "bbtop_battery_power_watts{instance=\"$host\"}",
               "legendFormat": "battery · {{status}}",
               "refId": "B"
             }
@@ -685,7 +685,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_battery_charge_percent{instance=\"$instance\"}",
+              "expr": "bbtop_battery_charge_percent{instance=\"$host\"}",
               "legendFormat": "{{battery}} · {{status}}",
               "refId": "A"
             }
@@ -727,7 +727,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_voltage_volts{instance=\"$instance\"}",
+              "expr": "bbtop_voltage_volts{instance=\"$host\"}",
               "legendFormat": "{{chip}} · {{sensor}}",
               "refId": "A"
             }
@@ -769,7 +769,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_current_amperes{instance=\"$instance\"}",
+              "expr": "bbtop_current_amperes{instance=\"$host\"}",
               "legendFormat": "{{chip}} · {{sensor}}",
               "refId": "A"
             }
@@ -812,7 +812,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_temperature_limit_celsius{instance=\"$instance\"}",
+              "expr": "bbtop_temperature_limit_celsius{instance=\"$host\"}",
               "legendFormat": "{{chip}} · {{sensor}} · {{limit}}",
               "refId": "A"
             }
@@ -854,7 +854,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_cpu_frequency_hertz{instance=\"$instance\"}",
+              "expr": "bbtop_cpu_frequency_hertz{instance=\"$host\"}",
               "legendFormat": "CPU {{cpu}}",
               "refId": "A"
             }
@@ -902,7 +902,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_mains_online{instance=\"$instance\"}",
+              "expr": "bbtop_mains_online{instance=\"$host\"}",
               "legendFormat": "{{supply}}",
               "refId": "A"
             }
@@ -945,12 +945,12 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_nvme_percentage_used{instance=\"$instance\"}",
+              "expr": "bbtop_nvme_percentage_used{instance=\"$host\"}",
               "legendFormat": "{{device}} · used",
               "refId": "A"
             },
             {
-              "expr": "bbtop_nvme_available_spare_percent{instance=\"$instance\"}",
+              "expr": "bbtop_nvme_available_spare_percent{instance=\"$host\"}",
               "legendFormat": "{{device}} · spare",
               "refId": "B"
             }
@@ -992,17 +992,17 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_nvme_media_errors_total{instance=\"$instance\"}",
+              "expr": "bbtop_nvme_media_errors_total{instance=\"$host\"}",
               "legendFormat": "{{device}} · media errors",
               "refId": "A"
             },
             {
-              "expr": "bbtop_nvme_error_log_entries_total{instance=\"$instance\"}",
+              "expr": "bbtop_nvme_error_log_entries_total{instance=\"$host\"}",
               "legendFormat": "{{device}} · error log",
               "refId": "B"
             },
             {
-              "expr": "bbtop_nvme_unsafe_shutdowns_total{instance=\"$instance\"}",
+              "expr": "bbtop_nvme_unsafe_shutdowns_total{instance=\"$host\"}",
               "legendFormat": "{{device}} · unsafe shutdowns",
               "refId": "C"
             }
@@ -1045,12 +1045,12 @@ data:
           },
           "targets": [
             {
-              "expr": "topk(10, rate(bbtop_process_read_bytes_total{instance=\"$instance\"}[$__rate_interval]))",
+              "expr": "topk(10, rate(bbtop_process_read_bytes_total{instance=\"$host\"}[$__rate_interval]))",
               "legendFormat": "read · {{name}} ({{pid}})",
               "refId": "A"
             },
             {
-              "expr": "topk(10, rate(bbtop_process_write_bytes_total{instance=\"$instance\"}[$__rate_interval]))",
+              "expr": "topk(10, rate(bbtop_process_write_bytes_total{instance=\"$host\"}[$__rate_interval]))",
               "legendFormat": "write · {{name}} ({{pid}})",
               "refId": "B"
             }
@@ -1093,12 +1093,12 @@ data:
           },
           "targets": [
             {
-              "expr": "topk(10, rate(bbtop_process_network_receive_bytes_total{instance=\"$instance\"}[$__rate_interval]))",
+              "expr": "topk(10, rate(bbtop_process_network_receive_bytes_total{instance=\"$host\"}[$__rate_interval]))",
               "legendFormat": "rx · {{name}} ({{pid}})",
               "refId": "A"
             },
             {
-              "expr": "topk(10, rate(bbtop_process_network_transmit_bytes_total{instance=\"$instance\"}[$__rate_interval]))",
+              "expr": "topk(10, rate(bbtop_process_network_transmit_bytes_total{instance=\"$host\"}[$__rate_interval]))",
               "legendFormat": "tx · {{name}} ({{pid}})",
               "refId": "B"
             }
@@ -1142,7 +1142,7 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_gpu_busy_percent{instance=\"$instance\"}",
+              "expr": "bbtop_gpu_busy_percent{instance=\"$host\"}",
               "legendFormat": "{{driver}} · {{card}}",
               "refId": "A"
             }
@@ -1185,12 +1185,12 @@ data:
           },
           "targets": [
             {
-              "expr": "bbtop_gpu_vram_used_bytes{instance=\"$instance\"}",
+              "expr": "bbtop_gpu_vram_used_bytes{instance=\"$host\"}",
               "legendFormat": "used · {{driver}}",
               "refId": "A"
             },
             {
-              "expr": "bbtop_gpu_vram_total_bytes{instance=\"$instance\"}",
+              "expr": "bbtop_gpu_vram_total_bytes{instance=\"$host\"}",
               "legendFormat": "total · {{driver}}",
               "refId": "B"
             }
@@ -1233,7 +1233,7 @@ data:
           },
           "targets": [
             {
-              "expr": "topk(10, bbtop_process_gpu_percent{instance=\"$instance\"})",
+              "expr": "topk(10, bbtop_process_gpu_percent{instance=\"$host\"})",
               "legendFormat": "{{name}} ({{pid}})",
               "refId": "A"
             }
@@ -1276,7 +1276,7 @@ data:
           },
           "targets": [
             {
-              "expr": "topk(10, bbtop_process_gpu_vram_bytes{instance=\"$instance\"})",
+              "expr": "topk(10, bbtop_process_gpu_vram_bytes{instance=\"$host\"})",
               "legendFormat": "{{name}} ({{pid}})",
               "refId": "A"
             }
@@ -1300,32 +1300,14 @@ data:
               "type": "prometheus",
               "uid": "Prometheus"
             },
-            "definition": "label_values(bbtop_info, hostname)",
+            "definition": "label_values(bbtop_info, instance)",
             "hide": 0,
             "includeAll": false,
             "label": "Host",
             "multi": false,
             "name": "host",
             "options": [],
-            "query": "label_values(bbtop_info, hostname)",
-            "refresh": 1,
-            "sort": 1,
-            "type": "query"
-          },
-          {
-            "current": {},
-            "datasource": {
-              "type": "prometheus",
-              "uid": "Prometheus"
-            },
-            "definition": "label_values(bbtop_info{hostname=\"$host\"}, instance)",
-            "hide": 2,
-            "includeAll": false,
-            "label": "Instance",
-            "multi": false,
-            "name": "instance",
-            "options": [],
-            "query": "label_values(bbtop_info{hostname=\"$host\"}, instance)",
+            "query": "label_values(bbtop_info, instance)",
             "refresh": 1,
             "sort": 1,
             "type": "query"
@@ -1339,5 +1321,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 14
+      "version": 15
     }
