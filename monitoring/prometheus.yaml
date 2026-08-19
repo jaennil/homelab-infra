@@ -56,6 +56,8 @@ spec:
   serviceMonitorNamespaceSelector: {}
   podMonitorSelector: {}
   podMonitorNamespaceSelector: {}
+  scrapeConfigSelector: {}
+  scrapeConfigNamespaceSelector: {}
   ruleSelector: {}
   ruleNamespaceSelector: {}
   alerting:
