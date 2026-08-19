@@ -1,0 +1,51 @@
+# The laptop agent reaches Prometheus through the sish tunnel because it is not
+# always on this network. This node is the machine Prometheus itself runs on, so
+# it is scraped straight over the LAN: a Service without a selector plus the
+# Endpoints it would otherwise get from a pod.
+apiVersion: v1
+kind: Service
+metadata:
+  name: bbtop-node
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: bbtop-node
+spec:
+  clusterIP: None
+  ports:
+    - name: metrics
+      port: 9099
+      targetPort: 9099
+      protocol: TCP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: bbtop-node
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: bbtop-node
+subsets:
+  - addresses:
+      - ip: 192.168.3.4
+    ports:
+      - name: metrics
+        port: 9099
+        protocol: TCP
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bbtop-node
+  namespace: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bbtop-node
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 5s
+      scrapeTimeout: 3s
