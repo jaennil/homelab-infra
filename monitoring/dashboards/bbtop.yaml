@@ -1309,6 +1309,7 @@ data:
             "options": [],
             "query": "label_values(bbtop_info, instance)",
             "refresh": 1,
+            "regex": "/^[^.:]+$/",
             "sort": 1,
             "type": "query"
           }
@@ -1321,5 +1322,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 15
+      "version": 16
     }
