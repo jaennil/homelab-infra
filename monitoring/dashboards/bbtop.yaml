@@ -1486,7 +1486,9 @@ data:
             {
               "expr": "bbtop_platform_profile{instance=\"$host\"}",
               "legendFormat": "{{profile}}",
-              "refId": "A"
+              "refId": "A",
+              "range": true,
+              "instant": false
             }
           ],
           "title": "Power profile",
@@ -1627,5 +1629,5 @@ data:
       "timezone": "browser",
       "title": "bbtop Linux overview",
       "uid": "bbtop-linux",
-      "version": 22
+      "version": 23
     }
