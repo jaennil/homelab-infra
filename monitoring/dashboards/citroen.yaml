@@ -33,7 +33,7 @@ data:
               "type": "postgres",
               "uid": "citroen-postgres"
             },
-            "query": "SELECT coalesce(label, name) AS \"__text\", name AS \"__value\" FROM param ORDER BY 1",
+            "query": "SELECT CASE name\n       WHEN 'ESP81:ID_DATE_TELECHARGEMENT' THEN 'Дата загрузки ПО'\n       WHEN 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT' THEN 'Число загрузок ПО'\n       WHEN 'ESP81:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'ESP81:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'ESP81:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'ESP81:ID_TRACABILITE_DATE_FABRICATION' THEN 'Дата изготовления'\n       WHEN 'ESP81:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'ESP81:ID_VERSION_LOGICIEL' THEN 'Версия ПО'\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигнала'\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания электроклапанов'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса рециркуляции'\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Уровень тормозной жидкости'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE' THEN 'Колесо заднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE' THEN 'Колесо заднее левое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_DROIT' THEN 'Колесо переднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE' THEN 'Колесо переднее левое'\n       WHEN 'ESP81:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'GEP:APC' THEN 'Зажигание включено'\n       WHEN 'GEP:CFG____ASSISTANCE_1' THEN 'Конфиг: тип усилителя'\n       WHEN 'GEP:ID_80_MP_INDICE_MESS' THEN 'Индекс сообщений'\n       WHEN 'GEP:ID_EDITION_LOGICIEL' THEN 'Редакция ПО'\n       WHEN 'GEP:ID_EDI_CALIB' THEN 'Редакция калибровки'\n       WHEN 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'GEP:ID_REFERENCE_FOURNISSEUR' THEN 'Номер поставщика'\n       WHEN 'GEP:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'GEP:ID_REFERENCE_PSA' THEN 'Номер PSA'\n       WHEN 'GEP:ID_VERSION_LOGICIEL_new_1' THEN 'Версия ПО'\n       WHEN 'GEP:INTENSITE_MESUREE' THEN 'Ток потребления насоса'\n       WHEN 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2' THEN 'Двигатель работает'\n       WHEN 'GEP:MP_TEMPERATURE_GEP' THEN 'Температура насоса ГУР'\n       WHEN 'GEP:MP_TENSION_ALIMENTATION' THEN 'Питание насоса гидроусилителя'\n       WHEN 'GEP:MP_VITESSE_MOTEUR_GEP' THEN 'Обороты двигателя (по насосу)'\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'GEP:MP_VITESSE_VOLANT_DE_DIRECTION' THEN 'Скорость вращения руля'\n       WHEN 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION' THEN 'Тип датчика угла руля'\n       WHEN 'V46_32:CONFIG_INDICE_TELECODAGE' THEN 'Индекс телекодирования'\n       WHEN 'V46_32:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'V46_32:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'V46_32:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_CONSIGNE' THEN 'Угол дросселя, задание'\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_MESURE' THEN 'Угол дросселя'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_APPLIQUEE_A_CHAQUE_CYLINDRE' THEN 'Угол опережения по цилиндрам'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM' THEN 'Угол опережения зажигания, максимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM' THEN 'Угол опережения зажигания, минимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL' THEN 'Угол опережения зажигания, оптимум'\n       WHEN 'V46_32:MP_CDERCOELECPURGE' THEN 'Клапан продувки адсорбера'\n       WHEN 'V46_32:MP_CHARGE_ESTIMEE_CANISTER' THEN 'Насыщение адсорбера паров бензина'\n       WHEN 'V46_32:MP_COMPTDEMMOT' THEN 'Счётчик пусков двигателя'\n       WHEN 'V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID' THEN 'Счётчик холодных пусков'\n       WHEN 'V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION' THEN 'Фазовращатель впуска, задание'\n       WHEN 'V46_32:MP_CONSIGNE_PRESSION_ADMISSION' THEN 'Давление во впуске, задание'\n       WHEN 'V46_32:MP_CON_RICHESSE' THEN 'Задание состава смеси'\n       WHEN 'V46_32:MP_DEBAIRCONS' THEN 'Расход воздуха, задание'\n       WHEN 'V46_32:MP_DEBIT_AIR' THEN 'Расход воздуха'\n       WHEN 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR' THEN 'Порог закоксовывания превышен'\n       WHEN 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL' THEN 'Согласованность распредвала с коленвалом'\n       WHEN 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE' THEN 'Программирование иммобилайзера'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT' THEN 'Регулировка по датчику O2 до кат.'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL' THEN 'Регулировка по датчику O2 после кат.'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT' THEN 'Состояние датчика O2 до катализатора'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL' THEN 'Состояние датчика O2 после катализатора'\n       WHEN 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR' THEN 'Блокировка блока управления'\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AMONT' THEN 'Коррекция смеси по датчику до кат.'\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AVAL' THEN 'Коррекция смеси по датчику после кат.'\n       WHEN 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE' THEN 'Выбранный вариант привязки'\n       WHEN 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE' THEN 'Сбой передачи кода разблокировки'\n       WHEN 'V46_32:MP_POS_DEPHASEUR_ACC_1' THEN 'Положение фазовращателя впуска'\n       WHEN 'V46_32:MP_PRESSIONTUBULURE' THEN 'Давление во впускном коллекторе'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Скважность регулирования до кат.'\n       WHEN 'V46_32:MP_RCOAVAL' THEN 'Скважность регулирования после кат.'\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя, скважность'\n       WHEN 'V46_32:MP_REGIME_MOTEUR' THEN 'Обороты двигателя (по блоку двигателя)'\n       WHEN 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE' THEN 'Наполнение цилиндров, задание'\n       WHEN 'V46_32:MP_REMPLISSAGE_MESURE' THEN 'Наполнение цилиндров'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01' THEN 'Снятие угла от детонации, цил. 1'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02' THEN 'Снятие угла от детонации, цил. 2'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03' THEN 'Снятие угла от детонации, цил. 3'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04' THEN 'Снятие угла от детонации, цил. 4'\n       WHEN 'V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d' THEN 'Температура охлаждающей жидкости'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_01' THEN 'Время впрыска, цилиндр 1'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_02' THEN 'Время впрыска, цилиндр 2'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_03' THEN 'Время впрыска, цилиндр 3'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_04' THEN 'Время впрыска, цилиндр 4'\n       WHEN 'V46_32:MP_TEMP_AIR_ADMISSION_SUP' THEN 'Температура воздуха на впуске'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR' THEN 'Питание блока двигателя'\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01' THEN 'Датчик дросселя 1'\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02' THEN 'Датчик дросселя 2'\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT' THEN 'Датчик кислорода до катализатора'\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL' THEN 'Датчик кислорода после катализатора'\n       ELSE coalesce(p.label, name) END AS \"__text\", name AS \"__value\" FROM param ORDER BY 1",
             "multi": true,
             "includeAll": false,
             "refresh": 1,
@@ -85,7 +85,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_REGIME_MOTEUR_AFFICHE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_REGIME_MOTEUR_AFFICHE' THEN 'Обороты двигателя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_REGIME_MOTEUR_AFFICHE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -138,7 +138,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -191,7 +191,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE' THEN 'Температура масла (расчётная)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -395,7 +395,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 11.5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 11.5\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ нормы покоя' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ нормы покоя', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: перезаряд' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: перезаряд', 15.0\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TENSION_ALIMENTION_BSI' THEN 'Напряжение питания BSI'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 11.5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 11.5\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ нормы покоя' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ нормы покоя', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: перезаряд' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: перезаряд', 15.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -599,7 +599,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TOTAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_KILOMETRAGE_TOTAL' THEN 'Пробег общий'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TOTAL') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -652,7 +652,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_CARBURANT_MESURE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: резерв, пора на АЗС' AS metric, 10\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: резерв, пора на АЗС', 10\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: насос хуже охлаждается' AS metric, 5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: насос хуже охлаждается', 5\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_NIVEAU_CARBURANT_MESURE' THEN 'Топливо в баке (замер)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_CARBURANT_MESURE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: резерв, пора на АЗС' AS metric, 10\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: резерв, пора на АЗС', 10\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: насос хуже охлаждается' AS metric, 5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: насос хуже охлаждается', 5\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -811,7 +811,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_AUTONOMIE_CARBURANT_CALCULE' THEN 'Запас хода'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -864,7 +864,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EXTERIEURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TEMPERATURE_EXTERIEURE' THEN 'Температура за бортом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EXTERIEURE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -917,7 +917,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_HUILE_MOTEUR_MOYENNE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: рабочий уровень' AS metric, 40\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: рабочий уровень', 40\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: пора долить' AS metric, 20\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: пора долить', 20\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE' THEN 'Уровень масла (среднее)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NIVEAU_HUILE_MOTEUR_MOYENNE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: рабочий уровень' AS metric, 40\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: рабочий уровень', 40\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: пора долить' AS metric, 20\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: пора долить', 20\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1076,7 +1076,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TRAJET1') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_KILOMETRAGE_TRAJET1' THEN 'Пробег поездки 1'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TRAJET1') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1129,7 +1129,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: обычный расход' AS metric, 9\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: обычный расход', 9\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: много, город и пробки' AS metric, 11\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: много, город и пробки', 11\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: искать причину' AS metric, 14\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: искать причину', 14\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1' THEN 'Расход средний, поездка 1'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: обычный расход' AS metric, 9\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: обычный расход', 9\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: много, город и пробки' AS metric, 11\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: много, город и пробки', 11\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: искать причину' AS metric, 14\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: искать причину', 14\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1333,7 +1333,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: планировать ТО' AS metric, 1500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: планировать ТО', 1500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: ТО вплотную' AS metric, 500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: ТО вплотную', 500\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE' THEN 'Км до обслуживания'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: планировать ТО' AS metric, 1500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: планировать ТО', 1500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: ТО вплотную' AS metric, 500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: ТО вплотную', 500\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1492,7 +1492,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_REGIME_MOTEUR_AFFICHE', 'MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_REGIME_MOTEUR_AFFICHE' THEN 'Обороты двигателя'\n       WHEN 'MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_REGIME_MOTEUR_AFFICHE', 'MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1714,7 +1714,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('TEMPERATURE_HUILE_MESUREE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'TEMPERATURE_HUILE_MESUREE' THEN 'Температура масла (замер)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('TEMPERATURE_HUILE_MESUREE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -1918,7 +1918,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE' THEN 'Температура масла (расчётная)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2102,7 +2102,7 @@ data:
         {
           "id": 21,
           "type": "timeseries",
-          "title": "Температура за бортом · Температура за бортом (рас",
+          "title": "Температура за бортом · Температура за бортом (расчётная)",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -2122,7 +2122,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EXTERIEURE', 'MP_TEMPERATURE_EXTERIEURE_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TEMPERATURE_EXTERIEURE' THEN 'Температура за бортом'\n       WHEN 'MP_TEMPERATURE_EXTERIEURE_CALCULEE' THEN 'Температура за бортом (расчётная)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EXTERIEURE', 'MP_TEMPERATURE_EXTERIEURE_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2176,7 +2176,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EVAPORATEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TEMPERATURE_EVAPORATEUR' THEN 'Температура испарителя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_EVAPORATEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2243,7 +2243,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 11.5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 11.5\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ нормы покоя' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ нормы покоя', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: перезаряд' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: перезаряд', 15.0\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TENSION_ALIMENTION_BSI' THEN 'Напряжение питания BSI'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 11.5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 11.5\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ нормы покоя' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ нормы покоя', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: перезаряд' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: перезаряд', 15.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2447,7 +2447,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI_AU_REVEIL') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: полный заряд' AS metric, 12.7\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: полный заряд', 12.7\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: около 50% заряда' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: около 50% заряда', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 12.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 12.0\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_TENSION_ALIMENTION_BSI_AU_REVEIL' THEN 'Напряжение аккумулятора в покое'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI_AU_REVEIL') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: полный заряд' AS metric, 12.7\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: полный заряд', 12.7\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: около 50% заряда' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: около 50% заряда', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 12.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 12.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2664,7 +2664,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_TEMOIN_FEUX_DETRESSE', 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_COMMANDE_TEMOIN_FEUX_DETRESSE' THEN 'Лампа в кнопке аварийки'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR' THEN 'Подсветка салона'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_TEMOIN_FEUX_DETRESSE', 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2698,7 +2698,7 @@ data:
         {
           "id": 28,
           "type": "timeseries",
-          "title": "Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафон · Подсветка дисплеев и кнопо",
+          "title": "Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафона · Подсветка дисплеев и кнопок",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -2718,7 +2718,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT', 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR' THEN 'Наружная боковая подсветка'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE' THEN 'Освещение заднего плафона'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT' THEN 'Освещение переднего плафона'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS' THEN 'Подсветка дисплеев и кнопок'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT', 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2785,7 +2785,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: планировать ТО' AS metric, 1500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: планировать ТО', 1500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: ТО вплотную' AS metric, 500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: ТО вплотную', 500\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE' THEN 'Км до обслуживания'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: планировать ТО' AS metric, 1500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: планировать ТО', 1500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: ТО вплотную' AS metric, 500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: ТО вплотную', 500\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2924,7 +2924,7 @@ data:
         {
           "id": 31,
           "type": "timeseries",
-          "title": "Дней с последнего сброса Т",
+          "title": "Дней с последнего сброса ТО",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -2944,7 +2944,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT' THEN 'Дней с последнего сброса ТО'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_JOURS_DEPUIS_DENIERE_RAZ_MAINT') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2978,7 +2978,7 @@ data:
         {
           "id": 32,
           "type": "timeseries",
-          "title": "Запас хода · Пробег с последнего сброса · Пробег частичный, сохранён",
+          "title": "Запас хода · Пробег с последнего сброса суточного с · Пробег частичный, сохранённый в BSI",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -2998,7 +2998,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER', 'MP_KM_PARTIEL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_AUTONOMIE_CARBURANT_CALCULE' THEN 'Запас хода'\n       WHEN 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER' THEN 'Пробег с последнего сброса суточного счётчика'\n       WHEN 'MP_KM_PARTIEL_MEMORISE_EN_BSI' THEN 'Пробег частичный, сохранённый в BSI'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER', 'MP_KM_PARTIEL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3052,7 +3052,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TRAJET1', 'MP_KILOMETRAGE_TRAJET2') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_KILOMETRAGE_TRAJET1' THEN 'Пробег поездки 1'\n       WHEN 'MP_KILOMETRAGE_TRAJET2' THEN 'Пробег поездки 2'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TRAJET1', 'MP_KILOMETRAGE_TRAJET2') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3086,7 +3086,7 @@ data:
         {
           "id": 34,
           "type": "timeseries",
-          "title": "Пробег общий · Пробег общий, сохранённый ",
+          "title": "Пробег общий · Пробег общий, сохранённый в BSI",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -3106,7 +3106,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TOTAL', 'MP_KM_TOTAL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_KILOMETRAGE_TOTAL' THEN 'Пробег общий'\n       WHEN 'MP_KM_TOTAL_MEMORISE_EN_BSI' THEN 'Пробег общий, сохранённый в BSI'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_TOTAL', 'MP_KM_TOTAL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3140,7 +3140,7 @@ data:
         {
           "id": 35,
           "type": "timeseries",
-          "title": "Пробег при последнем сброс",
+          "title": "Пробег при последнем сбросе ТО",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -3160,7 +3160,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_ODOMETRE_LORS_DERNIERE_RAZ_MAINTENANCE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_KILOMETRAGE_ODOMETRE_LORS_DERNIERE_RAZ_MAINTENANCE' THEN 'Пробег при последнем сбросе ТО'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_KILOMETRAGE_ODOMETRE_LORS_DERNIERE_RAZ_MAINTENANCE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3227,7 +3227,7 @@ data:
               },
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('MP_BSI_VIERGE_DE_CODE_ADC', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM', 'MP_VIN', 'MP_DEMANDE_FEUX_DE_DETRESSE', 'MP_MODE_ESSUYAGE_AUTOMATIQUE', 'MP_ETAT_VERROUILLAGE_VEHICULE', 'MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL', 'MP_ETAT_COFFRE', 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE', 'MP_TELECOMMANDE_RECONNUE', 'ID_REFERENCE_LOGICIEL', 'MP_INFORMATION_MARCHE_ARRIERE', 'MP_RESISTANCE_INTERNE_BATTERIE', 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES', 'MP_COMMANDE_FEUX_DE_POSITION', 'MP_ANNEE_AFFICHEE', 'MP_PRESSION_FLUIDE_FRIGORIGENE', 'MP_INFO_GMP', 'MP_INFORMATION_JOUR_NUIT', 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START', 'MP_JOUR', 'MP_JOUR_SEMAINE', 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE', 'MP_SECURITE_ENFANT_DROIT_ACTIVEE', 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR', 'MP_DUREE_TRAJET1', 'MP_DUREE_TRAJET2', 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE', 'MP_COMMANDE_RESISTANCES_ADDITIONNELLES', 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE', 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE', 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT', 'MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_CONSIGNE_PULSEUR_AFFICHEE', 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDES_VOLANT', 'MP_VITESSE_MEMORISEE_ATTEINTE', 'MP_COMMANDE_BROUILLARD_ARRIERE', 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE', 'MP_COMMANDE_ESSUYAGE_ARRIERE', 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE', 'MP_PORTE_ARRIERE_GAUCHE', 'MP_PORTE_ARRIERE_DROITE', 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP', 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP', 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL', 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE', 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION', 'MP_DEMANDE_DES_FEUX_DE_DETRESSE', 'MP_DEMANDE_ESSUI_AUTOMATIQUE', 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION', 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT', 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE', 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE', 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC', 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR', 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE', 'MP_DMD_AFFICHAGE_DES_MENUS_MATT', 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE', 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION', 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START', 'MP_DEMANDE_MODE_BVA_BVMP_SPORT', 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT', 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT', 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL', 'MP_ETAT_ENDORMISSEMENT_BSI', 'MP_SIGNALISATION_EFFRACTION', 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE', 'MP_BSI_ANTI_SCANNING', 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR', 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_REGIME_MOTEUR', 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE', 'MP_LAVAGE_EN_COURS', 'MP_COMMANDE_SERRURES_EN_COURS', 'MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_A6T_BSI_DURAVMAINT_000_New', 'MP_AM8_BSI_SLMAINT200_000', 'MP_POSITION_CAPOT', 'MP_PRESENCE_CLE_OU_BADGE', 'MP_CLE_OU_BADGE_RECONNUE', 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE', 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX', 'MP_BSI_ETAT_PUSH_TRAPPE_CARB', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS', 'MP_BSI_CONTACT_VERROU_PORTE_AVG', 'MP_BSI_CONTACT_VERROU_PORTE_AVD', 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME', 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM', 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD', 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS', 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE', 'MP_ETAT_TRAPPE_CARBURANT', 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE', 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV', 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR', 'MP_MOIS_AFFICHE', 'MP_MINUTES_AFFICHEE', 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE', 'MP_APPUI_BOUTON_SECURITE_ENFANT', 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE', 'MP_TENSION_BATTERIE_AU_REPOS', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM', 'MP_DA26', 'MP_DA4E', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM', 'MP_DETECTION_PRESENCE_CONDUCTEUR', 'MP_DETECTION_PASSAGER_AVANT', 'MP_INFORMATION_PRESENCE_REMORQUE', 'MP_ETAT_COMMANDE_DE_DEGIVRAGE', 'MP_REGIME_MOTEUR_AFFICHE', 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS', 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS', 'MP_NB_CLE_OU_BADGE_APPRI', 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES', 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS', 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE', 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION', 'LAVAGEPROJ', 'MP_COMMANDE_ECLAIRAGE_COFFRE', 'MP_ETAT_PRINCIPAL', 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN', 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI', 'MP_DEFAUT_TOP_ROUE_ARG', 'MP_DEFAUT_TOP_ROUE_ARD', 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR', 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE', 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE', 'MP_COMMANDE_OUVERTURE_COFFRE', 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB', 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE', 'MP_FONCTION_DE_REGULATION_A_AFFICHER', 'MP_ETAT_ENVOI_DONNEE_ADC_CMM', 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE', 'MP_PORTE_AVANT_GAUCHE', 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE', 'MP_PORTE_AVANT_DROITE', 'MP_SERRURE_AVANT_DROITE_VERROUILLE', 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE', 'MP_ETAT_COMMUTATEUR_STOP_AND_START', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS', 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES', 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL', 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE', 'MP_POSITION_CLE_CONTACT', 'MP_POSITION_CLE_EN_PLUS_DEM2', 'MP_POSITION_TOIT_OUVRANT', 'MP_POSITION_LEVIER_VITESSE', 'MP_DERNIERE_COND_REVEIL_LIN2', 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE', 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM', 'MP_DERNIERE_CONDITION_REVEIL_BSI', 'MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'ID_NOM_DU_FOURNISSEUR', 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT', 'MP_AAS_BSI_SLPREMAINT_000', 'MP_ALERTE_PRESSION_HUILE_FAIBLE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE', 'MP_MOTIF_VERROUILLAGE_VEHICULE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE', 'MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE', 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE', 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE', 'MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION', 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES', 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE', 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION', 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS', 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE', 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR', 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE', 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE', 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM', 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP', 'MP_CONSOMMATION_CARBURANT_INSTANTANEE', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2', 'MP_CONSOMMATION_CARBURANT_RAPIDE', 'MP_ETAT_FONCTIONNEMENT_BSI', 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION', 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE', 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE', 'MP_CEINTURE_AVANT_DROITE_BOUCLEE', 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE', 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE', 'MP_DEMANDE_RAZ_TRAJET1', 'MP_DEMANDE_RAZ_TRAJET2', 'MP_COMMANDE_LED_BOUTON_STOP_START', 'MP_COMMANDE_LED_ALARME', 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE', 'MP_VITESSE_VEHICULE_a', 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM', 'MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE', 'MP_IMPEDANCE_JAUGE_CARBURANT', 'MP_ETAT_RESEAU_ELECTRIQUE', 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR', 'MP_ETAT_GMP', 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM', 'MP_STATUS_CHARGE_BATTERIE', 'MP_ETAT_LUNETTE', 'MP_COMMANDE_LEVES_VITRES_FILAIRE', 'MP_COMMANDE_DES_FEUX_STOP', 'MP_COMPTEUR_TOPS_ROUE_ARG', 'MP_COMPTEUR_TOPS_ROUE_ARD', 'MP_COMPTEUR_TEMPOREL_VEHICULE', 'MP_COMPTEUR_REDEMARRAGE_STOP_START', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM', 'MP_NIVEAU_CARBURANT_MESURE', 'MP_ANGLE_VOLANT', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS', 'MP_NIVEAU_CARBURANT_AFFICHE', 'MP_NIVEAU_ETAT_CHARGE_BATTERIE', 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE', 'MP_NIVEAU_CARBURANT_CALCULE', 'MP_COMMANDE_DES_FEUX_DE_RECUL', 'MP_TYPE_AFFICHAGE_HEURE_DATE', 'CMD_FONCTION_BLACK_PANEL', 'MP_ETAT_FONCTION_SECURITE_ENFANT', 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES', 'MP_HEURE_AFFICHEE', 'MP_CALCULATEUR_MOTEUR_VERROUILLE', 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE')\nORDER BY 1"
+              "rawSql": "SELECT CASE p.name\n       WHEN 'MP_BSI_VIERGE_DE_CODE_ADC' THEN 'BSI без кода противоугонной системы'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM' THEN 'City Park не дал заглушить, 0-20 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM' THEN 'City Park не дал заглушить, 20-40 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM' THEN 'City Park не дал заглушить, 40-60 км'\n       WHEN 'MP_VIN' THEN 'VIN'\n       WHEN 'MP_DEMANDE_FEUX_DE_DETRESSE' THEN 'Аварийная сигнализация'\n       WHEN 'MP_MODE_ESSUYAGE_AUTOMATIQUE' THEN 'Автоматический режим стеклоочистителя'\n       WHEN 'MP_ETAT_VERROUILLAGE_VEHICULE' THEN 'Автомобиль заперт'\n       WHEN 'MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL' THEN 'Аномальных скачков пробега'\n       WHEN 'MP_ETAT_COFFRE' THEN 'Багажник'\n       WHEN 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE' THEN 'Брелок 1 синхронизирован'\n       WHEN 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE' THEN 'Брелок 2 синхронизирован'\n       WHEN 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE' THEN 'Брелок 3 синхронизирован'\n       WHEN 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE' THEN 'Брелок 4 синхронизирован'\n       WHEN 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE' THEN 'Брелок 5 синхронизирован'\n       WHEN 'MP_TELECOMMANDE_RECONNUE' THEN 'Брелок распознан'\n       WHEN 'ID_REFERENCE_LOGICIEL' THEN 'Версия ПО блока'\n       WHEN 'MP_INFORMATION_MARCHE_ARRIERE' THEN 'Включена задняя передача'\n       WHEN 'MP_RESISTANCE_INTERNE_BATTERIE' THEN 'Внутреннее сопротивление АКБ'\n       WHEN 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE' THEN 'Выбранный язык'\n       WHEN 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES' THEN 'Выполнено обслуживаний'\n       WHEN 'MP_COMMANDE_FEUX_DE_POSITION' THEN 'Габаритные огни'\n       WHEN 'MP_ANNEE_AFFICHEE' THEN 'Год'\n       WHEN 'MP_PRESSION_FLUIDE_FRIGORIGENE' THEN 'Давление хладагента'\n       WHEN 'MP_INFO_GMP' THEN 'Данные силового агрегата'\n       WHEN 'MP_INFORMATION_JOUR_NUIT' THEN 'Датчик день/ночь'\n       WHEN 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START' THEN 'Двойное нажатие кнопки старт-стоп'\n       WHEN 'MP_JOUR' THEN 'День'\n       WHEN 'MP_JOUR_SEMAINE' THEN 'День недели'\n       WHEN 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE' THEN 'Детский замок слева включён'\n       WHEN 'MP_SECURITE_ENFANT_DROIT_ACTIVEE' THEN 'Детский замок справа включён'\n       WHEN 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR' THEN 'Диагностика вентилятора охлаждения'\n       WHEN 'MP_DUREE_TRAJET1' THEN 'Длительность поездки 1'\n       WHEN 'MP_DUREE_TRAJET2' THEN 'Длительность поездки 2'\n       WHEN 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE' THEN 'Долгое нажатие на брелоке'\n       WHEN 'MP_COMMANDE_RESISTANCES_ADDITIONNELLES' THEN 'Дополнительные электронагреватели'\n       WHEN 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE' THEN 'Достоверность продольной скорости'\n       WHEN 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE' THEN 'Достоверность пройденного расстояния'\n       WHEN 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT' THEN 'Доступно автопереключение дальний/ближний'\n       WHEN 'MP_TENSION_CONSIGNE_ALTERNATEUR' THEN 'Задание напряжения генератора'\n       WHEN 'MP_CONSIGNE_PULSEUR_AFFICHEE' THEN 'Задание скорости вентилятора'\n       WHEN 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDES_VOLANT' THEN 'Задание скорости с руля'\n       WHEN 'MP_VITESSE_MEMORISEE_ATTEINTE' THEN 'Заданная скорость достигнута'\n       WHEN 'MP_COMMANDE_BROUILLARD_ARRIERE' THEN 'Задние противотуманные'\n       WHEN 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE' THEN 'Задний проём заперт'\n       WHEN 'MP_COMMANDE_ESSUYAGE_ARRIERE' THEN 'Задний стеклоочиститель'\n       WHEN 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE' THEN 'Задний стеклоочиститель в парковке'\n       WHEN 'MP_PORTE_ARRIERE_GAUCHE' THEN 'Задняя левая дверь'\n       WHEN 'MP_PORTE_ARRIERE_DROITE' THEN 'Задняя правая дверь'\n       WHEN 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP' THEN 'Запрет визуального отклика парктроника'\n       WHEN 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP' THEN 'Запрет звукового отклика парктроника'\n       WHEN 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL' THEN 'Запрет объёмного датчика и датчика подъёма'\n       WHEN 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE' THEN 'Запрет подсветки номерного знака'\n       WHEN 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION' THEN 'Запрос ЭБУ двигателя отключить компрессор'\n       WHEN 'MP_DEMANDE_DES_FEUX_DE_DETRESSE' THEN 'Запрос аварийной сигнализации'\n       WHEN 'MP_DEMANDE_ESSUI_AUTOMATIQUE' THEN 'Запрос автоматической стеклоочистки'\n       WHEN 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION' THEN 'Запрос аутентификации'\n       WHEN 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT' THEN 'Запрос включения детского замка'\n       WHEN 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE' THEN 'Запрос включения круиз-контроля'\n       WHEN 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE' THEN 'Запрос включения ограничителя скорости'\n       WHEN 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE' THEN 'Запрос зимнего режима АКПП'\n       WHEN 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC' THEN 'Запрос наружной боковой подсветки'\n       WHEN 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR' THEN 'Запрос открывания багажника'\n       WHEN 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE' THEN 'Запрос открывания стекла багажника'\n       WHEN 'MP_DMD_AFFICHAGE_DES_MENUS_MATT' THEN 'Запрос показа меню'\n       WHEN 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE' THEN 'Запрос предподготовки от внешнего блока'\n       WHEN 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION' THEN 'Запрос разгрузки компрессора'\n       WHEN 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START' THEN 'Запрос смены состояния старт-стоп'\n       WHEN 'MP_DEMANDE_MODE_BVA_BVMP_SPORT' THEN 'Запрос спортивного режима АКПП'\n       WHEN 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE' THEN 'Запрос увеличения заданной скорости'\n       WHEN 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE' THEN 'Запрос уменьшения заданной скорости'\n       WHEN 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT' THEN 'Запрос: включить передний плафон вручную'\n       WHEN 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT' THEN 'Запрос: выключить передний плафон'\n       WHEN 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL' THEN 'Запрос: отключить центральный плафон'\n       WHEN 'MP_ETAT_ENDORMISSEMENT_BSI' THEN 'Засыпание BSI'\n       WHEN 'MP_SIGNALISATION_EFFRACTION' THEN 'Зафиксирован взлом'\n       WHEN 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE' THEN 'Зафиксирован взлом по периметру'\n       WHEN 'MP_BSI_ANTI_SCANNING' THEN 'Защита BSI от сканирования'\n       WHEN 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR' THEN 'Защита испарителя от обмерзания'\n       WHEN 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION' THEN 'Защита по высокому давлению хладагента'\n       WHEN 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION' THEN 'Защита по низкому давлению хладагента'\n       WHEN 'MP_SECURITE_REGIME_MOTEUR' THEN 'Защита по оборотам двигателя'\n       WHEN 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE' THEN 'Звуковой сигнал на сирену'\n       WHEN 'MP_LAVAGE_EN_COURS' THEN 'Идёт омывание'\n       WHEN 'MP_COMMANDE_SERRURES_EN_COURS' THEN 'Идёт управление замками'\n       WHEN 'MP_AFFICHAGE_CLE_DE_MAINTENANCE' THEN 'Индикация ключа обслуживания'\n       WHEN 'MP_A6T_BSI_DURAVMAINT_000_New' THEN 'Интервал ТО по времени'\n       WHEN 'MP_AM8_BSI_SLMAINT200_000' THEN 'Интервал ТО по пробегу'\n       WHEN 'MP_POSITION_CAPOT' THEN 'Капот'\n       WHEN 'MP_PRESENCE_CLE_OU_BADGE' THEN 'Ключ или метка в салоне'\n       WHEN 'MP_CLE_OU_BADGE_RECONNUE' THEN 'Ключ или метка опознаны'\n       WHEN 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE' THEN 'Кнопка брелока отпущена'\n       WHEN 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX' THEN 'Кнопка включения магнитолы'\n       WHEN 'MP_BSI_ETAT_PUSH_TRAPPE_CARB' THEN 'Кнопка лючка бака'\n       WHEN 'MP_COND_MAINT_LIN2_CPC_COMMANDE' THEN 'Команда удержания LIN2'\n       WHEN 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS' THEN 'Кондиционер не дал заглушить, 0-20 км'\n       WHEN 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS' THEN 'Кондиционер не дал заглушить, 20-40 км'\n       WHEN 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS' THEN 'Кондиционер не дал заглушить, 40-60 км'\n       WHEN 'MP_BSI_CONTACT_VERROU_PORTE_AVG' THEN 'Контакт замка передней левой двери'\n       WHEN 'MP_BSI_CONTACT_VERROU_PORTE_AVD' THEN 'Контакт замка передней правой двери'\n       WHEN 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME' THEN 'Контроль сирены сигнализации'\n       WHEN 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE' THEN 'Короткое нажатие на брелоке'\n       WHEN 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI' THEN 'Круиз и ограничитель в BSI'\n       WHEN 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM' THEN 'Круиз и ограничитель в ЭБУ двигателя'\n       WHEN 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD' THEN 'Лампа детского замка на панели'\n       WHEN 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS' THEN 'Лампа центрального запирания'\n       WHEN 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE' THEN 'Левый поворотник'\n       WHEN 'MP_ETAT_TRAPPE_CARBURANT' THEN 'Лючок топливного бака'\n       WHEN 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE' THEN 'Меню единиц измерения и языка'\n       WHEN 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV' THEN 'Меню настройки круиза и ограничителя'\n       WHEN 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT' THEN 'Меню пользовательских настроек'\n       WHEN 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR' THEN 'Меню приветствия водителя'\n       WHEN 'MP_MOIS_AFFICHE' THEN 'Месяц'\n       WHEN 'MP_MINUTES_AFFICHEE' THEN 'Минуты'\n       WHEN 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION' THEN 'Муфта компрессора кондиционера'\n       WHEN 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE' THEN 'Нажата кнопка 1 брелока'\n       WHEN 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE' THEN 'Нажата кнопка 2 брелока'\n       WHEN 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE' THEN 'Нажата кнопка 3 брелока'\n       WHEN 'MP_APPUI_BOUTON_SECURITE_ENFANT' THEN 'Нажата кнопка детского замка'\n       WHEN 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE' THEN 'Нажата кнопка центрального замка'\n       WHEN 'MP_TENSION_BATTERIE_AU_REPOS' THEN 'Напряжение АКБ в покое'\n       WHEN 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM' THEN 'Не заглушил из-за неисправности, 0-20 км'\n       WHEN 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM' THEN 'Не заглушил из-за неисправности, 20-40 км'\n       WHEN 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM' THEN 'Не заглушил из-за неисправности, 40-60 км'\n       WHEN 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM' THEN 'Не заглушил по запросу запрета, 0-20 км'\n       WHEN 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM' THEN 'Не заглушил по запросу запрета, 20-40 км'\n       WHEN 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM' THEN 'Не заглушил по запросу запрета, 40-60 км'\n       WHEN 'MP_DA26' THEN 'Неизвестный параметр DA26'\n       WHEN 'MP_DA4E' THEN 'Неизвестный параметр DA4E'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM' THEN 'Неисправность стартера, 0-20 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM' THEN 'Неисправность стартера, 20-40 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM' THEN 'Неисправность стартера, 40-60 км'\n       WHEN 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM' THEN 'Ненормальное удержание шины систем'\n       WHEN 'MP_DETECTION_PRESENCE_CONDUCTEUR' THEN 'Обнаружен водитель'\n       WHEN 'MP_DETECTION_PASSAGER_AVANT' THEN 'Обнаружен передний пассажир'\n       WHEN 'MP_INFORMATION_PRESENCE_REMORQUE' THEN 'Обнаружен прицеп'\n       WHEN 'MP_ETAT_COMMANDE_DE_DEGIVRAGE' THEN 'Обогрев стёкол'\n       WHEN 'MP_REGIME_MOTEUR_AFFICHE' THEN 'Обороты двигателя'\n       WHEN 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS' THEN 'Обучено брелоков 2004'\n       WHEN 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS' THEN 'Обучено брелоков 2010'\n       WHEN 'MP_NB_CLE_OU_BADGE_APPRI' THEN 'Обучено ключей и меток'\n       WHEN 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES' THEN 'Обучено меток доступа без ключа'\n       WHEN 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS' THEN 'Обучено упрощённых брелоков'\n       WHEN 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE' THEN 'Обучено электронных ключей'\n       WHEN 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION' THEN 'Общее состояние кондиционера'\n       WHEN 'LAVAGEPROJ' THEN 'Омыватель фар'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_COFFRE' THEN 'Освещение багажника'\n       WHEN 'MP_ETAT_PRINCIPAL' THEN 'Основное состояние BSI'\n       WHEN 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN' THEN 'Основной контакт педали тормоза'\n       WHEN 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI' THEN 'Ответ BSI на опознание ключа'\n       WHEN 'MP_DEFAUT_TOP_ROUE_ARG' THEN 'Отказ датчика левого заднего колеса'\n       WHEN 'MP_DEFAUT_TOP_ROUE_ARD' THEN 'Отказ датчика правого заднего колеса'\n       WHEN 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR' THEN 'Отказ датчика присутствия водителя'\n       WHEN 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE' THEN 'Отказ запирания заднего проёма'\n       WHEN 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE' THEN 'Отключение контроля сирены'\n       WHEN 'MP_COMMANDE_OUVERTURE_COFFRE' THEN 'Открывание багажника'\n       WHEN 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB' THEN 'Открывание лючка бака'\n       WHEN 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE' THEN 'Открывание стекла багажника'\n       WHEN 'MP_FONCTION_DE_REGULATION_A_AFFICHER' THEN 'Отображаемая функция регулирования'\n       WHEN 'MP_ETAT_ENVOI_DONNEE_ADC_CMM' THEN 'Передача данных ЭБУ двигателя'\n       WHEN 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE' THEN 'Передний стеклоочиститель (провод)'\n       WHEN 'MP_PORTE_AVANT_GAUCHE' THEN 'Передняя левая дверь'\n       WHEN 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE' THEN 'Передняя левая дверь заперта'\n       WHEN 'MP_PORTE_AVANT_DROITE' THEN 'Передняя правая дверь'\n       WHEN 'MP_SERRURE_AVANT_DROITE_VERROUILLE' THEN 'Передняя правая дверь заперта'\n       WHEN 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE' THEN 'Переключатель объёмного датчика'\n       WHEN 'MP_ETAT_COMMUTATEUR_STOP_AND_START' THEN 'Переключатель старт-стоп'\n       WHEN 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS' THEN 'Подрулевой лепесток: передача выше'\n       WHEN 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS' THEN 'Подрулевой лепесток: передача ниже'\n       WHEN 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES' THEN 'Подсветка порогов дверей'\n       WHEN 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL' THEN 'Подсветка салона при встрече'\n       WHEN 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE' THEN 'Поиск автомобиля с брелока'\n       WHEN 'MP_POSITION_CLE_CONTACT' THEN 'Положение ключа зажигания'\n       WHEN 'MP_POSITION_CLE_EN_PLUS_DEM2' THEN 'Положение ключа: дополнительный пуск'\n       WHEN 'MP_POSITION_TOIT_OUVRANT' THEN 'Положение люка'\n       WHEN 'MP_POSITION_LEVIER_VITESSE' THEN 'Положение селектора передач'\n       WHEN 'MP_DERNIERE_COND_REVEIL_LIN2' THEN 'Последнее пробуждение LIN2'\n       WHEN 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE' THEN 'Последнее пробуждение шины салона'\n       WHEN 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM' THEN 'Последнее пробуждение шины систем'\n       WHEN 'MP_DERNIERE_CONDITION_REVEIL_BSI' THEN 'Последняя причина пробуждения BSI'\n       WHEN 'MP_DERNIERE_CONDITION_MAINTIEN_BSI' THEN 'Последняя причина удержания BSI'\n       WHEN 'MP_BSI_DERN_COND_MAINT_ALIM_CPC' THEN 'Последняя причина удержания питания'\n       WHEN 'ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION' THEN 'Постановка на охрану'\n       WHEN 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT' THEN 'Правый поворотник'\n       WHEN 'MP_AAS_BSI_SLPREMAINT_000' THEN 'Предупреждение о ТО за, км'\n       WHEN 'MP_ALERTE_PRESSION_HUILE_FAIBLE' THEN 'Предупреждение: низкое давление масла'\n       WHEN 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE' THEN 'Принят неопознанный сигнал брелока'\n       WHEN 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE' THEN 'Принят опознанный сигнал брелока'\n       WHEN 'MP_MOTIF_VERROUILLAGE_VEHICULE' THEN 'Причина запирания автомобиля'\n       WHEN 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON' THEN 'Приём сигнала брелока (Япония)'\n       WHEN 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE' THEN 'Приём сигнала основного брелока'\n       WHEN 'MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE' THEN 'Пробег до скачка'\n       WHEN 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE' THEN 'Пробег после скачка'\n       WHEN 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE' THEN 'Программа пробуждения для предподготовки'\n       WHEN 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE' THEN 'Просрочено ТО по времени'\n       WHEN 'MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE' THEN 'Просрочено ТО по пробегу'\n       WHEN 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION' THEN 'Разрешение включения кондиционера'\n       WHEN 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES' THEN 'Разрешение задних стеклоподъёмников'\n       WHEN 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE' THEN 'Разрешение подзарядки накопителей'\n       WHEN 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION' THEN 'Разрешение подзарядки сирены'\n       WHEN 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS' THEN 'Разрешение подогрева сидений'\n       WHEN 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE' THEN 'Разрешение подсветки вещевого ящика'\n       WHEN 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR' THEN 'Разрешение подсветки кнопки пуска'\n       WHEN 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE' THEN 'Разрешение подсветки считывателя ключа'\n       WHEN 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE' THEN 'Разрешение предподготовки салона'\n       WHEN 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM' THEN 'Разрешение пуска от ЭБУ двигателя'\n       WHEN 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP' THEN 'Разрешение пуска с АКПП'\n       WHEN 'MP_CONSOMMATION_CARBURANT_INSTANTANEE' THEN 'Расход мгновенный'\n       WHEN 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1' THEN 'Расход средний, поездка 1'\n       WHEN 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2' THEN 'Расход средний, поездка 2'\n       WHEN 'MP_CONSOMMATION_CARBURANT_RAPIDE' THEN 'Расход текущий'\n       WHEN 'MP_ETAT_FONCTIONNEMENT_BSI' THEN 'Режим работы BSI'\n       WHEN 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION' THEN 'Режим работы кондиционера'\n       WHEN 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE' THEN 'Ремень водителя застёгнут'\n       WHEN 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE' THEN 'Ремень заднего левого застёгнут'\n       WHEN 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE' THEN 'Ремень заднего правого застёгнут'\n       WHEN 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE' THEN 'Ремень заднего центрального застёгнут'\n       WHEN 'MP_CEINTURE_AVANT_DROITE_BOUCLEE' THEN 'Ремень переднего пассажира застёгнут'\n       WHEN 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE' THEN 'Ремень третьего ряда слева застёгнут'\n       WHEN 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE' THEN 'Ремень третьего ряда справа застёгнут'\n       WHEN 'MP_DEMANDE_RAZ_TRAJET1' THEN 'Сброс поездки 1'\n       WHEN 'MP_DEMANDE_RAZ_TRAJET2' THEN 'Сброс поездки 2'\n       WHEN 'MP_COMMANDE_LED_BOUTON_STOP_START' THEN 'Светодиод кнопки старт-стоп'\n       WHEN 'MP_COMMANDE_LED_ALARME' THEN 'Светодиод сигнализации'\n       WHEN 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE' THEN 'Серийный номер блока'\n       WHEN 'MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION' THEN 'Снятие с охраны'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM' THEN 'Сопротивление АКБ не дало заглушить, 0-20 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM' THEN 'Сопротивление АКБ не дало заглушить, 20-40 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM' THEN 'Сопротивление АКБ не дало заглушить, 40-60 км'\n       WHEN 'MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE' THEN 'Сопротивление датчика температуры масла'\n       WHEN 'MP_IMPEDANCE_JAUGE_CARBURANT' THEN 'Сопротивление датчика уровня топлива'\n       WHEN 'MP_ETAT_RESEAU_ELECTRIQUE' THEN 'Состояние бортовой сети'\n       WHEN 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT' THEN 'Состояние меню настроек'\n       WHEN 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR' THEN 'Состояние меню приветствия'\n       WHEN 'MP_ETAT_GMP' THEN 'Состояние силового агрегата'\n       WHEN 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES' THEN 'Сохранённые скорости включены'\n       WHEN 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000' THEN 'Срок до следующего ТО'\n       WHEN 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM' THEN 'Стартер не дал заглушить, 0-20 км'\n       WHEN 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM' THEN 'Стартер не дал заглушить, 20-40 км'\n       WHEN 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM' THEN 'Стартер не дал заглушить, 40-60 км'\n       WHEN 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM' THEN 'Стартер: запрет старт-стоп, 0-20 км'\n       WHEN 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM' THEN 'Стартер: запрет старт-стоп, 20-40 км'\n       WHEN 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM' THEN 'Стартер: запрет старт-стоп, 40-60 км'\n       WHEN 'MP_STATUS_CHARGE_BATTERIE' THEN 'Статус заряда АКБ'\n       WHEN 'MP_ETAT_LUNETTE' THEN 'Стекло двери багажника'\n       WHEN 'MP_COMMANDE_LEVES_VITRES_FILAIRE' THEN 'Стеклоподъёмники (провод)'\n       WHEN 'MP_COMMANDE_DES_FEUX_STOP' THEN 'Стоп-сигналы'\n       WHEN 'MP_COMPTEUR_TOPS_ROUE_ARG' THEN 'Счётчик импульсов левого заднего колеса'\n       WHEN 'MP_COMPTEUR_TOPS_ROUE_ARD' THEN 'Счётчик импульсов правого заднего колеса'\n       WHEN 'MP_COMPTEUR_TEMPOREL_VEHICULE' THEN 'Счётчик наработки автомобиля'\n       WHEN 'MP_COMPTEUR_REDEMARRAGE_STOP_START' THEN 'Счётчик перезапусков старт-стоп'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM' THEN 'Температура АКБ не дала заглушить, 0-20 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM' THEN 'Температура АКБ не дала заглушить, 20-40 км'\n       WHEN 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM' THEN 'Температура АКБ не дала заглушить, 40-60 км'\n       WHEN 'MP_NIVEAU_CARBURANT_MESURE' THEN 'Топливо в баке (замер)'\n       WHEN 'MP_ANGLE_VOLANT' THEN 'Угол поворота руля'\n       WHEN 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE' THEN 'Удержание кнопки брелока'\n       WHEN 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS' THEN 'Удержание шины: идёт постановка на охрану'\n       WHEN 'MP_NIVEAU_CARBURANT_AFFICHE' THEN 'Указатель уровня топлива'\n       WHEN 'MP_NIVEAU_ETAT_CHARGE_BATTERIE' THEN 'Уровень заряда АКБ'\n       WHEN 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE' THEN 'Уровень масла (среднее)'\n       WHEN 'MP_NIVEAU_CARBURANT_CALCULE' THEN 'Уровень топлива (расчётный)'\n       WHEN 'MP_COMMANDE_DES_FEUX_DE_RECUL' THEN 'Фонари заднего хода'\n       WHEN 'MP_TYPE_AFFICHAGE_HEURE_DATE' THEN 'Формат отображения даты и времени'\n       WHEN 'CMD_FONCTION_BLACK_PANEL' THEN 'Функция Black Panel'\n       WHEN 'MP_ETAT_FONCTION_SECURITE_ENFANT' THEN 'Функция детского замка'\n       WHEN 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES' THEN 'Функция доступа без ключа'\n       WHEN 'MP_HEURE_AFFICHEE' THEN 'Часы'\n       WHEN 'MP_CALCULATEUR_MOTEUR_VERROUILLE' THEN 'ЭБУ двигателя заблокирован'\n       WHEN 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE' THEN 'Яркость подсветки блока дверей'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('MP_BSI_VIERGE_DE_CODE_ADC', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM', 'MP_VIN', 'MP_DEMANDE_FEUX_DE_DETRESSE', 'MP_MODE_ESSUYAGE_AUTOMATIQUE', 'MP_ETAT_VERROUILLAGE_VEHICULE', 'MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL', 'MP_ETAT_COFFRE', 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE', 'MP_TELECOMMANDE_RECONNUE', 'ID_REFERENCE_LOGICIEL', 'MP_INFORMATION_MARCHE_ARRIERE', 'MP_RESISTANCE_INTERNE_BATTERIE', 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES', 'MP_COMMANDE_FEUX_DE_POSITION', 'MP_ANNEE_AFFICHEE', 'MP_PRESSION_FLUIDE_FRIGORIGENE', 'MP_INFO_GMP', 'MP_INFORMATION_JOUR_NUIT', 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START', 'MP_JOUR', 'MP_JOUR_SEMAINE', 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE', 'MP_SECURITE_ENFANT_DROIT_ACTIVEE', 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR', 'MP_DUREE_TRAJET1', 'MP_DUREE_TRAJET2', 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE', 'MP_COMMANDE_RESISTANCES_ADDITIONNELLES', 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE', 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE', 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT', 'MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_CONSIGNE_PULSEUR_AFFICHEE', 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDES_VOLANT', 'MP_VITESSE_MEMORISEE_ATTEINTE', 'MP_COMMANDE_BROUILLARD_ARRIERE', 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE', 'MP_COMMANDE_ESSUYAGE_ARRIERE', 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE', 'MP_PORTE_ARRIERE_GAUCHE', 'MP_PORTE_ARRIERE_DROITE', 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP', 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP', 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL', 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE', 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION', 'MP_DEMANDE_DES_FEUX_DE_DETRESSE', 'MP_DEMANDE_ESSUI_AUTOMATIQUE', 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION', 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT', 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE', 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE', 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC', 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR', 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE', 'MP_DMD_AFFICHAGE_DES_MENUS_MATT', 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE', 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION', 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START', 'MP_DEMANDE_MODE_BVA_BVMP_SPORT', 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT', 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT', 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL', 'MP_ETAT_ENDORMISSEMENT_BSI', 'MP_SIGNALISATION_EFFRACTION', 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE', 'MP_BSI_ANTI_SCANNING', 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR', 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_REGIME_MOTEUR', 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE', 'MP_LAVAGE_EN_COURS', 'MP_COMMANDE_SERRURES_EN_COURS', 'MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_A6T_BSI_DURAVMAINT_000_New', 'MP_AM8_BSI_SLMAINT200_000', 'MP_POSITION_CAPOT', 'MP_PRESENCE_CLE_OU_BADGE', 'MP_CLE_OU_BADGE_RECONNUE', 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE', 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX', 'MP_BSI_ETAT_PUSH_TRAPPE_CARB', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS', 'MP_BSI_CONTACT_VERROU_PORTE_AVG', 'MP_BSI_CONTACT_VERROU_PORTE_AVD', 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME', 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM', 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD', 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS', 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE', 'MP_ETAT_TRAPPE_CARBURANT', 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE', 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV', 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR', 'MP_MOIS_AFFICHE', 'MP_MINUTES_AFFICHEE', 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE', 'MP_APPUI_BOUTON_SECURITE_ENFANT', 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE', 'MP_TENSION_BATTERIE_AU_REPOS', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM', 'MP_DA26', 'MP_DA4E', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM', 'MP_DETECTION_PRESENCE_CONDUCTEUR', 'MP_DETECTION_PASSAGER_AVANT', 'MP_INFORMATION_PRESENCE_REMORQUE', 'MP_ETAT_COMMANDE_DE_DEGIVRAGE', 'MP_REGIME_MOTEUR_AFFICHE', 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS', 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS', 'MP_NB_CLE_OU_BADGE_APPRI', 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES', 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS', 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE', 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION', 'LAVAGEPROJ', 'MP_COMMANDE_ECLAIRAGE_COFFRE', 'MP_ETAT_PRINCIPAL', 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN', 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI', 'MP_DEFAUT_TOP_ROUE_ARG', 'MP_DEFAUT_TOP_ROUE_ARD', 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR', 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE', 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE', 'MP_COMMANDE_OUVERTURE_COFFRE', 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB', 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE', 'MP_FONCTION_DE_REGULATION_A_AFFICHER', 'MP_ETAT_ENVOI_DONNEE_ADC_CMM', 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE', 'MP_PORTE_AVANT_GAUCHE', 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE', 'MP_PORTE_AVANT_DROITE', 'MP_SERRURE_AVANT_DROITE_VERROUILLE', 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE', 'MP_ETAT_COMMUTATEUR_STOP_AND_START', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS', 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES', 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL', 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE', 'MP_POSITION_CLE_CONTACT', 'MP_POSITION_CLE_EN_PLUS_DEM2', 'MP_POSITION_TOIT_OUVRANT', 'MP_POSITION_LEVIER_VITESSE', 'MP_DERNIERE_COND_REVEIL_LIN2', 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE', 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM', 'MP_DERNIERE_CONDITION_REVEIL_BSI', 'MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'ID_NOM_DU_FOURNISSEUR', 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT', 'MP_AAS_BSI_SLPREMAINT_000', 'MP_ALERTE_PRESSION_HUILE_FAIBLE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE', 'MP_MOTIF_VERROUILLAGE_VEHICULE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE', 'MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE', 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE', 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE', 'MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION', 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES', 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE', 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION', 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS', 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE', 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR', 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE', 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE', 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM', 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP', 'MP_CONSOMMATION_CARBURANT_INSTANTANEE', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2', 'MP_CONSOMMATION_CARBURANT_RAPIDE', 'MP_ETAT_FONCTIONNEMENT_BSI', 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION', 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE', 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE', 'MP_CEINTURE_AVANT_DROITE_BOUCLEE', 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE', 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE', 'MP_DEMANDE_RAZ_TRAJET1', 'MP_DEMANDE_RAZ_TRAJET2', 'MP_COMMANDE_LED_BOUTON_STOP_START', 'MP_COMMANDE_LED_ALARME', 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE', 'MP_VITESSE_VEHICULE_a', 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM', 'MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE', 'MP_IMPEDANCE_JAUGE_CARBURANT', 'MP_ETAT_RESEAU_ELECTRIQUE', 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR', 'MP_ETAT_GMP', 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM', 'MP_STATUS_CHARGE_BATTERIE', 'MP_ETAT_LUNETTE', 'MP_COMMANDE_LEVES_VITRES_FILAIRE', 'MP_COMMANDE_DES_FEUX_STOP', 'MP_COMPTEUR_TOPS_ROUE_ARG', 'MP_COMPTEUR_TOPS_ROUE_ARD', 'MP_COMPTEUR_TEMPOREL_VEHICULE', 'MP_COMPTEUR_REDEMARRAGE_STOP_START', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM', 'MP_NIVEAU_CARBURANT_MESURE', 'MP_ANGLE_VOLANT', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS', 'MP_NIVEAU_CARBURANT_AFFICHE', 'MP_NIVEAU_ETAT_CHARGE_BATTERIE', 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE', 'MP_NIVEAU_CARBURANT_CALCULE', 'MP_COMMANDE_DES_FEUX_DE_RECUL', 'MP_TYPE_AFFICHAGE_HEURE_DATE', 'CMD_FONCTION_BLACK_PANEL', 'MP_ETAT_FONCTION_SECURITE_ENFANT', 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES', 'MP_HEURE_AFFICHEE', 'MP_CALCULATEUR_MOTEUR_VERROUILLE', 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3287,7 +3287,7 @@ data:
               },
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('CFG_BRF_BSI_UCECAN_UDS_MAE_000', 'CFG_BRD_BSI_UCECAN_UDS_AUS_000', 'CFG_A9F_BSI_OPTMAE_000', 'CFG_A3R_BSI_ABAV_000')\nORDER BY 1"
+              "rawSql": "SELECT CASE p.name\n       WHEN 'CFG_BRF_BSI_UCECAN_UDS_MAE_000' THEN 'Конфиг: блок на шине UDS включён'\n       WHEN 'CFG_BRD_BSI_UCECAN_UDS_AUS_000' THEN 'Конфиг: блок на шине UDS выключен'\n       WHEN 'CFG_A9F_BSI_OPTMAE_000' THEN 'Конфиг: опция'\n       WHEN 'CFG_A3R_BSI_ABAV_000' THEN 'Конфиг: подушка переднего пассажира'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('CFG_BRF_BSI_UCECAN_UDS_MAE_000', 'CFG_BRD_BSI_UCECAN_UDS_AUS_000', 'CFG_A9F_BSI_OPTMAE_000', 'CFG_A3R_BSI_ABAV_000')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3347,7 +3347,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_REGIME_MOTEUR') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'холостой ход этой машины' AS metric, 750\nUNION ALL SELECT $__timeTo()::timestamptz, 'холостой ход этой машины', 750\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: близко к отсечке' AS metric, 5500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: близко к отсечке', 5500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: отсечка' AS metric, 6200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: отсечка', 6200\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_REGIME_MOTEUR' THEN 'Обороты двигателя (по блоку двигателя)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_REGIME_MOTEUR') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'холостой ход этой машины' AS metric, 750\nUNION ALL SELECT $__timeTo()::timestamptz, 'холостой ход этой машины', 750\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: близко к отсечке' AS metric, 5500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: близко к отсечке', 5500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: отсечка' AS metric, 6200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: отсечка', 6200\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3547,7 +3547,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: охлаждение не справляется' AS metric, 105\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: охлаждение не справляется', 105\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: искать причину' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: искать причину', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: близко к кипению' AS metric, 115\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: близко к кипению', 115\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d' THEN 'Температура охлаждающей жидкости'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: охлаждение не справляется' AS metric, 105\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: охлаждение не справляется', 105\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: искать причину' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: искать причину', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: близко к кипению' AS metric, 115\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: близко к кипению', 115\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3751,7 +3751,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMP_AIR_ADMISSION_SUP') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: сильный подкапотный нагрев' AS metric, 60\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: сильный подкапотный нагрев', 60\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: падает мощность, риск детонации' AS metric, 75\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: падает мощность, риск детонации', 75\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TEMP_AIR_ADMISSION_SUP' THEN 'Температура воздуха на впуске'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMP_AIR_ADMISSION_SUP') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: сильный подкапотный нагрев' AS metric, 60\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: сильный подкапотный нагрев', 60\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: падает мощность, риск детонации' AS metric, 75\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: падает мощность, риск детонации', 75\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3910,7 +3910,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает низким' AS metric, 12.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает низким', 12.0\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает высоким' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает высоким', 15.0\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR' THEN 'Питание блока двигателя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает низким' AS metric, 12.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает низким', 12.0\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает высоким' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает высоким', 15.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4073,7 +4073,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на замыкание на массу' AS metric, 200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на замыкание на массу', 200\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на обрыв' AS metric, 4800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на обрыв', 4800\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01' THEN 'Датчик дросселя 1'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на замыкание на массу' AS metric, 200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на замыкание на массу', 200\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на обрыв' AS metric, 4800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на обрыв', 4800\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4232,7 +4232,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на замыкание на массу' AS metric, 200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на замыкание на массу', 200\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на обрыв' AS metric, 4800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на обрыв', 4800\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02' THEN 'Датчик дросселя 2'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на замыкание на массу' AS metric, 200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на замыкание на массу', 200\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на обрыв' AS metric, 4800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на обрыв', 4800\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4391,7 +4391,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'середина: стехиометрия' AS metric, 450\nUNION ALL SELECT $__timeTo()::timestamptz, 'середина: стехиометрия', 450\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: замер на бедной' AS metric, 100\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: замер на бедной', 100\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: замер на богатой' AS metric, 900\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: замер на богатой', 900\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT' THEN 'Датчик кислорода до катализатора'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'середина: стехиометрия' AS metric, 450\nUNION ALL SELECT $__timeTo()::timestamptz, 'середина: стехиометрия', 450\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: замер на бедной' AS metric, 100\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: замер на бедной', 100\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: замер на богатой' AS metric, 900\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: замер на богатой', 900\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4591,7 +4591,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ ровной полки' AS metric, 550\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ ровной полки', 550\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: верх ровной полки' AS metric, 800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: верх ровной полки', 800\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL' THEN 'Датчик кислорода после катализатора'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ ровной полки' AS metric, 550\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ ровной полки', 550\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: верх ровной полки' AS metric, 800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: верх ровной полки', 800\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4730,7 +4730,7 @@ data:
         {
           "id": 49,
           "type": "timeseries",
-          "title": "Config indice telecodage · Id nom fournisseur · Id version diagnostic · Счётчик nb demarrage a fro",
+          "title": "Счётчик холодных пусков · Порог закоксовывания превышен · Согласованность распредвала с коленвал · Программирование иммобилайзера",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -4750,7 +4750,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:CONFIG_INDICE_TELECODAGE', 'V46_32:ID_NOM_DU_FOURNISSEUR', 'V46_32:ID_VERSION_DIAGNOSTIC', 'V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID' THEN 'Счётчик холодных пусков'\n       WHEN 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR' THEN 'Порог закоксовывания превышен'\n       WHEN 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL' THEN 'Согласованность распредвала с коленвалом'\n       WHEN 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE' THEN 'Программирование иммобилайзера'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID', 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR', 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL', 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4784,7 +4784,7 @@ data:
         {
           "id": 50,
           "type": "timeseries",
-          "title": "Depassement seuil encrasse · Состояние coh положение aa · Состояние programmation an · Состояние regulation sonde",
+          "title": "Регулировка по датчику O2 до кат. · Регулировка по датчику O2 после кат. · Состояние датчика O2 до катализатора · Состояние датчика O2 после катализатор",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -4804,7 +4804,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR', 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL', 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE', 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT' THEN 'Регулировка по датчику O2 до кат.'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL' THEN 'Регулировка по датчику O2 после кат.'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT' THEN 'Состояние датчика O2 до катализатора'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL' THEN 'Состояние датчика O2 после катализатора'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL', 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4838,7 +4838,7 @@ data:
         {
           "id": 51,
           "type": "timeseries",
-          "title": "Состояние regulation sonde · Состояние sonde a oxygene  · Состояние sonde a oxygene  · Состояние verrouillage dev",
+          "title": "Блокировка блока управления · Выбранный вариант привязки · Сбой передачи кода разблокировки",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -4858,7 +4858,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL', 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL', 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR' THEN 'Блокировка блока управления'\n       WHEN 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE' THEN 'Выбранный вариант привязки'\n       WHEN 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE' THEN 'Сбой передачи кода разблокировки'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR', 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE', 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4892,7 +4892,7 @@ data:
         {
           "id": 52,
           "type": "timeseries",
-          "title": "Option appairage choisie · Pb transmission code dever",
+          "title": "Скважность регулирования после кат.",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -4912,7 +4912,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_OPTION_APPAIRAGE_CHOISIE', 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_RCOAVAL' THEN 'Скважность регулирования после кат.'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RCOAVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4946,7 +4946,7 @@ data:
         {
           "id": 53,
           "type": "timeseries",
-          "title": "Rcoaval",
+          "title": "Счётчик пусков двигателя",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -4966,7 +4966,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RCOAVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COMPTDEMMOT' THEN 'Счётчик пусков двигателя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COMPTDEMMOT') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5000,7 +5000,7 @@ data:
         {
           "id": 54,
           "type": "timeseries",
-          "title": "Comptdemmot",
+          "title": "Коррекция смеси по датчику до кат. · Коррекция смеси по датчику после кат.",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5020,12 +5020,12 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COMPTDEMMOT') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AMONT' THEN 'Коррекция смеси по датчику до кат.'\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AVAL' THEN 'Коррекция смеси по датчику после кат.'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AMONT', 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
+              "unit": "percent",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -5054,7 +5054,7 @@ data:
         {
           "id": 55,
           "type": "timeseries",
-          "title": "Id reference complementair · Id reference materiel",
+          "title": "Насыщение адсорбера паров бензина · Клапан фазовращателя, скважность",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5074,12 +5074,12 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'V46_32:ID_REFERENCE_MATERIEL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CHARGE_ESTIMEE_CANISTER' THEN 'Насыщение адсорбера паров бензина'\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя, скважность'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CHARGE_ESTIMEE_CANISTER', 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
+              "unit": "percent",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -5108,7 +5108,7 @@ data:
         {
           "id": 56,
           "type": "timeseries",
-          "title": "Facteur correction richess · Facteur correction richess",
+          "title": "Клапан продувки адсорбера · Скважность регулирования до кат. · Наполнение цилиндров, задание · Наполнение цилиндров",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5128,7 +5128,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AMONT', 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CDERCOELECPURGE' THEN 'Клапан продувки адсорбера'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Скважность регулирования до кат.'\n       WHEN 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE' THEN 'Наполнение цилиндров, задание'\n       WHEN 'V46_32:MP_REMPLISSAGE_MESURE' THEN 'Наполнение цилиндров'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CDERCOELECPURGE', 'V46_32:MP_RCOAMONT', 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE', 'V46_32:MP_REMPLISSAGE_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5162,7 +5162,7 @@ data:
         {
           "id": 57,
           "type": "timeseries",
-          "title": "Charge estimee canister · Rco electrovanne dephaseur",
+          "title": "Угол опережения по цилиндрам",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5182,12 +5182,12 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CHARGE_ESTIMEE_CANISTER', 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_APPLIQUEE_A_CHAQUE_CYLINDRE' THEN 'Угол опережения по цилиндрам'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_AVANCE_ALLUMAGE_APPLIQUEE_A_CHAQUE_CYLINDRE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "percent",
+              "unit": "",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -5216,7 +5216,7 @@ data:
         {
           "id": 58,
           "type": "timeseries",
-          "title": "Cdercoelecpurge · Rcoamont · Remplissage consigne · Remplissage mesure",
+          "title": "Расход воздуха, задание · Расход воздуха",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5236,12 +5236,12 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CDERCOELECPURGE', 'V46_32:MP_RCOAMONT', 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE', 'V46_32:MP_REMPLISSAGE_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_DEBAIRCONS' THEN 'Расход воздуха, задание'\n       WHEN 'V46_32:MP_DEBIT_AIR' THEN 'Расход воздуха'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_DEBAIRCONS', 'V46_32:MP_DEBIT_AIR') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "percent",
+              "unit": "",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -5270,7 +5270,7 @@ data:
         {
           "id": 59,
           "type": "timeseries",
-          "title": "Avance allumage appliquee ",
+          "title": "Давление во впуске, задание · Давление во впускном коллекторе",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5290,7 +5290,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_AVANCE_ALLUMAGE_APPLIQUEE_A_CHAQUE_CYLINDRE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CONSIGNE_PRESSION_ADMISSION' THEN 'Давление во впуске, задание'\n       WHEN 'V46_32:MP_PRESSIONTUBULURE' THEN 'Давление во впускном коллекторе'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CONSIGNE_PRESSION_ADMISSION', 'V46_32:MP_PRESSIONTUBULURE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5324,7 +5324,7 @@ data:
         {
           "id": 60,
           "type": "timeseries",
-          "title": "Debaircons · Debit air",
+          "title": "Задание состава смеси",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5344,7 +5344,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_DEBAIRCONS', 'V46_32:MP_DEBIT_AIR') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CON_RICHESSE' THEN 'Задание состава смеси'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CON_RICHESSE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5378,7 +5378,7 @@ data:
         {
           "id": 61,
           "type": "timeseries",
-          "title": "Consigne pression admissio · Pressiontubulure",
+          "title": "Время впрыска, цилиндр 1 · Время впрыска, цилиндр 2 · Время впрыска, цилиндр 3 · Время впрыска, цилиндр 4",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5398,12 +5398,12 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CONSIGNE_PRESSION_ADMISSION', 'V46_32:MP_PRESSIONTUBULURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_01' THEN 'Время впрыска, цилиндр 1'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_02' THEN 'Время впрыска, цилиндр 2'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_03' THEN 'Время впрыска, цилиндр 3'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_04' THEN 'Время впрыска, цилиндр 4'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMPS_INJECTION_CYLINDRE_01', 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_02', 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_03', 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_04') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
+              "unit": "ms",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -5432,7 +5432,7 @@ data:
         {
           "id": 62,
           "type": "timeseries",
-          "title": "Con richesse",
+          "title": "Угол дросселя",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5452,7 +5452,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CON_RICHESSE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_MESURE' THEN 'Угол дросселя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5486,7 +5486,7 @@ data:
         {
           "id": 63,
           "type": "timeseries",
-          "title": "Temps injection cylindre 0 · Temps injection cylindre 0 · Temps injection cylindre 0 · Temps injection cylindre 0",
+          "title": "Угол дросселя, задание · Угол опережения зажигания, максимум · Угол опережения зажигания, минимум · Угол опережения зажигания, оптимум",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5506,12 +5506,12 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMPS_INJECTION_CYLINDRE_01', 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_02', 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_03', 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_04') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_CONSIGNE' THEN 'Угол дросселя, задание'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM' THEN 'Угол опережения зажигания, максимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM' THEN 'Угол опережения зажигания, минимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL' THEN 'Угол опережения зажигания, оптимум'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_CONSIGNE', 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "ms",
+              "unit": "",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -5540,7 +5540,7 @@ data:
         {
           "id": 64,
           "type": "timeseries",
-          "title": "Angle papillon mesure",
+          "title": "Фазовращатель впуска, задание · Положение фазовращателя впуска · Снятие угла от детонации, цил. 1 · Снятие угла от детонации, цил. 2",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5560,7 +5560,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION' THEN 'Фазовращатель впуска, задание'\n       WHEN 'V46_32:MP_POS_DEPHASEUR_ACC_1' THEN 'Положение фазовращателя впуска'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01' THEN 'Снятие угла от детонации, цил. 1'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02' THEN 'Снятие угла от детонации, цил. 2'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION', 'V46_32:MP_POS_DEPHASEUR_ACC_1', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5594,7 +5594,7 @@ data:
         {
           "id": 65,
           "type": "timeseries",
-          "title": "Angle papillon consigne · Avance allumage maximum · Avance allumage minimum · Avance allumage optimal",
+          "title": "Снятие угла от детонации, цил. 3 · Снятие угла от детонации, цил. 4",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5614,7 +5614,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_CONSIGNE', 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03' THEN 'Снятие угла от детонации, цил. 3'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04' THEN 'Снятие угла от детонации, цил. 4'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5647,69 +5647,15 @@ data:
         },
         {
           "id": 66,
-          "type": "timeseries",
-          "title": "Consigne положение dephase · Pos dephaseur acc 1 · Retrait avance allumage cy · Retrait avance allumage cy",
+          "type": "table",
+          "title": "двигатель Valeo V46 (EC5): постоянные значения",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
           },
           "gridPos": {
             "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 252
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION', 'V46_32:MP_POS_DEPHASEUR_ACC_1', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 67,
-          "type": "timeseries",
-          "title": "Retrait avance allumage cy · Retrait avance allumage cy",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
+            "w": 24,
             "x": 0,
             "y": 260
           },
@@ -5720,41 +5666,34 @@ data:
                 "type": "postgres",
                 "uid": "citroen-postgres"
               },
-              "format": "time_series",
+              "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT CASE p.name\n       WHEN 'V46_32:CONFIG_INDICE_TELECODAGE' THEN 'Индекс телекодирования'\n       WHEN 'V46_32:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'V46_32:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'V46_32:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('V46_32:CONFIG_INDICE_TELECODAGE', 'V46_32:ID_NOM_DU_FOURNISSEUR', 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'V46_32:ID_REFERENCE_MATERIEL', 'V46_32:ID_VERSION_DIAGNOSTIC')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
               "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
+                "align": "auto"
               }
             },
             "overrides": []
           },
           "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
+            "showHeader": true,
+            "footer": {
+              "show": false
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "sortBy": [
+              {
+                "displayName": "Параметр",
+                "desc": false
+              }
+            ]
           }
         },
         {
-          "id": 68,
+          "id": 67,
           "type": "row",
           "title": "ABS/ESP (18)",
           "collapsed": false,
@@ -5767,9 +5706,9 @@ data:
           "panels": []
         },
         {
-          "id": 69,
+          "id": 68,
           "type": "timeseries",
-          "title": "Id количество telechargeme · Id nom fournisseur · Id version diagnostic · Id version logiciel",
+          "title": "Выключатель стоп-сигнала · Реле питания электроклапанов · Реле насоса рециркуляции · Уровень тормозной жидкости",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5789,12 +5728,66 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:ID_NOMBRE_DE_TELECHARGEMENT', 'ESP81:ID_NOM_DU_FOURNISSEUR', 'ESP81:ID_VERSION_DIAGNOSTIC', 'ESP81:ID_VERSION_LOGICIEL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигнала'\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания электроклапанов'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса рециркуляции'\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Уровень тормозной жидкости'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_CONTACTEUR_FEUX_STOP1', 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV', 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1', 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
               "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 69,
+          "type": "timeseries",
+          "title": "Колесо заднее правое · Колесо заднее левое · Колесо переднее левое · Скорость автомобиля",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 269
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE' THEN 'Колесо заднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE' THEN 'Колесо заднее левое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE' THEN 'Колесо переднее левое'\n       WHEN 'ESP81:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE', 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE', 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE', 'ESP81:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "velocitykmh",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -5823,7 +5816,7 @@ data:
         {
           "id": 70,
           "type": "timeseries",
-          "title": "Contacteur огни stop1 · Состояние relais alimentat · Состояние relais pompe rec · Уровень liquide frein",
+          "title": "Колесо переднее правое",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5831,8 +5824,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 269
+            "x": 0,
+            "y": 277
           },
           "targets": [
             {
@@ -5843,7 +5836,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_CONTACTEUR_FEUX_STOP1', 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV', 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1', 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_DROIT' THEN 'Колесо переднее правое'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_VITESSE_ROUE_AVANT_DROIT') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5876,17 +5869,17 @@ data:
         },
         {
           "id": 71,
-          "type": "timeseries",
-          "title": "Id date telechargement · Id tracabilite date fabric",
+          "type": "table",
+          "title": "ABS/ESP: постоянные значения",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 8,
-            "w": 12,
+            "h": 12,
+            "w": 24,
             "x": 0,
-            "y": 277
+            "y": 285
           },
           "targets": [
             {
@@ -5895,257 +5888,34 @@ data:
                 "type": "postgres",
                 "uid": "citroen-postgres"
               },
-              "format": "time_series",
+              "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:ID_DATE_TELECHARGEMENT', 'ESP81:ID_TRACABILITE_DATE_FABRICATION') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT CASE p.name\n       WHEN 'ESP81:ID_DATE_TELECHARGEMENT' THEN 'Дата загрузки ПО'\n       WHEN 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT' THEN 'Число загрузок ПО'\n       WHEN 'ESP81:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'ESP81:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'ESP81:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'ESP81:ID_TRACABILITE_DATE_FABRICATION' THEN 'Дата изготовления'\n       WHEN 'ESP81:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'ESP81:ID_VERSION_LOGICIEL' THEN 'Версия ПО'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('ESP81:ID_DATE_TELECHARGEMENT', 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT', 'ESP81:ID_NOM_DU_FOURNISSEUR', 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'ESP81:ID_REFERENCE_LOGICIEL', 'ESP81:ID_REFERENCE_MATERIEL', 'ESP81:ID_TRACABILITE_DATE_FABRICATION', 'ESP81:ID_VERSION_DIAGNOSTIC', 'ESP81:ID_VERSION_LOGICIEL')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
               "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
+                "align": "auto"
               }
             },
             "overrides": []
           },
           "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
+            "showHeader": true,
+            "footer": {
+              "show": false
             },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
+            "sortBy": [
+              {
+                "displayName": "Параметр",
+                "desc": false
+              }
+            ]
           }
         },
         {
           "id": 72,
-          "type": "timeseries",
-          "title": "Id reference logiciel",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 277
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:ID_REFERENCE_LOGICIEL') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 73,
-          "type": "timeseries",
-          "title": "Id reference complementair · Id reference materiel",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 285
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'ESP81:ID_REFERENCE_MATERIEL') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 74,
-          "type": "timeseries",
-          "title": "Скорость roue задний droit · Скорость roue задний левый · Скорость roue передний лев · Скорость vehicule a",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 285
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE', 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE', 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE', 'ESP81:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "velocitykmh",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 75,
-          "type": "timeseries",
-          "title": "Скорость roue передний пра",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 293
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_VITESSE_ROUE_AVANT_DROIT') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 76,
           "type": "row",
           "title": "электронасос (18)",
           "collapsed": false,
@@ -6153,12 +5923,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 301
+            "y": 297
           },
           "panels": []
         },
         {
-          "id": 77,
+          "id": 73,
           "type": "timeseries",
           "title": "Питание насоса гидроусилителя",
           "datasource": {
@@ -6169,7 +5939,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 302
+            "y": 298
           },
           "targets": [
             {
@@ -6180,7 +5950,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_TENSION_ALIMENTATION') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает низким' AS metric, 9.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает низким', 9.0\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает высоким' AS metric, 18.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает высоким', 18.0\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_TENSION_ALIMENTATION' THEN 'Питание насоса гидроусилителя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_TENSION_ALIMENTATION') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает низким' AS metric, 9.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает низким', 9.0\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает высоким' AS metric, 18.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает высоким', 18.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -6317,9 +6087,9 @@ data:
           "description": "Питание насоса гидроусилителя. Границы 9 и 18 В - из подсказки DiagBox к этому параметру. Диапазон широкий потому, что насос должен работать и при просадке от стартера.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 78,
+          "id": 74,
           "type": "timeseries",
-          "title": "Apc · Assistance 1 · Состояние двигатель thermi · Type angle volant directio",
+          "title": "Двигатель работает",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -6328,7 +6098,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 302
+            "y": 298
           },
           "targets": [
             {
@@ -6339,7 +6109,223 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:APC', 'GEP:CFG____ASSISTANCE_1', 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2', 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2' THEN 'Двигатель работает'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 75,
+          "type": "timeseries",
+          "title": "Ток потребления насоса",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 306
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:INTENSITE_MESUREE' THEN 'Ток потребления насоса'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:INTENSITE_MESUREE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "amp",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 76,
+          "type": "timeseries",
+          "title": "Обороты двигателя (по насосу)",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 306
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_VITESSE_MOTEUR_GEP' THEN 'Обороты двигателя (по насосу)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_MOTEUR_GEP') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "rotrpm",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 77,
+          "type": "timeseries",
+          "title": "Скорость автомобиля",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 314
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "velocitykmh",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 78,
+          "type": "timeseries",
+          "title": "Скорость вращения руля",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 314
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_VITESSE_VOLANT_DE_DIRECTION' THEN 'Скорость вращения руля'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_VOLANT_DE_DIRECTION') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -6373,7 +6359,7 @@ data:
         {
           "id": 79,
           "type": "timeseries",
-          "title": "Id 80 indice mess · Id reference fournisseur",
+          "title": "Температура насоса ГУР",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -6382,7 +6368,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 310
+            "y": 322
           },
           "targets": [
             {
@@ -6393,439 +6379,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:ID_80_MP_INDICE_MESS', 'GEP:ID_REFERENCE_FOURNISSEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 80,
-          "type": "timeseries",
-          "title": "Id edition logiciel · Id edi calib · Id version logiciel 1",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 310
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:ID_EDITION_LOGICIEL', 'GEP:ID_EDI_CALIB', 'GEP:ID_VERSION_LOGICIEL_new_1') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 81,
-          "type": "timeseries",
-          "title": "Id reference logiciel",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 318
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:ID_REFERENCE_LOGICIEL') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 82,
-          "type": "timeseries",
-          "title": "Id reference complementair · Id reference psa",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 318
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'GEP:ID_REFERENCE_PSA') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 83,
-          "type": "timeseries",
-          "title": "Intensite mesuree",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 326
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:INTENSITE_MESUREE') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "amp",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 84,
-          "type": "timeseries",
-          "title": "Скорость двигатель gep",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 326
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_MOTEUR_GEP') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "rotrpm",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 85,
-          "type": "timeseries",
-          "title": "Скорость vehicule a",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 334
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "velocitykmh",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 86,
-          "type": "timeseries",
-          "title": "Скорость volant direction",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 334
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_VOLANT_DE_DIRECTION') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 87,
-          "type": "timeseries",
-          "title": "Температура gep",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 342
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_TEMPERATURE_GEP') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_TEMPERATURE_GEP' THEN 'Температура насоса ГУР'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_TEMPERATURE_GEP') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -6854,6 +6408,53 @@ data:
               "mode": "multi",
               "sort": "desc"
             }
+          }
+        },
+        {
+          "id": 80,
+          "type": "table",
+          "title": "электронасос: постоянные значения",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 14,
+            "w": 24,
+            "x": 0,
+            "y": 330
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT CASE p.name\n       WHEN 'GEP:APC' THEN 'Зажигание включено'\n       WHEN 'GEP:CFG____ASSISTANCE_1' THEN 'Конфиг: тип усилителя'\n       WHEN 'GEP:ID_80_MP_INDICE_MESS' THEN 'Индекс сообщений'\n       WHEN 'GEP:ID_EDITION_LOGICIEL' THEN 'Редакция ПО'\n       WHEN 'GEP:ID_EDI_CALIB' THEN 'Редакция калибровки'\n       WHEN 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'GEP:ID_REFERENCE_FOURNISSEUR' THEN 'Номер поставщика'\n       WHEN 'GEP:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'GEP:ID_REFERENCE_PSA' THEN 'Номер PSA'\n       WHEN 'GEP:ID_VERSION_LOGICIEL_new_1' THEN 'Версия ПО'\n       WHEN 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION' THEN 'Тип датчика угла руля'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('GEP:APC', 'GEP:CFG____ASSISTANCE_1', 'GEP:ID_80_MP_INDICE_MESS', 'GEP:ID_EDITION_LOGICIEL', 'GEP:ID_EDI_CALIB', 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'GEP:ID_REFERENCE_FOURNISSEUR', 'GEP:ID_REFERENCE_LOGICIEL', 'GEP:ID_REFERENCE_PSA', 'GEP:ID_VERSION_LOGICIEL_new_1', 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION')\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "showHeader": true,
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Параметр",
+                "desc": false
+              }
+            ]
           }
         }
       ]
