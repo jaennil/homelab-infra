@@ -2483,7 +2483,7 @@ data:
                   }
                 ]
               },
-              "min": 11,
+              "min": 10,
               "max": 13.5
             },
             "overrides": [
@@ -3583,7 +3583,7 @@ data:
                   }
                 ]
               },
-              "min": 60,
+              "min": 0,
               "max": 125
             },
             "overrides": [
