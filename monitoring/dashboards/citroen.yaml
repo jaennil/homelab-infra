@@ -1694,7 +1694,7 @@ data:
         {
           "id": 19,
           "type": "timeseries",
-          "title": "Температура за бортом · Температура за бортом (рас",
+          "title": "Температура масла (замер)",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -1704,6 +1704,414 @@ data:
             "w": 12,
             "x": 0,
             "y": 71
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('TEMPERATURE_HUILE_MESUREE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "green"
+                  },
+                  {
+                    "value": 110,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 125,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 140,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 80,
+              "max": 150
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: высокая нагрузка"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: долго держать нельзя"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: масло деградирует"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "То же, что и у расчётной температуры: 110 / 125 / 140 °C."
+        },
+        {
+          "id": 20,
+          "type": "timeseries",
+          "title": "Температура масла (расчётная)",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 71
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: высокая нагрузка' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: высокая нагрузка', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: долго держать нельзя' AS metric, 125\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: долго держать нельзя', 125\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: масло деградирует' AS metric, 140\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: масло деградирует', 140\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "green"
+                  },
+                  {
+                    "value": 110,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 125,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 140,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 80,
+              "max": 150
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: высокая нагрузка"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: долго держать нельзя"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: масло деградирует"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Пороговые линии: 110 °C - высокая нагрузка (трасса, жара, прицеп), 125 °C - долго держать не стоит, 140 °C - масло деградирует быстро, искать причину. Норма 90-110 °C. На холостых без обдува температура ползёт вверх - это ожидаемо."
+        },
+        {
+          "id": 21,
+          "type": "timeseries",
+          "title": "Температура за бортом · Температура за бортом (рас",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 79
           },
           "targets": [
             {
@@ -1746,61 +2154,7 @@ data:
           }
         },
         {
-          "id": 20,
-          "type": "timeseries",
-          "title": "Температура масла (замер) · Температура масла (расчётн",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 71
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('TEMPERATURE_HUILE_MESUREE', 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "celsius",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 21,
+          "id": 22,
           "type": "timeseries",
           "title": "Температура испарителя",
           "datasource": {
@@ -1810,7 +2164,7 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
+            "x": 12,
             "y": 79
           },
           "targets": [
@@ -1854,7 +2208,7 @@ data:
           }
         },
         {
-          "id": 22,
+          "id": 23,
           "type": "row",
           "title": "Напряжения и ток (2)",
           "collapsed": false,
@@ -1867,9 +2221,9 @@ data:
           "panels": []
         },
         {
-          "id": 23,
+          "id": 24,
           "type": "timeseries",
-          "title": "Напряжение питания BSI · Напряжение питания BSI при",
+          "title": "Напряжение питания BSI",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -1889,39 +2243,393 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI', 'MP_TENSION_ALIMENTION_BSI_AU_REVEIL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 11.5\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 11.5\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ нормы покоя' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ нормы покоя', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: перезаряд' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: перезаряд', 15.0\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
               "unit": "volt",
               "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 11.5,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 12.4,
+                    "color": "green"
+                  },
+                  {
+                    "value": 15.0,
+                    "color": "orange"
+                  }
+                ]
+              },
+              "min": 10,
+              "max": 16
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: глубокий разряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: низ нормы покоя"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: перезаряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "options": {
             "legend": {
-              "displayMode": "table",
+              "showLegend": true,
+              "displayMode": "list",
               "placement": "bottom",
               "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
+                "lastNotNull"
               ]
             },
             "tooltip": {
               "mode": "multi",
-              "sort": "desc"
+              "sort": "none"
             }
-          }
+          },
+          "description": "Ниже 11.5 В - глубокий разряд, 12.4 В - нижняя граница нормы покоя, выше 15 В - перезаряд, подозрение на регулятор генератора."
         },
         {
-          "id": 24,
+          "id": 25,
+          "type": "timeseries",
+          "title": "Напряжение аккумулятора в покое",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 88
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_TENSION_ALIMENTION_BSI_AU_REVEIL') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: полный заряд' AS metric, 12.7\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: полный заряд', 12.7\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: около 50% заряда' AS metric, 12.4\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: около 50% заряда', 12.4\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: глубокий разряд' AS metric, 12.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: глубокий разряд', 12.0\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "volt",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 12.0,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 12.4,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 12.7,
+                    "color": "green"
+                  }
+                ]
+              },
+              "min": 11,
+              "max": 13.5
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: полный заряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "green"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: около 50% заряда"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: глубокий разряд"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Напряжение питания BSI в момент пробуждения, то есть ДО того, как генератор начал давать зарядку - самое близкое к напряжению покоя аккумулятора, что удаётся прочитать. Пользоваться лучше этим графиком, а не MP_TENSION_BATTERIE_AU_REPOS: тот показывает 16.1 В, что для покоящейся свинцовой батареи невозможно, у него неверно разобран масштаб.\n\n12.7 В - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд и сульфатация. На этой машине 12.7 В, то есть аккумулятор в порядке. Замер честен только после нескольких часов стоянки: сразу после поездки батарея держит поверхностный заряд и завышает показание на 0.2-0.3 В.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+        },
+        {
+          "id": 26,
           "type": "row",
           "title": "Проценты (6)",
           "collapsed": false,
@@ -1934,7 +2642,7 @@ data:
           "panels": []
         },
         {
-          "id": 25,
+          "id": 27,
           "type": "timeseries",
           "title": "Лампа в кнопке аварийки · Подсветка салона",
           "datasource": {
@@ -1988,7 +2696,7 @@ data:
           }
         },
         {
-          "id": 26,
+          "id": 28,
           "type": "timeseries",
           "title": "Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафон · Подсветка дисплеев и кнопо",
           "datasource": {
@@ -2042,7 +2750,7 @@ data:
           }
         },
         {
-          "id": 27,
+          "id": 29,
           "type": "row",
           "title": "Пробег и обслуживание (10)",
           "collapsed": false,
@@ -2055,7 +2763,166 @@ data:
           "panels": []
         },
         {
-          "id": 28,
+          "id": 30,
+          "type": "timeseries",
+          "title": "Км до обслуживания",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 106
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: планировать ТО' AS metric, 1500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: планировать ТО', 1500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: ТО вплотную' AS metric, 500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: ТО вплотную', 500\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "lengthkm",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 500,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 1500,
+                    "color": "green"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 11000
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: планировать ТО"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: ТО вплотную"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Интервал у этой машины около 10 400 км (посчитано: 9784 км пройдено с последнего сброса плюс 630 остатка). Ниже 1500 км - пора планировать, ниже 500 - записываться."
+        },
+        {
+          "id": 31,
           "type": "timeseries",
           "title": "Дней с последнего сброса Т",
           "datasource": {
@@ -2065,7 +2932,7 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
+            "x": 12,
             "y": 106
           },
           "targets": [
@@ -2109,9 +2976,9 @@ data:
           }
         },
         {
-          "id": 29,
+          "id": 32,
           "type": "timeseries",
-          "title": "Запас хода · Км до обслуживания · Пробег с последнего сброса · Пробег частичный, сохранён",
+          "title": "Запас хода · Пробег с последнего сброса · Пробег частичный, сохранён",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -2119,8 +2986,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 106
+            "x": 0,
+            "y": 114
           },
           "targets": [
             {
@@ -2131,7 +2998,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_NOMBRE_KILOMETRE_AVANT_MAINTENANCE', 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER', 'MP_KM_PARTIEL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_AUTONOMIE_CARBURANT_CALCULE', 'MP_DISTANCE_DEPUIS_DERNIERE_RAZ_COMPTEUR_JOURNALIER', 'MP_KM_PARTIEL_MEMORISE_EN_BSI') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2163,7 +3030,7 @@ data:
           }
         },
         {
-          "id": 30,
+          "id": 33,
           "type": "timeseries",
           "title": "Пробег поездки 1 · Пробег поездки 2",
           "datasource": {
@@ -2173,7 +3040,7 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
+            "x": 12,
             "y": 114
           },
           "targets": [
@@ -2217,7 +3084,7 @@ data:
           }
         },
         {
-          "id": 31,
+          "id": 34,
           "type": "timeseries",
           "title": "Пробег общий · Пробег общий, сохранённый ",
           "datasource": {
@@ -2227,8 +3094,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 114
+            "x": 0,
+            "y": 122
           },
           "targets": [
             {
@@ -2271,7 +3138,7 @@ data:
           }
         },
         {
-          "id": 32,
+          "id": 35,
           "type": "timeseries",
           "title": "Пробег при последнем сброс",
           "datasource": {
@@ -2281,7 +3148,7 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
+            "x": 12,
             "y": 122
           },
           "targets": [
@@ -2325,9 +3192,9 @@ data:
           }
         },
         {
-          "id": 33,
+          "id": 36,
           "type": "row",
-          "title": "Состояния и флаги (271)",
+          "title": "Состояния и флаги (272)",
           "collapsed": false,
           "gridPos": {
             "h": 1,
@@ -2338,7 +3205,7 @@ data:
           "panels": []
         },
         {
-          "id": 34,
+          "id": 37,
           "type": "table",
           "title": "Состояния и флаги: текущие значения",
           "datasource": {
@@ -2360,7 +3227,7 @@ data:
               },
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('MP_BSI_VIERGE_DE_CODE_ADC', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM', 'MP_VIN', 'MP_DEMANDE_FEUX_DE_DETRESSE', 'MP_MODE_ESSUYAGE_AUTOMATIQUE', 'MP_ETAT_VERROUILLAGE_VEHICULE', 'MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL', 'MP_ETAT_COFFRE', 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE', 'MP_TELECOMMANDE_RECONNUE', 'ID_REFERENCE_LOGICIEL', 'MP_INFORMATION_MARCHE_ARRIERE', 'MP_RESISTANCE_INTERNE_BATTERIE', 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES', 'MP_COMMANDE_FEUX_DE_POSITION', 'MP_ANNEE_AFFICHEE', 'MP_PRESSION_FLUIDE_FRIGORIGENE', 'MP_INFO_GMP', 'MP_INFORMATION_JOUR_NUIT', 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START', 'MP_JOUR', 'MP_JOUR_SEMAINE', 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE', 'MP_SECURITE_ENFANT_DROIT_ACTIVEE', 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR', 'MP_DUREE_TRAJET1', 'MP_DUREE_TRAJET2', 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE', 'MP_COMMANDE_RESISTANCES_ADDITIONNELLES', 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE', 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE', 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT', 'MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_CONSIGNE_PULSEUR_AFFICHEE', 'MP_VITESSE_MEMORISEE_ATTEINTE', 'MP_COMMANDE_BROUILLARD_ARRIERE', 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE', 'MP_COMMANDE_ESSUYAGE_ARRIERE', 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE', 'MP_PORTE_ARRIERE_GAUCHE', 'MP_PORTE_ARRIERE_DROITE', 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP', 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP', 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL', 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE', 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION', 'MP_DEMANDE_DES_FEUX_DE_DETRESSE', 'MP_DEMANDE_ESSUI_AUTOMATIQUE', 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION', 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT', 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE', 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE', 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC', 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR', 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE', 'MP_DMD_AFFICHAGE_DES_MENUS_MATT', 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE', 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION', 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START', 'MP_DEMANDE_MODE_BVA_BVMP_SPORT', 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT', 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT', 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL', 'MP_ETAT_ENDORMISSEMENT_BSI', 'MP_SIGNALISATION_EFFRACTION', 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE', 'MP_BSI_ANTI_SCANNING', 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR', 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_REGIME_MOTEUR', 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE', 'MP_LAVAGE_EN_COURS', 'MP_COMMANDE_SERRURES_EN_COURS', 'MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_A6T_BSI_DURAVMAINT_000_New', 'MP_AM8_BSI_SLMAINT200_000', 'MP_POSITION_CAPOT', 'MP_PRESENCE_CLE_OU_BADGE', 'MP_CLE_OU_BADGE_RECONNUE', 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE', 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX', 'MP_BSI_ETAT_PUSH_TRAPPE_CARB', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS', 'MP_BSI_CONTACT_VERROU_PORTE_AVG', 'MP_BSI_CONTACT_VERROU_PORTE_AVD', 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME', 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM', 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD', 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS', 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE', 'MP_ETAT_TRAPPE_CARBURANT', 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE', 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV', 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR', 'MP_MOIS_AFFICHE', 'MP_MINUTES_AFFICHEE', 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE', 'MP_APPUI_BOUTON_SECURITE_ENFANT', 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE', 'MP_TENSION_BATTERIE_AU_REPOS', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM', 'MP_DA26', 'MP_DA4E', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM', 'MP_DETECTION_PRESENCE_CONDUCTEUR', 'MP_DETECTION_PASSAGER_AVANT', 'MP_INFORMATION_PRESENCE_REMORQUE', 'MP_ETAT_COMMANDE_DE_DEGIVRAGE', 'MP_REGIME_MOTEUR_AFFICHE', 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS', 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS', 'MP_NB_CLE_OU_BADGE_APPRI', 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES', 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS', 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE', 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION', 'LAVAGEPROJ', 'MP_COMMANDE_ECLAIRAGE_COFFRE', 'MP_ETAT_PRINCIPAL', 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN', 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI', 'MP_DEFAUT_TOP_ROUE_ARG', 'MP_DEFAUT_TOP_ROUE_ARD', 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR', 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE', 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE', 'MP_COMMANDE_OUVERTURE_COFFRE', 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB', 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE', 'MP_FONCTION_DE_REGULATION_A_AFFICHER', 'MP_ETAT_ENVOI_DONNEE_ADC_CMM', 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE', 'MP_PORTE_AVANT_GAUCHE', 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE', 'MP_PORTE_AVANT_DROITE', 'MP_SERRURE_AVANT_DROITE_VERROUILLE', 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE', 'MP_ETAT_COMMUTATEUR_STOP_AND_START', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS', 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES', 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL', 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE', 'MP_POSITION_CLE_CONTACT', 'MP_POSITION_CLE_EN_PLUS_DEM2', 'MP_POSITION_TOIT_OUVRANT', 'MP_POSITION_LEVIER_VITESSE', 'MP_DERNIERE_COND_REVEIL_LIN2', 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE', 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM', 'MP_DERNIERE_CONDITION_REVEIL_BSI', 'MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'ID_NOM_DU_FOURNISSEUR', 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT', 'MP_AAS_BSI_SLPREMAINT_000', 'MP_ALERTE_PRESSION_HUILE_FAIBLE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE', 'MP_MOTIF_VERROUILLAGE_VEHICULE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE', 'MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE', 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE', 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE', 'MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION', 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES', 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE', 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION', 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS', 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE', 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR', 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE', 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE', 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM', 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP', 'MP_CONSOMMATION_CARBURANT_INSTANTANEE', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2', 'MP_CONSOMMATION_CARBURANT_RAPIDE', 'MP_ETAT_FONCTIONNEMENT_BSI', 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION', 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE', 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE', 'MP_CEINTURE_AVANT_DROITE_BOUCLEE', 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE', 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE', 'MP_DEMANDE_RAZ_TRAJET1', 'MP_DEMANDE_RAZ_TRAJET2', 'MP_COMMANDE_LED_BOUTON_STOP_START', 'MP_COMMANDE_LED_ALARME', 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE', 'MP_VITESSE_VEHICULE_a', 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM', 'MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE', 'MP_IMPEDANCE_JAUGE_CARBURANT', 'MP_ETAT_RESEAU_ELECTRIQUE', 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR', 'MP_ETAT_GMP', 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM', 'MP_STATUS_CHARGE_BATTERIE', 'MP_ETAT_LUNETTE', 'MP_COMMANDE_LEVES_VITRES_FILAIRE', 'MP_COMMANDE_DES_FEUX_STOP', 'MP_COMPTEUR_TOPS_ROUE_ARG', 'MP_COMPTEUR_TOPS_ROUE_ARD', 'MP_COMPTEUR_TEMPOREL_VEHICULE', 'MP_COMPTEUR_REDEMARRAGE_STOP_START', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM', 'MP_NIVEAU_CARBURANT_MESURE', 'MP_ANGLE_VOLANT', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS', 'MP_NIVEAU_CARBURANT_AFFICHE', 'MP_NIVEAU_ETAT_CHARGE_BATTERIE', 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE', 'MP_NIVEAU_CARBURANT_CALCULE', 'MP_COMMANDE_DES_FEUX_DE_RECUL', 'MP_TYPE_AFFICHAGE_HEURE_DATE', 'CMD_FONCTION_BLACK_PANEL', 'MP_ETAT_FONCTION_SECURITE_ENFANT', 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES', 'MP_HEURE_AFFICHEE', 'MP_CALCULATEUR_MOTEUR_VERROUILLE', 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE')\nORDER BY 1"
+              "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('MP_BSI_VIERGE_DE_CODE_ADC', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_20_40_KM', 'MP_COMPT_INTERDIT_ARRET_UTILISATION_CITY_PARK_40_60_KM', 'MP_VIN', 'MP_DEMANDE_FEUX_DE_DETRESSE', 'MP_MODE_ESSUYAGE_AUTOMATIQUE', 'MP_ETAT_VERROUILLAGE_VEHICULE', 'MP_NOMBRE_SAUT_ANORMAUX_KILOMETRAGE_TOTAL', 'MP_ETAT_COFFRE', 'MP_TELECOMMANDE_HF_01_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_02_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_03_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_04_SYNCHRONISEE', 'MP_TELECOMMANDE_HF_05_SYNCHRONISEE', 'MP_TELECOMMANDE_RECONNUE', 'ID_REFERENCE_LOGICIEL', 'MP_INFORMATION_MARCHE_ARRIERE', 'MP_RESISTANCE_INTERNE_BATTERIE', 'MP_MENU_PERSONNALISATION_LANGUE_CONFIGUREE', 'MP_COMPTEUR_NOMBRE_DE_MAINTENANCE_EFFECTUEES', 'MP_COMMANDE_FEUX_DE_POSITION', 'MP_ANNEE_AFFICHEE', 'MP_PRESSION_FLUIDE_FRIGORIGENE', 'MP_INFO_GMP', 'MP_INFORMATION_JOUR_NUIT', 'MP_DETECTION_DOUBLE_APPUI_COMMUTATEUR_STOP_AND_START', 'MP_JOUR', 'MP_JOUR_SEMAINE', 'MP_SECURITE_ENFANT_GAUCHE_ACTIVEE', 'MP_SECURITE_ENFANT_DROIT_ACTIVEE', 'MP_DIAGNOSTIC_GROUPE_MOTOVENTILATEUR', 'MP_DUREE_TRAJET1', 'MP_DUREE_TRAJET2', 'MP_DETECTION_PAR_BSI_APPUI_LONG_TELECOMMANDE', 'MP_COMMANDE_RESISTANCES_ADDITIONNELLES', 'MP_ETAT_INFORMATION_VITESSE_LONGITUDINALE', 'MP_VALIDITE_INFO_DISTANCE_PARCOURUE', 'MP_DISPONIBILITE_FONCTION_COMMUTATION_ROUTE_CROISEMENT', 'MP_TENSION_CONSIGNE_ALTERNATEUR', 'MP_CONSIGNE_PULSEUR_AFFICHEE', 'MP_CONSIGNE_VITESSE_RVV_LVV_COMMANDES_VOLANT', 'MP_VITESSE_MEMORISEE_ATTEINTE', 'MP_COMMANDE_BROUILLARD_ARRIERE', 'MP_ETAT_VERROUILLAGE_OUVRANT_ARRIERE', 'MP_COMMANDE_ESSUYAGE_ARRIERE', 'MP_INFORMATION_ARRET_FIXE_ESSUIE_VITRE_ARRIERE', 'MP_PORTE_ARRIERE_GAUCHE', 'MP_PORTE_ARRIERE_DROITE', 'MP_DEMANDE_INHIBITION_RETOUR_SVISUEL_AAS_DOP', 'MP_DEMANDE_INHIBITION_RETOUR_SONOR_AAS_DOP', 'MP_ACTIV_INHIBIT_VOLUMTRIE_ET_CAPT_ANTISOULEVEMNT_ALARME_ANTIVOL', 'MP_ETAT_INHIBITION_ECLAIRAGE_PLAQUE_DE_POLICE', 'MP_DEMANDE_CMM_DE_DEBRAYAGE_COMPRESSEUR_CLIMATISATION', 'MP_DEMANDE_DES_FEUX_DE_DETRESSE', 'MP_DEMANDE_ESSUI_AUTOMATIQUE', 'MP_DEMANDE_LANCEMENT_AUTHENTIFICATION', 'MP_DEMANDE_ACTIVATION_SECURITE_ENFANT', 'MP_DEMANDE_ACTIVATION_REGULATION_DE_VITESSE', 'MP_DEMANDE_ACTIVATION_LIMITATION_DE_VITESSE', 'MP_DEMANDE_MODE_BVA_BVMP_NEIGE', 'MP_DMD_ALLUMAGE_ECLAIREUR_LATERAUX_EXTERIEUR_PAR_PDPC', 'MP_DEMANDE_OUVERTURE_COFFRE_HF_OU_PUSH_EXTERIEUR', 'MP_DEMANDE_D_OUVERTURE_LUNETTE_ARRIERE', 'MP_DMD_AFFICHAGE_DES_MENUS_MATT', 'MP_DEMANDE_PRECONDITIONNEMENT_PAR_BOITIER_EXTERNE', 'MP_DEMANDE_SOULAGEMENT_COMPRESSEUR_REFRIGERATION', 'MP_ETAT_DEMANDE_CHANGEMENT_ETAT_STOP_START', 'MP_DEMANDE_MODE_BVA_BVMP_SPORT', 'MP_DEMANDE_AUGMENTATION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_DIMINUTION_CONSIGNE_DE_VITESSE', 'MP_DEMANDE_MANUELLE_ALLUMAGE_PLAFONNIER_AVANT', 'MP_DEMANDE_EXTINCTION_PLAFONNIER_AVANT', 'MP_DEMANDE_DESACTIVATION_PLAFONNIER_CENTRAL', 'MP_ETAT_ENDORMISSEMENT_BSI', 'MP_SIGNALISATION_EFFRACTION', 'MP_SIGNALISATION_EFFRACTION_PERIMETRIQUE', 'MP_BSI_ANTI_SCANNING', 'MP_ETAT_SECURITE_GIVRAGE_EVAPORATEUR', 'MP_SECURITE_HAUTE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_BASSE_PRESSION_CIRCUIT_REFRIGERATION', 'MP_SECURITE_REGIME_MOTEUR', 'MP_COMMANDE_ALERTE_SONORE_TRANSMISE_A_LA_SIRENE', 'MP_LAVAGE_EN_COURS', 'MP_COMMANDE_SERRURES_EN_COURS', 'MP_AFFICHAGE_CLE_DE_MAINTENANCE', 'MP_A6T_BSI_DURAVMAINT_000_New', 'MP_AM8_BSI_SLMAINT200_000', 'MP_POSITION_CAPOT', 'MP_PRESENCE_CLE_OU_BADGE', 'MP_CLE_OU_BADGE_RECONNUE', 'MP_DETECTION_PAR_BSI_TELECOMMANDE_BOUTON_RELACHE', 'MP_ETAT_BOUTON_POUSSOIR_ON_OFF_AUTORADIO_SUR_FACADE_MUX', 'MP_BSI_ETAT_PUSH_TRAPPE_CARB', 'MP_COND_MAINT_LIN2_CPC_COMMANDE', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_20_A_40_DERNIER_KMS', 'MP_NOMBRE_NON_ARRET_CLIMATISATION_DURANT_40_A_60_DERNIER_KMS', 'MP_BSI_CONTACT_VERROU_PORTE_AVG', 'MP_BSI_CONTACT_VERROU_PORTE_AVD', 'MP_COMMANDE_ACTIVATION_SURVEILLANCE_SIRENE_ALARME', 'MP_DETECTION_PAR_BSI_APPUI_COURT_TELECOMMANDE', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_BSI', 'MP_ETAT_REGULATION_LIMITATION_VITESSE_DANS_CMM', 'MP_COMMANDE_VOYANT_SECU_ENFANT_PLANCHE_DE_BORD', 'MP_COMMANDE_VOYANT_FERMETURE_CENTRALISE_OUVRANTS', 'MP_COMMANDE_DES_CLIGNOTANTS_GAUCHE', 'MP_ETAT_TRAPPE_CARBURANT', 'MP_AFFICHAGE_MENU_PERSONNALISATION_UNITEE_ET_LANGUE', 'MP_ETAT_MENU_PARAMETRAGE_FONCTION_RVV_LVV', 'MP_AFFICHAGE_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_MENU_ACCUEIL_CONDUCTEUR', 'MP_MOIS_AFFICHE', 'MP_MINUTES_AFFICHEE', 'MP_ETAT_EMBRAYAGE_COMPRESSEUR_REFRIGERATION', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_01_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_02_TELECOMMANDE', 'MP_DETECTION_PAR_BSI_APPUI_BOUTON_03_TELECOMMANDE', 'MP_APPUI_BOUTON_SECURITE_ENFANT', 'MP_APPUI_BOUTON_VERROUILLAGE_CENTRALISE', 'MP_TENSION_BATTERIE_AU_REPOS', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DEFAILLANCE_GRAVE_40_60_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_0_20_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_20_40_KM', 'MP_COMPT_NON_PASSAGE_STOP_DMD_INHIB_40_60_KM', 'MP_DA26', 'MP_DA4E', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_DMTR_DEF_GRV_40_60_DERNIER_KM', 'MP_DERN_COND_ABUS_MAINT_CAN_INTER_SYSTEM', 'MP_DETECTION_PRESENCE_CONDUCTEUR', 'MP_DETECTION_PASSAGER_AVANT', 'MP_INFORMATION_PRESENCE_REMORQUE', 'MP_ETAT_COMMANDE_DE_DEGIVRAGE', 'MP_REGIME_MOTEUR_AFFICHE', 'MP_NOMBRE_TELECOMMANDE_2004_APPRIS', 'MP_NOMBRE_TELECOMMANDE_STANDARD_2010_APPRIS', 'MP_NB_CLE_OU_BADGE_APPRI', 'MP_NOMBRE_TELECOMMANDES_APPRISES_MAINS_LIBRES', 'MP_NOMBRE_TELECOMMANDE_BAS_COUT_APPRIS', 'MP_NOMBRE_TELECOMMANDES_APPRISES_CLE_ELECTRONIQUE', 'MP_GENERAL_DU_SYSTEME_DE_CLIMATISATION', 'LAVAGEPROJ', 'MP_COMMANDE_ECLAIRAGE_COFFRE', 'MP_ETAT_PRINCIPAL', 'MP_CONTACT_PRINCIPAL_PEDALE_FREIN', 'MP_REPONSE_IDENTIFICATION_CLE_OU_BADGE_PAR_BSI', 'MP_DEFAUT_TOP_ROUE_ARG', 'MP_DEFAUT_TOP_ROUE_ARD', 'MP_ETAT_DEFAILLANCE_INFORMATION_PRESENCE_CONDUCTEUR', 'MP_REPONSE_NEGATIVE_VERROUILLAGE_DEVERROUILLAGE_DE_L_AVE', 'MP_COMMANDE_DACTIVATION_DE_LA_SURVEILLANCE_SIRENE', 'MP_COMMANDE_OUVERTURE_COFFRE', 'MP_BSI_COMMANDE_EJECT_TRAPPE_CARB', 'MP_COMMANDE_OUVERTURE_LUNETTE_ARRIERE', 'MP_FONCTION_DE_REGULATION_A_AFFICHER', 'MP_ETAT_ENVOI_DONNEE_ADC_CMM', 'MP_COMMANDE_ESSUYAGE_AV_FILAIRE', 'MP_PORTE_AVANT_GAUCHE', 'MP_SERRURE_AVANT_GAUCHE_VERROUILLE', 'MP_PORTE_AVANT_DROITE', 'MP_SERRURE_AVANT_DROITE_VERROUILLE', 'MP_POSITION_COMMUTATEUR_ALARME_VOLUMETRIQUE', 'MP_ETAT_COMMUTATEUR_STOP_AND_START', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_PLUS', 'MP_ETAT_APPUI_PALETTE_CHANGEMENT_RAPPORT_MOINS', 'MP_COMMANDE_ALLUMAGE_SEUILS_PORTES', 'MP_ECLAIRAGE_AMBIANCE_EN_ACCUEIL', 'MP_COMMANDE_LOCALISATION_PAR_TELECOMMANDE_HAUTE_FREQUENCE', 'MP_POSITION_CLE_CONTACT', 'MP_POSITION_CLE_EN_PLUS_DEM2', 'MP_POSITION_TOIT_OUVRANT', 'MP_POSITION_LEVIER_VITESSE', 'MP_DERNIERE_COND_REVEIL_LIN2', 'MP_COND_DERNIERE_REVEIL_CAN_LS_HABITACLE', 'MP_DERN_COND_REVEIL_CAN_INTER_SYSTEM', 'MP_DERNIERE_CONDITION_REVEIL_BSI', 'MP_DERNIERE_CONDITION_MAINTIEN_BSI', 'MP_BSI_DERN_COND_MAINT_ALIM_CPC', 'ID_NOM_DU_FOURNISSEUR', 'MP_ACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMMANDE_DES_CLIGNOTANTS_DROIT', 'MP_AAS_BSI_SLPREMAINT_000', 'MP_ALERTE_PRESSION_HUILE_FAIBLE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_NON_IDENTIFIE', 'MP_RECEPTION_MESSAGE_TELECOMMANDE_HF_IDENTIFIE', 'MP_MOTIF_VERROUILLAGE_VEHICULE', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_SPECIFIQUE_JAPON', 'MP_RECEPTION_TELECOMMANDE_HAUTE_FREQUENCE_PRINCIPALE', 'MP_KILOMETRAGE_TOTAL_AVANT_SAUT_KILOMETRAGE', 'MP_KILOMETRAGE_TOTAL_APRES_SAUT_KILOMETRAGE', 'MP_ETAT_PROGRAMMATION_REVEIL_PRECONDITIONNEMENT_THERMIQUE', 'MP_SEUIL_MAINTENANCE_TEMPORELLE_DEPASSEE', 'MP_SEUIL_MAINTENANCE_KILOMETRIQUE_DEPASSEE', 'MP_AUTORISATION_ENCLENCHEMENT_CLIMATISATION', 'MP_CMD_AUTORISATION_LEVES_VITRES_ARRIERES', 'MP_ETAT_AUTORISATION_RECHARGE_ACCUMULATEURS_ENERGIE', 'MP_AUTORISATION_RECHARGE_SIRENE_ALARME_EFFRACTION', 'MP_ETAT_COMMANDE_AUTORISE_SIEGES_CHAUFFANTS', 'MP_CMD_AUTORISATION_ECLAIREURS_VIDE_POCHE', 'MP_AUTORISATION_ECLAIRAGE_COMMUTATEUR_DEMARRAGE_MOTEUR', 'MP_AUTORISATION_ECLAIRAGE_LECTEUR_CLE_ELCTRONIQUE', 'MP_AUTORISATION_BALISAGE_ET_PRECONDITIONNEMENT_THERMIQUE', 'MP_ETAT_AUTORISATION_DEMARRAGE_DU_CMM', 'MP_AUTORISATION_DEMARRAGE_BVA_BVMP', 'MP_CONSOMMATION_CARBURANT_INSTANTANEE', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET1', 'MP_CONSOMMATION_CARBURANT_MOYENNE_TRAJET2', 'MP_CONSOMMATION_CARBURANT_RAPIDE', 'MP_ETAT_FONCTIONNEMENT_BSI', 'MP_MODE_FONCTIONNEMENT_DE_LA_CLIMATISATION', 'MP_CEINTURE_AVANT_GAUCHE_BLOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_GAUCHE_BOUCLEE', 'MP_CEINTURE_SEC_ARRIERE_DROITE_BOUCLEE', 'MP_CEINTURE_ARRIERE_CENTRALE_BOUCLEE', 'MP_CEINTURE_AVANT_DROITE_BOUCLEE', 'MP_CEINTURE_SECURITE_GAUCHE_RANG_3_BOUCLEE', 'MP_CEINTURE_SECURITE_DROITE_RANG_3_BOUCLEE', 'MP_DEMANDE_RAZ_TRAJET1', 'MP_DEMANDE_RAZ_TRAJET2', 'MP_COMMANDE_LED_BOUTON_STOP_START', 'MP_COMMANDE_LED_ALARME', 'ID_TRACABILITE_NUMERO_DE_SERIE_PIECE', 'MP_VITESSE_VEHICULE_a', 'MP_DESACTIVATION_SURVEILLANCE_ALARME_EFFRACTION', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_RESIST_BATT_40_60_DERNIER_KM', 'MP_RESISTANCE_CAPTEUR_TEMPERATURE_HUILE', 'MP_IMPEDANCE_JAUGE_CARBURANT', 'MP_ETAT_RESEAU_ELECTRIQUE', 'MP_AFFICHAGE_ETAT_MENU_PARAMETRAGE_CLIENT', 'MP_AFFICHAGE_ETAT_MENU_ACCUEIL_CONDUCTEUR', 'MP_ETAT_GMP', 'MP_ETAT_ACTIVATION_MENU_VITESSES_MEMORISEES', 'MP_B96_BSI_DUREE_AVANT_PR_MAINT_000', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_DURANT_40_60_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_20_40_DERNIER_KM', 'MP_COMPTEUR_INTERDIT_ARRET_MOT_DMTR_IHNIB_STT_40_60_DERNIER_KM', 'MP_STATUS_CHARGE_BATTERIE', 'MP_ETAT_LUNETTE', 'MP_COMMANDE_LEVES_VITRES_FILAIRE', 'MP_COMMANDE_DES_FEUX_STOP', 'MP_COMPTEUR_TOPS_ROUE_ARG', 'MP_COMPTEUR_TOPS_ROUE_ARD', 'MP_COMPTEUR_TEMPOREL_VEHICULE', 'MP_COMPTEUR_REDEMARRAGE_STOP_START', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_20_40_DERNIER_KM', 'MP_COMPT_INTERDIT_ARRET_MOT_TEMP_BATT_40_60_DERNIER_KM', 'MP_NIVEAU_CARBURANT_MESURE', 'MP_ANGLE_VOLANT', 'MP_DETECTION_PAR_BSI_APPUI_MAINTENU_TELECOMMANDE', 'MP_COND_MAINT_CAN_LS_ACTIVATION_ALARM_EN_COURS', 'MP_NIVEAU_CARBURANT_AFFICHE', 'MP_NIVEAU_ETAT_CHARGE_BATTERIE', 'MP_NIVEAU_HUILE_MOTEUR_MOYENNE', 'MP_NIVEAU_CARBURANT_CALCULE', 'MP_COMMANDE_DES_FEUX_DE_RECUL', 'MP_TYPE_AFFICHAGE_HEURE_DATE', 'CMD_FONCTION_BLACK_PANEL', 'MP_ETAT_FONCTION_SECURITE_ENFANT', 'MP_ETAT_FONCTION_ACCES_MAINS_LIBRES', 'MP_HEURE_AFFICHEE', 'MP_CALCULATEUR_MOTEUR_VERROUILLE', 'MP_NIVEAU_LUMINOSITE_ECLAIRAGE_INTERIEUR_PLATINE_DE_PORTE')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2385,7 +3252,7 @@ data:
           }
         },
         {
-          "id": 35,
+          "id": 38,
           "type": "row",
           "title": "Конфигурация (4)",
           "collapsed": false,
@@ -2398,7 +3265,7 @@ data:
           "panels": []
         },
         {
-          "id": 36,
+          "id": 39,
           "type": "table",
           "title": "Конфигурация: текущие значения",
           "datasource": {
@@ -2445,7 +3312,7 @@ data:
           }
         },
         {
-          "id": 37,
+          "id": 40,
           "type": "row",
           "title": "двигатель Valeo V46 (EC5) (55)",
           "collapsed": false,
@@ -2458,7 +3325,1410 @@ data:
           "panels": []
         },
         {
-          "id": 38,
+          "id": 41,
+          "type": "timeseries",
+          "title": "Обороты двигателя (по блоку двигателя)",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 156
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_REGIME_MOTEUR') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'холостой ход этой машины' AS metric, 750\nUNION ALL SELECT $__timeTo()::timestamptz, 'холостой ход этой машины', 750\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: близко к отсечке' AS metric, 5500\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: близко к отсечке', 5500\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: отсечка' AS metric, 6200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: отсечка', 6200\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "green"
+                  },
+                  {
+                    "value": 5500,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 6200,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 7000
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "холостой ход этой машины"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#5794F2"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: близко к отсечке"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: отсечка"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Холостой ход этой машины около 750 об/мин - если он заметно выше на прогретом двигателе или плавает, ищи подсос воздуха. Отсечка у EC5 около 6200 об/мин.\n\nИсточник границ: замеры этой машины."
+        },
+        {
+          "id": 42,
+          "type": "timeseries",
+          "title": "Температура охлаждающей жидкости",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 156
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: охлаждение не справляется' AS metric, 105\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: охлаждение не справляется', 105\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: искать причину' AS metric, 110\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: искать причину', 110\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: близко к кипению' AS metric, 115\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: близко к кипению', 115\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "green"
+                  },
+                  {
+                    "value": 105,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 110,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 115,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 60,
+              "max": 125
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: охлаждение не справляется"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: искать причину"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: близко к кипению"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Норма после прогрева 85-100 °C. Термостат открывается около 89 °C, вентилятор включается около 99 и 103 °C, поэтому выше 105 °C - уже не штатный нагрев. При прогреве значение идёт снизу, это нормально.\n\nВАЖНО для этой машины: в двигателе сохранён код P0116 - цепь датчика температуры ОЖ, показания вне допустимого диапазона. Пока код сохранён, вентилятор работает в аварийном режиме и включается чаще, даже когда живое показание в норме. То есть ровный график здесь НЕ значит, что датчик исправен: он врёт с перерывами. Прямая проверка - сравнить это значение с некорректированным MP_TEMP_EAU_NON_CORRIGEE, но тот запрос у этого блока не отвечает.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+        },
+        {
+          "id": 43,
+          "type": "timeseries",
+          "title": "Температура воздуха на впуске",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 164
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMP_AIR_ADMISSION_SUP') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: сильный подкапотный нагрев' AS metric, 60\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: сильный подкапотный нагрев', 60\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: падает мощность, риск детонации' AS metric, 75\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: падает мощность, риск детонации', 75\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "green"
+                  },
+                  {
+                    "value": 60,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 75,
+                    "color": "orange"
+                  }
+                ]
+              },
+              "min": -20,
+              "max": 90
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: сильный подкапотный нагрев"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: падает мощность, риск детонации"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Температура воздуха на впуске. Норма - наружная температура плюс небольшой нагрев на ходу. На стоянке и в пробке подкапотный жар легко даёт плюс 25-30 °C, это ещё не неисправность. Выше 75 °C двигатель теряет мощность и растёт риск детонации: смотреть, не забор ли горячего воздуха. Сравнивать с наружной температурой на соседнем графике.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+        },
+        {
+          "id": 44,
+          "type": "timeseries",
+          "title": "Питание блока двигателя",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 164
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает низким' AS metric, 12.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает низким', 12.0\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает высоким' AS metric, 15.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает высоким', 15.0\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "volt",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 12.0,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 12.6,
+                    "color": "green"
+                  },
+                  {
+                    "value": 15.0,
+                    "color": "orange"
+                  }
+                ]
+              },
+              "min": 10,
+              "max": 16
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: DiagBox считает низким"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: DiagBox считает высоким"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Границы 12 и 15 В взяты из подсказки самой DiagBox к этому параметру. Ниже 12 В при работающем двигателе - генератор не даёт зарядки, выше 15 В - перезаряд, подозрение на регулятор. На этой машине держится около 14.0 В, что нормально.\n\nИсточник границ: подсказка каталога DiagBox."
+        },
+        {
+          "id": 45,
+          "type": "timeseries",
+          "title": "Датчик дросселя 1",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 172
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на замыкание на массу' AS metric, 200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на замыкание на массу', 200\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на обрыв' AS metric, 4800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на обрыв', 4800\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 200,
+                    "color": "green"
+                  },
+                  {
+                    "value": 4800,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 5000
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: похоже на замыкание на массу"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: похоже на обрыв"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Первый датчик положения дросселя, питание 5 В. На холостых около 680 мВ. Датчиков два, направлены противоположно: сумма первого и второго держится около 5000 мВ, и если она уехала - врёт один из них. Выход за 200 или 4800 мВ - это уже не положение, а обрыв либо замыкание проводки.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+        },
+        {
+          "id": 46,
+          "type": "timeseries",
+          "title": "Датчик дросселя 2",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 172
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на замыкание на массу' AS metric, 200\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на замыкание на массу', 200\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: похоже на обрыв' AS metric, 4800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: похоже на обрыв', 4800\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 200,
+                    "color": "green"
+                  },
+                  {
+                    "value": 4800,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 5000
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: похоже на замыкание на массу"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: похоже на обрыв"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Второй датчик положения дросселя, направлен противоположно первому: на холостых около 4350 мВ, тогда как первый 680 мВ. Сумма двух должна держаться около 5000 мВ.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+        },
+        {
+          "id": 47,
+          "type": "timeseries",
+          "title": "Датчик кислорода до катализатора",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 180
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'середина: стехиометрия' AS metric, 450\nUNION ALL SELECT $__timeTo()::timestamptz, 'середина: стехиометрия', 450\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: замер на бедной' AS metric, 100\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: замер на бедной', 100\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: замер на богатой' AS metric, 900\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: замер на богатой', 900\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 100,
+                    "color": "green"
+                  },
+                  {
+                    "value": 900,
+                    "color": "orange"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 1000
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "середина: стехиометрия"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#5794F2"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: замер на бедной"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: замер на богатой"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Верхний (до катализатора) датчик кислорода. У исправного напряжение непрерывно качается примерно между 100 и 900 мВ вокруг 450 мВ - смысл именно в колебании, а не в конкретном значении. Плохой признак - РОВНАЯ линия: датчик замер. Замерло около 450 мВ - обрыв или он остыл, у нижнего края - постоянно бедная смесь (подсос воздуха), у верхнего - богатая. На холодном двигателе колебаний ещё нет, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+        },
+        {
+          "id": 48,
+          "type": "timeseries",
+          "title": "Датчик кислорода после катализатора",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 180
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ ровной полки' AS metric, 550\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ ровной полки', 550\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: верх ровной полки' AS metric, 800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: верх ровной полки', 800\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 550,
+                    "color": "green"
+                  },
+                  {
+                    "value": 800,
+                    "color": "#EAB839"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 1000
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: низ ровной полки"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: верх ровной полки"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "#EAB839"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Нижний (после катализатора) датчик кислорода. Здесь всё наоборот: у исправного катализатора напряжение стоит РОВНО и высоко, обычно 550-800 мВ. Если оно начало качаться так же, как у верхнего датчика, катализатор перестал работать. На холодном двигателе показание низкое, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+        },
+        {
+          "id": 49,
           "type": "timeseries",
           "title": "Config indice telecodage · Id nom fournisseur · Id version diagnostic · Счётчик nb demarrage a fro",
           "datasource": {
@@ -2469,7 +4739,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 156
+            "y": 188
           },
           "targets": [
             {
@@ -2512,7 +4782,7 @@ data:
           }
         },
         {
-          "id": 39,
+          "id": 50,
           "type": "timeseries",
           "title": "Depassement seuil encrasse · Состояние coh положение aa · Состояние programmation an · Состояние regulation sonde",
           "datasource": {
@@ -2523,7 +4793,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 156
+            "y": 188
           },
           "targets": [
             {
@@ -2566,7 +4836,7 @@ data:
           }
         },
         {
-          "id": 40,
+          "id": 51,
           "type": "timeseries",
           "title": "Состояние regulation sonde · Состояние sonde a oxygene  · Состояние sonde a oxygene  · Состояние verrouillage dev",
           "datasource": {
@@ -2577,7 +4847,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 164
+            "y": 196
           },
           "targets": [
             {
@@ -2620,7 +4890,7 @@ data:
           }
         },
         {
-          "id": 41,
+          "id": 52,
           "type": "timeseries",
           "title": "Option appairage choisie · Pb transmission code dever",
           "datasource": {
@@ -2631,7 +4901,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 164
+            "y": 196
           },
           "targets": [
             {
@@ -2674,7 +4944,7 @@ data:
           }
         },
         {
-          "id": 42,
+          "id": 53,
           "type": "timeseries",
           "title": "Rcoaval",
           "datasource": {
@@ -2685,7 +4955,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 172
+            "y": 204
           },
           "targets": [
             {
@@ -2728,7 +4998,7 @@ data:
           }
         },
         {
-          "id": 43,
+          "id": 54,
           "type": "timeseries",
           "title": "Comptdemmot",
           "datasource": {
@@ -2739,7 +5009,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 172
+            "y": 204
           },
           "targets": [
             {
@@ -2782,7 +5052,7 @@ data:
           }
         },
         {
-          "id": 44,
+          "id": 55,
           "type": "timeseries",
           "title": "Id reference complementair · Id reference materiel",
           "datasource": {
@@ -2793,7 +5063,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 180
+            "y": 212
           },
           "targets": [
             {
@@ -2836,7 +5106,7 @@ data:
           }
         },
         {
-          "id": 45,
+          "id": 56,
           "type": "timeseries",
           "title": "Facteur correction richess · Facteur correction richess",
           "datasource": {
@@ -2847,7 +5117,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 180
+            "y": 212
           },
           "targets": [
             {
@@ -2890,7 +5160,7 @@ data:
           }
         },
         {
-          "id": 46,
+          "id": 57,
           "type": "timeseries",
           "title": "Charge estimee canister · Rco electrovanne dephaseur",
           "datasource": {
@@ -2901,7 +5171,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 188
+            "y": 220
           },
           "targets": [
             {
@@ -2944,7 +5214,7 @@ data:
           }
         },
         {
-          "id": 47,
+          "id": 58,
           "type": "timeseries",
           "title": "Cdercoelecpurge · Rcoamont · Remplissage consigne · Remplissage mesure",
           "datasource": {
@@ -2955,7 +5225,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 188
+            "y": 220
           },
           "targets": [
             {
@@ -2998,7 +5268,7 @@ data:
           }
         },
         {
-          "id": 48,
+          "id": 59,
           "type": "timeseries",
           "title": "Avance allumage appliquee ",
           "datasource": {
@@ -3009,7 +5279,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 196
+            "y": 228
           },
           "targets": [
             {
@@ -3052,61 +5322,7 @@ data:
           }
         },
         {
-          "id": 49,
-          "type": "timeseries",
-          "title": "Напряжение alimentation ca",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 196
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "volt",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 50,
+          "id": 60,
           "type": "timeseries",
           "title": "Debaircons · Debit air",
           "datasource": {
@@ -3116,8 +5332,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 204
+            "x": 12,
+            "y": 228
           },
           "targets": [
             {
@@ -3160,115 +5376,7 @@ data:
           }
         },
         {
-          "id": 51,
-          "type": "timeseries",
-          "title": "Напряжение recopie положен · Напряжение sonde a oxygene · Напряжение sonde a oxygene",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 204
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01', 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 52,
-          "type": "timeseries",
-          "title": "Напряжение recopie положен",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 212
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 53,
+          "id": 61,
           "type": "timeseries",
           "title": "Consigne pression admissio · Pressiontubulure",
           "datasource": {
@@ -3278,8 +5386,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 212
+            "x": 0,
+            "y": 236
           },
           "targets": [
             {
@@ -3322,7 +5430,7 @@ data:
           }
         },
         {
-          "id": 54,
+          "id": 62,
           "type": "timeseries",
           "title": "Con richesse",
           "datasource": {
@@ -3332,8 +5440,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 220
+            "x": 12,
+            "y": 236
           },
           "targets": [
             {
@@ -3376,7 +5484,7 @@ data:
           }
         },
         {
-          "id": 55,
+          "id": 63,
           "type": "timeseries",
           "title": "Temps injection cylindre 0 · Temps injection cylindre 0 · Temps injection cylindre 0 · Temps injection cylindre 0",
           "datasource": {
@@ -3386,8 +5494,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 220
+            "x": 0,
+            "y": 244
           },
           "targets": [
             {
@@ -3430,63 +5538,9 @@ data:
           }
         },
         {
-          "id": 56,
+          "id": 64,
           "type": "timeseries",
-          "title": "Regime двигатель",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 228
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_REGIME_MOTEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 57,
-          "type": "timeseries",
-          "title": "Angle papillon mesure · Avance allumage minimum",
+          "title": "Angle papillon mesure",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -3495,7 +5549,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 228
+            "y": 244
           },
           "targets": [
             {
@@ -3506,7 +5560,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_MESURE', 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3538,9 +5592,9 @@ data:
           }
         },
         {
-          "id": 58,
+          "id": 65,
           "type": "timeseries",
-          "title": "Angle papillon consigne · Avance allumage maximum · Avance allumage optimal",
+          "title": "Angle papillon consigne · Avance allumage maximum · Avance allumage minimum · Avance allumage optimal",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -3549,7 +5603,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 236
+            "y": 252
           },
           "targets": [
             {
@@ -3560,7 +5614,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_CONSIGNE', 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_CONSIGNE', 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -3592,7 +5646,7 @@ data:
           }
         },
         {
-          "id": 59,
+          "id": 66,
           "type": "timeseries",
           "title": "Consigne положение dephase · Pos dephaseur acc 1 · Retrait avance allumage cy · Retrait avance allumage cy",
           "datasource": {
@@ -3603,7 +5657,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 236
+            "y": 252
           },
           "targets": [
             {
@@ -3646,7 +5700,7 @@ data:
           }
         },
         {
-          "id": 60,
+          "id": 67,
           "type": "timeseries",
           "title": "Retrait avance allumage cy · Retrait avance allumage cy",
           "datasource": {
@@ -3657,7 +5711,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 244
+            "y": 260
           },
           "targets": [
             {
@@ -3700,61 +5754,7 @@ data:
           }
         },
         {
-          "id": 61,
-          "type": "timeseries",
-          "title": "Температура d eau двигател · Temp air admission sup",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 244
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d', 'V46_32:MP_TEMP_AIR_ADMISSION_SUP') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "celsius",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 62,
+          "id": 68,
           "type": "row",
           "title": "ABS/ESP (18)",
           "collapsed": false,
@@ -3762,12 +5762,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 252
+            "y": 268
           },
           "panels": []
         },
         {
-          "id": 63,
+          "id": 69,
           "type": "timeseries",
           "title": "Id количество telechargeme · Id nom fournisseur · Id version diagnostic · Id version logiciel",
           "datasource": {
@@ -3778,7 +5778,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 253
+            "y": 269
           },
           "targets": [
             {
@@ -3821,7 +5821,7 @@ data:
           }
         },
         {
-          "id": 64,
+          "id": 70,
           "type": "timeseries",
           "title": "Contacteur огни stop1 · Состояние relais alimentat · Состояние relais pompe rec · Уровень liquide frein",
           "datasource": {
@@ -3832,7 +5832,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 253
+            "y": 269
           },
           "targets": [
             {
@@ -3875,7 +5875,7 @@ data:
           }
         },
         {
-          "id": 65,
+          "id": 71,
           "type": "timeseries",
           "title": "Id date telechargement · Id tracabilite date fabric",
           "datasource": {
@@ -3886,7 +5886,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 261
+            "y": 277
           },
           "targets": [
             {
@@ -3929,7 +5929,7 @@ data:
           }
         },
         {
-          "id": 66,
+          "id": 72,
           "type": "timeseries",
           "title": "Id reference logiciel",
           "datasource": {
@@ -3940,7 +5940,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 261
+            "y": 277
           },
           "targets": [
             {
@@ -3983,7 +5983,7 @@ data:
           }
         },
         {
-          "id": 67,
+          "id": 73,
           "type": "timeseries",
           "title": "Id reference complementair · Id reference materiel",
           "datasource": {
@@ -3994,7 +5994,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 269
+            "y": 285
           },
           "targets": [
             {
@@ -4037,7 +6037,7 @@ data:
           }
         },
         {
-          "id": 68,
+          "id": 74,
           "type": "timeseries",
           "title": "Скорость roue задний droit · Скорость roue задний левый · Скорость roue передний лев · Скорость vehicule a",
           "datasource": {
@@ -4048,7 +6048,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 269
+            "y": 285
           },
           "targets": [
             {
@@ -4091,7 +6091,7 @@ data:
           }
         },
         {
-          "id": 69,
+          "id": 75,
           "type": "timeseries",
           "title": "Скорость roue передний пра",
           "datasource": {
@@ -4102,7 +6102,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 277
+            "y": 293
           },
           "targets": [
             {
@@ -4145,7 +6145,7 @@ data:
           }
         },
         {
-          "id": 70,
+          "id": 76,
           "type": "row",
           "title": "электронасос (18)",
           "collapsed": false,
@@ -4153,12 +6153,171 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 285
+            "y": 301
           },
           "panels": []
         },
         {
-          "id": 71,
+          "id": 77,
+          "type": "timeseries",
+          "title": "Питание насоса гидроусилителя",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 302
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_TENSION_ALIMENTATION') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает низким' AS metric, 9.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает низким', 9.0\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: DiagBox считает высоким' AS metric, 18.0\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: DiagBox считает высоким', 18.0\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "volt",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true,
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 9.0,
+                    "color": "green"
+                  },
+                  {
+                    "value": 18.0,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 8,
+              "max": 19
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: DiagBox считает низким"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "граница: DiagBox считает высоким"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        10,
+                        10
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Питание насоса гидроусилителя. Границы 9 и 18 В - из подсказки DiagBox к этому параметру. Диапазон широкий потому, что насос должен работать и при просадке от стартера.\n\nИсточник границ: подсказка каталога DiagBox."
+        },
+        {
+          "id": 78,
           "type": "timeseries",
           "title": "Apc · Assistance 1 · Состояние двигатель thermi · Type angle volant directio",
           "datasource": {
@@ -4168,8 +6327,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 286
+            "x": 12,
+            "y": 302
           },
           "targets": [
             {
@@ -4212,7 +6371,7 @@ data:
           }
         },
         {
-          "id": 72,
+          "id": 79,
           "type": "timeseries",
           "title": "Id 80 indice mess · Id reference fournisseur",
           "datasource": {
@@ -4222,8 +6381,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 286
+            "x": 0,
+            "y": 310
           },
           "targets": [
             {
@@ -4266,7 +6425,7 @@ data:
           }
         },
         {
-          "id": 73,
+          "id": 80,
           "type": "timeseries",
           "title": "Id edition logiciel · Id edi calib · Id version logiciel 1",
           "datasource": {
@@ -4276,8 +6435,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 294
+            "x": 12,
+            "y": 310
           },
           "targets": [
             {
@@ -4320,7 +6479,7 @@ data:
           }
         },
         {
-          "id": 74,
+          "id": 81,
           "type": "timeseries",
           "title": "Id reference logiciel",
           "datasource": {
@@ -4330,8 +6489,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 294
+            "x": 0,
+            "y": 318
           },
           "targets": [
             {
@@ -4374,7 +6533,7 @@ data:
           }
         },
         {
-          "id": 75,
+          "id": 82,
           "type": "timeseries",
           "title": "Id reference complementair · Id reference psa",
           "datasource": {
@@ -4384,8 +6543,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 302
+            "x": 12,
+            "y": 318
           },
           "targets": [
             {
@@ -4428,7 +6587,7 @@ data:
           }
         },
         {
-          "id": 76,
+          "id": 83,
           "type": "timeseries",
           "title": "Intensite mesuree",
           "datasource": {
@@ -4438,8 +6597,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 302
+            "x": 0,
+            "y": 326
           },
           "targets": [
             {
@@ -4482,7 +6641,7 @@ data:
           }
         },
         {
-          "id": 77,
+          "id": 84,
           "type": "timeseries",
           "title": "Скорость двигатель gep",
           "datasource": {
@@ -4492,8 +6651,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 310
+            "x": 12,
+            "y": 326
           },
           "targets": [
             {
@@ -4536,61 +6695,7 @@ data:
           }
         },
         {
-          "id": 78,
-          "type": "timeseries",
-          "title": "Напряжение alimentation",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 310
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", coalesce(p.label, p.name) AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_TENSION_ALIMENTATION') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "volt",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 79,
+          "id": 85,
           "type": "timeseries",
           "title": "Скорость vehicule a",
           "datasource": {
@@ -4601,7 +6706,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 318
+            "y": 334
           },
           "targets": [
             {
@@ -4644,7 +6749,7 @@ data:
           }
         },
         {
-          "id": 80,
+          "id": 86,
           "type": "timeseries",
           "title": "Скорость volant direction",
           "datasource": {
@@ -4655,7 +6760,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 318
+            "y": 334
           },
           "targets": [
             {
@@ -4698,7 +6803,7 @@ data:
           }
         },
         {
-          "id": 81,
+          "id": 87,
           "type": "timeseries",
           "title": "Температура gep",
           "datasource": {
@@ -4709,7 +6814,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 326
+            "y": 342
           },
           "targets": [
             {
