@@ -31,7 +31,7 @@ spec:
           effect: NoSchedule
       containers:
         - name: coredns
-          image: rancher/mirrored-coredns-coredns:1.13.1
+          image: registry.k8s.io/coredns/coredns:v1.13.1
           imagePullPolicy: IfNotPresent
           args:
             - -conf
