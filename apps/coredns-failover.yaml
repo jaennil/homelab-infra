@@ -8,8 +8,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:jaennil/homelab-infra
-    targetRevision: HEAD
+    repoURL: https://github.com/jaennil/homelab-infra
+    targetRevision: main
     path: coredns
   destination:
     server: https://kubernetes.default.svc
