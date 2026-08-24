@@ -9,6 +9,11 @@ data:
     # Loads default set of integrations. Do not remove.
     default_config:
 
+    homeassistant:
+      customize:
+        switch.jaennil_pc:
+          friendly_name: "Компьютер"
+
     # Load frontend themes from the themes folder
     frontend:
       themes: !include_dir_merge_named themes
