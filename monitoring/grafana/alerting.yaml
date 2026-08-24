@@ -10,8 +10,6 @@ data:
   # её можно убрать из интерфейса. Бот тот же, что у alertmanager - секрет
   # alertmanager-telegram; токен приходит переменной окружения, чтобы не лежать
   # в репозитории открытым.
-  # Своё оформление сообщения намеренно НЕ задаём: точка доставки общая, и шаблон
-  # применился бы и к остальным алертам, поменяв им вид.
   contactpoints.yaml: |
     apiVersion: 1
     contactPoints:
@@ -23,6 +21,58 @@ data:
             settings:
               bottoken: $__env{TELEGRAM_BOT_TOKEN}
               chatid: "659782773"
+              message: '{{ template "telegram.compact.git" . }}'
+
+  templates.yaml: |
+    apiVersion: 1
+    templates:
+      - orgID: 1
+        name: telegram.compact.git
+        template: |
+          {{ define "telegram.compact.git" -}}
+          {{ if gt (len .Alerts.Firing) 0 -}}
+          🚨 Активные алерты: {{ len .Alerts.Firing }}
+          {{ range .Alerts.Firing }}
+          {{ if eq .Labels.alertname "AgentRateLimitCritical" -}}
+
+          Критический лимит: {{ if eq .Labels.provider "codex" }}Codex{{ else if eq .Labels.provider "claude_code" }}Claude Code{{ else }}{{ .Labels.provider }}{{ end }}
+          Период: {{ .Labels.window }}
+          Статус: использовано не менее 95%
+          Лимит почти исчерпан.
+          {{ else if eq .Labels.alertname "AgentRateLimitPaceHigh" -}}
+
+          Высокий темп расхода: {{ if eq .Labels.provider "codex" }}Codex{{ else if eq .Labels.provider "claude_code" }}Claude Code{{ else }}{{ .Labels.provider }}{{ end }}
+          Период: {{ .Labels.window }}
+          Расход опережает равномерный бюджет текущего окна.
+          {{ else if eq .Labels.alertname "GatewayKafkaDeliveryError" -}}
+
+          Ошибка доставки событий
+          Gateway не смог поставить событие в очередь или доставить его в Kafka.
+          {{ else if eq .Labels.alertname "EventPipelineTargetDown" -}}
+
+          Сервис недоступен: {{ .Labels.service }}
+          Prometheus не может опросить сервис больше минуты.
+          {{ else -}}
+
+          {{ .Annotations.summary }}
+          {{ .Annotations.description }}
+          {{ end -}}
+          Открыть алерт: {{ .GeneratorURL }}
+          {{ end }}
+          {{ end -}}
+          {{ if gt (len .Alerts.Resolved) 0 -}}
+          ✅ Восстановлено: {{ len .Alerts.Resolved }}
+          {{ range .Alerts.Resolved }}
+          {{ if eq .Labels.alertname "AgentRateLimitCritical" -}}
+
+          Лимит снова ниже критического: {{ if eq .Labels.provider "codex" }}Codex{{ else if eq .Labels.provider "claude_code" }}Claude Code{{ else }}{{ .Labels.provider }}{{ end }} · {{ .Labels.window }}
+          {{ else -}}
+
+          {{ .Annotations.summary }}
+          {{ end }}
+          {{ end }}
+          {{ end -}}
+          {{ end }}
 
   # ВАЖНО: этот файл управляет КОРНЕВОЙ политикой, то есть маршрутизацией всех
   # алертов Grafana, а не только машинных. До него корень был настроен через
