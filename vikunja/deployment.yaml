@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vikunja
+  namespace: vikunja
+  labels:
+    app.kubernetes.io/name: vikunja
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vikunja
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vikunja
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: raspberrypi
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: initialize-data
+          image: busybox:1.37.0
+          command:
+            - sh
+            - -ec
+            - |
+              mkdir -p /data/files
+              if [ ! -s /data/service-secret ]; then
+                head -c 48 /dev/urandom | base64 > /data/service-secret
+                chmod 600 /data/service-secret
+              fi
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      containers:
+        - name: vikunja
+          image: vikunja/vikunja:2.4.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+          ports:
+            - name: http
+              containerPort: 3456
+          env:
+            - name: VIKUNJA_SERVICE_PUBLICURL
+              value: https://vikunja.dubrovskih.ru/
+            - name: VIKUNJA_SERVICE_SECRET_FILE
+              value: /data/service-secret
+            - name: VIKUNJA_DATABASE_TYPE
+              value: sqlite
+            - name: VIKUNJA_DATABASE_PATH
+              value: /data/vikunja.db
+            - name: VIKUNJA_FILES_BASEPATH
+              value: /data/files
+            - name: VIKUNJA_SERVICE_TIMEZONE
+              value: Europe/Moscow
+          startupProbe:
+            tcpSocket:
+              port: http
+            failureThreshold: 30
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: vikunja-data
