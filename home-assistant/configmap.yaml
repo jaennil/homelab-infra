@@ -32,7 +32,7 @@ data:
 
     switch:
       - platform: wake_on_lan
-        name: "Jaennil PC"
+        name: "Компьютер"
         mac: "fc:aa:14:a8:9e:16"
         host: 192.168.3.4
         broadcast_address: 192.168.3.255
