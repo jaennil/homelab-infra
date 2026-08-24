@@ -41,13 +41,6 @@ data:
 
     template:
       - button:
-          - name: "Включить Jaennil PC"
-            unique_id: wake_jaennil_pc
-            icon: mdi:power
-            press:
-              - action: switch.turn_on
-                target:
-                  entity_id: switch.jaennil_pc
           - name: "Выключить Raspberry Pi"
             icon: mdi:power
             press:
