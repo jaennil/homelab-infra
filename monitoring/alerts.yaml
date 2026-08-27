@@ -86,7 +86,7 @@ spec:
       rules:
         - alert: ServiceDown
           expr: |
-            up == 0
+            up{job!="bbtop-agent-tunnel"} == 0
             and on()
             (time() - max(process_start_time_seconds{job="apiserver"}) > 900)
           for: 2m
