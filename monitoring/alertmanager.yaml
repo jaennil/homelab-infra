@@ -18,6 +18,10 @@ stringData:
       routes:
         - receiver: 'null'
           matchers:
+            - job = "bbtop-agent-tunnel"
+            - alertname =~ "ServiceDown|TargetDown"
+        - receiver: 'null'
+          matchers:
             - alertname =~ "InfoInhibitor|Watchdog|KubeSchedulerDown|KubeControllerManagerDown|KubeProxyDown"
 
     receivers:
