@@ -1558,6 +1558,233 @@ data:
         },
         {
           "id": 15,
+          "type": "row",
+          "title": "Датчик температуры ОЖ и вентилятор",
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 51
+          },
+          "panels": []
+        },
+        {
+          "id": 16,
+          "type": "timeseries",
+          "title": "Температура ОЖ и вентилятор вместе",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 52
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", 'Температура охлаждающей жидкости' AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name = 'V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d' AND $__timeFilter(r.ts)\nUNION ALL\nSELECT r.ts, 'Реле вентилятора (100 = включено)', r.value * 100\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name = 'V46_32:MP_ETAT_RELAIS_GMV' AND $__timeFilter(r.ts)\nUNION ALL\nSELECT r.ts, 'Задание скорости вентилятора', r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name = 'V46_32:MP_CONSIGNE_VITESSE_GMV_C5' AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 8,
+                "showPoints": "never",
+                "spanNulls": false,
+                "axisLabel": "°C",
+                "thresholdsStyle": {
+                  "mode": "area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "green"
+                  },
+                  {
+                    "value": 105,
+                    "color": "#EAB839"
+                  },
+                  {
+                    "value": 110,
+                    "color": "orange"
+                  },
+                  {
+                    "value": 115,
+                    "color": "red"
+                  }
+                ]
+              },
+              "min": 0,
+              "max": 125
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Реле вентилятора (100 = включено)"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  },
+                  {
+                    "id": "custom.axisLabel",
+                    "value": "реле / задание, %"
+                  },
+                  {
+                    "id": "min",
+                    "value": 0
+                  },
+                  {
+                    "id": "max",
+                    "value": 100
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "custom.drawStyle",
+                    "value": "line"
+                  },
+                  {
+                    "id": "custom.lineInterpolation",
+                    "value": "stepAfter"
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 25
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "purple"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Задание скорости вентилятора"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  },
+                  {
+                    "id": "min",
+                    "value": 0
+                  },
+                  {
+                    "id": "max",
+                    "value": 100
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percent"
+                  },
+                  {
+                    "id": "custom.lineInterpolation",
+                    "value": "stepAfter"
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "yellow"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "max"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "description": "Панель под охоту за отваливающимся датчиком температуры ОЖ. Заполняется скриптом watch_coolant.py, который сидит в блоке двигателя и опрашивает два запроса (21C08001 и 21CB8001) с частотой 2 Гц - обычная телеметрия сюда не пишет, она сидит на BSI и двигатель навещает набегами.\n\nЧто искать. Событие выглядит одним из трёх способов: РАЗРЫВ в линии температуры (значение не пришло вовсе - разрывы намеренно не сшиваются), вертикальный скачок больше 8 °C за замер (масса антифриза так быстро измениться не может, значит обрыв), либо уход за 60-120 °C. И почти сразу за этим должно подняться реле вентилятора - это аварийный режим по потерянному датчику.\n\nРеле и задание скорости нарисованы ступенями и по правой оси: у реле только ноль и единица, на шкале температуры они слились бы с осью."
+        },
+        {
+          "id": 17,
+          "type": "table",
+          "title": "Коды неисправностей двигателя, статус",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 61
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT coalesce(p.label, p.name) AS \"Код и описание\", l.value AS \"Статус\",\n       l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name LIKE 'DTC:%'\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "showHeader": true,
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Параметр",
+                "desc": false
+              }
+            ]
+          },
+          "description": "Байт статуса кода неисправности. Бит 0 - неисправность АКТИВНА сейчас, бит 3 - подтверждена и сохранена. Момент, когда P0116 из сохранённого становится активным, и есть искомое событие. Пишется watch_coolant.py раз в полминуты и dtc_read.py вручную."
+        },
+        {
+          "id": 18,
           "type": "timeseries",
           "title": "Обороты / скорость (для расчёта передачи)",
           "datasource": {
@@ -1568,7 +1795,7 @@ data:
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 51
+            "y": 67
           },
           "targets": [
             {
@@ -1612,7 +1839,7 @@ data:
           "description": "Каждой передаче соответствует своё отношение оборотов к скорости, поэтому по нему передача определяется однозначно. Набери данных в поездке с ровной скоростью на каждой передаче - на графике проявятся горизонтальные полосы, и я привяжу их к номерам передач."
         },
         {
-          "id": 16,
+          "id": 19,
           "type": "row",
           "title": "Обозреватель - любой из параметров",
           "collapsed": false,
@@ -1620,12 +1847,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 59
+            "y": 75
           },
           "panels": []
         },
         {
-          "id": 17,
+          "id": 20,
           "type": "timeseries",
           "title": "Выбранные параметры",
           "datasource": {
@@ -1636,7 +1863,7 @@ data:
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 60
+            "y": 76
           },
           "targets": [
             {
@@ -1679,7 +1906,7 @@ data:
           }
         },
         {
-          "id": 18,
+          "id": 21,
           "type": "row",
           "title": "Температуры (5)",
           "collapsed": false,
@@ -1687,12 +1914,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 70
+            "y": 86
           },
           "panels": []
         },
         {
-          "id": 19,
+          "id": 22,
           "type": "timeseries",
           "title": "Температура масла (замер)",
           "datasource": {
@@ -1703,7 +1930,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 71
+            "y": 87
           },
           "targets": [
             {
@@ -1896,7 +2123,7 @@ data:
           "description": "То же, что и у расчётной температуры: 110 / 125 / 140 °C."
         },
         {
-          "id": 20,
+          "id": 23,
           "type": "timeseries",
           "title": "Температура масла (расчётная)",
           "datasource": {
@@ -1907,7 +2134,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 71
+            "y": 87
           },
           "targets": [
             {
@@ -2100,7 +2327,7 @@ data:
           "description": "Пороговые линии: 110 °C - высокая нагрузка (трасса, жара, прицеп), 125 °C - долго держать не стоит, 140 °C - масло деградирует быстро, искать причину. Норма 90-110 °C. На холостых без обдува температура ползёт вверх - это ожидаемо."
         },
         {
-          "id": 21,
+          "id": 24,
           "type": "timeseries",
           "title": "Температура за бортом · Температура за бортом (расчётная)",
           "datasource": {
@@ -2111,7 +2338,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 79
+            "y": 95
           },
           "targets": [
             {
@@ -2154,7 +2381,7 @@ data:
           }
         },
         {
-          "id": 22,
+          "id": 25,
           "type": "timeseries",
           "title": "Температура испарителя",
           "datasource": {
@@ -2165,7 +2392,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 79
+            "y": 95
           },
           "targets": [
             {
@@ -2208,7 +2435,7 @@ data:
           }
         },
         {
-          "id": 23,
+          "id": 26,
           "type": "row",
           "title": "Напряжения и ток (2)",
           "collapsed": false,
@@ -2216,12 +2443,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 87
+            "y": 103
           },
           "panels": []
         },
         {
-          "id": 24,
+          "id": 27,
           "type": "timeseries",
           "title": "Напряжение питания BSI",
           "datasource": {
@@ -2232,7 +2459,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 88
+            "y": 104
           },
           "targets": [
             {
@@ -2425,7 +2652,7 @@ data:
           "description": "Ниже 11.5 В - глубокий разряд, 12.4 В - нижняя граница нормы покоя, выше 15 В - перезаряд, подозрение на регулятор генератора."
         },
         {
-          "id": 25,
+          "id": 28,
           "type": "timeseries",
           "title": "Напряжение аккумулятора в покое",
           "datasource": {
@@ -2436,7 +2663,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 88
+            "y": 104
           },
           "targets": [
             {
@@ -2629,7 +2856,7 @@ data:
           "description": "Напряжение питания BSI в момент пробуждения, то есть ДО того, как генератор начал давать зарядку - самое близкое к напряжению покоя аккумулятора, что удаётся прочитать. Пользоваться лучше этим графиком, а не MP_TENSION_BATTERIE_AU_REPOS: тот показывает 16.1 В, что для покоящейся свинцовой батареи невозможно, у него неверно разобран масштаб.\n\n12.7 В - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд и сульфатация. На этой машине 12.7 В, то есть аккумулятор в порядке. Замер честен только после нескольких часов стоянки: сразу после поездки батарея держит поверхностный заряд и завышает показание на 0.2-0.3 В.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 26,
+          "id": 29,
           "type": "row",
           "title": "Проценты (6)",
           "collapsed": false,
@@ -2637,14 +2864,14 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 96
+            "y": 112
           },
           "panels": []
         },
         {
-          "id": 27,
+          "id": 30,
           "type": "timeseries",
-          "title": "Лампа в кнопке аварийки · Подсветка салона",
+          "title": "Подсветка салона",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -2653,7 +2880,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 97
+            "y": 113
           },
           "targets": [
             {
@@ -2664,7 +2891,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_COMMANDE_TEMOIN_FEUX_DETRESSE' THEN 'Лампа в кнопке аварийки'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR' THEN 'Подсветка салона'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_TEMOIN_FEUX_DETRESSE', 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR' THEN 'Подсветка салона'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_ECLAIREUR_AMBIANCE_INTERIEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2696,9 +2923,9 @@ data:
           }
         },
         {
-          "id": 28,
+          "id": 31,
           "type": "timeseries",
-          "title": "Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафона · Подсветка дисплеев и кнопок",
+          "title": "Лампа в кнопке аварийки · Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафона",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -2707,7 +2934,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 97
+            "y": 113
           },
           "targets": [
             {
@@ -2718,7 +2945,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR' THEN 'Наружная боковая подсветка'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE' THEN 'Освещение заднего плафона'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT' THEN 'Освещение переднего плафона'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS' THEN 'Подсветка дисплеев и кнопок'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT', 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_COMMANDE_TEMOIN_FEUX_DETRESSE' THEN 'Лампа в кнопке аварийки'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR' THEN 'Наружная боковая подсветка'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE' THEN 'Освещение заднего плафона'\n       WHEN 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT' THEN 'Освещение переднего плафона'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_TEMOIN_FEUX_DETRESSE', 'MP_COMMANDE_ECLAIRAGE_LATERAL_EXTERIEUR', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_ARRIERE', 'MP_COMMANDE_ECLAIRAGE_PLAFONNIER_AVANT') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2750,7 +2977,61 @@ data:
           }
         },
         {
-          "id": 29,
+          "id": 32,
+          "type": "timeseries",
+          "title": "Подсветка дисплеев и кнопок",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 121
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS' THEN 'Подсветка дисплеев и кнопок'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('MP_COMMANDE_ECLAIRAGE_AFFICHEURS_ET_PUSH_INTERIEURS') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 33,
           "type": "row",
           "title": "Пробег и обслуживание (10)",
           "collapsed": false,
@@ -2758,12 +3039,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 105
+            "y": 129
           },
           "panels": []
         },
         {
-          "id": 30,
+          "id": 34,
           "type": "timeseries",
           "title": "Км до обслуживания",
           "datasource": {
@@ -2774,7 +3055,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 106
+            "y": 130
           },
           "targets": [
             {
@@ -2922,7 +3203,7 @@ data:
           "description": "Интервал у этой машины около 10 400 км (посчитано: 9784 км пройдено с последнего сброса плюс 630 остатка). Ниже 1500 км - пора планировать, ниже 500 - записываться."
         },
         {
-          "id": 31,
+          "id": 35,
           "type": "timeseries",
           "title": "Дней с последнего сброса ТО",
           "datasource": {
@@ -2933,7 +3214,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 106
+            "y": 130
           },
           "targets": [
             {
@@ -2976,7 +3257,7 @@ data:
           }
         },
         {
-          "id": 32,
+          "id": 36,
           "type": "timeseries",
           "title": "Запас хода · Пробег с последнего сброса суточного с · Пробег частичный, сохранённый в BSI",
           "datasource": {
@@ -2987,7 +3268,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 114
+            "y": 138
           },
           "targets": [
             {
@@ -3030,7 +3311,7 @@ data:
           }
         },
         {
-          "id": 33,
+          "id": 37,
           "type": "timeseries",
           "title": "Пробег поездки 1 · Пробег поездки 2",
           "datasource": {
@@ -3041,7 +3322,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 114
+            "y": 138
           },
           "targets": [
             {
@@ -3084,7 +3365,7 @@ data:
           }
         },
         {
-          "id": 34,
+          "id": 38,
           "type": "timeseries",
           "title": "Пробег общий · Пробег общий, сохранённый в BSI",
           "datasource": {
@@ -3095,7 +3376,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 122
+            "y": 146
           },
           "targets": [
             {
@@ -3138,7 +3419,7 @@ data:
           }
         },
         {
-          "id": 35,
+          "id": 39,
           "type": "timeseries",
           "title": "Пробег при последнем сбросе ТО",
           "datasource": {
@@ -3149,7 +3430,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 122
+            "y": 146
           },
           "targets": [
             {
@@ -3192,7 +3473,7 @@ data:
           }
         },
         {
-          "id": 36,
+          "id": 40,
           "type": "row",
           "title": "Состояния и флаги (272)",
           "collapsed": false,
@@ -3200,12 +3481,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 130
+            "y": 154
           },
           "panels": []
         },
         {
-          "id": 37,
+          "id": 41,
           "type": "table",
           "title": "Состояния и флаги: текущие значения",
           "datasource": {
@@ -3216,7 +3497,7 @@ data:
             "h": 16,
             "w": 24,
             "x": 0,
-            "y": 131
+            "y": 155
           },
           "targets": [
             {
@@ -3252,7 +3533,7 @@ data:
           }
         },
         {
-          "id": 38,
+          "id": 42,
           "type": "row",
           "title": "Конфигурация (4)",
           "collapsed": false,
@@ -3260,12 +3541,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 147
+            "y": 171
           },
           "panels": []
         },
         {
-          "id": 39,
+          "id": 43,
           "type": "table",
           "title": "Конфигурация: текущие значения",
           "datasource": {
@@ -3276,7 +3557,7 @@ data:
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 148
+            "y": 172
           },
           "targets": [
             {
@@ -3312,7 +3593,7 @@ data:
           }
         },
         {
-          "id": 40,
+          "id": 44,
           "type": "row",
           "title": "двигатель Valeo V46 (EC5) (55)",
           "collapsed": false,
@@ -3320,12 +3601,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 155
+            "y": 179
           },
           "panels": []
         },
         {
-          "id": 41,
+          "id": 45,
           "type": "timeseries",
           "title": "Обороты двигателя (по блоку двигателя)",
           "datasource": {
@@ -3336,7 +3617,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 156
+            "y": 180
           },
           "targets": [
             {
@@ -3525,7 +3806,7 @@ data:
           "description": "Холостой ход этой машины около 750 об/мин - если он заметно выше на прогретом двигателе или плавает, ищи подсос воздуха. Отсечка у EC5 около 6200 об/мин.\n\nИсточник границ: замеры этой машины."
         },
         {
-          "id": 42,
+          "id": 46,
           "type": "timeseries",
           "title": "Температура охлаждающей жидкости",
           "datasource": {
@@ -3536,7 +3817,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 156
+            "y": 180
           },
           "targets": [
             {
@@ -3729,7 +4010,7 @@ data:
           "description": "Норма после прогрева 85-100 °C. Термостат открывается около 89 °C, вентилятор включается около 99 и 103 °C, поэтому выше 105 °C - уже не штатный нагрев. При прогреве значение идёт снизу, это нормально.\n\nВАЖНО для этой машины: в двигателе сохранён код P0116 - цепь датчика температуры ОЖ, показания вне допустимого диапазона. Пока код сохранён, вентилятор работает в аварийном режиме и включается чаще, даже когда живое показание в норме. То есть ровный график здесь НЕ значит, что датчик исправен: он врёт с перерывами. Прямая проверка - сравнить это значение с некорректированным MP_TEMP_EAU_NON_CORRIGEE, но тот запрос у этого блока не отвечает.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 43,
+          "id": 47,
           "type": "timeseries",
           "title": "Температура воздуха на впуске",
           "datasource": {
@@ -3740,7 +4021,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 164
+            "y": 188
           },
           "targets": [
             {
@@ -3888,7 +4169,7 @@ data:
           "description": "Температура воздуха на впуске. Норма - наружная температура плюс небольшой нагрев на ходу. На стоянке и в пробке подкапотный жар легко даёт плюс 25-30 °C, это ещё не неисправность. Выше 75 °C двигатель теряет мощность и растёт риск детонации: смотреть, не забор ли горячего воздуха. Сравнивать с наружной температурой на соседнем графике.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 44,
+          "id": 48,
           "type": "timeseries",
           "title": "Питание блока двигателя",
           "datasource": {
@@ -3899,7 +4180,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 164
+            "y": 188
           },
           "targets": [
             {
@@ -4051,7 +4332,7 @@ data:
           "description": "Границы 12 и 15 В взяты из подсказки самой DiagBox к этому параметру. Ниже 12 В при работающем двигателе - генератор не даёт зарядки, выше 15 В - перезаряд, подозрение на регулятор. На этой машине держится около 14.0 В, что нормально.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 45,
+          "id": 49,
           "type": "timeseries",
           "title": "Датчик дросселя 1",
           "datasource": {
@@ -4062,7 +4343,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 172
+            "y": 196
           },
           "targets": [
             {
@@ -4210,7 +4491,7 @@ data:
           "description": "Первый датчик положения дросселя, питание 5 В. На холостых около 680 мВ. Датчиков два, направлены противоположно: сумма первого и второго держится около 5000 мВ, и если она уехала - врёт один из них. Выход за 200 или 4800 мВ - это уже не положение, а обрыв либо замыкание проводки.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 46,
+          "id": 50,
           "type": "timeseries",
           "title": "Датчик дросселя 2",
           "datasource": {
@@ -4221,7 +4502,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 172
+            "y": 196
           },
           "targets": [
             {
@@ -4369,7 +4650,7 @@ data:
           "description": "Второй датчик положения дросселя, направлен противоположно первому: на холостых около 4350 мВ, тогда как первый 680 мВ. Сумма двух должна держаться около 5000 мВ.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 47,
+          "id": 51,
           "type": "timeseries",
           "title": "Датчик кислорода до катализатора",
           "datasource": {
@@ -4380,7 +4661,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 180
+            "y": 204
           },
           "targets": [
             {
@@ -4569,7 +4850,7 @@ data:
           "description": "Верхний (до катализатора) датчик кислорода. У исправного напряжение непрерывно качается примерно между 100 и 900 мВ вокруг 450 мВ - смысл именно в колебании, а не в конкретном значении. Плохой признак - РОВНАЯ линия: датчик замер. Замерло около 450 мВ - обрыв или он остыл, у нижнего края - постоянно бедная смесь (подсос воздуха), у верхнего - богатая. На холодном двигателе колебаний ещё нет, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 48,
+          "id": 52,
           "type": "timeseries",
           "title": "Датчик кислорода после катализатора",
           "datasource": {
@@ -4580,7 +4861,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 180
+            "y": 204
           },
           "targets": [
             {
@@ -4728,7 +5009,7 @@ data:
           "description": "Нижний (после катализатора) датчик кислорода. Здесь всё наоборот: у исправного катализатора напряжение стоит РОВНО и высоко, обычно 550-800 мВ. Если оно начало качаться так же, как у верхнего датчика, катализатор перестал работать. На холодном двигателе показание низкое, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 49,
+          "id": 53,
           "type": "timeseries",
           "title": "Счётчик холодных пусков · Порог закоксовывания превышен · Согласованность распредвала с коленвал · Программирование иммобилайзера",
           "datasource": {
@@ -4739,7 +5020,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 188
+            "y": 212
           },
           "targets": [
             {
@@ -4782,7 +5063,7 @@ data:
           }
         },
         {
-          "id": 50,
+          "id": 54,
           "type": "timeseries",
           "title": "Регулировка по датчику O2 до кат. · Регулировка по датчику O2 после кат. · Состояние датчика O2 до катализатора · Состояние датчика O2 после катализатор",
           "datasource": {
@@ -4793,7 +5074,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 188
+            "y": 212
           },
           "targets": [
             {
@@ -4836,7 +5117,7 @@ data:
           }
         },
         {
-          "id": 51,
+          "id": 55,
           "type": "timeseries",
           "title": "Блокировка блока управления · Выбранный вариант привязки · Сбой передачи кода разблокировки",
           "datasource": {
@@ -4847,7 +5128,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 196
+            "y": 220
           },
           "targets": [
             {
@@ -4890,7 +5171,7 @@ data:
           }
         },
         {
-          "id": 52,
+          "id": 56,
           "type": "timeseries",
           "title": "Скважность регулирования после кат.",
           "datasource": {
@@ -4901,7 +5182,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 196
+            "y": 220
           },
           "targets": [
             {
@@ -4944,7 +5225,7 @@ data:
           }
         },
         {
-          "id": 53,
+          "id": 57,
           "type": "timeseries",
           "title": "Счётчик пусков двигателя",
           "datasource": {
@@ -4955,7 +5236,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 204
+            "y": 228
           },
           "targets": [
             {
@@ -4998,7 +5279,7 @@ data:
           }
         },
         {
-          "id": 54,
+          "id": 58,
           "type": "timeseries",
           "title": "Коррекция смеси по датчику до кат. · Коррекция смеси по датчику после кат.",
           "datasource": {
@@ -5009,7 +5290,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 204
+            "y": 228
           },
           "targets": [
             {
@@ -5052,7 +5333,7 @@ data:
           }
         },
         {
-          "id": 55,
+          "id": 59,
           "type": "timeseries",
           "title": "Насыщение адсорбера паров бензина · Клапан фазовращателя, скважность",
           "datasource": {
@@ -5063,7 +5344,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 212
+            "y": 236
           },
           "targets": [
             {
@@ -5106,7 +5387,7 @@ data:
           }
         },
         {
-          "id": 56,
+          "id": 60,
           "type": "timeseries",
           "title": "Клапан продувки адсорбера · Скважность регулирования до кат. · Наполнение цилиндров, задание · Наполнение цилиндров",
           "datasource": {
@@ -5117,7 +5398,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 212
+            "y": 236
           },
           "targets": [
             {
@@ -5160,7 +5441,7 @@ data:
           }
         },
         {
-          "id": 57,
+          "id": 61,
           "type": "timeseries",
           "title": "Угол опережения по цилиндрам",
           "datasource": {
@@ -5171,7 +5452,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 220
+            "y": 244
           },
           "targets": [
             {
@@ -5214,7 +5495,7 @@ data:
           }
         },
         {
-          "id": 58,
+          "id": 62,
           "type": "timeseries",
           "title": "Расход воздуха, задание · Расход воздуха",
           "datasource": {
@@ -5225,7 +5506,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 220
+            "y": 244
           },
           "targets": [
             {
@@ -5268,7 +5549,7 @@ data:
           }
         },
         {
-          "id": 59,
+          "id": 63,
           "type": "timeseries",
           "title": "Давление во впуске, задание · Давление во впускном коллекторе",
           "datasource": {
@@ -5279,7 +5560,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 228
+            "y": 252
           },
           "targets": [
             {
@@ -5322,7 +5603,7 @@ data:
           }
         },
         {
-          "id": 60,
+          "id": 64,
           "type": "timeseries",
           "title": "Задание состава смеси",
           "datasource": {
@@ -5333,7 +5614,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 228
+            "y": 252
           },
           "targets": [
             {
@@ -5376,7 +5657,7 @@ data:
           }
         },
         {
-          "id": 61,
+          "id": 65,
           "type": "timeseries",
           "title": "Время впрыска, цилиндр 1 · Время впрыска, цилиндр 2 · Время впрыска, цилиндр 3 · Время впрыска, цилиндр 4",
           "datasource": {
@@ -5387,7 +5668,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 236
+            "y": 260
           },
           "targets": [
             {
@@ -5430,7 +5711,7 @@ data:
           }
         },
         {
-          "id": 62,
+          "id": 66,
           "type": "timeseries",
           "title": "Угол дросселя",
           "datasource": {
@@ -5441,7 +5722,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 236
+            "y": 260
           },
           "targets": [
             {
@@ -5484,7 +5765,7 @@ data:
           }
         },
         {
-          "id": 63,
+          "id": 67,
           "type": "timeseries",
           "title": "Угол дросселя, задание · Угол опережения зажигания, максимум · Угол опережения зажигания, минимум · Угол опережения зажигания, оптимум",
           "datasource": {
@@ -5495,7 +5776,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 244
+            "y": 268
           },
           "targets": [
             {
@@ -5538,7 +5819,7 @@ data:
           }
         },
         {
-          "id": 64,
+          "id": 68,
           "type": "timeseries",
           "title": "Фазовращатель впуска, задание · Положение фазовращателя впуска · Снятие угла от детонации, цил. 1 · Снятие угла от детонации, цил. 2",
           "datasource": {
@@ -5549,7 +5830,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 244
+            "y": 268
           },
           "targets": [
             {
@@ -5592,7 +5873,7 @@ data:
           }
         },
         {
-          "id": 65,
+          "id": 69,
           "type": "timeseries",
           "title": "Снятие угла от детонации, цил. 3 · Снятие угла от детонации, цил. 4",
           "datasource": {
@@ -5603,7 +5884,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 252
+            "y": 276
           },
           "targets": [
             {
@@ -5646,7 +5927,7 @@ data:
           }
         },
         {
-          "id": 66,
+          "id": 70,
           "type": "table",
           "title": "двигатель Valeo V46 (EC5): постоянные значения",
           "datasource": {
@@ -5657,7 +5938,7 @@ data:
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 260
+            "y": 284
           },
           "targets": [
             {
@@ -5693,7 +5974,7 @@ data:
           }
         },
         {
-          "id": 67,
+          "id": 71,
           "type": "row",
           "title": "ABS/ESP (18)",
           "collapsed": false,
@@ -5701,12 +5982,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 268
+            "y": 292
           },
           "panels": []
         },
         {
-          "id": 68,
+          "id": 72,
           "type": "timeseries",
           "title": "Выключатель стоп-сигнала · Реле питания электроклапанов · Реле насоса рециркуляции · Уровень тормозной жидкости",
           "datasource": {
@@ -5717,7 +5998,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 269
+            "y": 293
           },
           "targets": [
             {
@@ -5760,7 +6041,7 @@ data:
           }
         },
         {
-          "id": 69,
+          "id": 73,
           "type": "timeseries",
           "title": "Колесо заднее правое · Колесо заднее левое · Колесо переднее левое · Скорость автомобиля",
           "datasource": {
@@ -5771,7 +6052,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 269
+            "y": 293
           },
           "targets": [
             {
@@ -5814,7 +6095,7 @@ data:
           }
         },
         {
-          "id": 70,
+          "id": 74,
           "type": "timeseries",
           "title": "Колесо переднее правое",
           "datasource": {
@@ -5825,7 +6106,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 277
+            "y": 301
           },
           "targets": [
             {
@@ -5868,7 +6149,7 @@ data:
           }
         },
         {
-          "id": 71,
+          "id": 75,
           "type": "table",
           "title": "ABS/ESP: постоянные значения",
           "datasource": {
@@ -5879,7 +6160,7 @@ data:
             "h": 12,
             "w": 24,
             "x": 0,
-            "y": 285
+            "y": 309
           },
           "targets": [
             {
@@ -5915,7 +6196,7 @@ data:
           }
         },
         {
-          "id": 72,
+          "id": 76,
           "type": "row",
           "title": "электронасос (18)",
           "collapsed": false,
@@ -5923,12 +6204,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 297
+            "y": 321
           },
           "panels": []
         },
         {
-          "id": 73,
+          "id": 77,
           "type": "timeseries",
           "title": "Питание насоса гидроусилителя",
           "datasource": {
@@ -5939,7 +6220,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 298
+            "y": 322
           },
           "targets": [
             {
@@ -6087,7 +6368,7 @@ data:
           "description": "Питание насоса гидроусилителя. Границы 9 и 18 В - из подсказки DiagBox к этому параметру. Диапазон широкий потому, что насос должен работать и при просадке от стартера.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 74,
+          "id": 78,
           "type": "timeseries",
           "title": "Двигатель работает",
           "datasource": {
@@ -6098,7 +6379,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 298
+            "y": 322
           },
           "targets": [
             {
@@ -6141,7 +6422,7 @@ data:
           }
         },
         {
-          "id": 75,
+          "id": 79,
           "type": "timeseries",
           "title": "Ток потребления насоса",
           "datasource": {
@@ -6152,7 +6433,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 306
+            "y": 330
           },
           "targets": [
             {
@@ -6195,7 +6476,7 @@ data:
           }
         },
         {
-          "id": 76,
+          "id": 80,
           "type": "timeseries",
           "title": "Обороты двигателя (по насосу)",
           "datasource": {
@@ -6206,7 +6487,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 306
+            "y": 330
           },
           "targets": [
             {
@@ -6249,7 +6530,7 @@ data:
           }
         },
         {
-          "id": 77,
+          "id": 81,
           "type": "timeseries",
           "title": "Скорость автомобиля",
           "datasource": {
@@ -6260,7 +6541,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 314
+            "y": 338
           },
           "targets": [
             {
@@ -6303,7 +6584,7 @@ data:
           }
         },
         {
-          "id": 78,
+          "id": 82,
           "type": "timeseries",
           "title": "Скорость вращения руля",
           "datasource": {
@@ -6314,7 +6595,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 314
+            "y": 338
           },
           "targets": [
             {
@@ -6357,7 +6638,7 @@ data:
           }
         },
         {
-          "id": 79,
+          "id": 83,
           "type": "timeseries",
           "title": "Температура насоса ГУР",
           "datasource": {
@@ -6368,7 +6649,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 322
+            "y": 346
           },
           "targets": [
             {
@@ -6411,7 +6692,7 @@ data:
           }
         },
         {
-          "id": 80,
+          "id": 84,
           "type": "table",
           "title": "электронасос: постоянные значения",
           "datasource": {
@@ -6422,7 +6703,7 @@ data:
             "h": 14,
             "w": 24,
             "x": 0,
-            "y": 330
+            "y": 354
           },
           "targets": [
             {
