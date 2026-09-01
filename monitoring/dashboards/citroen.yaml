@@ -4950,7 +4950,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL' THEN 'Датчик кислорода после катализатора'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: низ ровной полки' AS metric, 550\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: низ ровной полки', 550\nUNION ALL\nSELECT $__timeFrom()::timestamptz AS \"time\", 'граница: верх ровной полки' AS metric, 800\nUNION ALL SELECT $__timeTo()::timestamptz, 'граница: верх ровной полки', 800\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL' THEN 'Датчик кислорода после катализатора'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -4962,7 +4962,7 @@ data:
                 "showPoints": "never",
                 "spanNulls": true,
                 "thresholdsStyle": {
-                  "mode": "area"
+                  "mode": "dashed+area"
                 }
               },
               "thresholds": {
@@ -4970,105 +4970,14 @@ data:
                 "steps": [
                   {
                     "value": null,
-                    "color": "#EAB839"
-                  },
-                  {
-                    "value": 550,
                     "color": "green"
-                  },
-                  {
-                    "value": 800,
-                    "color": "#EAB839"
                   }
                 ]
               },
               "min": 0,
               "max": 1000
             },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "граница: низ ровной полки"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "mode": "fixed",
-                      "fixedColor": "#EAB839"
-                    }
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash",
-                      "dash": [
-                        10,
-                        10
-                      ]
-                    }
-                  },
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 1
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.hideFrom",
-                    "value": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "граница: верх ровной полки"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "mode": "fixed",
-                      "fixedColor": "#EAB839"
-                    }
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash",
-                      "dash": [
-                        10,
-                        10
-                      ]
-                    }
-                  },
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 1
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.hideFrom",
-                    "value": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    }
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "options": {
             "legend": {
@@ -5080,11 +4989,11 @@ data:
               ]
             },
             "tooltip": {
-              "mode": "multi",
+              "mode": "single",
               "sort": "none"
             }
           },
-          "description": "Нижний (после катализатора) датчик кислорода. Здесь всё наоборот: у исправного катализатора напряжение стоит РОВНО и высоко, обычно 550-800 мВ. Если оно начало качаться так же, как у верхнего датчика, катализатор перестал работать. На холодном двигателе показание низкое, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+          "description": "Нижний (после катализатора) датчик кислорода. На этой машине катализатор ВЫРЕЗАН, поэтому датчик стоит в пустой трубе и видит сырой выхлоп: он качается от 0 до 900 мВ примерно как верхний, и это нормально именно здесь.\n\nПравило \"ровная полка 550-800 мВ\" из учебников относится к машине с работающим катализатором и к этой машине НЕ применимо - поэтому пороговых линий на панели нет.\n\nЧем он всё-таки полезен: это вторая копия верхнего датчика. Сравнивай два графика между собой - если один качается, а второй замер ровной линией, значит замерший умер. Одинаковое качание обоих - оба живы.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
           "id": 55,
