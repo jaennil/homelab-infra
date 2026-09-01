@@ -33,7 +33,7 @@ data:
               "type": "postgres",
               "uid": "citroen-postgres"
             },
-            "query": "SELECT CASE name\n       WHEN 'ESP81:ID_DATE_TELECHARGEMENT' THEN 'Дата загрузки ПО'\n       WHEN 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT' THEN 'Число загрузок ПО'\n       WHEN 'ESP81:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'ESP81:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'ESP81:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'ESP81:ID_TRACABILITE_DATE_FABRICATION' THEN 'Дата изготовления'\n       WHEN 'ESP81:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'ESP81:ID_VERSION_LOGICIEL' THEN 'Версия ПО'\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигнала'\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания электроклапанов'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса рециркуляции'\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Уровень тормозной жидкости'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE' THEN 'Колесо заднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE' THEN 'Колесо заднее левое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_DROIT' THEN 'Колесо переднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE' THEN 'Колесо переднее левое'\n       WHEN 'ESP81:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'GEP:APC' THEN 'Зажигание включено'\n       WHEN 'GEP:CFG____ASSISTANCE_1' THEN 'Конфиг: тип усилителя'\n       WHEN 'GEP:ID_80_MP_INDICE_MESS' THEN 'Индекс сообщений'\n       WHEN 'GEP:ID_EDITION_LOGICIEL' THEN 'Редакция ПО'\n       WHEN 'GEP:ID_EDI_CALIB' THEN 'Редакция калибровки'\n       WHEN 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'GEP:ID_REFERENCE_FOURNISSEUR' THEN 'Номер поставщика'\n       WHEN 'GEP:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'GEP:ID_REFERENCE_PSA' THEN 'Номер PSA'\n       WHEN 'GEP:ID_VERSION_LOGICIEL_new_1' THEN 'Версия ПО'\n       WHEN 'GEP:INTENSITE_MESUREE' THEN 'Ток потребления насоса'\n       WHEN 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2' THEN 'Двигатель работает'\n       WHEN 'GEP:MP_TEMPERATURE_GEP' THEN 'Температура насоса ГУР'\n       WHEN 'GEP:MP_TENSION_ALIMENTATION' THEN 'Питание насоса гидроусилителя'\n       WHEN 'GEP:MP_VITESSE_MOTEUR_GEP' THEN 'Обороты двигателя (по насосу)'\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'GEP:MP_VITESSE_VOLANT_DE_DIRECTION' THEN 'Скорость вращения руля'\n       WHEN 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION' THEN 'Тип датчика угла руля'\n       WHEN 'V46_32:CONFIG_INDICE_TELECODAGE' THEN 'Индекс телекодирования'\n       WHEN 'V46_32:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'V46_32:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'V46_32:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_CONSIGNE' THEN 'Угол дросселя, задание'\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_MESURE' THEN 'Угол дросселя'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_APPLIQUEE_A_CHAQUE_CYLINDRE' THEN 'Угол опережения по цилиндрам'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM' THEN 'Угол опережения зажигания, максимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM' THEN 'Угол опережения зажигания, минимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL' THEN 'Угол опережения зажигания, оптимум'\n       WHEN 'V46_32:MP_CDERCOELECPURGE' THEN 'Клапан продувки адсорбера'\n       WHEN 'V46_32:MP_CHARGE_ESTIMEE_CANISTER' THEN 'Насыщение адсорбера паров бензина'\n       WHEN 'V46_32:MP_COMPTDEMMOT' THEN 'Счётчик пусков двигателя'\n       WHEN 'V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID' THEN 'Счётчик холодных пусков'\n       WHEN 'V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION' THEN 'Фазовращатель впуска, задание'\n       WHEN 'V46_32:MP_CONSIGNE_PRESSION_ADMISSION' THEN 'Давление во впуске, задание'\n       WHEN 'V46_32:MP_CON_RICHESSE' THEN 'Задание состава смеси'\n       WHEN 'V46_32:MP_DEBAIRCONS' THEN 'Расход воздуха, задание'\n       WHEN 'V46_32:MP_DEBIT_AIR' THEN 'Расход воздуха'\n       WHEN 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR' THEN 'Порог закоксовывания превышен'\n       WHEN 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL' THEN 'Согласованность распредвала с коленвалом'\n       WHEN 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE' THEN 'Программирование иммобилайзера'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT' THEN 'Регулировка по датчику O2 до кат.'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL' THEN 'Регулировка по датчику O2 после кат.'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT' THEN 'Состояние датчика O2 до катализатора'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL' THEN 'Состояние датчика O2 после катализатора'\n       WHEN 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR' THEN 'Блокировка блока управления'\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AMONT' THEN 'Коррекция смеси по датчику до кат.'\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AVAL' THEN 'Коррекция смеси по датчику после кат.'\n       WHEN 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE' THEN 'Выбранный вариант привязки'\n       WHEN 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE' THEN 'Сбой передачи кода разблокировки'\n       WHEN 'V46_32:MP_POS_DEPHASEUR_ACC_1' THEN 'Положение фазовращателя впуска'\n       WHEN 'V46_32:MP_PRESSIONTUBULURE' THEN 'Давление во впускном коллекторе'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Скважность регулирования до кат.'\n       WHEN 'V46_32:MP_RCOAVAL' THEN 'Скважность регулирования после кат.'\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя, скважность'\n       WHEN 'V46_32:MP_REGIME_MOTEUR' THEN 'Обороты двигателя (по блоку двигателя)'\n       WHEN 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE' THEN 'Наполнение цилиндров, задание'\n       WHEN 'V46_32:MP_REMPLISSAGE_MESURE' THEN 'Наполнение цилиндров'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01' THEN 'Снятие угла от детонации, цил. 1'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02' THEN 'Снятие угла от детонации, цил. 2'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03' THEN 'Снятие угла от детонации, цил. 3'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04' THEN 'Снятие угла от детонации, цил. 4'\n       WHEN 'V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d' THEN 'Температура охлаждающей жидкости'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_01' THEN 'Время впрыска, цилиндр 1'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_02' THEN 'Время впрыска, цилиндр 2'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_03' THEN 'Время впрыска, цилиндр 3'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_04' THEN 'Время впрыска, цилиндр 4'\n       WHEN 'V46_32:MP_TEMP_AIR_ADMISSION_SUP' THEN 'Температура воздуха на впуске'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR' THEN 'Питание блока двигателя'\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01' THEN 'Датчик дросселя 1'\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02' THEN 'Датчик дросселя 2'\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT' THEN 'Датчик кислорода до катализатора'\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL' THEN 'Датчик кислорода после катализатора'\n       ELSE coalesce(p.label, name) END AS \"__text\", name AS \"__value\" FROM param ORDER BY 1",
+            "query": "SELECT CASE name\n       WHEN 'ESP81:ID_DATE_TELECHARGEMENT' THEN 'Дата загрузки ПО'\n       WHEN 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT' THEN 'Число загрузок ПО'\n       WHEN 'ESP81:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'ESP81:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'ESP81:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'ESP81:ID_TRACABILITE_DATE_FABRICATION' THEN 'Дата изготовления'\n       WHEN 'ESP81:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'ESP81:ID_VERSION_LOGICIEL' THEN 'Версия ПО'\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигнала'\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания электроклапанов'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса рециркуляции'\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Уровень тормозной жидкости'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE' THEN 'Колесо заднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE' THEN 'Колесо заднее левое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_DROIT' THEN 'Колесо переднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE' THEN 'Колесо переднее левое'\n       WHEN 'ESP81:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'GEP:APC' THEN 'Зажигание включено'\n       WHEN 'GEP:CFG____ASSISTANCE_1' THEN 'Конфиг: тип усилителя'\n       WHEN 'GEP:ID_80_MP_INDICE_MESS' THEN 'Индекс сообщений'\n       WHEN 'GEP:ID_EDITION_LOGICIEL' THEN 'Редакция ПО'\n       WHEN 'GEP:ID_EDI_CALIB' THEN 'Редакция калибровки'\n       WHEN 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'GEP:ID_REFERENCE_FOURNISSEUR' THEN 'Номер поставщика'\n       WHEN 'GEP:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'GEP:ID_REFERENCE_PSA' THEN 'Номер PSA'\n       WHEN 'GEP:ID_VERSION_LOGICIEL_new_1' THEN 'Версия ПО'\n       WHEN 'GEP:INTENSITE_MESUREE' THEN 'Ток потребления насоса'\n       WHEN 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2' THEN 'Двигатель работает'\n       WHEN 'GEP:MP_TEMPERATURE_GEP' THEN 'Температура насоса ГУР'\n       WHEN 'GEP:MP_TENSION_ALIMENTATION' THEN 'Питание насоса гидроусилителя'\n       WHEN 'GEP:MP_VITESSE_MOTEUR_GEP' THEN 'Обороты двигателя (по насосу)'\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'GEP:MP_VITESSE_VOLANT_DE_DIRECTION' THEN 'Скорость вращения руля'\n       WHEN 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION' THEN 'Тип датчика угла руля'\n       WHEN 'V46_32:CONFIG_INDICE_TELECODAGE' THEN 'Индекс телекодирования'\n       WHEN 'V46_32:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'V46_32:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'V46_32:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_CONSIGNE' THEN 'Угол дросселя, задание'\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_MESURE' THEN 'Угол дросселя'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_APPLIQUEE_A_CHAQUE_CYLINDRE' THEN 'Угол опережения по цилиндрам'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM' THEN 'Угол опережения зажигания, максимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM' THEN 'Угол опережения зажигания, минимум'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL' THEN 'Угол опережения зажигания, оптимум'\n       WHEN 'V46_32:MP_BRUIT_CAPTEUR_CLIQUETIS' THEN 'Bruit capteur cliquetis'\n       WHEN 'V46_32:MP_CDERCOELECPURGE' THEN 'Клапан продувки адсорбера'\n       WHEN 'V46_32:MP_CHARGE_ESTIMEE_CANISTER' THEN 'Насыщение адсорбера паров бензина'\n       WHEN 'V46_32:MP_COMMANDE_RELAIS_PUISSANCE' THEN 'Команда relais puissance'\n       WHEN 'V46_32:MP_COMPTDEMMOT' THEN 'Счётчик пусков двигателя'\n       WHEN 'V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID' THEN 'Счётчик холодных пусков'\n       WHEN 'V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION' THEN 'Фазовращатель впуска, задание'\n       WHEN 'V46_32:MP_CONSIGNE_PRESSION_ADMISSION' THEN 'Давление во впуске, задание'\n       WHEN 'V46_32:MP_CONSIGNE_VITESSE_GMV_C5' THEN 'Задание скорости вентилятора'\n       WHEN 'V46_32:MP_CON_RICHESSE' THEN 'Задание состава смеси'\n       WHEN 'V46_32:MP_DEBAIRCONS' THEN 'Расход воздуха, задание'\n       WHEN 'V46_32:MP_DEBIT_AIR' THEN 'Расход воздуха'\n       WHEN 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR' THEN 'Порог закоксовывания превышен'\n       WHEN 'V46_32:MP_ESTIMATION_PUISSANCE_CONSO_COMPRESSEUR_REFRI' THEN 'Estimation puissance conso compresseur refri'\n       WHEN 'V46_32:MP_ETATCDEDEM' THEN 'Etatcdedem'\n       WHEN 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL' THEN 'Согласованность распредвала с коленвалом'\n       WHEN 'V46_32:MP_ETAT_GMV_PTIT_C5' THEN 'Вентилятор, малая скорость'\n       WHEN 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE' THEN 'Программирование иммобилайзера'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT' THEN 'Регулировка по датчику O2 до кат.'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL' THEN 'Регулировка по датчику O2 после кат.'\n       WHEN 'V46_32:MP_ETAT_RELAIS_GMV' THEN 'Реле вентилятора охлаждения'\n       WHEN 'V46_32:MP_ETAT_REL_GMV_C5' THEN 'Реле вентилятора, состояние входа'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT' THEN 'Состояние датчика O2 до катализатора'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL' THEN 'Состояние датчика O2 после катализатора'\n       WHEN 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR' THEN 'Блокировка блока управления'\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AMONT' THEN 'Коррекция смеси по датчику до кат.'\n       WHEN 'V46_32:MP_FACTEUR_CORRECTION_RICHESSE_AVAL' THEN 'Коррекция смеси по датчику после кат.'\n       WHEN 'V46_32:MP_INFO_DETECTION_CHOC' THEN 'Info detection choc'\n       WHEN 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE' THEN 'Выбранный вариант привязки'\n       WHEN 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE' THEN 'Сбой передачи кода разблокировки'\n       WHEN 'V46_32:MP_POS_DEPHASEUR_ACC_1' THEN 'Положение фазовращателя впуска'\n       WHEN 'V46_32:MP_PRESSIONTUBULURE' THEN 'Давление во впускном коллекторе'\n       WHEN 'V46_32:MP_PRESSION_ATMOSPHERIQUE' THEN 'Pression atmospherique'\n       WHEN 'V46_32:MP_PRESSION_CIRCUIT_REFRIGERANT_a' THEN 'Pression circuit refrigerant a'\n       WHEN 'V46_32:MP_PRESSION_HUILE_MOTEUR' THEN 'Pression масло двигатель'\n       WHEN 'V46_32:MP_PRESSION_MASTERVAC' THEN 'Pression mastervac'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Скважность регулирования до кат.'\n       WHEN 'V46_32:MP_RCOAVAL' THEN 'Скважность регулирования после кат.'\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя, скважность'\n       WHEN 'V46_32:MP_REGIME_MOTEUR' THEN 'Обороты двигателя (по блоку двигателя)'\n       WHEN 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE' THEN 'Наполнение цилиндров, задание'\n       WHEN 'V46_32:MP_REMPLISSAGE_MESURE' THEN 'Наполнение цилиндров'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01' THEN 'Снятие угла от детонации, цил. 1'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02' THEN 'Снятие угла от детонации, цил. 2'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03' THEN 'Снятие угла от детонации, цил. 3'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04' THEN 'Снятие угла от детонации, цил. 4'\n       WHEN 'V46_32:MP_TEMPERATURE_AIR_EXTERIEUR' THEN 'Наружный воздух (по блоку двигателя)'\n       WHEN 'V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d' THEN 'Температура охлаждающей жидкости'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_01' THEN 'Время впрыска, цилиндр 1'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_02' THEN 'Время впрыска, цилиндр 2'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_03' THEN 'Время впрыска, цилиндр 3'\n       WHEN 'V46_32:MP_TEMPS_INJECTION_CYLINDRE_04' THEN 'Время впрыска, цилиндр 4'\n       WHEN 'V46_32:MP_TEMP_AIR_ADMISSION_SUP' THEN 'Температура воздуха на впуске'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CALCULATEUR_CONTROLE_MOTEUR' THEN 'Питание блока двигателя'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_01' THEN 'Напряжение alimentation capteurs 01'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_02' THEN 'Напряжение alimentation capteurs 02'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_03' THEN 'Напряжение alimentation capteurs 03'\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_01' THEN 'Датчик дросселя 1'\n       WHEN 'V46_32:MP_TENSION_RECOPIE_POSITION_PAPILLON_02' THEN 'Датчик дросселя 2'\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AMONT' THEN 'Датчик кислорода до катализатора'\n       WHEN 'V46_32:MP_TENSION_SONDE_A_OXYGENE_AVAL' THEN 'Датчик кислорода после катализатора'\n       ELSE coalesce(p.label, name) END AS \"__text\", name AS \"__value\" FROM param ORDER BY 1",
             "multi": true,
             "includeAll": false,
             "refresh": 1,
@@ -1645,7 +1645,7 @@ data:
                   },
                   {
                     "id": "custom.axisLabel",
-                    "value": "реле / задание, %"
+                    "value": "обдув, %"
                   },
                   {
                     "id": "min",
@@ -1660,16 +1660,26 @@ data:
                     "value": "short"
                   },
                   {
-                    "id": "custom.drawStyle",
-                    "value": "line"
-                  },
-                  {
                     "id": "custom.lineInterpolation",
                     "value": "stepAfter"
                   },
                   {
+                    "id": "custom.lineWidth",
+                    "value": 1
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "fill": "dash",
+                      "dash": [
+                        4,
+                        6
+                      ]
+                    }
+                  },
+                  {
                     "id": "custom.fillOpacity",
-                    "value": 25
+                    "value": 0
                   },
                   {
                     "id": "color",
@@ -1707,6 +1717,14 @@ data:
                     "value": "stepAfter"
                   },
                   {
+                    "id": "custom.lineWidth",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 18
+                  },
+                  {
                     "id": "color",
                     "value": {
                       "mode": "fixed",
@@ -1733,7 +1751,7 @@ data:
               "sort": "none"
             }
           },
-          "description": "Панель под охоту за отваливающимся датчиком температуры ОЖ. Заполняется скриптом watch_coolant.py, который сидит в блоке двигателя и опрашивает два запроса (21C08001 и 21CB8001) с частотой 2 Гц - обычная телеметрия сюда не пишет, она сидит на BSI и двигатель навещает набегами.\n\nЧто искать. Событие выглядит одним из трёх способов: РАЗРЫВ в линии температуры (значение не пришло вовсе - разрывы намеренно не сшиваются), вертикальный скачок больше 8 °C за замер (масса антифриза так быстро измениться не может, значит обрыв), либо уход за 60-120 °C. И почти сразу за этим должно подняться реле вентилятора - это аварийный режим по потерянному датчику.\n\nРеле и задание скорости нарисованы ступенями и по правой оси: у реле только ноль и единица, на шкале температуры они слились бы с осью."
+          "description": "Панель под охоту за отваливающимся датчиком температуры ОЖ. Заполняется скриптом watch_coolant.py, который сидит в блоке двигателя и опрашивает два запроса (21C08001 и 21CB8001) с частотой 2 Гц - обычная телеметрия сюда не пишет, она сидит на BSI и двигатель навещает набегами.\n\nЧТО ИСКАТЬ, с образцом. Событие поймано 31.08.2026 в 21:21:31 и выглядит так: 11 секунд ровных 93 °C при обдуве 29-30%, затем ОДИН замер 108 °C, обдув мгновенно 29% -> 100%, и за три секунды температура возвращается к 93. Скачок невозможен физически в обе стороны - масса антифриза не набирает 15 °C за полсекунды и не теряет их за три. Значит это датчик, а блок ему верит и гонит вентилятор на полную. Вот и причина того, что вентилятор иногда ненадолго ревёт.\n\nИщи вертикальную иглу на температуре и ступеньку обдува сразу за ней. Разрыв в линии - тоже событие: значение не пришло вовсе, и разрывы намеренно не сшиваются.\n\nВАЖНО про сигналы: главный - ЗАДАНИЕ ОБДУВА (жёлтое), оно плавно идёт за температурой: 17% при 53 °C, 22% при 70, 27% при 85, 30% при 93, и до 100% по требованию. Реле (пунктир) в нормальной работе почти всё время включено и само по себе мало о чём говорит - его оставили для полноты."
         },
         {
           "id": 17,
@@ -1841,7 +1859,7 @@ data:
         {
           "id": 19,
           "type": "row",
-          "title": "Обозреватель - любой из параметров",
+          "title": "Коды неисправностей (2)",
           "collapsed": false,
           "gridPos": {
             "h": 1,
@@ -1853,6 +1871,66 @@ data:
         },
         {
           "id": 20,
+          "type": "table",
+          "title": "Найденные коды: блок, описание, статус",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 76
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('DTC:V46_32:P0116', 'DTC:V46_32:P2299')\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "showHeader": true,
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Параметр",
+                "desc": false
+              }
+            ]
+          }
+        },
+        {
+          "id": 21,
+          "type": "row",
+          "title": "Обозреватель - любой из параметров",
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 81
+          },
+          "panels": []
+        },
+        {
+          "id": 22,
           "type": "timeseries",
           "title": "Выбранные параметры",
           "datasource": {
@@ -1863,7 +1941,7 @@ data:
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 76
+            "y": 82
           },
           "targets": [
             {
@@ -1906,7 +1984,7 @@ data:
           }
         },
         {
-          "id": 21,
+          "id": 23,
           "type": "row",
           "title": "Температуры (5)",
           "collapsed": false,
@@ -1914,12 +1992,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 86
+            "y": 92
           },
           "panels": []
         },
         {
-          "id": 22,
+          "id": 24,
           "type": "timeseries",
           "title": "Температура масла (замер)",
           "datasource": {
@@ -1930,7 +2008,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 87
+            "y": 93
           },
           "targets": [
             {
@@ -2123,7 +2201,7 @@ data:
           "description": "То же, что и у расчётной температуры: 110 / 125 / 140 °C."
         },
         {
-          "id": 23,
+          "id": 25,
           "type": "timeseries",
           "title": "Температура масла (расчётная)",
           "datasource": {
@@ -2134,7 +2212,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 87
+            "y": 93
           },
           "targets": [
             {
@@ -2327,7 +2405,7 @@ data:
           "description": "Пороговые линии: 110 °C - высокая нагрузка (трасса, жара, прицеп), 125 °C - долго держать не стоит, 140 °C - масло деградирует быстро, искать причину. Норма 90-110 °C. На холостых без обдува температура ползёт вверх - это ожидаемо."
         },
         {
-          "id": 24,
+          "id": 26,
           "type": "timeseries",
           "title": "Температура за бортом · Температура за бортом (расчётная)",
           "datasource": {
@@ -2338,7 +2416,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 95
+            "y": 101
           },
           "targets": [
             {
@@ -2381,7 +2459,7 @@ data:
           }
         },
         {
-          "id": 25,
+          "id": 27,
           "type": "timeseries",
           "title": "Температура испарителя",
           "datasource": {
@@ -2392,7 +2470,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 95
+            "y": 101
           },
           "targets": [
             {
@@ -2435,7 +2513,7 @@ data:
           }
         },
         {
-          "id": 26,
+          "id": 28,
           "type": "row",
           "title": "Напряжения и ток (2)",
           "collapsed": false,
@@ -2443,12 +2521,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 103
+            "y": 109
           },
           "panels": []
         },
         {
-          "id": 27,
+          "id": 29,
           "type": "timeseries",
           "title": "Напряжение питания BSI",
           "datasource": {
@@ -2459,7 +2537,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 104
+            "y": 110
           },
           "targets": [
             {
@@ -2652,7 +2730,7 @@ data:
           "description": "Ниже 11.5 В - глубокий разряд, 12.4 В - нижняя граница нормы покоя, выше 15 В - перезаряд, подозрение на регулятор генератора."
         },
         {
-          "id": 28,
+          "id": 30,
           "type": "timeseries",
           "title": "Напряжение аккумулятора в покое",
           "datasource": {
@@ -2663,7 +2741,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 104
+            "y": 110
           },
           "targets": [
             {
@@ -2856,7 +2934,7 @@ data:
           "description": "Напряжение питания BSI в момент пробуждения, то есть ДО того, как генератор начал давать зарядку - самое близкое к напряжению покоя аккумулятора, что удаётся прочитать. Пользоваться лучше этим графиком, а не MP_TENSION_BATTERIE_AU_REPOS: тот показывает 16.1 В, что для покоящейся свинцовой батареи невозможно, у него неверно разобран масштаб.\n\n12.7 В - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд и сульфатация. На этой машине 12.7 В, то есть аккумулятор в порядке. Замер честен только после нескольких часов стоянки: сразу после поездки батарея держит поверхностный заряд и завышает показание на 0.2-0.3 В.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 29,
+          "id": 31,
           "type": "row",
           "title": "Проценты (6)",
           "collapsed": false,
@@ -2864,12 +2942,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 112
+            "y": 118
           },
           "panels": []
         },
         {
-          "id": 30,
+          "id": 32,
           "type": "timeseries",
           "title": "Подсветка салона",
           "datasource": {
@@ -2880,7 +2958,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 113
+            "y": 119
           },
           "targets": [
             {
@@ -2923,7 +3001,7 @@ data:
           }
         },
         {
-          "id": 31,
+          "id": 33,
           "type": "timeseries",
           "title": "Лампа в кнопке аварийки · Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафона",
           "datasource": {
@@ -2934,7 +3012,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 113
+            "y": 119
           },
           "targets": [
             {
@@ -2977,7 +3055,7 @@ data:
           }
         },
         {
-          "id": 32,
+          "id": 34,
           "type": "timeseries",
           "title": "Подсветка дисплеев и кнопок",
           "datasource": {
@@ -2988,7 +3066,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 121
+            "y": 127
           },
           "targets": [
             {
@@ -3031,7 +3109,7 @@ data:
           }
         },
         {
-          "id": 33,
+          "id": 35,
           "type": "row",
           "title": "Пробег и обслуживание (10)",
           "collapsed": false,
@@ -3039,12 +3117,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 129
+            "y": 135
           },
           "panels": []
         },
         {
-          "id": 34,
+          "id": 36,
           "type": "timeseries",
           "title": "Км до обслуживания",
           "datasource": {
@@ -3055,7 +3133,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 130
+            "y": 136
           },
           "targets": [
             {
@@ -3203,7 +3281,7 @@ data:
           "description": "Интервал у этой машины около 10 400 км (посчитано: 9784 км пройдено с последнего сброса плюс 630 остатка). Ниже 1500 км - пора планировать, ниже 500 - записываться."
         },
         {
-          "id": 35,
+          "id": 37,
           "type": "timeseries",
           "title": "Дней с последнего сброса ТО",
           "datasource": {
@@ -3214,7 +3292,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 130
+            "y": 136
           },
           "targets": [
             {
@@ -3257,7 +3335,7 @@ data:
           }
         },
         {
-          "id": 36,
+          "id": 38,
           "type": "timeseries",
           "title": "Запас хода · Пробег с последнего сброса суточного с · Пробег частичный, сохранённый в BSI",
           "datasource": {
@@ -3268,7 +3346,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 138
+            "y": 144
           },
           "targets": [
             {
@@ -3311,7 +3389,7 @@ data:
           }
         },
         {
-          "id": 37,
+          "id": 39,
           "type": "timeseries",
           "title": "Пробег поездки 1 · Пробег поездки 2",
           "datasource": {
@@ -3322,7 +3400,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 138
+            "y": 144
           },
           "targets": [
             {
@@ -3365,7 +3443,7 @@ data:
           }
         },
         {
-          "id": 38,
+          "id": 40,
           "type": "timeseries",
           "title": "Пробег общий · Пробег общий, сохранённый в BSI",
           "datasource": {
@@ -3376,7 +3454,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 146
+            "y": 152
           },
           "targets": [
             {
@@ -3419,7 +3497,7 @@ data:
           }
         },
         {
-          "id": 39,
+          "id": 41,
           "type": "timeseries",
           "title": "Пробег при последнем сбросе ТО",
           "datasource": {
@@ -3430,7 +3508,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 146
+            "y": 152
           },
           "targets": [
             {
@@ -3473,7 +3551,7 @@ data:
           }
         },
         {
-          "id": 40,
+          "id": 42,
           "type": "row",
           "title": "Состояния и флаги (272)",
           "collapsed": false,
@@ -3481,12 +3559,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 154
+            "y": 160
           },
           "panels": []
         },
         {
-          "id": 41,
+          "id": 43,
           "type": "table",
           "title": "Состояния и флаги: текущие значения",
           "datasource": {
@@ -3497,7 +3575,7 @@ data:
             "h": 16,
             "w": 24,
             "x": 0,
-            "y": 155
+            "y": 161
           },
           "targets": [
             {
@@ -3533,7 +3611,7 @@ data:
           }
         },
         {
-          "id": 42,
+          "id": 44,
           "type": "row",
           "title": "Конфигурация (4)",
           "collapsed": false,
@@ -3541,12 +3619,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 171
+            "y": 177
           },
           "panels": []
         },
         {
-          "id": 43,
+          "id": 45,
           "type": "table",
           "title": "Конфигурация: текущие значения",
           "datasource": {
@@ -3557,7 +3635,7 @@ data:
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 172
+            "y": 178
           },
           "targets": [
             {
@@ -3593,20 +3671,20 @@ data:
           }
         },
         {
-          "id": 44,
+          "id": 46,
           "type": "row",
-          "title": "двигатель Valeo V46 (EC5) (55)",
+          "title": "двигатель Valeo V46 (EC5) (72)",
           "collapsed": false,
           "gridPos": {
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 179
+            "y": 185
           },
           "panels": []
         },
         {
-          "id": 45,
+          "id": 47,
           "type": "timeseries",
           "title": "Обороты двигателя (по блоку двигателя)",
           "datasource": {
@@ -3617,7 +3695,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 180
+            "y": 186
           },
           "targets": [
             {
@@ -3806,7 +3884,7 @@ data:
           "description": "Холостой ход этой машины около 750 об/мин - если он заметно выше на прогретом двигателе или плавает, ищи подсос воздуха. Отсечка у EC5 около 6200 об/мин.\n\nИсточник границ: замеры этой машины."
         },
         {
-          "id": 46,
+          "id": 48,
           "type": "timeseries",
           "title": "Температура охлаждающей жидкости",
           "datasource": {
@@ -3817,7 +3895,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 180
+            "y": 186
           },
           "targets": [
             {
@@ -4007,10 +4085,10 @@ data:
               "sort": "none"
             }
           },
-          "description": "Норма после прогрева 85-100 °C. Термостат открывается около 89 °C, вентилятор включается около 99 и 103 °C, поэтому выше 105 °C - уже не штатный нагрев. При прогреве значение идёт снизу, это нормально.\n\nВАЖНО для этой машины: в двигателе сохранён код P0116 - цепь датчика температуры ОЖ, показания вне допустимого диапазона. Пока код сохранён, вентилятор работает в аварийном режиме и включается чаще, даже когда живое показание в норме. То есть ровный график здесь НЕ значит, что датчик исправен: он врёт с перерывами. Прямая проверка - сравнить это значение с некорректированным MP_TEMP_EAU_NON_CORRIGEE, но тот запрос у этого блока не отвечает.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+          "description": "Норма после прогрева 85-100 °C. Термостат открывается около 89 °C, вентилятор включается около 99 и 103 °C, поэтому выше 105 °C - уже не штатный нагрев. При прогреве значение идёт снизу, это нормально.\n\nВАЖНО для этой машины: в двигателе сохранён код P0116 - цепь датчика температуры ОЖ, показания вне допустимого диапазона. Пока код сохранён, вентилятор работает в аварийном режиме и включается чаще, даже когда живое показание в норме. То есть ровный график здесь НЕ значит, что датчик исправен.\n\n31.08.2026 датчик поймали с поличным: 93 °C ровно 11 секунд, потом ОДИН замер 108 °C и возврат к 93 за три секунды. Так антифриз себя вести не может - это выброс датчика, и блок на него отреагировал обдувом на 100%. Поэтому одиночная игла вверх здесь означает НЕ перегрев, а именно датчик; смотреть надо на длительность: настоящий перегрев держится минуты, а не полсекунды.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 47,
+          "id": 49,
           "type": "timeseries",
           "title": "Температура воздуха на впуске",
           "datasource": {
@@ -4021,7 +4099,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 188
+            "y": 194
           },
           "targets": [
             {
@@ -4169,7 +4247,7 @@ data:
           "description": "Температура воздуха на впуске. Норма - наружная температура плюс небольшой нагрев на ходу. На стоянке и в пробке подкапотный жар легко даёт плюс 25-30 °C, это ещё не неисправность. Выше 75 °C двигатель теряет мощность и растёт риск детонации: смотреть, не забор ли горячего воздуха. Сравнивать с наружной температурой на соседнем графике.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 48,
+          "id": 50,
           "type": "timeseries",
           "title": "Питание блока двигателя",
           "datasource": {
@@ -4180,7 +4258,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 188
+            "y": 194
           },
           "targets": [
             {
@@ -4332,7 +4410,7 @@ data:
           "description": "Границы 12 и 15 В взяты из подсказки самой DiagBox к этому параметру. Ниже 12 В при работающем двигателе - генератор не даёт зарядки, выше 15 В - перезаряд, подозрение на регулятор. На этой машине держится около 14.0 В, что нормально.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 49,
+          "id": 51,
           "type": "timeseries",
           "title": "Датчик дросселя 1",
           "datasource": {
@@ -4343,7 +4421,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 196
+            "y": 202
           },
           "targets": [
             {
@@ -4491,7 +4569,7 @@ data:
           "description": "Первый датчик положения дросселя, питание 5 В. На холостых около 680 мВ. Датчиков два, направлены противоположно: сумма первого и второго держится около 5000 мВ, и если она уехала - врёт один из них. Выход за 200 или 4800 мВ - это уже не положение, а обрыв либо замыкание проводки.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 50,
+          "id": 52,
           "type": "timeseries",
           "title": "Датчик дросселя 2",
           "datasource": {
@@ -4502,7 +4580,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 196
+            "y": 202
           },
           "targets": [
             {
@@ -4650,7 +4728,7 @@ data:
           "description": "Второй датчик положения дросселя, направлен противоположно первому: на холостых около 4350 мВ, тогда как первый 680 мВ. Сумма двух должна держаться около 5000 мВ.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 51,
+          "id": 53,
           "type": "timeseries",
           "title": "Датчик кислорода до катализатора",
           "datasource": {
@@ -4661,7 +4739,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 204
+            "y": 210
           },
           "targets": [
             {
@@ -4850,7 +4928,7 @@ data:
           "description": "Верхний (до катализатора) датчик кислорода. У исправного напряжение непрерывно качается примерно между 100 и 900 мВ вокруг 450 мВ - смысл именно в колебании, а не в конкретном значении. Плохой признак - РОВНАЯ линия: датчик замер. Замерло около 450 мВ - обрыв или он остыл, у нижнего края - постоянно бедная смесь (подсос воздуха), у верхнего - богатая. На холодном двигателе колебаний ещё нет, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 52,
+          "id": 54,
           "type": "timeseries",
           "title": "Датчик кислорода после катализатора",
           "datasource": {
@@ -4861,7 +4939,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 204
+            "y": 210
           },
           "targets": [
             {
@@ -5009,117 +5087,9 @@ data:
           "description": "Нижний (после катализатора) датчик кислорода. Здесь всё наоборот: у исправного катализатора напряжение стоит РОВНО и высоко, обычно 550-800 мВ. Если оно начало качаться так же, как у верхнего датчика, катализатор перестал работать. На холодном двигателе показание низкое, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 53,
-          "type": "timeseries",
-          "title": "Счётчик холодных пусков · Порог закоксовывания превышен · Согласованность распредвала с коленвал · Программирование иммобилайзера",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 212
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID' THEN 'Счётчик холодных пусков'\n       WHEN 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR' THEN 'Порог закоксовывания превышен'\n       WHEN 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL' THEN 'Согласованность распредвала с коленвалом'\n       WHEN 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE' THEN 'Программирование иммобилайзера'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID', 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR', 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL', 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 54,
-          "type": "timeseries",
-          "title": "Регулировка по датчику O2 до кат. · Регулировка по датчику O2 после кат. · Состояние датчика O2 до катализатора · Состояние датчика O2 после катализатор",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 212
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT' THEN 'Регулировка по датчику O2 до кат.'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL' THEN 'Регулировка по датчику O2 после кат.'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT' THEN 'Состояние датчика O2 до катализатора'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL' THEN 'Состояние датчика O2 после катализатора'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL', 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
           "id": 55,
           "type": "timeseries",
-          "title": "Блокировка блока управления · Выбранный вариант привязки · Сбой передачи кода разблокировки",
+          "title": "Счётчик холодных пусков · Порог закоксовывания превышен · Согласованность распредвала с коленвал · Вентилятор, малая скорость",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5128,7 +5098,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 220
+            "y": 218
           },
           "targets": [
             {
@@ -5139,7 +5109,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR' THEN 'Блокировка блока управления'\n       WHEN 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE' THEN 'Выбранный вариант привязки'\n       WHEN 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE' THEN 'Сбой передачи кода разблокировки'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR', 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE', 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID' THEN 'Счётчик холодных пусков'\n       WHEN 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR' THEN 'Порог закоксовывания превышен'\n       WHEN 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL' THEN 'Согласованность распредвала с коленвалом'\n       WHEN 'V46_32:MP_ETAT_GMV_PTIT_C5' THEN 'Вентилятор, малая скорость'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COMPTEUR_NB_DEMARRAGE_A_FROID', 'V46_32:MP_DEPASSEMENT_SEUIL_ENCRASSEMENT_MOTEUR', 'V46_32:MP_ETAT_COH_POSITION_AAC_ADMI_VIL', 'V46_32:MP_ETAT_GMV_PTIT_C5') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5173,7 +5143,7 @@ data:
         {
           "id": 56,
           "type": "timeseries",
-          "title": "Скважность регулирования после кат.",
+          "title": "Программирование иммобилайзера · Регулировка по датчику O2 до кат. · Реле вентилятора охлаждения · Реле вентилятора, состояние входа",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5182,7 +5152,169 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 220
+            "y": 218
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE' THEN 'Программирование иммобилайзера'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT' THEN 'Регулировка по датчику O2 до кат.'\n       WHEN 'V46_32:MP_ETAT_RELAIS_GMV' THEN 'Реле вентилятора охлаждения'\n       WHEN 'V46_32:MP_ETAT_REL_GMV_C5' THEN 'Реле вентилятора, состояние входа'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ETAT_PROGRAMMATION_ANTI_DEMARRAGE', 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_ETAT_RELAIS_GMV', 'V46_32:MP_ETAT_REL_GMV_C5') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 57,
+          "type": "timeseries",
+          "title": "Состояние датчика O2 до катализатора · Состояние датчика O2 после катализатор · Блокировка блока управления · Выбранный вариант привязки",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 226
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT' THEN 'Состояние датчика O2 до катализатора'\n       WHEN 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL' THEN 'Состояние датчика O2 после катализатора'\n       WHEN 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR' THEN 'Блокировка блока управления'\n       WHEN 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE' THEN 'Выбранный вариант привязки'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ETAT_SONDE_A_OXYGENE_AMONT', 'V46_32:MP_ETAT_SONDE_A_OXYGENE_AVAL', 'V46_32:MP_ETAT_VERROUILLAGE_DEVERROUILLAGE_CALCULTATEUR', 'V46_32:MP_OPTION_APPAIRAGE_CHOISIE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 58,
+          "type": "timeseries",
+          "title": "Сбой передачи кода разблокировки",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 226
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE' THEN 'Сбой передачи кода разблокировки'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_PB_TRANSMISSION_CODE_DEVERROUILLAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 59,
+          "type": "timeseries",
+          "title": "Скважность регулирования после кат.",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 234
           },
           "targets": [
             {
@@ -5225,7 +5357,7 @@ data:
           }
         },
         {
-          "id": 57,
+          "id": 60,
           "type": "timeseries",
           "title": "Счётчик пусков двигателя",
           "datasource": {
@@ -5235,8 +5367,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 228
+            "x": 12,
+            "y": 234
           },
           "targets": [
             {
@@ -5279,7 +5411,7 @@ data:
           }
         },
         {
-          "id": 58,
+          "id": 61,
           "type": "timeseries",
           "title": "Коррекция смеси по датчику до кат. · Коррекция смеси по датчику после кат.",
           "datasource": {
@@ -5289,8 +5421,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 228
+            "x": 0,
+            "y": 242
           },
           "targets": [
             {
@@ -5333,63 +5465,9 @@ data:
           }
         },
         {
-          "id": 59,
+          "id": 62,
           "type": "timeseries",
-          "title": "Насыщение адсорбера паров бензина · Клапан фазовращателя, скважность",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 236
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CHARGE_ESTIMEE_CANISTER' THEN 'Насыщение адсорбера паров бензина'\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя, скважность'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CHARGE_ESTIMEE_CANISTER', 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "percent",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 60,
-          "type": "timeseries",
-          "title": "Клапан продувки адсорбера · Скважность регулирования до кат. · Наполнение цилиндров, задание · Наполнение цилиндров",
+          "title": "Клапан фазовращателя, скважность",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -5398,7 +5476,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 236
+            "y": 242
           },
           "targets": [
             {
@@ -5409,7 +5487,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CDERCOELECPURGE' THEN 'Клапан продувки адсорбера'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Скважность регулирования до кат.'\n       WHEN 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE' THEN 'Наполнение цилиндров, задание'\n       WHEN 'V46_32:MP_REMPLISSAGE_MESURE' THEN 'Наполнение цилиндров'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CDERCOELECPURGE', 'V46_32:MP_RCOAMONT', 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE', 'V46_32:MP_REMPLISSAGE_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя, скважность'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5441,7 +5519,169 @@ data:
           }
         },
         {
-          "id": 61,
+          "id": 63,
+          "type": "timeseries",
+          "title": "Клапан продувки адсорбера · Насыщение адсорбера паров бензина · Скважность регулирования до кат. · Наполнение цилиндров, задание",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 250
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CDERCOELECPURGE' THEN 'Клапан продувки адсорбера'\n       WHEN 'V46_32:MP_CHARGE_ESTIMEE_CANISTER' THEN 'Насыщение адсорбера паров бензина'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Скважность регулирования до кат.'\n       WHEN 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE' THEN 'Наполнение цилиндров, задание'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CDERCOELECPURGE', 'V46_32:MP_CHARGE_ESTIMEE_CANISTER', 'V46_32:MP_RCOAMONT', 'V46_32:MP_REMPLISSAGE_DE_CONSIGNE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 64,
+          "type": "timeseries",
+          "title": "Наполнение цилиндров",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 250
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_REMPLISSAGE_MESURE' THEN 'Наполнение цилиндров'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_REMPLISSAGE_MESURE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 65,
+          "type": "timeseries",
+          "title": "Задание скорости вентилятора",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 258
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CONSIGNE_VITESSE_GMV_C5' THEN 'Задание скорости вентилятора'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CONSIGNE_VITESSE_GMV_C5') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 66,
           "type": "timeseries",
           "title": "Угол опережения по цилиндрам",
           "datasource": {
@@ -5451,8 +5691,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 244
+            "x": 12,
+            "y": 258
           },
           "targets": [
             {
@@ -5495,7 +5735,115 @@ data:
           }
         },
         {
-          "id": 62,
+          "id": 67,
+          "type": "timeseries",
+          "title": "Напряжение alimentation capteurs 02",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 266
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_02' THEN 'Напряжение alimentation capteurs 02'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_02') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "volt",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 68,
+          "type": "timeseries",
+          "title": "Pression mastervac",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 266
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_PRESSION_MASTERVAC' THEN 'Pression mastervac'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_PRESSION_MASTERVAC') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 69,
           "type": "timeseries",
           "title": "Расход воздуха, задание · Расход воздуха",
           "datasource": {
@@ -5505,8 +5853,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 244
+            "x": 0,
+            "y": 274
           },
           "targets": [
             {
@@ -5549,7 +5897,115 @@ data:
           }
         },
         {
-          "id": 63,
+          "id": 70,
+          "type": "timeseries",
+          "title": "Bruit capteur cliquetis · Напряжение alimentation capteurs 01 · Напряжение alimentation capteurs 03",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 274
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_BRUIT_CAPTEUR_CLIQUETIS' THEN 'Bruit capteur cliquetis'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_01' THEN 'Напряжение alimentation capteurs 01'\n       WHEN 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_03' THEN 'Напряжение alimentation capteurs 03'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_BRUIT_CAPTEUR_CLIQUETIS', 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_01', 'V46_32:MP_TENSION_ALIMENTATION_CAPTEURS_03') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 71,
+          "type": "timeseries",
+          "title": "Pression circuit refrigerant a",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 282
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_PRESSION_CIRCUIT_REFRIGERANT_a' THEN 'Pression circuit refrigerant a'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_PRESSION_CIRCUIT_REFRIGERANT_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 72,
           "type": "timeseries",
           "title": "Давление во впуске, задание · Давление во впускном коллекторе",
           "datasource": {
@@ -5559,8 +6015,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 252
+            "x": 12,
+            "y": 282
           },
           "targets": [
             {
@@ -5603,7 +6059,7 @@ data:
           }
         },
         {
-          "id": 64,
+          "id": 73,
           "type": "timeseries",
           "title": "Задание состава смеси",
           "datasource": {
@@ -5613,8 +6069,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 252
+            "x": 0,
+            "y": 290
           },
           "targets": [
             {
@@ -5657,7 +6113,7 @@ data:
           }
         },
         {
-          "id": 65,
+          "id": 74,
           "type": "timeseries",
           "title": "Время впрыска, цилиндр 1 · Время впрыска, цилиндр 2 · Время впрыска, цилиндр 3 · Время впрыска, цилиндр 4",
           "datasource": {
@@ -5667,8 +6123,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 260
+            "x": 12,
+            "y": 290
           },
           "targets": [
             {
@@ -5711,7 +6167,7 @@ data:
           }
         },
         {
-          "id": 66,
+          "id": 75,
           "type": "timeseries",
           "title": "Угол дросселя",
           "datasource": {
@@ -5721,8 +6177,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 260
+            "x": 0,
+            "y": 298
           },
           "targets": [
             {
@@ -5765,7 +6221,7 @@ data:
           }
         },
         {
-          "id": 67,
+          "id": 76,
           "type": "timeseries",
           "title": "Угол дросселя, задание · Угол опережения зажигания, максимум · Угол опережения зажигания, минимум · Угол опережения зажигания, оптимум",
           "datasource": {
@@ -5775,8 +6231,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 268
+            "x": 12,
+            "y": 298
           },
           "targets": [
             {
@@ -5819,7 +6275,7 @@ data:
           }
         },
         {
-          "id": 68,
+          "id": 77,
           "type": "timeseries",
           "title": "Фазовращатель впуска, задание · Положение фазовращателя впуска · Снятие угла от детонации, цил. 1 · Снятие угла от детонации, цил. 2",
           "datasource": {
@@ -5829,8 +6285,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 268
+            "x": 0,
+            "y": 306
           },
           "targets": [
             {
@@ -5873,7 +6329,7 @@ data:
           }
         },
         {
-          "id": 69,
+          "id": 78,
           "type": "timeseries",
           "title": "Снятие угла от детонации, цил. 3 · Снятие угла от детонации, цил. 4",
           "datasource": {
@@ -5883,8 +6339,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 276
+            "x": 12,
+            "y": 306
           },
           "targets": [
             {
@@ -5927,7 +6383,61 @@ data:
           }
         },
         {
-          "id": 70,
+          "id": 79,
+          "type": "timeseries",
+          "title": "Наружный воздух (по блоку двигателя)",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 314
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_TEMPERATURE_AIR_EXTERIEUR' THEN 'Наружный воздух (по блоку двигателя)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_TEMPERATURE_AIR_EXTERIEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "celsius",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 80,
           "type": "table",
           "title": "двигатель Valeo V46 (EC5): постоянные значения",
           "datasource": {
@@ -5935,10 +6445,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 8,
+            "h": 15,
             "w": 24,
             "x": 0,
-            "y": 284
+            "y": 322
           },
           "targets": [
             {
@@ -5949,7 +6459,7 @@ data:
               },
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT CASE p.name\n       WHEN 'V46_32:CONFIG_INDICE_TELECODAGE' THEN 'Индекс телекодирования'\n       WHEN 'V46_32:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'V46_32:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'V46_32:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('V46_32:CONFIG_INDICE_TELECODAGE', 'V46_32:ID_NOM_DU_FOURNISSEUR', 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'V46_32:ID_REFERENCE_MATERIEL', 'V46_32:ID_VERSION_DIAGNOSTIC')\nORDER BY 1"
+              "rawSql": "SELECT CASE p.name\n       WHEN 'V46_32:CONFIG_INDICE_TELECODAGE' THEN 'Индекс телекодирования'\n       WHEN 'V46_32:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'V46_32:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'V46_32:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'V46_32:MP_COMMANDE_RELAIS_PUISSANCE' THEN 'Команда relais puissance'\n       WHEN 'V46_32:MP_ESTIMATION_PUISSANCE_CONSO_COMPRESSEUR_REFRI' THEN 'Estimation puissance conso compresseur refri'\n       WHEN 'V46_32:MP_ETATCDEDEM' THEN 'Etatcdedem'\n       WHEN 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL' THEN 'Регулировка по датчику O2 после кат.'\n       WHEN 'V46_32:MP_INFO_DETECTION_CHOC' THEN 'Info detection choc'\n       WHEN 'V46_32:MP_PRESSION_ATMOSPHERIQUE' THEN 'Pression atmospherique'\n       WHEN 'V46_32:MP_PRESSION_HUILE_MOTEUR' THEN 'Pression масло двигатель'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('V46_32:CONFIG_INDICE_TELECODAGE', 'V46_32:ID_NOM_DU_FOURNISSEUR', 'V46_32:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'V46_32:ID_REFERENCE_MATERIEL', 'V46_32:ID_VERSION_DIAGNOSTIC', 'V46_32:MP_COMMANDE_RELAIS_PUISSANCE', 'V46_32:MP_ESTIMATION_PUISSANCE_CONSO_COMPRESSEUR_REFRI', 'V46_32:MP_ETATCDEDEM', 'V46_32:MP_ETAT_REGULATION_SONDE_A_OXYGENE_AVAL', 'V46_32:MP_INFO_DETECTION_CHOC', 'V46_32:MP_PRESSION_ATMOSPHERIQUE', 'V46_32:MP_PRESSION_HUILE_MOTEUR')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -5974,7 +6484,7 @@ data:
           }
         },
         {
-          "id": 71,
+          "id": 81,
           "type": "row",
           "title": "ABS/ESP (18)",
           "collapsed": false,
@@ -5982,12 +6492,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 292
+            "y": 337
           },
           "panels": []
         },
         {
-          "id": 72,
+          "id": 82,
           "type": "timeseries",
           "title": "Выключатель стоп-сигнала · Реле питания электроклапанов · Реле насоса рециркуляции · Уровень тормозной жидкости",
           "datasource": {
@@ -5998,7 +6508,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 293
+            "y": 338
           },
           "targets": [
             {
@@ -6041,7 +6551,7 @@ data:
           }
         },
         {
-          "id": 73,
+          "id": 83,
           "type": "timeseries",
           "title": "Колесо заднее правое · Колесо заднее левое · Колесо переднее левое · Скорость автомобиля",
           "datasource": {
@@ -6052,7 +6562,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 293
+            "y": 338
           },
           "targets": [
             {
@@ -6095,7 +6605,7 @@ data:
           }
         },
         {
-          "id": 74,
+          "id": 84,
           "type": "timeseries",
           "title": "Колесо переднее правое",
           "datasource": {
@@ -6106,7 +6616,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 301
+            "y": 346
           },
           "targets": [
             {
@@ -6149,7 +6659,7 @@ data:
           }
         },
         {
-          "id": 75,
+          "id": 85,
           "type": "table",
           "title": "ABS/ESP: постоянные значения",
           "datasource": {
@@ -6160,7 +6670,7 @@ data:
             "h": 12,
             "w": 24,
             "x": 0,
-            "y": 309
+            "y": 354
           },
           "targets": [
             {
@@ -6196,7 +6706,7 @@ data:
           }
         },
         {
-          "id": 76,
+          "id": 86,
           "type": "row",
           "title": "электронасос (18)",
           "collapsed": false,
@@ -6204,12 +6714,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 321
+            "y": 366
           },
           "panels": []
         },
         {
-          "id": 77,
+          "id": 87,
           "type": "timeseries",
           "title": "Питание насоса гидроусилителя",
           "datasource": {
@@ -6220,7 +6730,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 322
+            "y": 367
           },
           "targets": [
             {
@@ -6368,7 +6878,7 @@ data:
           "description": "Питание насоса гидроусилителя. Границы 9 и 18 В - из подсказки DiagBox к этому параметру. Диапазон широкий потому, что насос должен работать и при просадке от стартера.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 78,
+          "id": 88,
           "type": "timeseries",
           "title": "Двигатель работает",
           "datasource": {
@@ -6379,7 +6889,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 322
+            "y": 367
           },
           "targets": [
             {
@@ -6422,7 +6932,7 @@ data:
           }
         },
         {
-          "id": 79,
+          "id": 89,
           "type": "timeseries",
           "title": "Ток потребления насоса",
           "datasource": {
@@ -6433,7 +6943,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 330
+            "y": 375
           },
           "targets": [
             {
@@ -6476,7 +6986,7 @@ data:
           }
         },
         {
-          "id": 80,
+          "id": 90,
           "type": "timeseries",
           "title": "Обороты двигателя (по насосу)",
           "datasource": {
@@ -6487,7 +6997,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 330
+            "y": 375
           },
           "targets": [
             {
@@ -6530,7 +7040,7 @@ data:
           }
         },
         {
-          "id": 81,
+          "id": 91,
           "type": "timeseries",
           "title": "Скорость автомобиля",
           "datasource": {
@@ -6541,7 +7051,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 338
+            "y": 383
           },
           "targets": [
             {
@@ -6584,7 +7094,7 @@ data:
           }
         },
         {
-          "id": 82,
+          "id": 92,
           "type": "timeseries",
           "title": "Скорость вращения руля",
           "datasource": {
@@ -6595,7 +7105,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 338
+            "y": 383
           },
           "targets": [
             {
@@ -6638,7 +7148,7 @@ data:
           }
         },
         {
-          "id": 83,
+          "id": 93,
           "type": "timeseries",
           "title": "Температура насоса ГУР",
           "datasource": {
@@ -6649,7 +7159,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 346
+            "y": 391
           },
           "targets": [
             {
@@ -6692,7 +7202,7 @@ data:
           }
         },
         {
-          "id": 84,
+          "id": 94,
           "type": "table",
           "title": "электронасос: постоянные значения",
           "datasource": {
@@ -6703,7 +7213,7 @@ data:
             "h": 14,
             "w": 24,
             "x": 0,
-            "y": 354
+            "y": 399
           },
           "targets": [
             {
@@ -6715,6 +7225,66 @@ data:
               "format": "table",
               "rawQuery": true,
               "rawSql": "SELECT CASE p.name\n       WHEN 'GEP:APC' THEN 'Зажигание включено'\n       WHEN 'GEP:CFG____ASSISTANCE_1' THEN 'Конфиг: тип усилителя'\n       WHEN 'GEP:ID_80_MP_INDICE_MESS' THEN 'Индекс сообщений'\n       WHEN 'GEP:ID_EDITION_LOGICIEL' THEN 'Редакция ПО'\n       WHEN 'GEP:ID_EDI_CALIB' THEN 'Редакция калибровки'\n       WHEN 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'GEP:ID_REFERENCE_FOURNISSEUR' THEN 'Номер поставщика'\n       WHEN 'GEP:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'GEP:ID_REFERENCE_PSA' THEN 'Номер PSA'\n       WHEN 'GEP:ID_VERSION_LOGICIEL_new_1' THEN 'Версия ПО'\n       WHEN 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION' THEN 'Тип датчика угла руля'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('GEP:APC', 'GEP:CFG____ASSISTANCE_1', 'GEP:ID_80_MP_INDICE_MESS', 'GEP:ID_EDITION_LOGICIEL', 'GEP:ID_EDI_CALIB', 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'GEP:ID_REFERENCE_FOURNISSEUR', 'GEP:ID_REFERENCE_LOGICIEL', 'GEP:ID_REFERENCE_PSA', 'GEP:ID_VERSION_LOGICIEL_new_1', 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION')\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "showHeader": true,
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Параметр",
+                "desc": false
+              }
+            ]
+          }
+        },
+        {
+          "id": 95,
+          "type": "row",
+          "title": "DTC (2)",
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 413
+          },
+          "panels": []
+        },
+        {
+          "id": 96,
+          "type": "table",
+          "title": "DTC: постоянные значения",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 414
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT coalesce(p.label, p.name) AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('DTC:V46_32:P0116', 'DTC:V46_32:P2299')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
