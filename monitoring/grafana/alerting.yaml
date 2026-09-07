@@ -99,6 +99,116 @@ data:
         # чаще смысла нет.
         interval: 1m
         rules:
+          # Обслуживание: считается по таблице maintenance против текущего пробега BSI,
+          # те же пороги 80/100 %, что и зоны на дашборде. Одна строка запроса - одна
+          # позиция, поэтому алерт приходит по каждой отдельно, с её названием.
+          - uid: citroen-maint-due
+            title: Пора обслуживать
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 10m
+            labels:
+              severity: critical
+              service: citroen
+            annotations:
+              summary: "{{ $labels.title }}: ресурс выработан ({{ humanize $values.B }} %) или дата последней замены неизвестна."
+            data:
+              - refId: A
+                relativeTimeRange: { from: 600, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: table
+                  rawQuery: true
+                  rawSql: |
+                    WITH odo AS (
+                      SELECT r.value AS km FROM reading r JOIN param p ON p.id = r.param_id
+                      WHERE p.name = 'MP_KILOMETRAGE_TOTAL' ORDER BY r.ts DESC LIMIT 1),
+                    m AS (
+                      SELECT m.*,
+                        CASE WHEN m.interval_km IS NOT NULL AND m.last_km IS NOT NULL
+                             THEN (odo.km - m.last_km) / m.interval_km * 100 END AS pct_km,
+                        CASE WHEN m.interval_months IS NOT NULL AND m.last_ts IS NOT NULL
+                             THEN EXTRACT(EPOCH FROM (now() - m.last_ts))
+                                  / (m.interval_months * 30.4375 * 86400) * 100 END AS pct_t
+                      FROM maintenance m CROSS JOIN odo)
+                    SELECT title,
+                      CASE WHEN interval_km IS NULL AND interval_months IS NULL THEN NULL
+                           WHEN last_ts IS NULL AND last_km IS NULL THEN 100
+                           ELSE GREATEST(COALESCE(pct_km, 0), COALESCE(pct_t, 0)) END AS pct
+                    FROM m WHERE interval_km IS NOT NULL OR interval_months IS NOT NULL
+              - refId: B
+                datasourceUid: __expr__
+                model:
+                  refId: B
+                  type: reduce
+                  expression: A
+                  reducer: last
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: gt, params: [99.99] }
+
+          # Обслуживание: считается по таблице maintenance против текущего пробега BSI,
+          # те же пороги 80/100 %, что и зоны на дашборде. Одна строка запроса - одна
+          # позиция, поэтому алерт приходит по каждой отдельно, с её названием.
+          - uid: citroen-maint-soon
+            title: Скоро обслуживание
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 10m
+            labels:
+              severity: warning
+              service: citroen
+            annotations:
+              summary: "{{ $labels.title }}: выработано {{ humanize $values.B }} % ресурса, планируй замену."
+            data:
+              - refId: A
+                relativeTimeRange: { from: 600, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: table
+                  rawQuery: true
+                  rawSql: |
+                    WITH odo AS (
+                      SELECT r.value AS km FROM reading r JOIN param p ON p.id = r.param_id
+                      WHERE p.name = 'MP_KILOMETRAGE_TOTAL' ORDER BY r.ts DESC LIMIT 1),
+                    m AS (
+                      SELECT m.*,
+                        CASE WHEN m.interval_km IS NOT NULL AND m.last_km IS NOT NULL
+                             THEN (odo.km - m.last_km) / m.interval_km * 100 END AS pct_km,
+                        CASE WHEN m.interval_months IS NOT NULL AND m.last_ts IS NOT NULL
+                             THEN EXTRACT(EPOCH FROM (now() - m.last_ts))
+                                  / (m.interval_months * 30.4375 * 86400) * 100 END AS pct_t
+                      FROM maintenance m CROSS JOIN odo)
+                    SELECT title,
+                      CASE WHEN interval_km IS NULL AND interval_months IS NULL THEN NULL
+                           WHEN last_ts IS NULL AND last_km IS NULL THEN 100
+                           ELSE GREATEST(COALESCE(pct_km, 0), COALESCE(pct_t, 0)) END AS pct
+                    FROM m WHERE interval_km IS NOT NULL OR interval_months IS NOT NULL
+              - refId: B
+                datasourceUid: __expr__
+                model:
+                  refId: B
+                  type: reduce
+                  expression: A
+                  reducer: last
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: within_range, params: [80, 99.99] }
+
           - uid: citroen-oil-temp-warn
             title: Температура масла высокая
             condition: C
