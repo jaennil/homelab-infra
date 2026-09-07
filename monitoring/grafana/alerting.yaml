@@ -112,7 +112,7 @@ data:
               severity: critical
               service: citroen
             annotations:
-              summary: "{{ $labels.title }}: ресурс выработан ({{ printf "%.0f" $values.B.Value }} %) или дата последней замены неизвестна."
+              summary: '{{ $labels.title }}: ресурс выработан ({{ printf "%.0f" $values.B.Value }} %) или дата последней замены неизвестна.'
             data:
               - refId: A
                 relativeTimeRange: { from: 600, to: 0 }
@@ -167,7 +167,7 @@ data:
               severity: warning
               service: citroen
             annotations:
-              summary: "{{ $labels.title }}: выработано {{ printf "%.0f" $values.B.Value }} % ресурса, планируй замену."
+              summary: '{{ $labels.title }}: выработано {{ printf "%.0f" $values.B.Value }} % ресурса, планируй замену.'
             data:
               - refId: A
                 relativeTimeRange: { from: 600, to: 0 }
