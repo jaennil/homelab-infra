@@ -47,6 +47,10 @@ spec:
       port: 9090
       targetPort: 19090
       protocol: TCP
+    - name: clickhouse-http
+      port: 8123
+      targetPort: 18123
+      protocol: TCP
   selector:
     app.kubernetes.io/name: sish
 ---

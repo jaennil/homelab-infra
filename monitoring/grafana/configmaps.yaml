@@ -20,6 +20,20 @@ data:
         access: proxy
         url: http://project-ai-usage-tunnel.sish.svc.cluster.local:9090
         editable: false
+      - name: Project events ClickHouse
+        uid: project-events-clickhouse
+        type: grafana-clickhouse-datasource
+        access: proxy
+        editable: false
+        jsonData:
+          defaultDatabase: analytics
+          host: project-ai-usage-tunnel.sish.svc.cluster.local
+          port: 8123
+          protocol: http
+          secure: false
+          username: app
+        secureJsonData:
+          password: app
       - name: Loki
         uid: Loki
         type: loki
