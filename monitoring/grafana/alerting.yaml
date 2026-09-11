@@ -35,15 +35,17 @@ data:
           {{ range .Alerts.Firing }}
           {{ if eq .Labels.alertname "AgentRateLimitCritical" -}}
 
-          Критический лимит: {{ if eq .Labels.provider "codex" }}Codex{{ else if eq .Labels.provider "claude_code" }}Claude Code{{ else }}{{ .Labels.provider }}{{ end }}
-          Период: {{ .Labels.window }}
+          Критический лимит: {{ if eq .Labels.provider "codex" }}🤖 Codex{{ else if eq .Labels.provider "claude_code" }}🟠 Claude Code{{ else }}{{ .Labels.provider }}{{ end }}
+          Окно: {{ if eq .Labels.window "5h" }}⏱️ 5h{{ else if eq .Labels.window "7d" }}📅 7d{{ else }}🕒 {{ .Labels.window }}{{ end }}
           Статус: использовано не менее 95%
           Лимит почти исчерпан.
           {{ else if eq .Labels.alertname "AgentRateLimitPaceHigh" -}}
 
-          Высокий темп расхода: {{ if eq .Labels.provider "codex" }}Codex{{ else if eq .Labels.provider "claude_code" }}Claude Code{{ else }}{{ .Labels.provider }}{{ end }}
-          Период: {{ .Labels.window }}
-          Расход опережает равномерный бюджет текущего окна.
+          Высокий темп расхода: {{ if eq .Labels.provider "codex" }}🤖 Codex{{ else if eq .Labels.provider "claude_code" }}🟠 Claude Code{{ else }}{{ .Labels.provider }}{{ end }}
+          Окно: {{ if eq .Labels.window "5h" }}⏱️ 5h{{ else if eq .Labels.window "7d" }}📅 7d{{ else }}🕒 {{ .Labels.window }}{{ end }}
+          Использовано: {{ .Annotations.usage_percent }}
+          Норма к этому моменту: {{ .Annotations.budget_percent }}
+          Выше нормы на: +{{ .Annotations.excess_pp }} п.п.
           {{ else if eq .Labels.alertname "GatewayKafkaDeliveryError" -}}
 
           Ошибка доставки событий
@@ -57,7 +59,9 @@ data:
           {{ .Annotations.summary }}
           {{ .Annotations.description }}
           {{ end -}}
-          Открыть алерт: {{ .GeneratorURL }}
+          {{ end }}
+          {{ with (index .Alerts.Firing 0) }}
+          🔗 График, история и отключение алерта: {{ .GeneratorURL }}
           {{ end }}
           {{ end -}}
           {{ if gt (len .Alerts.Resolved) 0 -}}
@@ -65,7 +69,10 @@ data:
           {{ range .Alerts.Resolved }}
           {{ if eq .Labels.alertname "AgentRateLimitCritical" -}}
 
-          Лимит снова ниже критического: {{ if eq .Labels.provider "codex" }}Codex{{ else if eq .Labels.provider "claude_code" }}Claude Code{{ else }}{{ .Labels.provider }}{{ end }} · {{ .Labels.window }}
+          Лимит снова ниже критического: {{ if eq .Labels.provider "codex" }}🤖 Codex{{ else if eq .Labels.provider "claude_code" }}🟠 Claude Code{{ else }}{{ .Labels.provider }}{{ end }} · {{ if eq .Labels.window "5h" }}⏱️ 5h{{ else if eq .Labels.window "7d" }}📅 7d{{ else }}🕒 {{ .Labels.window }}{{ end }}
+          {{ else if eq .Labels.alertname "AgentRateLimitPaceHigh" -}}
+
+          Темп снова в норме: {{ if eq .Labels.provider "codex" }}🤖 Codex{{ else if eq .Labels.provider "claude_code" }}🟠 Claude Code{{ else }}{{ .Labels.provider }}{{ end }} · {{ if eq .Labels.window "5h" }}⏱️ 5h{{ else if eq .Labels.window "7d" }}📅 7d{{ else }}🕒 {{ .Labels.window }}{{ end }}
           {{ else -}}
 
           {{ .Annotations.summary }}
