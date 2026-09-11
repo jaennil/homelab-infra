@@ -36,6 +36,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: project-ai-usage-tunnel
+  namespace: sish
+  labels:
+    app.kubernetes.io/name: project-ai-usage-tunnel
+spec:
+  type: ClusterIP
+  ports:
+    - name: prometheus
+      port: 9090
+      targetPort: 19090
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: sish
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: sish-http
   namespace: sish
   labels:
