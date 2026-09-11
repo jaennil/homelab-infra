@@ -216,6 +216,131 @@ data:
                   conditions:
                     - evaluator: { type: within_range, params: [80, 99.99] }
 
+          # Температура ОЖ: те же зоны, что на дашборде (norms.py): 105 - охлаждение не
+          # справляется. 3 минуты подряд, чтобы не ловить одиночный выброс датчика.
+          - uid: citroen-coolant-hot
+            title: Перегрев охлаждающей жидкости
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 3m
+            labels:
+              severity: critical
+              service: citroen
+            annotations:
+              summary: 'Температура ОЖ {{ printf "%.0f" $values.B.Value }} °C - выше 105, охлаждение не справляется.'
+            data:
+              - refId: A
+                relativeTimeRange: { from: 600, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: time_series
+                  rawQuery: true
+                  rawSql: |
+                    SELECT r.ts AS "time", r.value
+                    FROM reading r JOIN param p ON p.id = r.param_id
+                    WHERE p.name = 'V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d'
+                      AND r.ts > now() - interval '10 minutes'
+                    ORDER BY 1
+              - refId: B
+                datasourceUid: __expr__
+                model: { refId: B, type: reduce, expression: A, reducer: last }
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: gt, params: [105] }
+
+          # Бортовое напряжение при работающем двигателе: ниже 12.8 В пять минут -
+          # генератор не тянет или ремень. Считается только по замерам, когда обороты
+          # выше 500, иначе сработает на каждой стоянке с включённым зажиганием.
+          - uid: citroen-voltage-low
+            title: Низкое напряжение при работающем двигателе
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 5m
+            labels:
+              severity: warning
+              service: citroen
+            annotations:
+              summary: 'Напряжение BSI {{ printf "%.1f" $values.B.Value }} В при работающем двигателе - генератор не заряжает?'
+            data:
+              - refId: A
+                relativeTimeRange: { from: 600, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: time_series
+                  rawQuery: true
+                  rawSql: |
+                    SELECT v.ts AS "time", v.value
+                    FROM reading v JOIN param pv ON pv.id = v.param_id
+                    JOIN reading e ON e.ts = v.ts
+                    JOIN param pe ON pe.id = e.param_id
+                    WHERE pv.name = 'MP_TENSION_ALIMENTION_BSI'
+                      AND pe.name = 'MP_REGIME_MOTEUR_AFFICHE' AND e.value > 500
+                      AND v.ts > now() - interval '5 minutes'
+                    ORDER BY 1
+              - refId: B
+                datasourceUid: __expr__
+                model: { refId: B, type: reduce, expression: A, reducer: mean }
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: lt, params: [12.8] }
+
+          # Лампы и уровни из блока реле и ABS: давление масла, уровень ОЖ, тормозная
+          # жидкость. Одна строка - один флаг, алерт приходит с его названием.
+          - uid: citroen-lamps
+            title: Лампа или уровень
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 2m
+            labels:
+              severity: critical
+              service: citroen
+            annotations:
+              summary: '{{ $labels.title }}: сработало.'
+            data:
+              - refId: A
+                relativeTimeRange: { from: 1800, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: table
+                  rawQuery: true
+                  rawSql: |
+                    SELECT t.title, l.value
+                    FROM (VALUES
+                      ('BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a', 'Лампа давления масла'),
+                      ('BSM_2010:MP_ALERTE_NIVEAU_EAU_MOTEUR', 'Лампа уровня охлаждающей жидкости'),
+                      ('ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN', 'Тормозная жидкость ниже минимума')
+                    ) AS t(name, title)
+                    JOIN param p ON p.name = t.name
+                    JOIN LATERAL (SELECT value FROM reading WHERE param_id = p.id
+                                  AND ts > now() - interval '30 minutes'
+                                  ORDER BY ts DESC LIMIT 1) l ON true
+              - refId: B
+                datasourceUid: __expr__
+                model: { refId: B, type: reduce, expression: A, reducer: last }
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: gt, params: [0.5] }
           - uid: citroen-oil-temp-warn
             title: Температура масла высокая
             condition: C
