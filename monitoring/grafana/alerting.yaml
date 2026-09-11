@@ -98,6 +98,17 @@ data:
 
   rules.yaml: |
     apiVersion: 1
+    # Провижининг из файла НЕ удаляет правила, которых в файле больше нет: их надо
+    # перечислить здесь явно. Четыре ручных правила заменены общим citroen-red-zone.
+    deleteRules:
+      - orgId: 1
+        uid: citroen-lamps
+      - orgId: 1
+        uid: citroen-oil-temp-warn
+      - orgId: 1
+        uid: citroen-oil-temp-crit
+      - orgId: 1
+        uid: citroen-batt-low
     groups:
       - orgId: 1
         name: citroen
