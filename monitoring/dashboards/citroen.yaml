@@ -3813,7 +3813,7 @@ data:
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "lengthkm",
+              "unit": "suffix: км",
               "custom": {
                 "lineWidth": 2,
                 "fillOpacity": 15,
@@ -4026,7 +4026,7 @@ data:
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "lengthkm",
+              "unit": "suffix: км",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -4080,7 +4080,7 @@ data:
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "lengthkm",
+              "unit": "suffix: км",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -4134,7 +4134,7 @@ data:
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "lengthkm",
+              "unit": "suffix: км",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -4188,7 +4188,7 @@ data:
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "lengthkm",
+              "unit": "suffix: км",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -11700,7 +11700,7 @@ data:
         {
           "id": 176,
           "type": "timeseries",
-          "title": "Запрос air conditionne touche ac · Запрос regulation automatique · Molette volume · Touche degivrage desembuage передний",
+          "title": "Запрос air conditionne touche ac · Запрос regulation automatique · Touche degivrage desembuage передний",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -11720,7 +11720,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'FMUX:MP_DEMANDE_AIR_CONDITIONNE_TOUCHE_AC' THEN 'Запрос air conditionne touche ac'\n       WHEN 'FMUX:MP_DEMANDE_DE_REGULATION_AUTOMATIQUE' THEN 'Запрос regulation automatique'\n       WHEN 'FMUX:MP_MOLETTE_VOLUME' THEN 'Molette volume'\n       WHEN 'FMUX:MP_TOUCHE_DEGIVRAGE_DESEMBUAGE_AVANT' THEN 'Touche degivrage desembuage передний'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('FMUX:MP_DEMANDE_AIR_CONDITIONNE_TOUCHE_AC', 'FMUX:MP_DEMANDE_DE_REGULATION_AUTOMATIQUE', 'FMUX:MP_MOLETTE_VOLUME', 'FMUX:MP_TOUCHE_DEGIVRAGE_DESEMBUAGE_AVANT') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'FMUX:MP_DEMANDE_AIR_CONDITIONNE_TOUCHE_AC' THEN 'Запрос air conditionne touche ac'\n       WHEN 'FMUX:MP_DEMANDE_DE_REGULATION_AUTOMATIQUE' THEN 'Запрос regulation automatique'\n       WHEN 'FMUX:MP_TOUCHE_DEGIVRAGE_DESEMBUAGE_AVANT' THEN 'Touche degivrage desembuage передний'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('FMUX:MP_DEMANDE_AIR_CONDITIONNE_TOUCHE_AC', 'FMUX:MP_DEMANDE_DE_REGULATION_AUTOMATIQUE', 'FMUX:MP_TOUCHE_DEGIVRAGE_DESEMBUAGE_AVANT') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -11753,6 +11753,60 @@ data:
         },
         {
           "id": 177,
+          "type": "timeseries",
+          "title": "Molette volume",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 804
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'FMUX:MP_MOLETTE_VOLUME' THEN 'Molette volume'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('FMUX:MP_MOLETTE_VOLUME') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 178,
           "type": "table",
           "title": "панель управления: постоянные значения",
           "datasource": {
@@ -11799,7 +11853,7 @@ data:
           }
         },
         {
-          "id": 178,
+          "id": 179,
           "type": "row",
           "title": "DTC (3)",
           "collapsed": false,
@@ -11812,7 +11866,7 @@ data:
           "panels": []
         },
         {
-          "id": 179,
+          "id": 180,
           "type": "timeseries",
           "title": "C1205",
           "datasource": {
@@ -11866,7 +11920,7 @@ data:
           }
         },
         {
-          "id": 180,
+          "id": 181,
           "type": "table",
           "title": "DTC: постоянные значения",
           "datasource": {
