@@ -38,7 +38,7 @@ data:
       },
       "timezone": "browser",
       "schemaVersion": 39,
-      "refresh": "30s",
+      "refresh": "10s",
       "graphTooltip": 1,
       "time": {
         "from": "now-24h",
@@ -10518,238 +10518,6 @@ data:
         },
         {
           "id": 152,
-          "type": "timeseries",
-          "title": "Тормозная жидкость ниже минимума",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 656
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Тормозная жидкость ниже минимума'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 2,
-                "fillOpacity": 15,
-                "showPoints": "never",
-                "spanNulls": true,
-                "thresholdsStyle": {
-                  "mode": "dashed+area"
-                }
-              },
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "value": null,
-                    "color": "green"
-                  },
-                  {
-                    "value": 0.5,
-                    "color": "red"
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "showLegend": true,
-              "displayMode": "list",
-              "placement": "bottom",
-              "calcs": [
-                "lastNotNull"
-              ]
-            },
-            "tooltip": {
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "description": "1 - поплавок в бачке ГТЦ опустился. Либо утечка, либо колодки изношены до предела.\n\nИсточник границ: свойства самой величины, не база DiagBox."
-        },
-        {
-          "id": 153,
-          "type": "timeseries",
-          "title": "Выключатель стоп-сигнала · Реле питания электроклапанов · Реле насоса рециркуляции",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 656
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигнала'\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания электроклапанов'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса рециркуляции'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_CONTACTEUR_FEUX_STOP1', 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV', 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 154,
-          "type": "timeseries",
-          "title": "Колесо заднее правое · Колесо заднее левое · Колесо переднее левое · Скорость автомобиля",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 664
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE' THEN 'Скорость колеса, заднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE' THEN 'Скорость колеса, заднее левое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE' THEN 'Скорость колеса, переднее левое'\n       WHEN 'ESP81:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE', 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE', 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE', 'ESP81:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "velocitykmh",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 155,
-          "type": "timeseries",
-          "title": "Колесо переднее правое",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 664
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_DROIT' THEN 'Скорость колеса, переднее правое'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_VITESSE_ROUE_AVANT_DROIT') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 156,
           "type": "table",
           "title": "ABS/ESP: постоянные значения",
           "datasource": {
@@ -10757,10 +10525,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 12,
+            "h": 16,
             "w": 24,
             "x": 0,
-            "y": 672
+            "y": 656
           },
           "targets": [
             {
@@ -10771,7 +10539,7 @@ data:
               },
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT CASE p.name\n       WHEN 'ESP81:ID_DATE_TELECHARGEMENT' THEN 'Дата загрузки ПО'\n       WHEN 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT' THEN 'Число загрузок ПО'\n       WHEN 'ESP81:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'ESP81:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'ESP81:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'ESP81:ID_TRACABILITE_DATE_FABRICATION' THEN 'Дата изготовления'\n       WHEN 'ESP81:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'ESP81:ID_VERSION_LOGICIEL' THEN 'Версия ПО'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('ESP81:ID_DATE_TELECHARGEMENT', 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT', 'ESP81:ID_NOM_DU_FOURNISSEUR', 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'ESP81:ID_REFERENCE_LOGICIEL', 'ESP81:ID_REFERENCE_MATERIEL', 'ESP81:ID_TRACABILITE_DATE_FABRICATION', 'ESP81:ID_VERSION_DIAGNOSTIC', 'ESP81:ID_VERSION_LOGICIEL')\nORDER BY 1"
+              "rawSql": "SELECT CASE p.name\n       WHEN 'ESP81:ID_DATE_TELECHARGEMENT' THEN 'Дата загрузки ПО'\n       WHEN 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT' THEN 'Число загрузок ПО'\n       WHEN 'ESP81:ID_NOM_DU_FOURNISSEUR' THEN 'Поставщик блока'\n       WHEN 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'ESP81:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'ESP81:ID_REFERENCE_MATERIEL' THEN 'Номер железа'\n       WHEN 'ESP81:ID_TRACABILITE_DATE_FABRICATION' THEN 'Дата изготовления'\n       WHEN 'ESP81:ID_VERSION_DIAGNOSTIC' THEN 'Версия диагностики'\n       WHEN 'ESP81:ID_VERSION_LOGICIEL' THEN 'Версия ПО'\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигнала'\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания электроклапанов'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса рециркуляции'\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Тормозная жидкость ниже минимума'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE' THEN 'Скорость колеса, заднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE' THEN 'Скорость колеса, заднее левое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_DROIT' THEN 'Скорость колеса, переднее правое'\n       WHEN 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE' THEN 'Скорость колеса, переднее левое'\n       WHEN 'ESP81:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('ESP81:ID_DATE_TELECHARGEMENT', 'ESP81:ID_NOMBRE_DE_TELECHARGEMENT', 'ESP81:ID_NOM_DU_FOURNISSEUR', 'ESP81:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'ESP81:ID_REFERENCE_LOGICIEL', 'ESP81:ID_REFERENCE_MATERIEL', 'ESP81:ID_TRACABILITE_DATE_FABRICATION', 'ESP81:ID_VERSION_DIAGNOSTIC', 'ESP81:ID_VERSION_LOGICIEL', 'ESP81:MP_CONTACTEUR_FEUX_STOP1', 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV', 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1', 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN', 'ESP81:MP_VITESSE_ROUE_ARRIERE_DROITE', 'ESP81:MP_VITESSE_ROUE_ARRIERE_GAUCHE', 'ESP81:MP_VITESSE_ROUE_AVANT_DROIT', 'ESP81:MP_VITESSE_ROUE_AVANT_GAUCHE', 'ESP81:MP_VITESSE_VEHICULE_a')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -10796,7 +10564,7 @@ data:
           }
         },
         {
-          "id": 157,
+          "id": 153,
           "type": "row",
           "title": "электронасос (18)",
           "collapsed": false,
@@ -10804,12 +10572,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 684
+            "y": 672
           },
           "panels": []
         },
         {
-          "id": 158,
+          "id": 154,
           "type": "timeseries",
           "title": "Температура электронасоса ГУР",
           "datasource": {
@@ -10820,7 +10588,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 685
+            "y": 673
           },
           "targets": [
             {
@@ -10931,7 +10699,7 @@ data:
           "description": "Каталог DiagBox даёт 110-118 °C как порог перегрева, не норму: на машине 26-47 °C. Жёлтая зона от 90 поставлена с запасом.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 159,
+          "id": 155,
           "type": "timeseries",
           "title": "Питание насоса гидроусилителя",
           "datasource": {
@@ -10942,7 +10710,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 685
+            "y": 673
           },
           "targets": [
             {
@@ -11090,61 +10858,7 @@ data:
           "description": "Питание насоса гидроусилителя. Границы 9 и 18 В - из подсказки DiagBox к этому параметру. Диапазон широкий потому, что насос должен работать и при просадке от стартера.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 160,
-          "type": "timeseries",
-          "title": "Двигатель работает",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 693
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2' THEN 'Двигатель работает'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 161,
+          "id": 156,
           "type": "timeseries",
           "title": "Ток потребления насоса",
           "datasource": {
@@ -11154,8 +10868,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 693
+            "x": 0,
+            "y": 681
           },
           "targets": [
             {
@@ -11198,7 +10912,7 @@ data:
           }
         },
         {
-          "id": 162,
+          "id": 157,
           "type": "timeseries",
           "title": "Обороты двигателя (по насосу)",
           "datasource": {
@@ -11208,8 +10922,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 701
+            "x": 12,
+            "y": 681
           },
           "targets": [
             {
@@ -11252,61 +10966,7 @@ data:
           }
         },
         {
-          "id": 163,
-          "type": "timeseries",
-          "title": "Скорость автомобиля",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 701
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "velocitykmh",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "never"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 164,
+          "id": 158,
           "type": "timeseries",
           "title": "Скорость вращения руля",
           "datasource": {
@@ -11317,7 +10977,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 709
+            "y": 689
           },
           "targets": [
             {
@@ -11360,7 +11020,7 @@ data:
           }
         },
         {
-          "id": 165,
+          "id": 159,
           "type": "table",
           "title": "электронасос: постоянные значения",
           "datasource": {
@@ -11368,10 +11028,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 14,
+            "h": 16,
             "w": 24,
             "x": 0,
-            "y": 717
+            "y": 697
           },
           "targets": [
             {
@@ -11382,7 +11042,7 @@ data:
               },
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT CASE p.name\n       WHEN 'GEP:APC' THEN 'Зажигание включено'\n       WHEN 'GEP:CFG____ASSISTANCE_1' THEN 'Конфиг: тип усилителя'\n       WHEN 'GEP:ID_80_MP_INDICE_MESS' THEN 'Индекс сообщений'\n       WHEN 'GEP:ID_EDITION_LOGICIEL' THEN 'Редакция ПО'\n       WHEN 'GEP:ID_EDI_CALIB' THEN 'Редакция калибровки'\n       WHEN 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'GEP:ID_REFERENCE_FOURNISSEUR' THEN 'Номер поставщика'\n       WHEN 'GEP:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'GEP:ID_REFERENCE_PSA' THEN 'Номер PSA'\n       WHEN 'GEP:ID_VERSION_LOGICIEL_new_1' THEN 'Версия ПО'\n       WHEN 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION' THEN 'Тип датчика угла руля'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('GEP:APC', 'GEP:CFG____ASSISTANCE_1', 'GEP:ID_80_MP_INDICE_MESS', 'GEP:ID_EDITION_LOGICIEL', 'GEP:ID_EDI_CALIB', 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'GEP:ID_REFERENCE_FOURNISSEUR', 'GEP:ID_REFERENCE_LOGICIEL', 'GEP:ID_REFERENCE_PSA', 'GEP:ID_VERSION_LOGICIEL_new_1', 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION')\nORDER BY 1"
+              "rawSql": "SELECT CASE p.name\n       WHEN 'GEP:APC' THEN 'Зажигание включено'\n       WHEN 'GEP:CFG____ASSISTANCE_1' THEN 'Конфиг: тип усилителя'\n       WHEN 'GEP:ID_80_MP_INDICE_MESS' THEN 'Индекс сообщений'\n       WHEN 'GEP:ID_EDITION_LOGICIEL' THEN 'Редакция ПО'\n       WHEN 'GEP:ID_EDI_CALIB' THEN 'Редакция калибровки'\n       WHEN 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL' THEN 'Доп. номер железа'\n       WHEN 'GEP:ID_REFERENCE_FOURNISSEUR' THEN 'Номер поставщика'\n       WHEN 'GEP:ID_REFERENCE_LOGICIEL' THEN 'Номер ПО'\n       WHEN 'GEP:ID_REFERENCE_PSA' THEN 'Номер PSA'\n       WHEN 'GEP:ID_VERSION_LOGICIEL_new_1' THEN 'Версия ПО'\n       WHEN 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2' THEN 'Двигатель работает'\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля'\n       WHEN 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION' THEN 'Тип датчика угла руля'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('GEP:APC', 'GEP:CFG____ASSISTANCE_1', 'GEP:ID_80_MP_INDICE_MESS', 'GEP:ID_EDITION_LOGICIEL', 'GEP:ID_EDI_CALIB', 'GEP:ID_REFERENCE_COMPLEMENTAIRE_MATERIEL', 'GEP:ID_REFERENCE_FOURNISSEUR', 'GEP:ID_REFERENCE_LOGICIEL', 'GEP:ID_REFERENCE_PSA', 'GEP:ID_VERSION_LOGICIEL_new_1', 'GEP:MP_ETAT_MOTEUR_THERMIQUE_1_2', 'GEP:MP_VITESSE_VEHICULE_a', 'GEP:TYPE_ANGLE_VOLANT_DE_DIRECTION')\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -11407,7 +11067,7 @@ data:
           }
         },
         {
-          "id": 166,
+          "id": 160,
           "type": "row",
           "title": "щиток приборов (15)",
           "collapsed": false,
@@ -11415,12 +11075,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 731
+            "y": 713
           },
           "panels": []
         },
         {
-          "id": 167,
+          "id": 161,
           "type": "timeseries",
           "title": "Commutateur aide stationnement · Commutateur change couleur couronne · Commutateur change couleur lcd · Commutateur check raz odometre",
           "datasource": {
@@ -11431,7 +11091,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 732
+            "y": 714
           },
           "targets": [
             {
@@ -11474,7 +11134,7 @@ data:
           }
         },
         {
-          "id": 168,
+          "id": 162,
           "type": "timeseries",
           "title": "Commutateur esp · Commutateur reglage luminosite · Commutateur sam · Commutateur systeme alerte franch invo",
           "datasource": {
@@ -11485,7 +11145,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 732
+            "y": 714
           },
           "targets": [
             {
@@ -11528,7 +11188,7 @@ data:
           }
         },
         {
-          "id": 169,
+          "id": 163,
           "type": "timeseries",
           "title": "Presence montre",
           "datasource": {
@@ -11539,7 +11199,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 740
+            "y": 722
           },
           "targets": [
             {
@@ -11582,7 +11242,7 @@ data:
           }
         },
         {
-          "id": 170,
+          "id": 164,
           "type": "table",
           "title": "щиток приборов: постоянные значения",
           "datasource": {
@@ -11593,7 +11253,7 @@ data:
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 748
+            "y": 730
           },
           "targets": [
             {
@@ -11629,7 +11289,7 @@ data:
           }
         },
         {
-          "id": 171,
+          "id": 165,
           "type": "row",
           "title": "датчик дождя и света (14)",
           "collapsed": false,
@@ -11637,12 +11297,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 757
+            "y": 739
           },
           "panels": []
         },
         {
-          "id": 172,
+          "id": 166,
           "type": "timeseries",
           "title": "Состояние essuyage · Скорость balayage",
           "datasource": {
@@ -11653,7 +11313,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 758
+            "y": 740
           },
           "targets": [
             {
@@ -11696,7 +11356,7 @@ data:
           }
         },
         {
-          "id": 173,
+          "id": 167,
           "type": "timeseries",
           "title": "Volume pluie mesuree cellule 1 · Volume pluie mesuree cellule 2",
           "datasource": {
@@ -11707,7 +11367,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 758
+            "y": 740
           },
           "targets": [
             {
@@ -11750,7 +11410,7 @@ data:
           }
         },
         {
-          "id": 174,
+          "id": 168,
           "type": "timeseries",
           "title": "Lum ambi · Lum front",
           "datasource": {
@@ -11761,7 +11421,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 766
+            "y": 748
           },
           "targets": [
             {
@@ -11804,7 +11464,7 @@ data:
           }
         },
         {
-          "id": 175,
+          "id": 169,
           "type": "table",
           "title": "датчик дождя и света: постоянные значения",
           "datasource": {
@@ -11815,7 +11475,7 @@ data:
             "h": 11,
             "w": 24,
             "x": 0,
-            "y": 774
+            "y": 756
           },
           "targets": [
             {
@@ -11851,7 +11511,7 @@ data:
           }
         },
         {
-          "id": 176,
+          "id": 170,
           "type": "row",
           "title": "многофункциональный дисплей (13)",
           "collapsed": false,
@@ -11859,12 +11519,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 785
+            "y": 767
           },
           "panels": []
         },
         {
-          "id": 177,
+          "id": 171,
           "type": "table",
           "title": "многофункциональный дисплей: постоянные значения",
           "datasource": {
@@ -11875,7 +11535,7 @@ data:
             "h": 16,
             "w": 24,
             "x": 0,
-            "y": 786
+            "y": 768
           },
           "targets": [
             {
@@ -11911,7 +11571,7 @@ data:
           }
         },
         {
-          "id": 178,
+          "id": 172,
           "type": "row",
           "title": "модуль двери (11)",
           "collapsed": false,
@@ -11919,12 +11579,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 802
+            "y": 784
           },
           "panels": []
         },
         {
-          "id": 179,
+          "id": 173,
           "type": "timeseries",
           "title": "Команда relais cpc · Запрос mise contact · Состояние relais cpc · Состояние relais principal cmm",
           "datasource": {
@@ -11935,7 +11595,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 803
+            "y": 785
           },
           "targets": [
             {
@@ -11978,7 +11638,7 @@ data:
           }
         },
         {
-          "id": 180,
+          "id": 174,
           "type": "table",
           "title": "модуль двери: постоянные значения",
           "datasource": {
@@ -11989,7 +11649,7 @@ data:
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 811
+            "y": 793
           },
           "targets": [
             {
@@ -12025,7 +11685,7 @@ data:
           }
         },
         {
-          "id": 181,
+          "id": 175,
           "type": "row",
           "title": "панель управления (8)",
           "collapsed": false,
@@ -12033,12 +11693,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 821
+            "y": 803
           },
           "panels": []
         },
         {
-          "id": 182,
+          "id": 176,
           "type": "timeseries",
           "title": "Запрос air conditionne touche ac · Запрос regulation automatique · Molette volume · Touche degivrage desembuage передний",
           "datasource": {
@@ -12049,7 +11709,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 822
+            "y": 804
           },
           "targets": [
             {
@@ -12092,7 +11752,7 @@ data:
           }
         },
         {
-          "id": 183,
+          "id": 177,
           "type": "table",
           "title": "панель управления: постоянные значения",
           "datasource": {
@@ -12103,7 +11763,7 @@ data:
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 830
+            "y": 812
           },
           "targets": [
             {
@@ -12139,7 +11799,7 @@ data:
           }
         },
         {
-          "id": 184,
+          "id": 178,
           "type": "row",
           "title": "DTC (3)",
           "collapsed": false,
@@ -12147,12 +11807,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 837
+            "y": 819
           },
           "panels": []
         },
         {
-          "id": 185,
+          "id": 179,
           "type": "timeseries",
           "title": "C1205",
           "datasource": {
@@ -12163,7 +11823,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 838
+            "y": 820
           },
           "targets": [
             {
@@ -12206,7 +11866,7 @@ data:
           }
         },
         {
-          "id": 186,
+          "id": 180,
           "type": "table",
           "title": "DTC: постоянные значения",
           "datasource": {
@@ -12217,7 +11877,7 @@ data:
             "h": 5,
             "w": 24,
             "x": 0,
-            "y": 846
+            "y": 828
           },
           "targets": [
             {
