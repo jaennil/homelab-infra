@@ -2474,15 +2474,15 @@ data:
         },
         {
           "id": 29,
-          "type": "table",
-          "title": "Лампы, уровни и цепи подушек: текущие значения",
+          "type": "timeseries",
+          "title": "Лампы и уровни (1 = сработало)",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 16,
-            "w": 24,
+            "h": 8,
+            "w": 12,
             "x": 0,
             "y": 112
           },
@@ -2493,35 +2493,227 @@ data:
                 "type": "postgres",
                 "uid": "citroen-postgres"
               },
-              "format": "table",
+              "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT CASE p.name\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Тормозная жидкость ниже минимума'\n       WHEN 'BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a' THEN 'Лампа давления масла'\n       WHEN 'BSM_2010:MP_ALERTE_NIVEAU_EAU_MOTEUR' THEN 'Лампа уровня охлаждающей жидкости'\n       WHEN 'BSM_2010:MP_NIVEAU_LIQUIDE_LAVE_GLACE' THEN 'Омывайка на исходе'\n       WHEN 'BSM_2010:MP_TENSION_CAPTEUR_NIVEAU_HUILE_MOTEUR' THEN 'Датчик уровня масла, напряжение'\n       WHEN 'RBG_UDS:MP_COMPTEUR_DE_CHOCS' THEN 'Счётчик срабатываний подушек'\n       WHEN 'RBG_UDS:MP_ETAT_COMMUTATEUR_NEUTRALISATION_COUSSIN_PASSAGER' THEN 'Выключатель подушки пассажира'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_CONDUCTEUR_NIVEAU_1' THEN 'Цепь подушки водителя, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1' THEN 'Цепь подушки пассажира, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE' THEN 'Цепь боковой подушки, левая, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_DROIT' THEN 'Цепь боковой подушки, правая, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE' THEN 'Цепь преднатяжителя, левая, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT' THEN 'Цепь преднатяжителя, правая, Ом'\n       ELSE coalesce(p.label, p.name) END AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN', 'BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a', 'BSM_2010:MP_ALERTE_NIVEAU_EAU_MOTEUR', 'BSM_2010:MP_NIVEAU_LIQUIDE_LAVE_GLACE', 'BSM_2010:MP_TENSION_CAPTEUR_NIVEAU_HUILE_MOTEUR', 'RBG_UDS:MP_COMPTEUR_DE_CHOCS', 'RBG_UDS:MP_ETAT_COMMUTATEUR_NEUTRALISATION_COUSSIN_PASSAGER', 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_CONDUCTEUR_NIVEAU_1', 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1', 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE', 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_DROIT', 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE', 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT')\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN' THEN 'Тормозная жидкость ниже минимума'\n       WHEN 'BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a' THEN 'Лампа давления масла'\n       WHEN 'BSM_2010:MP_ALERTE_NIVEAU_EAU_MOTEUR' THEN 'Лампа уровня охлаждающей жидкости'\n       WHEN 'BSM_2010:MP_NIVEAU_LIQUIDE_LAVE_GLACE' THEN 'Омывайка на исходе'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN', 'BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a', 'BSM_2010:MP_ALERTE_NIVEAU_EAU_MOTEUR', 'BSM_2010:MP_NIVEAU_LIQUIDE_LAVE_GLACE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
+              "unit": "",
               "custom": {
-                "align": "auto"
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never",
+                "lineInterpolation": "stepAfter"
               }
             },
             "overrides": []
           },
           "options": {
-            "showHeader": true,
-            "footer": {
-              "show": false
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
             },
-            "sortBy": [
-              {
-                "displayName": "Параметр",
-                "desc": false
-              }
-            ]
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
           },
-          "description": "Уровни и лампы - 0 в норме, 1 сработало. Цепи подушек и преднатяжителей - сопротивление пиропатрона с проводкой, норма 1.5-4.5 Ом. Счётчик срабатываний подушек должен быть 0."
+          "description": "Тормозная жидкость ниже минимума, лампа давления масла, лампа уровня ОЖ, омывайка. Всё в норме - четыре нуля."
         },
         {
           "id": 30,
+          "type": "timeseries",
+          "title": "Датчик уровня масла, напряжение",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 112
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_TENSION_CAPTEUR_NIVEAU_HUILE_MOTEUR' THEN 'Датчик уровня масла, напряжение'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_TENSION_CAPTEUR_NIVEAU_HUILE_MOTEUR') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "mvolt",
+              "custom": {
+                "lineWidth": 2,
+                "fillOpacity": 15,
+                "showPoints": "never",
+                "spanNulls": true
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "showLegend": true,
+              "displayMode": "list",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull"
+              ]
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          }
+        },
+        {
+          "id": 31,
+          "type": "timeseries",
+          "title": "Цепи подушек и преднатяжителей",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 120
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_CONDUCTEUR_NIVEAU_1' THEN 'Цепь подушки водителя, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1' THEN 'Цепь подушки пассажира, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE' THEN 'Цепь боковой подушки, левая, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_DROIT' THEN 'Цепь боковой подушки, правая, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE' THEN 'Цепь преднатяжителя, левая, Ом'\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT' THEN 'Цепь преднатяжителя, правая, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_CONDUCTEUR_NIVEAU_1', 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1', 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE', 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_DROIT', 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE', 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ohm",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never",
+                "thresholdsStyle": {
+                  "mode": "dashed+area"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "value": null,
+                    "color": "red"
+                  },
+                  {
+                    "value": 1.5,
+                    "color": "green"
+                  },
+                  {
+                    "value": 4.5,
+                    "color": "red"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "description": "Сопротивление пиропатрона с проводкой. Норма 1.5-4.5 Ом: ниже - замыкание, выше - плохой контакт или обрыв. Цепь выключателя подушки пассажира (400 Ом) вынесена в ряд подушек, у неё другая норма."
+        },
+        {
+          "id": 32,
+          "type": "timeseries",
+          "title": "Подушки: счётчик срабатываний и выключатель пассажира",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 120
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_COMPTEUR_DE_CHOCS' THEN 'Счётчик срабатываний подушек'\n       WHEN 'RBG_UDS:MP_ETAT_COMMUTATEUR_NEUTRALISATION_COUSSIN_PASSAGER' THEN 'Выключатель подушки пассажира'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_COMPTEUR_DE_CHOCS', 'RBG_UDS:MP_ETAT_COMMUTATEUR_NEUTRALISATION_COUSSIN_PASSAGER') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "never",
+                "lineInterpolation": "stepAfter"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "description": "Счётчик должен быть 0. Выключатель 1 - подушка пассажира включена."
+        },
+        {
+          "id": 33,
           "type": "row",
           "title": "Коды неисправностей (3)",
           "collapsed": false,
@@ -2534,7 +2726,7 @@ data:
           "panels": []
         },
         {
-          "id": 31,
+          "id": 34,
           "type": "table",
           "title": "Найденные коды: блок, описание, статус",
           "datasource": {
@@ -2581,7 +2773,7 @@ data:
           }
         },
         {
-          "id": 32,
+          "id": 35,
           "type": "row",
           "title": "Обозреватель - любой из параметров",
           "collapsed": false,
@@ -2594,7 +2786,7 @@ data:
           "panels": []
         },
         {
-          "id": 33,
+          "id": 36,
           "type": "timeseries",
           "title": "Выбранные параметры",
           "datasource": {
@@ -2648,7 +2840,7 @@ data:
           }
         },
         {
-          "id": 38,
+          "id": 41,
           "type": "row",
           "title": "Температуры (5)",
           "collapsed": false,
@@ -2661,7 +2853,7 @@ data:
           "panels": []
         },
         {
-          "id": 34,
+          "id": 37,
           "type": "timeseries",
           "title": "Температура масла (замер)",
           "datasource": {
@@ -2865,7 +3057,7 @@ data:
           "description": "То же, что и у расчётной температуры: 110 / 125 / 140 °C."
         },
         {
-          "id": 35,
+          "id": 38,
           "type": "timeseries",
           "title": "Температура масла (расчётная)",
           "datasource": {
@@ -3069,7 +3261,7 @@ data:
           "description": "Пороговые линии: 110 °C - высокая нагрузка (трасса, жара, прицеп), 125 °C - долго держать не стоит, 140 °C - масло деградирует быстро, искать причину. Норма 90-110 °C. На холостых без обдува температура ползёт вверх - это ожидаемо."
         },
         {
-          "id": 36,
+          "id": 39,
           "type": "timeseries",
           "title": "Температура за бортом · Температура за бортом (расчётная)",
           "datasource": {
@@ -3123,7 +3315,7 @@ data:
           }
         },
         {
-          "id": 37,
+          "id": 40,
           "type": "timeseries",
           "title": "Температура испарителя",
           "datasource": {
@@ -3177,7 +3369,7 @@ data:
           }
         },
         {
-          "id": 41,
+          "id": 44,
           "type": "row",
           "title": "Напряжения и ток (2)",
           "collapsed": false,
@@ -3190,7 +3382,7 @@ data:
           "panels": []
         },
         {
-          "id": 39,
+          "id": 42,
           "type": "timeseries",
           "title": "Напряжение питания BSI",
           "datasource": {
@@ -3394,7 +3586,7 @@ data:
           "description": "Ниже 11.5 В - глубокий разряд, 12.4 В - нижняя граница нормы покоя, выше 15 В - перезаряд, подозрение на регулятор генератора."
         },
         {
-          "id": 40,
+          "id": 43,
           "type": "timeseries",
           "title": "Напряжение аккумулятора в покое",
           "datasource": {
@@ -3598,7 +3790,7 @@ data:
           "description": "Напряжение питания BSI в момент пробуждения, то есть ДО того, как генератор начал давать зарядку - самое близкое к напряжению покоя аккумулятора, что удаётся прочитать. Пользоваться лучше этим графиком, а не MP_TENSION_BATTERIE_AU_REPOS: тот показывает 16.1 В, что для покоящейся свинцовой батареи невозможно, у него неверно разобран масштаб.\n\n12.7 В - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд и сульфатация. На этой машине 12.7 В, то есть аккумулятор в порядке. Замер честен только после нескольких часов стоянки: сразу после поездки батарея держит поверхностный заряд и завышает показание на 0.2-0.3 В.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 45,
+          "id": 48,
           "type": "row",
           "title": "Проценты (6)",
           "collapsed": false,
@@ -3611,7 +3803,7 @@ data:
           "panels": []
         },
         {
-          "id": 42,
+          "id": 45,
           "type": "timeseries",
           "title": "Подсветка салона",
           "datasource": {
@@ -3665,7 +3857,7 @@ data:
           }
         },
         {
-          "id": 43,
+          "id": 46,
           "type": "timeseries",
           "title": "Лампа в кнопке аварийки · Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафона",
           "datasource": {
@@ -3719,7 +3911,7 @@ data:
           }
         },
         {
-          "id": 44,
+          "id": 47,
           "type": "timeseries",
           "title": "Подсветка дисплеев и кнопок",
           "datasource": {
@@ -3773,7 +3965,7 @@ data:
           }
         },
         {
-          "id": 52,
+          "id": 55,
           "type": "row",
           "title": "Пробег и обслуживание (10)",
           "collapsed": false,
@@ -3786,7 +3978,7 @@ data:
           "panels": []
         },
         {
-          "id": 46,
+          "id": 49,
           "type": "timeseries",
           "title": "Км до обслуживания",
           "datasource": {
@@ -3945,7 +4137,7 @@ data:
           "description": "Интервал у этой машины около 10 400 км (посчитано: 9784 км пройдено с последнего сброса плюс 630 остатка). Ниже 1500 км - пора планировать, ниже 500 - записываться."
         },
         {
-          "id": 47,
+          "id": 50,
           "type": "timeseries",
           "title": "Дней с последнего сброса ТО",
           "datasource": {
@@ -3999,7 +4191,7 @@ data:
           }
         },
         {
-          "id": 48,
+          "id": 51,
           "type": "timeseries",
           "title": "Запас хода · Пробег с последнего сброса суточного с · Пробег частичный, сохранённый в BSI",
           "datasource": {
@@ -4053,7 +4245,7 @@ data:
           }
         },
         {
-          "id": 49,
+          "id": 52,
           "type": "timeseries",
           "title": "Пробег поездки 1 · Пробег поездки 2",
           "datasource": {
@@ -4107,7 +4299,7 @@ data:
           }
         },
         {
-          "id": 50,
+          "id": 53,
           "type": "timeseries",
           "title": "Пробег общий · Пробег общий, сохранённый в BSI",
           "datasource": {
@@ -4161,7 +4353,7 @@ data:
           }
         },
         {
-          "id": 51,
+          "id": 54,
           "type": "timeseries",
           "title": "Пробег при последнем сбросе ТО",
           "datasource": {
@@ -4215,7 +4407,7 @@ data:
           }
         },
         {
-          "id": 145,
+          "id": 148,
           "type": "row",
           "title": "Состояния и флаги (272)",
           "collapsed": true,
@@ -4227,7 +4419,7 @@ data:
           },
           "panels": [
             {
-              "id": 53,
+              "id": 56,
               "type": "timeseries",
               "title": "Напряжение АКБ в покое",
               "datasource": {
@@ -4432,7 +4624,7 @@ data:
               "description": "ВНИМАНИЕ: сам ряд отмасштабирован неверно. Показывает 16.1 В, что для покоящегося свинцового аккумулятора невозможно - физический предел около 13 В. В базе DiagBox factor=0.01, offset=11.0, byte_length=2. Но при таких множителе и смещении ДВУХбайтовое поле охватывает 11-666 В, что бессмысленно, а ОДНОбайтовое - ровно 11.00-13.55 В, то есть именно диапазон напряжения покоя. Похоже, длина поля в базе неверна; подтверждается сырыми байтами через probe_raw.py. Сами границы верны: 12.7 - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд."
             },
             {
-              "id": 54,
+              "id": 57,
               "type": "timeseries",
               "title": "Расход средний, поездка 1",
               "datasource": {
@@ -4637,7 +4829,7 @@ data:
               "description": "Средний расход по счётчику поездки 1. У этой машины он 8 л/100 км, что для бензинового двигателя нормально. Выше 11 - обычно город и пробки, выше 14 стоит искать причину: свечи, датчик кислорода, забитый фильтр. Внимание: счётчик поездки 1 упёрся в 9999 км, поэтому средний расход считается за очень длинный период и на изменения реагирует медленно - сбрось счётчик поездки, чтобы он ожил."
             },
             {
-              "id": 55,
+              "id": 58,
               "type": "timeseries",
               "title": "Топливо в баке (замер)",
               "datasource": {
@@ -4797,7 +4989,7 @@ data:
               "description": "Бак примерно 61 л (посчитано: 49.5 л при указателе 81%). Ниже 10 л - резерв. Ниже 5 л реальный риск: погружной насос охлаждается и смазывается самим бензином, и при малом остатке греется сильнее, а на торможении и в повороте может хватить воздуха. Плюс со дна тянется осадок. А вот распространённое \"не ниже половины бака\" - миф, до резерва ездить нормально."
             },
             {
-              "id": 56,
+              "id": 59,
               "type": "timeseries",
               "title": "Уровень масла (среднее)",
               "datasource": {
@@ -4957,7 +5149,7 @@ data:
               "description": "Процент между метками min и max на щупе, а не от объёма картера. Ниже 20% пора долить, ниже нуля - уровень под минимумом. Точная привязка процентов к меткам не проверена на этой машине."
             },
             {
-              "id": 57,
+              "id": 60,
               "type": "timeseries",
               "title": "BSI без кода противоугонной системы · Аварийная сигнализация · Автоматический режим стеклоочистителя · Автомобиль заперт",
               "datasource": {
@@ -5012,7 +5204,7 @@ data:
               }
             },
             {
-              "id": 58,
+              "id": 61,
               "type": "timeseries",
               "title": "Багажник · Брелок 1 синхронизирован · Брелок 2 синхронизирован · Брелок 3 синхронизирован",
               "datasource": {
@@ -5067,7 +5259,7 @@ data:
               }
             },
             {
-              "id": 59,
+              "id": 62,
               "type": "timeseries",
               "title": "Брелок 4 синхронизирован · Брелок 5 синхронизирован · Брелок распознан · Включена задняя передача",
               "datasource": {
@@ -5122,7 +5314,7 @@ data:
               }
             },
             {
-              "id": 60,
+              "id": 63,
               "type": "timeseries",
               "title": "Габаритные огни · Данные силового агрегата · Датчик день/ночь · Двойное нажатие кнопки старт-стоп",
               "datasource": {
@@ -5177,7 +5369,7 @@ data:
               }
             },
             {
-              "id": 61,
+              "id": 64,
               "type": "timeseries",
               "title": "День недели · Детский замок слева включён · Детский замок справа включён · Диагностика вентилятора охлаждения",
               "datasource": {
@@ -5232,7 +5424,7 @@ data:
               }
             },
             {
-              "id": 62,
+              "id": 65,
               "type": "timeseries",
               "title": "Долгое нажатие на брелоке · Достоверность продольной скорости · Достоверность пройденного расстояния · Доступно автопереключение дальний/ближ",
               "datasource": {
@@ -5287,7 +5479,7 @@ data:
               }
             },
             {
-              "id": 63,
+              "id": 66,
               "type": "timeseries",
               "title": "Задание скорости вентилятора · Заданная скорость достигнута · Задние противотуманные · Задний проём заперт",
               "datasource": {
@@ -5342,7 +5534,7 @@ data:
               }
             },
             {
-              "id": 64,
+              "id": 67,
               "type": "timeseries",
               "title": "Задний стеклоочиститель · Задний стеклоочиститель в парковке · Задняя левая дверь · Задняя правая дверь",
               "datasource": {
@@ -5397,7 +5589,7 @@ data:
               }
             },
             {
-              "id": 65,
+              "id": 68,
               "type": "timeseries",
               "title": "Запрет визуального отклика парктроника · Запрет звукового отклика парктроника · Запрет объёмного датчика и датчика под · Запрет подсветки номерного знака",
               "datasource": {
@@ -5452,7 +5644,7 @@ data:
               }
             },
             {
-              "id": 66,
+              "id": 69,
               "type": "timeseries",
               "title": "Запрос ЭБУ двигателя отключить компрес · Запрос аварийной сигнализации · Запрос автоматической стеклоочистки · Запрос аутентификации",
               "datasource": {
@@ -5507,7 +5699,7 @@ data:
               }
             },
             {
-              "id": 67,
+              "id": 70,
               "type": "timeseries",
               "title": "Запрос включения детского замка · Запрос включения круиз-контроля · Запрос включения ограничителя скорости · Запрос зимнего режима АКПП",
               "datasource": {
@@ -5562,7 +5754,7 @@ data:
               }
             },
             {
-              "id": 68,
+              "id": 71,
               "type": "timeseries",
               "title": "Запрос наружной боковой подсветки · Запрос открывания багажника · Запрос открывания стекла багажника · Запрос показа меню",
               "datasource": {
@@ -5617,7 +5809,7 @@ data:
               }
             },
             {
-              "id": 69,
+              "id": 72,
               "type": "timeseries",
               "title": "Запрос предподготовки от внешнего блок · Запрос разгрузки компрессора · Запрос смены состояния старт-стоп · Запрос спортивного режима АКПП",
               "datasource": {
@@ -5672,7 +5864,7 @@ data:
               }
             },
             {
-              "id": 70,
+              "id": 73,
               "type": "timeseries",
               "title": "Запрос увеличения заданной скорости · Запрос уменьшения заданной скорости · Запрос: включить передний плафон вручн · Запрос: выключить передний плафон",
               "datasource": {
@@ -5727,7 +5919,7 @@ data:
               }
             },
             {
-              "id": 71,
+              "id": 74,
               "type": "timeseries",
               "title": "Запрос: отключить центральный плафон · Засыпание BSI · Зафиксирован взлом · Зафиксирован взлом по периметру",
               "datasource": {
@@ -5782,7 +5974,7 @@ data:
               }
             },
             {
-              "id": 72,
+              "id": 75,
               "type": "timeseries",
               "title": "Защита BSI от сканирования · Защита испарителя от обмерзания · Защита по высокому давлению хладагента · Защита по низкому давлению хладагента",
               "datasource": {
@@ -5837,7 +6029,7 @@ data:
               }
             },
             {
-              "id": 73,
+              "id": 76,
               "type": "timeseries",
               "title": "Защита по оборотам двигателя · Звуковой сигнал на сирену · Идёт омывание · Идёт управление замками",
               "datasource": {
@@ -5892,7 +6084,7 @@ data:
               }
             },
             {
-              "id": 74,
+              "id": 77,
               "type": "timeseries",
               "title": "Индикация ключа обслуживания · Капот · Ключ или метка в салоне · Ключ или метка опознаны",
               "datasource": {
@@ -5947,7 +6139,7 @@ data:
               }
             },
             {
-              "id": 75,
+              "id": 78,
               "type": "timeseries",
               "title": "Кнопка брелока отпущена · Кнопка включения магнитолы · Кнопка лючка бака · Команда удержания LIN2",
               "datasource": {
@@ -6002,7 +6194,7 @@ data:
               }
             },
             {
-              "id": 76,
+              "id": 79,
               "type": "timeseries",
               "title": "Контакт замка передней левой двери · Контакт замка передней правой двери · Контроль сирены сигнализации · Короткое нажатие на брелоке",
               "datasource": {
@@ -6057,7 +6249,7 @@ data:
               }
             },
             {
-              "id": 77,
+              "id": 80,
               "type": "timeseries",
               "title": "Круиз и ограничитель в BSI · Круиз и ограничитель в ЭБУ двигателя · Лампа детского замка на панели · Лампа центрального запирания",
               "datasource": {
@@ -6112,7 +6304,7 @@ data:
               }
             },
             {
-              "id": 78,
+              "id": 81,
               "type": "timeseries",
               "title": "Левый поворотник · Лючок топливного бака · Меню единиц измерения и языка · Меню настройки круиза и ограничителя",
               "datasource": {
@@ -6167,7 +6359,7 @@ data:
               }
             },
             {
-              "id": 79,
+              "id": 82,
               "type": "timeseries",
               "title": "Меню пользовательских настроек · Меню приветствия водителя · Муфта компрессора кондиционера · Нажата кнопка 1 брелока",
               "datasource": {
@@ -6222,7 +6414,7 @@ data:
               }
             },
             {
-              "id": 80,
+              "id": 83,
               "type": "timeseries",
               "title": "Нажата кнопка 2 брелока · Нажата кнопка 3 брелока · Нажата кнопка детского замка · Нажата кнопка центрального замка",
               "datasource": {
@@ -6277,7 +6469,7 @@ data:
               }
             },
             {
-              "id": 81,
+              "id": 84,
               "type": "timeseries",
               "title": "Неизвестный параметр DA4E · Обнаружен водитель · Обнаружен передний пассажир · Обнаружен прицеп",
               "datasource": {
@@ -6332,7 +6524,7 @@ data:
               }
             },
             {
-              "id": 82,
+              "id": 85,
               "type": "timeseries",
               "title": "Обогрев стёкол · Общее состояние кондиционера · Омыватель фар · Основной контакт педали тормоза",
               "datasource": {
@@ -6387,7 +6579,7 @@ data:
               }
             },
             {
-              "id": 83,
+              "id": 86,
               "type": "timeseries",
               "title": "Ответ BSI на опознание ключа · Отказ датчика левого заднего колеса · Отказ датчика правого заднего колеса · Отказ датчика присутствия водителя",
               "datasource": {
@@ -6442,7 +6634,7 @@ data:
               }
             },
             {
-              "id": 84,
+              "id": 87,
               "type": "timeseries",
               "title": "Отказ запирания заднего проёма · Отключение контроля сирены · Открывание багажника · Открывание лючка бака",
               "datasource": {
@@ -6497,7 +6689,7 @@ data:
               }
             },
             {
-              "id": 85,
+              "id": 88,
               "type": "timeseries",
               "title": "Открывание стекла багажника · Отображаемая функция регулирования · Передача данных ЭБУ двигателя · Передний стеклоочиститель (провод)",
               "datasource": {
@@ -6552,7 +6744,7 @@ data:
               }
             },
             {
-              "id": 86,
+              "id": 89,
               "type": "timeseries",
               "title": "Передняя левая дверь · Передняя левая дверь заперта · Передняя правая дверь · Передняя правая дверь заперта",
               "datasource": {
@@ -6607,7 +6799,7 @@ data:
               }
             },
             {
-              "id": 87,
+              "id": 90,
               "type": "timeseries",
               "title": "Переключатель объёмного датчика · Переключатель старт-стоп · Подрулевой лепесток: передача выше · Подрулевой лепесток: передача ниже",
               "datasource": {
@@ -6662,7 +6854,7 @@ data:
               }
             },
             {
-              "id": 88,
+              "id": 91,
               "type": "timeseries",
               "title": "Подсветка порогов дверей · Подсветка салона при встрече · Поиск автомобиля с брелока · Положение ключа зажигания",
               "datasource": {
@@ -6717,7 +6909,7 @@ data:
               }
             },
             {
-              "id": 89,
+              "id": 92,
               "type": "timeseries",
               "title": "Положение ключа: дополнительный пуск · Положение люка · Постановка на охрану · Правый поворотник",
               "datasource": {
@@ -6772,7 +6964,7 @@ data:
               }
             },
             {
-              "id": 90,
+              "id": 93,
               "type": "timeseries",
               "title": "Предупреждение: низкое давление масла · Принят неопознанный сигнал брелока · Принят опознанный сигнал брелока · Приём сигнала брелока (Япония)",
               "datasource": {
@@ -6827,7 +7019,7 @@ data:
               }
             },
             {
-              "id": 91,
+              "id": 94,
               "type": "timeseries",
               "title": "Приём сигнала основного брелока · Просрочено ТО по времени · Просрочено ТО по пробегу · Разрешение включения кондиционера",
               "datasource": {
@@ -6882,7 +7074,7 @@ data:
               }
             },
             {
-              "id": 92,
+              "id": 95,
               "type": "timeseries",
               "title": "Разрешение задних стеклоподъёмников · Разрешение подзарядки накопителей · Разрешение подзарядки сирены · Разрешение подогрева сидений",
               "datasource": {
@@ -6937,7 +7129,7 @@ data:
               }
             },
             {
-              "id": 93,
+              "id": 96,
               "type": "timeseries",
               "title": "Разрешение подсветки вещевого ящика · Разрешение подсветки кнопки пуска · Разрешение подсветки считывателя ключа · Разрешение пуска от ЭБУ двигателя",
               "datasource": {
@@ -6992,7 +7184,7 @@ data:
               }
             },
             {
-              "id": 94,
+              "id": 97,
               "type": "timeseries",
               "title": "Разрешение пуска с АКПП · Режим работы BSI · Режим работы кондиционера · Ремень водителя застёгнут",
               "datasource": {
@@ -7047,7 +7239,7 @@ data:
               }
             },
             {
-              "id": 95,
+              "id": 98,
               "type": "timeseries",
               "title": "Ремень заднего левого застёгнут · Ремень заднего правого застёгнут · Ремень заднего центрального застёгнут · Ремень переднего пассажира застёгнут",
               "datasource": {
@@ -7102,7 +7294,7 @@ data:
               }
             },
             {
-              "id": 96,
+              "id": 99,
               "type": "timeseries",
               "title": "Ремень третьего ряда слева застёгнут · Ремень третьего ряда справа застёгнут · Сброс поездки 1 · Сброс поездки 2",
               "datasource": {
@@ -7157,7 +7349,7 @@ data:
               }
             },
             {
-              "id": 97,
+              "id": 100,
               "type": "timeseries",
               "title": "Светодиод кнопки старт-стоп · Снятие с охраны · Состояние бортовой сети · Состояние меню настроек",
               "datasource": {
@@ -7212,7 +7404,7 @@ data:
               }
             },
             {
-              "id": 98,
+              "id": 101,
               "type": "timeseries",
               "title": "Состояние меню приветствия · Состояние силового агрегата · Сохранённые скорости включены · Стекло двери багажника",
               "datasource": {
@@ -7267,7 +7459,7 @@ data:
               }
             },
             {
-              "id": 99,
+              "id": 102,
               "type": "timeseries",
               "title": "Стеклоподъёмники (провод) · Стоп-сигналы · Удержание кнопки брелока · Удержание шины: идёт постановка на охр",
               "datasource": {
@@ -7322,7 +7514,7 @@ data:
               }
             },
             {
-              "id": 100,
+              "id": 103,
               "type": "timeseries",
               "title": "Фонари заднего хода · Формат отображения даты и времени · Функция Black Panel · Функция детского замка",
               "datasource": {
@@ -7377,7 +7569,7 @@ data:
               }
             },
             {
-              "id": 101,
+              "id": 104,
               "type": "timeseries",
               "title": "Функция доступа без ключа · ЭБУ двигателя заблокирован",
               "datasource": {
@@ -7432,7 +7624,7 @@ data:
               }
             },
             {
-              "id": 102,
+              "id": 105,
               "type": "timeseries",
               "title": "Выбранный язык · Положение селектора передач · Причина запирания автомобиля · Программа пробуждения для предподготов",
               "datasource": {
@@ -7487,7 +7679,7 @@ data:
               }
             },
             {
-              "id": 103,
+              "id": 106,
               "type": "timeseries",
               "title": "Яркость подсветки блока дверей",
               "datasource": {
@@ -7542,7 +7734,7 @@ data:
               }
             },
             {
-              "id": 104,
+              "id": 107,
               "type": "timeseries",
               "title": "Неизвестный параметр DA26 · Ненормальное удержание шины систем · Основное состояние BSI · Последнее пробуждение LIN2",
               "datasource": {
@@ -7597,7 +7789,7 @@ data:
               }
             },
             {
-              "id": 105,
+              "id": 108,
               "type": "timeseries",
               "title": "Последнее пробуждение шины салона · Последнее пробуждение шины систем · Последняя причина пробуждения BSI · Последняя причина удержания BSI",
               "datasource": {
@@ -7652,7 +7844,7 @@ data:
               }
             },
             {
-              "id": 106,
+              "id": 109,
               "type": "timeseries",
               "title": "Последняя причина удержания питания · Разрешение предподготовки салона · Статус заряда АКБ · Уровень заряда АКБ",
               "datasource": {
@@ -7707,7 +7899,7 @@ data:
               }
             },
             {
-              "id": 107,
+              "id": 110,
               "type": "timeseries",
               "title": "Поставщик блока",
               "datasource": {
@@ -7762,7 +7954,7 @@ data:
               }
             },
             {
-              "id": 108,
+              "id": 111,
               "type": "timeseries",
               "title": "Версия ПО блока",
               "datasource": {
@@ -7817,7 +8009,7 @@ data:
               }
             },
             {
-              "id": 109,
+              "id": 112,
               "type": "timeseries",
               "title": "Серийный номер блока",
               "datasource": {
@@ -7872,7 +8064,7 @@ data:
               }
             },
             {
-              "id": 110,
+              "id": 113,
               "type": "timeseries",
               "title": "VIN",
               "datasource": {
@@ -7927,7 +8119,7 @@ data:
               }
             },
             {
-              "id": 111,
+              "id": 114,
               "type": "timeseries",
               "title": "Дополнительные электронагреватели · Светодиод сигнализации",
               "datasource": {
@@ -7982,7 +8174,7 @@ data:
               }
             },
             {
-              "id": 112,
+              "id": 115,
               "type": "timeseries",
               "title": "Расход текущий",
               "datasource": {
@@ -8037,7 +8229,7 @@ data:
               }
             },
             {
-              "id": 113,
+              "id": 116,
               "type": "timeseries",
               "title": "Уровень топлива (расчётный)",
               "datasource": {
@@ -8092,7 +8284,7 @@ data:
               }
             },
             {
-              "id": 114,
+              "id": 117,
               "type": "timeseries",
               "title": "Сопротивление датчика температуры масл",
               "datasource": {
@@ -8119,7 +8311,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "ohm",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -8147,7 +8339,7 @@ data:
               }
             },
             {
-              "id": 115,
+              "id": 118,
               "type": "timeseries",
               "title": "Сопротивление датчика уровня топлива",
               "datasource": {
@@ -8174,7 +8366,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "ohm",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -8202,7 +8394,7 @@ data:
               }
             },
             {
-              "id": 116,
+              "id": 119,
               "type": "timeseries",
               "title": "Обороты двигателя",
               "datasource": {
@@ -8257,7 +8449,7 @@ data:
               }
             },
             {
-              "id": 117,
+              "id": 120,
               "type": "timeseries",
               "title": "Задание напряжения генератора",
               "datasource": {
@@ -8312,7 +8504,7 @@ data:
               }
             },
             {
-              "id": 118,
+              "id": 121,
               "type": "timeseries",
               "title": "Давление хладагента",
               "datasource": {
@@ -8339,7 +8531,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "pressurebar",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -8367,7 +8559,7 @@ data:
               }
             },
             {
-              "id": 119,
+              "id": 122,
               "type": "timeseries",
               "title": "Обучено ключей и меток",
               "datasource": {
@@ -8422,7 +8614,7 @@ data:
               }
             },
             {
-              "id": 120,
+              "id": 123,
               "type": "timeseries",
               "title": "Предупреждение о ТО за, км · Пробег до скачка · Пробег после скачка",
               "datasource": {
@@ -8477,7 +8669,7 @@ data:
               }
             },
             {
-              "id": 121,
+              "id": 124,
               "type": "timeseries",
               "title": "Интервал ТО по пробегу",
               "datasource": {
@@ -8532,7 +8724,7 @@ data:
               }
             },
             {
-              "id": 122,
+              "id": 125,
               "type": "timeseries",
               "title": "Задание скорости с руля · Скорость автомобиля",
               "datasource": {
@@ -8587,7 +8779,7 @@ data:
               }
             },
             {
-              "id": 123,
+              "id": 126,
               "type": "timeseries",
               "title": "Указатель уровня топлива",
               "datasource": {
@@ -8642,7 +8834,7 @@ data:
               }
             },
             {
-              "id": 124,
+              "id": 127,
               "type": "timeseries",
               "title": "Расход мгновенный · Расход средний, поездка 2",
               "datasource": {
@@ -8697,7 +8889,7 @@ data:
               }
             },
             {
-              "id": 125,
+              "id": 128,
               "type": "timeseries",
               "title": "Внутреннее сопротивление АКБ",
               "datasource": {
@@ -8752,7 +8944,7 @@ data:
               }
             },
             {
-              "id": 126,
+              "id": 129,
               "type": "timeseries",
               "title": "Срок до следующего ТО",
               "datasource": {
@@ -8807,7 +8999,7 @@ data:
               }
             },
             {
-              "id": 127,
+              "id": 130,
               "type": "timeseries",
               "title": "Интервал ТО по времени",
               "datasource": {
@@ -8862,7 +9054,7 @@ data:
               }
             },
             {
-              "id": 128,
+              "id": 131,
               "type": "timeseries",
               "title": "City Park не дал заглушить, 0-20 км · City Park не дал заглушить, 20-40 км · City Park не дал заглушить, 40-60 км · Аномальных скачков пробега",
               "datasource": {
@@ -8917,7 +9109,7 @@ data:
               }
             },
             {
-              "id": 129,
+              "id": 132,
               "type": "timeseries",
               "title": "Кондиционер не дал заглушить, 0-20 км · Кондиционер не дал заглушить, 20-40 км · Кондиционер не дал заглушить, 40-60 км · Месяц",
               "datasource": {
@@ -8972,7 +9164,7 @@ data:
               }
             },
             {
-              "id": 130,
+              "id": 133,
               "type": "timeseries",
               "title": "Не заглушил из-за неисправности, 0-20  · Не заглушил из-за неисправности, 20-40 · Не заглушил из-за неисправности, 40-60 · Не заглушил по запросу запрета, 0-20 к",
               "datasource": {
@@ -9027,7 +9219,7 @@ data:
               }
             },
             {
-              "id": 131,
+              "id": 134,
               "type": "timeseries",
               "title": "Не заглушил по запросу запрета, 20-40  · Не заглушил по запросу запрета, 40-60  · Неисправность стартера, 0-20 км · Неисправность стартера, 20-40 км",
               "datasource": {
@@ -9082,7 +9274,7 @@ data:
               }
             },
             {
-              "id": 132,
+              "id": 135,
               "type": "timeseries",
               "title": "Неисправность стартера, 40-60 км · Обучено брелоков 2004 · Обучено брелоков 2010 · Обучено меток доступа без ключа",
               "datasource": {
@@ -9137,7 +9329,7 @@ data:
               }
             },
             {
-              "id": 133,
+              "id": 136,
               "type": "timeseries",
               "title": "Обучено упрощённых брелоков · Обучено электронных ключей · Сопротивление АКБ не дало заглушить, 0 · Сопротивление АКБ не дало заглушить, 2",
               "datasource": {
@@ -9192,7 +9384,7 @@ data:
               }
             },
             {
-              "id": 134,
+              "id": 137,
               "type": "timeseries",
               "title": "Сопротивление АКБ не дало заглушить, 4 · Стартер не дал заглушить, 0-20 км · Стартер не дал заглушить, 20-40 км · Стартер не дал заглушить, 40-60 км",
               "datasource": {
@@ -9247,7 +9439,7 @@ data:
               }
             },
             {
-              "id": 135,
+              "id": 138,
               "type": "timeseries",
               "title": "Стартер: запрет старт-стоп, 0-20 км · Стартер: запрет старт-стоп, 20-40 км · Стартер: запрет старт-стоп, 40-60 км · Счётчик перезапусков старт-стоп",
               "datasource": {
@@ -9302,7 +9494,7 @@ data:
               }
             },
             {
-              "id": 136,
+              "id": 139,
               "type": "timeseries",
               "title": "Температура АКБ не дала заглушить, 0-2 · Температура АКБ не дала заглушить, 20- · Температура АКБ не дала заглушить, 40-",
               "datasource": {
@@ -9357,7 +9549,7 @@ data:
               }
             },
             {
-              "id": 137,
+              "id": 140,
               "type": "timeseries",
               "title": "Выполнено обслуживаний · День · Минуты",
               "datasource": {
@@ -9412,7 +9604,7 @@ data:
               }
             },
             {
-              "id": 138,
+              "id": 141,
               "type": "timeseries",
               "title": "Освещение багажника",
               "datasource": {
@@ -9467,7 +9659,7 @@ data:
               }
             },
             {
-              "id": 139,
+              "id": 142,
               "type": "timeseries",
               "title": "Год",
               "datasource": {
@@ -9522,7 +9714,7 @@ data:
               }
             },
             {
-              "id": 140,
+              "id": 143,
               "type": "timeseries",
               "title": "Счётчик импульсов левого заднего колес · Счётчик импульсов правого заднего коле",
               "datasource": {
@@ -9577,7 +9769,7 @@ data:
               }
             },
             {
-              "id": 141,
+              "id": 144,
               "type": "timeseries",
               "title": "Часы",
               "datasource": {
@@ -9632,7 +9824,7 @@ data:
               }
             },
             {
-              "id": 142,
+              "id": 145,
               "type": "timeseries",
               "title": "Счётчик наработки автомобиля",
               "datasource": {
@@ -9687,7 +9879,7 @@ data:
               }
             },
             {
-              "id": 143,
+              "id": 146,
               "type": "timeseries",
               "title": "Длительность поездки 1 · Длительность поездки 2",
               "datasource": {
@@ -9742,7 +9934,7 @@ data:
               }
             },
             {
-              "id": 144,
+              "id": 147,
               "type": "timeseries",
               "title": "Угол поворота руля",
               "datasource": {
@@ -9799,7 +9991,7 @@ data:
           ]
         },
         {
-          "id": 147,
+          "id": 150,
           "type": "row",
           "title": "Конфигурация (4)",
           "collapsed": false,
@@ -9812,7 +10004,7 @@ data:
           "panels": []
         },
         {
-          "id": 146,
+          "id": 149,
           "type": "timeseries",
           "title": "Конфиг: блок на шине UDS включён · Конфиг: блок на шине UDS выключен · Конфиг: опция · Конфиг: подушка переднего пассажира",
           "datasource": {
@@ -9867,7 +10059,7 @@ data:
           }
         },
         {
-          "id": 206,
+          "id": 209,
           "type": "row",
           "title": "двигатель Valeo V46 (EC5) (118)",
           "collapsed": true,
@@ -9879,7 +10071,7 @@ data:
           },
           "panels": [
             {
-              "id": 148,
+              "id": 151,
               "type": "timeseries",
               "title": "Клапан продувки адсорбера",
               "datasource": {
@@ -9947,7 +10139,7 @@ data:
               "description": "Команда ЭБУ на электроклапан продувки, % открытия. Норма - переменная: 27 % времени закрыт, 52 % приоткрыт до 30 %, 9 % времени открыт больше 70 %. Зон нет намеренно: любое значение штатно, важна лишь динамика. Тревожно, если он ВСЕГДА 0 (продувки нет, адсорбер переполнится) или ВСЕГДА высоко (ЭБУ не может вытянуть пары - засор или подсос).\n\nИсточник границ: замеры этой машины."
             },
             {
-              "id": 149,
+              "id": 152,
               "type": "timeseries",
               "title": "Насыщение адсорбера паров бензина",
               "datasource": {
@@ -10023,7 +10215,7 @@ data:
               "description": "Оценка ЭБУ, насколько адсорбер (угольная канистра под баком) набрал паров бензина. В базе DiagBox единица %, но шкала у этого блока 0..20, и 20 - потолок. Измерено на машине за 3365 замеров: среднее 6, 19 % времени 0, выше 15 - лишь 3 % времени, 20 - два замера. То есть адсорбер регулярно продувается до пустого, и 'постоянно забит', как когда-то показывал DiagBox, - не про сегодня. Забитый или переполненный держался бы у потолка. Жёлтая зона от 15, красная от 18: если стрелка живёт там, продувка не справляется - клапан, шланги или сам уголь. Механически адсорбер болтается, крепление не восстановлено (ТО 06.09.2026): перетёртый шланг даст утечку паров и код P044x - следить за этой панелью.\n\nИсточник границ: замеры этой машины."
             },
             {
-              "id": 150,
+              "id": 153,
               "type": "timeseries",
               "title": "Педаль акселератора, датчик 1",
               "datasource": {
@@ -10141,7 +10333,7 @@ data:
               "description": "Положение педали акселератора, первый датчик. Их два, как и у дросселя. Выход за 0-100% значит неисправность датчика. На этой машине сохранён код P2299 - положения педалей тормоза и акселератора несовместимы, так что за этими двумя графиками стоит присмотреться вместе с тормозом.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 151,
+              "id": 154,
               "type": "timeseries",
               "title": "Педаль акселератора, датчик 2",
               "datasource": {
@@ -10259,7 +10451,7 @@ data:
               "description": "Положение педали акселератора, второй датчик - должен повторять первый. Расхождение между ними и есть то, на что жалуется сохранённый код P2299.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 152,
+              "id": 155,
               "type": "timeseries",
               "title": "Обороты двигателя (по блоку двигателя)",
               "datasource": {
@@ -10286,7 +10478,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "rotrpm",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -10459,7 +10651,7 @@ data:
               "description": "Холостой ход этой машины около 750 об/мин - если он заметно выше на прогретом двигателе или плавает, ищи подсос воздуха. Отсечка у EC5 около 6200 об/мин.\n\nИсточник границ: замеры этой машины."
             },
             {
-              "id": 153,
+              "id": 156,
               "type": "timeseries",
               "title": "Температура охлаждающей жидкости",
               "datasource": {
@@ -10663,7 +10855,7 @@ data:
               "description": "Норма после прогрева 85-100 °C. Термостат открывается около 89 °C, вентилятор включается около 99 и 103 °C, поэтому выше 105 °C - уже не штатный нагрев. При прогреве значение идёт снизу, это нормально.\n\nВАЖНО для этой машины: в двигателе сохранён код P0116 - цепь датчика температуры ОЖ, показания вне допустимого диапазона. Пока код сохранён, вентилятор работает в аварийном режиме и включается чаще, даже когда живое показание в норме. То есть ровный график здесь НЕ значит, что датчик исправен.\n\n31.08.2026 датчик поймали с поличным: 93 °C ровно 11 секунд, потом ОДИН замер 108 °C и возврат к 93 за три секунды. Так антифриз себя вести не может - это выброс датчика, и блок на него отреагировал обдувом на 100%. Поэтому одиночная игла вверх здесь означает НЕ перегрев, а именно датчик; смотреть надо на длительность: настоящий перегрев держится минуты, а не полсекунды.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 154,
+              "id": 157,
               "type": "timeseries",
               "title": "Температура воздуха на впуске",
               "datasource": {
@@ -10822,7 +11014,7 @@ data:
               "description": "Температура воздуха на впуске. Норма - наружная температура плюс небольшой нагрев на ходу. На стоянке и в пробке подкапотный жар легко даёт плюс 25-30 °C, это ещё не неисправность. Выше 75 °C двигатель теряет мощность и растёт риск детонации: смотреть, не забор ли горячего воздуха. Сравнивать с наружной температурой на соседнем графике.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 155,
+              "id": 158,
               "type": "timeseries",
               "title": "Питание блока двигателя",
               "datasource": {
@@ -10985,7 +11177,7 @@ data:
               "description": "Границы 12 и 15 В взяты из подсказки самой DiagBox к этому параметру. Ниже 12 В при работающем двигателе - генератор не даёт зарядки, выше 15 В - перезаряд, подозрение на регулятор. На этой машине держится около 14.0 В, что нормально.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 156,
+              "id": 159,
               "type": "timeseries",
               "title": "Датчик дросселя 1",
               "datasource": {
@@ -11012,7 +11204,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "mvolt",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -11144,7 +11336,7 @@ data:
               "description": "Первый датчик положения дросселя, питание 5 В. На холостых около 680 мВ. Датчиков два, направлены противоположно: сумма первого и второго держится около 5000 мВ, и если она уехала - врёт один из них. Выход за 200 или 4800 мВ - это уже не положение, а обрыв либо замыкание проводки.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 157,
+              "id": 160,
               "type": "timeseries",
               "title": "Датчик дросселя 2",
               "datasource": {
@@ -11171,7 +11363,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "mvolt",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -11303,7 +11495,7 @@ data:
               "description": "Второй датчик положения дросселя, направлен противоположно первому: на холостых около 4350 мВ, тогда как первый 680 мВ. Сумма двух должна держаться около 5000 мВ.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 158,
+              "id": 161,
               "type": "timeseries",
               "title": "Датчик кислорода до катализатора",
               "datasource": {
@@ -11330,7 +11522,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "mvolt",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -11503,7 +11695,7 @@ data:
               "description": "Верхний (до катализатора) датчик кислорода. У исправного напряжение непрерывно качается примерно между 100 и 900 мВ вокруг 450 мВ - смысл именно в колебании, а не в конкретном значении. Плохой признак - РОВНАЯ линия: датчик замер. Замерло около 450 мВ - обрыв или он остыл, у нижнего края - постоянно бедная смесь (подсос воздуха), у верхнего - богатая. На холодном двигателе колебаний ещё нет, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 159,
+              "id": 162,
               "type": "timeseries",
               "title": "Датчик кислорода после катализатора",
               "datasource": {
@@ -11530,7 +11722,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "mvolt",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -11571,7 +11763,7 @@ data:
               "description": "Нижний (после катализатора) датчик кислорода. На этой машине катализатор ВЫРЕЗАН, поэтому датчик стоит в пустой трубе и видит сырой выхлоп: он качается от 0 до 900 мВ примерно как верхний, и это нормально именно здесь.\n\nПравило \"ровная полка 550-800 мВ\" из учебников относится к машине с работающим катализатором и к этой машине НЕ применимо - поэтому пороговых линий на панели нет.\n\nЧем он всё-таки полезен: это вторая копия верхнего датчика. Сравнивай два графика между собой - если один качается, а второй замер ровной линией, значит замерший умер. Одинаковое качание обоих - оба живы.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 160,
+              "id": 163,
               "type": "timeseries",
               "title": "Команда силового реле · Превышен порог закоксовывания · Состояние команды стартера · Обучение фазовращателя впуска: состоян",
               "datasource": {
@@ -11625,7 +11817,7 @@ data:
               }
             },
             {
-              "id": 161,
+              "id": 164,
               "type": "timeseries",
               "title": "Выключатель педали тормоза · Режим работы двигателя · Реле вентилятора, малая скорость · Состояние двигателя",
               "datasource": {
@@ -11679,7 +11871,7 @@ data:
               }
             },
             {
-              "id": 162,
+              "id": 165,
               "type": "timeseries",
               "title": "Регулирование по лямбде до катализатор · Реле вентилятора охлаждения · Реле вентилятора, большая скорость · Пробуждение ЭБУ: состояние",
               "datasource": {
@@ -11733,7 +11925,7 @@ data:
               }
             },
             {
-              "id": 163,
+              "id": 166,
               "type": "timeseries",
               "title": "Лямбда до катализатора: состояние · Лямбда после катализатора: состояние · Датчик сцепления",
               "datasource": {
@@ -11787,7 +11979,7 @@ data:
               }
             },
             {
-              "id": 164,
+              "id": 167,
               "type": "timeseries",
               "title": "Ограничитель скорости: состояние · Круиз-контроль: состояние",
               "datasource": {
@@ -11841,7 +12033,7 @@ data:
               }
             },
             {
-              "id": 165,
+              "id": 168,
               "type": "timeseries",
               "title": "Подогрев лямбды после кат., скважность",
               "datasource": {
@@ -11895,7 +12087,7 @@ data:
               }
             },
             {
-              "id": 166,
+              "id": 169,
               "type": "timeseries",
               "title": "Счётчик пусков двигателя",
               "datasource": {
@@ -11949,7 +12141,7 @@ data:
               }
             },
             {
-              "id": 167,
+              "id": 170,
               "type": "timeseries",
               "title": "Коррекция смеси по лямбде до кат. · Коррекция смеси по лямбде после кат.",
               "datasource": {
@@ -12003,7 +12195,7 @@ data:
               }
             },
             {
-              "id": 168,
+              "id": 171,
               "type": "timeseries",
               "title": "Момент двигателя по опережению (факт) · Момент двигателя по воздуху (задание) · Эффективный момент по опережению · Момент сопротивления (оценка)",
               "datasource": {
@@ -12057,7 +12249,7 @@ data:
               }
             },
             {
-              "id": 169,
+              "id": 172,
               "type": "timeseries",
               "title": "Момент, запрошенный водителем · Подогрев лямбды до кат., скважность · Заданное наполнение цилиндров · Измеренное наполнение цилиндров",
               "datasource": {
@@ -12111,7 +12303,7 @@ data:
               }
             },
             {
-              "id": 170,
+              "id": 173,
               "type": "timeseries",
               "title": "Обучение педали газа: минимум, дорожка · Задание скорости вентилятора · Положение педали сцепления",
               "datasource": {
@@ -12165,7 +12357,7 @@ data:
               }
             },
             {
-              "id": 171,
+              "id": 174,
               "type": "timeseries",
               "title": "Угол опережения зажигания",
               "datasource": {
@@ -12219,7 +12411,7 @@ data:
               }
             },
             {
-              "id": 172,
+              "id": 175,
               "type": "timeseries",
               "title": "Педаль газа, датчик 1, напряжение · Педаль газа, датчик 2, напряжение · Питание датчиков, шина 2",
               "datasource": {
@@ -12273,7 +12465,7 @@ data:
               }
             },
             {
-              "id": 173,
+              "id": 176,
               "type": "timeseries",
               "title": "Разрежение в вакуумном усилителе",
               "datasource": {
@@ -12327,7 +12519,7 @@ data:
               }
             },
             {
-              "id": 174,
+              "id": 177,
               "type": "timeseries",
               "title": "Давление масла",
               "datasource": {
@@ -12381,7 +12573,7 @@ data:
               }
             },
             {
-              "id": 175,
+              "id": 178,
               "type": "timeseries",
               "title": "Требуемый расход воздуха · Расход воздуха",
               "datasource": {
@@ -12435,7 +12627,7 @@ data:
               }
             },
             {
-              "id": 176,
+              "id": 179,
               "type": "timeseries",
               "title": "Заданная скорость ограничителя",
               "datasource": {
@@ -12489,7 +12681,7 @@ data:
               }
             },
             {
-              "id": 177,
+              "id": 180,
               "type": "timeseries",
               "title": "Уровень топлива (по ЭБУ)",
               "datasource": {
@@ -12543,7 +12735,7 @@ data:
               }
             },
             {
-              "id": 178,
+              "id": 181,
               "type": "timeseries",
               "title": "Шум по датчику детонации · Питание датчиков, шина 1 · Питание датчиков, шина 3",
               "datasource": {
@@ -12570,7 +12762,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "mvolt",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -12597,7 +12789,7 @@ data:
               }
             },
             {
-              "id": 179,
+              "id": 182,
               "type": "timeseries",
               "title": "Давление хладагента кондиционера",
               "datasource": {
@@ -12651,7 +12843,7 @@ data:
               }
             },
             {
-              "id": 180,
+              "id": 183,
               "type": "timeseries",
               "title": "Заданное давление во впуске · Давление во впускном коллекторе · Атмосферное давление",
               "datasource": {
@@ -12705,7 +12897,7 @@ data:
               }
             },
             {
-              "id": 181,
+              "id": 184,
               "type": "timeseries",
               "title": "Заданный состав смеси",
               "datasource": {
@@ -12759,7 +12951,7 @@ data:
               }
             },
             {
-              "id": 182,
+              "id": 185,
               "type": "timeseries",
               "title": "Время впрыска, цилиндр 1 · Время впрыска, цилиндр 2 · Время впрыска, цилиндр 3 · Время впрыска, цилиндр 4",
               "datasource": {
@@ -12813,7 +13005,7 @@ data:
               }
             },
             {
-              "id": 183,
+              "id": 186,
               "type": "timeseries",
               "title": "Обучение нижнего упора дросселя, дорож · Аварийное положение дросселя, сигнал 1 · Аварийное положение дросселя, сигнал 2",
               "datasource": {
@@ -12867,7 +13059,7 @@ data:
               }
             },
             {
-              "id": 184,
+              "id": 187,
               "type": "timeseries",
               "title": "Обучение педали газа: максимум, дорожк",
               "datasource": {
@@ -12921,7 +13113,7 @@ data:
               }
             },
             {
-              "id": 185,
+              "id": 188,
               "type": "timeseries",
               "title": "Заданные обороты холостого хода",
               "datasource": {
@@ -12948,7 +13140,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "rotrpm",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -12975,7 +13167,7 @@ data:
               }
             },
             {
-              "id": 186,
+              "id": 189,
               "type": "timeseries",
               "title": "Время с остановки двигателя",
               "datasource": {
@@ -13029,7 +13221,7 @@ data:
               }
             },
             {
-              "id": 187,
+              "id": 190,
               "type": "timeseries",
               "title": "Измеренный угол дроссельной заслонки",
               "datasource": {
@@ -13083,7 +13275,7 @@ data:
               }
             },
             {
-              "id": 188,
+              "id": 191,
               "type": "timeseries",
               "title": "Заданный угол дроссельной заслонки · Максимальный угол опережения · Минимальный угол опережения · Оптимальный угол опережения",
               "datasource": {
@@ -13137,7 +13329,7 @@ data:
               }
             },
             {
-              "id": 189,
+              "id": 192,
               "type": "timeseries",
               "title": "Положение фазовращателя впуска",
               "datasource": {
@@ -13191,7 +13383,7 @@ data:
               }
             },
             {
-              "id": 190,
+              "id": 193,
               "type": "timeseries",
               "title": "Обучение нижнего упора фазовращателя",
               "datasource": {
@@ -13245,7 +13437,7 @@ data:
               }
             },
             {
-              "id": 191,
+              "id": 194,
               "type": "timeseries",
               "title": "Температура наружного воздуха · Температура ОЖ при последней остановке",
               "datasource": {
@@ -13299,7 +13491,7 @@ data:
               }
             },
             {
-              "id": 192,
+              "id": 195,
               "type": "timeseries",
               "title": "Индекс телекодирования · Признак применения · Поставщик блока · Номер поставщика",
               "datasource": {
@@ -13354,7 +13546,7 @@ data:
               }
             },
             {
-              "id": 193,
+              "id": 196,
               "type": "timeseries",
               "title": "Версия диагностики · Версия ПО · Разрешение пуска от блока КПП · Требуется обучение упоров дросселя",
               "datasource": {
@@ -13409,7 +13601,7 @@ data:
               }
             },
             {
-              "id": 194,
+              "id": 197,
               "type": "timeseries",
               "title": "Счётчик холодных пусков · Обучение упоров дросселя: состояние · Согласованность впускного вала и колен · Состояние силового агрегата",
               "datasource": {
@@ -13464,7 +13656,7 @@ data:
               }
             },
             {
-              "id": 195,
+              "id": 198,
               "type": "timeseries",
               "title": "Иммобилайзер: состояние программирован · Регулирование по лямбде после катализа · Блокировка ЭБУ: состояние · Педаль газа: точка сопротивления",
               "datasource": {
@@ -13519,7 +13711,7 @@ data:
               }
             },
             {
-              "id": 196,
+              "id": 199,
               "type": "timeseries",
               "title": "Обнаружен удар · Выбранный вариант сопряжения · Сбой передачи кода разблокировки · Включённая передача",
               "datasource": {
@@ -13574,7 +13766,7 @@ data:
               }
             },
             {
-              "id": 197,
+              "id": 200,
               "type": "timeseries",
               "title": "Первое обучение фазовращателя: состоян · Тип коробки передач",
               "datasource": {
@@ -13629,7 +13821,7 @@ data:
               }
             },
             {
-              "id": 198,
+              "id": 201,
               "type": "timeseries",
               "title": "Код системы",
               "datasource": {
@@ -13684,7 +13876,7 @@ data:
               }
             },
             {
-              "id": 199,
+              "id": 202,
               "type": "timeseries",
               "title": "Версия ПО",
               "datasource": {
@@ -13739,7 +13931,7 @@ data:
               }
             },
             {
-              "id": 200,
+              "id": 203,
               "type": "timeseries",
               "title": "Номер ПО",
               "datasource": {
@@ -13794,7 +13986,7 @@ data:
               }
             },
             {
-              "id": 201,
+              "id": 204,
               "type": "timeseries",
               "title": "Доп. номер блока · Номер блока",
               "datasource": {
@@ -13849,7 +14041,7 @@ data:
               }
             },
             {
-              "id": 202,
+              "id": 205,
               "type": "timeseries",
               "title": "Клапан фазовращателя впуска, скважност",
               "datasource": {
@@ -13904,7 +14096,7 @@ data:
               }
             },
             {
-              "id": 203,
+              "id": 206,
               "type": "timeseries",
               "title": "Мощность, отбираемая компрессором конд",
               "datasource": {
@@ -13959,7 +14151,7 @@ data:
               }
             },
             {
-              "id": 204,
+              "id": 207,
               "type": "timeseries",
               "title": "Заданное положение фазовращателя впуск · Снижение опережения, цилиндр 1 · Снижение опережения, цилиндр 2 · Снижение опережения, цилиндр 3",
               "datasource": {
@@ -14014,7 +14206,7 @@ data:
               }
             },
             {
-              "id": 205,
+              "id": 208,
               "type": "timeseries",
               "title": "Снижение опережения, цилиндр 4",
               "datasource": {
@@ -14071,7 +14263,7 @@ data:
           ]
         },
         {
-          "id": 237,
+          "id": 240,
           "type": "row",
           "title": "блок реле моторного отсека (69)",
           "collapsed": true,
@@ -14083,7 +14275,7 @@ data:
           },
           "panels": [
             {
-              "id": 207,
+              "id": 210,
               "type": "timeseries",
               "title": "Лампа уровня охлаждающей жидкости",
               "datasource": {
@@ -14153,7 +14345,7 @@ data:
               "description": "1 - уровень ОЖ ниже датчика в бачке. После замены насоса ОЖ следить.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 208,
+              "id": 211,
               "type": "timeseries",
               "title": "Лампа давления масла",
               "datasource": {
@@ -14223,7 +14415,7 @@ data:
               "description": "1 - горит. Давления масла в цифрах у этого двигателя нет.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 209,
+              "id": 212,
               "type": "timeseries",
               "title": "Омывайка на исходе",
               "datasource": {
@@ -14293,7 +14485,7 @@ data:
               "description": "1 - датчик уровня омывающей жидкости сработал.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 210,
+              "id": 213,
               "type": "timeseries",
               "title": "Клапан компрессора кондиционера",
               "datasource": {
@@ -14452,7 +14644,7 @@ data:
               "description": "Управление клапаном компрессора кондиционера. Границы 5 и 95% из подсказки DiagBox: постоянно упёртый в 95% компрессор обычно значит нехватку хладагента.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 211,
+              "id": 214,
               "type": "timeseries",
               "title": "Главное реле: команда получена · Силовое реле: команда получена · Звуковой сигнал · Команда стартера",
               "datasource": {
@@ -14506,7 +14698,7 @@ data:
               }
             },
             {
-              "id": 212,
+              "id": 215,
               "type": "timeseries",
               "title": "Дворники, быстрая скорость · Дворники, медленная скорость · Ближний свет, правый (команда) · Ближний свет, левый (команда)",
               "datasource": {
@@ -14560,7 +14752,7 @@ data:
               }
             },
             {
-              "id": 213,
+              "id": 216,
               "type": "timeseries",
               "title": "Дальний свет, правый (команда) · Дальний свет, левый (команда) · Статическая подсветка поворота, правая · Статическая подсветка поворота, левая",
               "datasource": {
@@ -14614,7 +14806,7 @@ data:
               }
             },
             {
-              "id": 214,
+              "id": 217,
               "type": "timeseries",
               "title": "Омыватель заднего стекла · Омыватель лобового стекла · Омыватель фар · Шторка фары, правая",
               "datasource": {
@@ -14668,7 +14860,7 @@ data:
               }
             },
             {
-              "id": 215,
+              "id": 218,
               "type": "timeseries",
               "title": "Шторка фары, левая · Противотуманная фара, правая (ШИМ) · Противотуманная фара, левая (ШИМ) · Реле воздушного насоса",
               "datasource": {
@@ -14722,7 +14914,7 @@ data:
               }
             },
             {
-              "id": 216,
+              "id": 219,
               "type": "timeseries",
               "title": "Команда силового реле · Запрос пуска от BSI · Муфта компрессора кондиционера · Муфта компрессора кондиционера (силова",
               "datasource": {
@@ -14776,7 +14968,7 @@ data:
               }
             },
             {
-              "id": 217,
+              "id": 220,
               "type": "timeseries",
               "title": "Выход подсветки поворота, правый · Выход подсветки поворота, левый · Дополнительный подогреватель · Реле +12 В после замка зажигания",
               "datasource": {
@@ -14830,7 +15022,7 @@ data:
               }
             },
             {
-              "id": 218,
+              "id": 221,
               "type": "timeseries",
               "title": "Главное реле · Пробуждение от брелока · Настраиваемый выход · Запрос пуска к ЭБУ двигателя",
               "datasource": {
@@ -14884,7 +15076,7 @@ data:
               }
             },
             {
-              "id": 219,
+              "id": 222,
               "type": "timeseries",
               "title": "Задний ход · Вода в топливе (дизель) · Питание противотуманной фары, правая · Питание противотуманной фары, левая",
               "datasource": {
@@ -14938,7 +15130,7 @@ data:
               }
             },
             {
-              "id": 220,
+              "id": 223,
               "type": "timeseries",
               "title": "Выход ближнего света, правый · Выход ближнего света, левый · Выход дневных огней, правый · Выход дневных огней, левый",
               "datasource": {
@@ -14992,7 +15184,7 @@ data:
               }
             },
             {
-              "id": 221,
+              "id": 224,
               "type": "timeseries",
               "title": "Мотор изменения подъёма клапанов · Воздушный насос · Воздушный насос 1 · Дворники в парковочном положении",
               "datasource": {
@@ -15046,7 +15238,7 @@ data:
               }
             },
             {
-              "id": 222,
+              "id": 225,
               "type": "timeseries",
               "title": "Подогрев топлива / паров масла · Питание после замка зажигания",
               "datasource": {
@@ -15100,7 +15292,7 @@ data:
               }
             },
             {
-              "id": 223,
+              "id": 226,
               "type": "timeseries",
               "title": "Дневные огни, правый (ШИМ) · Дневные огни, левый (ШИМ)",
               "datasource": {
@@ -15154,7 +15346,7 @@ data:
               }
             },
             {
-              "id": 224,
+              "id": 227,
               "type": "timeseries",
               "title": "Возбуждение генератора (признак)",
               "datasource": {
@@ -15208,7 +15400,7 @@ data:
               }
             },
             {
-              "id": 225,
+              "id": 228,
               "type": "timeseries",
               "title": "Возбуждение генератора",
               "datasource": {
@@ -15262,7 +15454,7 @@ data:
               }
             },
             {
-              "id": 226,
+              "id": 229,
               "type": "timeseries",
               "title": "Датчик уровня масла, напряжение",
               "datasource": {
@@ -15289,7 +15481,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "mvolt",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -15316,7 +15508,7 @@ data:
               }
             },
             {
-              "id": 227,
+              "id": 230,
               "type": "timeseries",
               "title": "Индекс диагностических сообщений · Признак применения",
               "datasource": {
@@ -15371,7 +15563,7 @@ data:
               }
             },
             {
-              "id": 228,
+              "id": 231,
               "type": "timeseries",
               "title": "Поставщик блока · Номер поставщика",
               "datasource": {
@@ -15426,7 +15618,7 @@ data:
               }
             },
             {
-              "id": 229,
+              "id": 232,
               "type": "timeseries",
               "title": "Код системы",
               "datasource": {
@@ -15481,7 +15673,7 @@ data:
               }
             },
             {
-              "id": 230,
+              "id": 233,
               "type": "timeseries",
               "title": "Версия ПО",
               "datasource": {
@@ -15536,7 +15728,7 @@ data:
               }
             },
             {
-              "id": 231,
+              "id": 234,
               "type": "timeseries",
               "title": "Дата загрузки ПО · Дата изготовления",
               "datasource": {
@@ -15591,7 +15783,7 @@ data:
               }
             },
             {
-              "id": 232,
+              "id": 235,
               "type": "timeseries",
               "title": "Номер ПО",
               "datasource": {
@@ -15646,7 +15838,7 @@ data:
               }
             },
             {
-              "id": 233,
+              "id": 236,
               "type": "timeseries",
               "title": "Серийный номер",
               "datasource": {
@@ -15701,7 +15893,7 @@ data:
               }
             },
             {
-              "id": 234,
+              "id": 237,
               "type": "timeseries",
               "title": "Идентификатор диагностики",
               "datasource": {
@@ -15756,7 +15948,7 @@ data:
               }
             },
             {
-              "id": 235,
+              "id": 238,
               "type": "timeseries",
               "title": "Доп. номер блока · Номер блока",
               "datasource": {
@@ -15811,7 +16003,7 @@ data:
               }
             },
             {
-              "id": 236,
+              "id": 239,
               "type": "timeseries",
               "title": "Число загрузок ПО",
               "datasource": {
@@ -15868,7 +16060,7 @@ data:
           ]
         },
         {
-          "id": 258,
+          "id": 261,
           "type": "row",
           "title": "подушки безопасности (36)",
           "collapsed": true,
@@ -15880,7 +16072,7 @@ data:
           },
           "panels": [
             {
-              "id": 238,
+              "id": 241,
               "type": "timeseries",
               "title": "Счётчик срабатываний подушек",
               "datasource": {
@@ -15950,7 +16142,7 @@ data:
               "description": "0 - подушки не стреляли. Любое другое число - была авария.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 239,
+              "id": 242,
               "type": "timeseries",
               "title": "Цепь подушки водителя, Ом",
               "datasource": {
@@ -15977,7 +16169,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "ohm",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -16024,7 +16216,7 @@ data:
               "description": "Сопротивление пиропатрона с проводкой. Норма около 2-3.5 Ом: ниже 1.5 - замыкание, выше 4.5 - плохой контакт или обрыв. Так же для остальных цепей.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 240,
+              "id": 243,
               "type": "timeseries",
               "title": "Цепь боковой подушки, правая, Ом",
               "datasource": {
@@ -16051,229 +16243,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
-                  "custom": {
-                    "lineWidth": 2,
-                    "fillOpacity": 15,
-                    "showPoints": "never",
-                    "spanNulls": true,
-                    "thresholdsStyle": {
-                      "mode": "dashed+area"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "red"
-                      },
-                      {
-                        "value": 1.5,
-                        "color": "green"
-                      },
-                      {
-                        "value": 4.5,
-                        "color": "red"
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "showLegend": true,
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "calcs": [
-                    "lastNotNull"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "description": "Норма 1.5-4.5 Ом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
-            },
-            {
-              "id": 241,
-              "type": "timeseries",
-              "title": "Цепь боковой подушки, левая, Ом",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 12,
-                "y": 235
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE' THEN 'Цепь боковой подушки, левая, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "",
-                  "custom": {
-                    "lineWidth": 2,
-                    "fillOpacity": 15,
-                    "showPoints": "never",
-                    "spanNulls": true,
-                    "thresholdsStyle": {
-                      "mode": "dashed+area"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "red"
-                      },
-                      {
-                        "value": 1.5,
-                        "color": "green"
-                      },
-                      {
-                        "value": 4.5,
-                        "color": "red"
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "showLegend": true,
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "calcs": [
-                    "lastNotNull"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "description": "Норма 1.5-4.5 Ом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
-            },
-            {
-              "id": 242,
-              "type": "timeseries",
-              "title": "Цепь подушки пассажира, Ом",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 0,
-                "y": 243
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1' THEN 'Цепь подушки пассажира, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "",
-                  "custom": {
-                    "lineWidth": 2,
-                    "fillOpacity": 15,
-                    "showPoints": "never",
-                    "spanNulls": true,
-                    "thresholdsStyle": {
-                      "mode": "dashed+area"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": null,
-                        "color": "red"
-                      },
-                      {
-                        "value": 1.5,
-                        "color": "green"
-                      },
-                      {
-                        "value": 4.5,
-                        "color": "red"
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "showLegend": true,
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "calcs": [
-                    "lastNotNull"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "description": "Норма 1.5-4.5 Ом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
-            },
-            {
-              "id": 243,
-              "type": "timeseries",
-              "title": "Цепь преднатяжителя, правая, Ом",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 12,
-                "y": 243
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT' THEN 'Цепь преднатяжителя, правая, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "",
+                  "unit": "ohm",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -16322,7 +16292,7 @@ data:
             {
               "id": 244,
               "type": "timeseries",
-              "title": "Цепь преднатяжителя, левая, Ом",
+              "title": "Цепь боковой подушки, левая, Ом",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -16330,8 +16300,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 0,
-                "y": 251
+                "x": 12,
+                "y": 235
               },
               "targets": [
                 {
@@ -16342,12 +16312,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE' THEN 'Цепь преднатяжителя, левая, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE' THEN 'Цепь боковой подушки, левая, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_LATERAL_AVANT_GAUCHE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "ohm",
                   "custom": {
                     "lineWidth": 2,
                     "fillOpacity": 15,
@@ -16395,6 +16365,228 @@ data:
             },
             {
               "id": 245,
+              "type": "timeseries",
+              "title": "Цепь подушки пассажира, Ом",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 243
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1' THEN 'Цепь подушки пассажира, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_COUSSIN_PASSAGER_NIVEAU_1') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "ohm",
+                  "custom": {
+                    "lineWidth": 2,
+                    "fillOpacity": 15,
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "thresholdsStyle": {
+                      "mode": "dashed+area"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "red"
+                      },
+                      {
+                        "value": 1.5,
+                        "color": "green"
+                      },
+                      {
+                        "value": 4.5,
+                        "color": "red"
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "showLegend": true,
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "calcs": [
+                    "lastNotNull"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "description": "Норма 1.5-4.5 Ом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+            },
+            {
+              "id": 246,
+              "type": "timeseries",
+              "title": "Цепь преднатяжителя, правая, Ом",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 243
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT' THEN 'Цепь преднатяжителя, правая, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_DROIT') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "ohm",
+                  "custom": {
+                    "lineWidth": 2,
+                    "fillOpacity": 15,
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "thresholdsStyle": {
+                      "mode": "dashed+area"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "red"
+                      },
+                      {
+                        "value": 1.5,
+                        "color": "green"
+                      },
+                      {
+                        "value": 4.5,
+                        "color": "red"
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "showLegend": true,
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "calcs": [
+                    "lastNotNull"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "description": "Норма 1.5-4.5 Ом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+            },
+            {
+              "id": 247,
+              "type": "timeseries",
+              "title": "Цепь преднатяжителя, левая, Ом",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 251
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE' THEN 'Цепь преднатяжителя, левая, Ом'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('RBG_UDS:MP_RESISTANCE_LIGNE_PRETENSIONNEUR_AVANT_GAUCHE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "ohm",
+                  "custom": {
+                    "lineWidth": 2,
+                    "fillOpacity": 15,
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "thresholdsStyle": {
+                      "mode": "dashed+area"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "red"
+                      },
+                      {
+                        "value": 1.5,
+                        "color": "green"
+                      },
+                      {
+                        "value": 4.5,
+                        "color": "red"
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "showLegend": true,
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "calcs": [
+                    "lastNotNull"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "description": "Норма 1.5-4.5 Ом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
+            },
+            {
+              "id": 248,
               "type": "timeseries",
               "title": "Выключатель подушки пассажира · Подушка водителя: состояние · Боковая подушка, правая: состояние · Боковая подушка, левая: состояние",
               "datasource": {
@@ -16448,7 +16640,7 @@ data:
               }
             },
             {
-              "id": 246,
+              "id": 249,
               "type": "timeseries",
               "title": "Боковая подушка головы, правая: состоя · Подушка пассажира: состояние · Шторка безопасности, правая: состояние · Шторка безопасности, левая: состояние",
               "datasource": {
@@ -16502,7 +16694,7 @@ data:
               }
             },
             {
-              "id": 247,
+              "id": 250,
               "type": "timeseries",
               "title": "Преднатяжитель, правый: состояние · Преднатяжитель, левый: состояние · Окончательная блокировка блока подушек",
               "datasource": {
@@ -16556,7 +16748,7 @@ data:
               }
             },
             {
-              "id": 248,
+              "id": 251,
               "type": "timeseries",
               "title": "Сервисная блокировка блока подушек · Датчик бокового удара, правый: поставщ · Датчик бокового удара, левый: поставщи",
               "datasource": {
@@ -16610,7 +16802,7 @@ data:
               }
             },
             {
-              "id": 249,
+              "id": 252,
               "type": "timeseries",
               "title": "Цепь выключателя подушки пассажира, Ом",
               "datasource": {
@@ -16637,7 +16829,7 @@ data:
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "ohm",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -16664,7 +16856,7 @@ data:
               }
             },
             {
-              "id": 250,
+              "id": 253,
               "type": "timeseries",
               "title": "Индекс диагностических сообщений · Контроль поставщика · Число сервисных вмешательств · Датчик бокового удара, правый: версия",
               "datasource": {
@@ -16719,7 +16911,7 @@ data:
               }
             },
             {
-              "id": 251,
+              "id": 254,
               "type": "timeseries",
               "title": "Датчик бокового удара, левый: версия",
               "datasource": {
@@ -16774,7 +16966,7 @@ data:
               }
             },
             {
-              "id": 252,
+              "id": 255,
               "type": "timeseries",
               "title": "Поставщик блока",
               "datasource": {
@@ -16829,7 +17021,7 @@ data:
               }
             },
             {
-              "id": 253,
+              "id": 256,
               "type": "timeseries",
               "title": "Версия ПО",
               "datasource": {
@@ -16884,7 +17076,7 @@ data:
               }
             },
             {
-              "id": 254,
+              "id": 257,
               "type": "timeseries",
               "title": "Дата изготовления",
               "datasource": {
@@ -16939,7 +17131,7 @@ data:
               }
             },
             {
-              "id": 255,
+              "id": 258,
               "type": "timeseries",
               "title": "Серийный номер",
               "datasource": {
@@ -16994,7 +17186,7 @@ data:
               }
             },
             {
-              "id": 256,
+              "id": 259,
               "type": "timeseries",
               "title": "Идентификатор диагностики",
               "datasource": {
@@ -17049,7 +17241,7 @@ data:
               }
             },
             {
-              "id": 257,
+              "id": 260,
               "type": "timeseries",
               "title": "Доп. номер блока · Номер блока · Датчик бокового удара, правый: доп. но · Датчик бокового удара, левый: доп. ном",
               "datasource": {
@@ -17106,7 +17298,7 @@ data:
           ]
         },
         {
-          "id": 270,
+          "id": 273,
           "type": "row",
           "title": "подрулевой переключатель (24)",
           "collapsed": false,
@@ -17119,7 +17311,7 @@ data:
           "panels": []
         },
         {
-          "id": 259,
+          "id": 262,
           "type": "timeseries",
           "title": "Звуковой сигнал · Указатели поворота · Однократный взмах дворников · Задний дворник",
           "datasource": {
@@ -17173,7 +17365,7 @@ data:
           }
         },
         {
-          "id": 260,
+          "id": 263,
           "type": "timeseries",
           "title": "Передние дворники · Противотуманные фары · Мигание дальним · Переключатель ближний/дальний",
           "datasource": {
@@ -17227,7 +17419,7 @@ data:
           }
         },
         {
-          "id": 261,
+          "id": 264,
           "type": "timeseries",
           "title": "Омыватель лобового стекла · Омыватель заднего стекла · Кольцо света, 3 положения · Кольцо света, 4 положения",
           "datasource": {
@@ -17281,7 +17473,7 @@ data:
           }
         },
         {
-          "id": 262,
+          "id": 265,
           "type": "timeseries",
           "title": "Ключ в замке · Кнопка на торце рычага света · Кнопка на торце рычага дворников · Синхронизация ключа",
           "datasource": {
@@ -17335,7 +17527,7 @@ data:
           }
         },
         {
-          "id": 263,
+          "id": 266,
           "type": "timeseries",
           "title": "Индекс диагностических сообщений",
           "datasource": {
@@ -17390,7 +17582,7 @@ data:
           }
         },
         {
-          "id": 264,
+          "id": 267,
           "type": "timeseries",
           "title": "Поставщик блока",
           "datasource": {
@@ -17445,7 +17637,7 @@ data:
           }
         },
         {
-          "id": 265,
+          "id": 268,
           "type": "timeseries",
           "title": "Версия ПО",
           "datasource": {
@@ -17500,7 +17692,7 @@ data:
           }
         },
         {
-          "id": 266,
+          "id": 269,
           "type": "timeseries",
           "title": "Дата изготовления",
           "datasource": {
@@ -17555,7 +17747,7 @@ data:
           }
         },
         {
-          "id": 267,
+          "id": 270,
           "type": "timeseries",
           "title": "Серийный номер",
           "datasource": {
@@ -17610,7 +17802,7 @@ data:
           }
         },
         {
-          "id": 268,
+          "id": 271,
           "type": "timeseries",
           "title": "Идентификатор диагностики",
           "datasource": {
@@ -17665,7 +17857,7 @@ data:
           }
         },
         {
-          "id": 269,
+          "id": 272,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер блока",
           "datasource": {
@@ -17720,7 +17912,7 @@ data:
           }
         },
         {
-          "id": 285,
+          "id": 288,
           "type": "row",
           "title": "парктроник (23)",
           "collapsed": true,
@@ -17732,7 +17924,7 @@ data:
           },
           "panels": [
             {
-              "id": 271,
+              "id": 274,
               "type": "timeseries",
               "title": "Парктроник задний: состояние · Кнопка отключения парктроника · Измерение места для парковки: состояни · Прицеп подключён",
               "datasource": {
@@ -17786,7 +17978,7 @@ data:
               }
             },
             {
-              "id": 272,
+              "id": 275,
               "type": "timeseries",
               "title": "Парктроник отключён (лампа BSI)",
               "datasource": {
@@ -17840,7 +18032,7 @@ data:
               }
             },
             {
-              "id": 273,
+              "id": 276,
               "type": "timeseries",
               "title": "Парктроник передний: состояние",
               "datasource": {
@@ -17894,7 +18086,7 @@ data:
               }
             },
             {
-              "id": 274,
+              "id": 277,
               "type": "timeseries",
               "title": "Длина измеренного места",
               "datasource": {
@@ -17948,7 +18140,7 @@ data:
               }
             },
             {
-              "id": 275,
+              "id": 278,
               "type": "timeseries",
               "title": "Индекс диагностических сообщений · Признак применения · Число загрузок ПО · Поставщик блока",
               "datasource": {
@@ -18003,7 +18195,7 @@ data:
               }
             },
             {
-              "id": 276,
+              "id": 279,
               "type": "timeseries",
               "title": "Номер поставщика · Версия ПО",
               "datasource": {
@@ -18058,7 +18250,7 @@ data:
               }
             },
             {
-              "id": 277,
+              "id": 280,
               "type": "timeseries",
               "title": "Код системы",
               "datasource": {
@@ -18113,7 +18305,7 @@ data:
               }
             },
             {
-              "id": 278,
+              "id": 281,
               "type": "timeseries",
               "title": "Версия ПО",
               "datasource": {
@@ -18168,7 +18360,7 @@ data:
               }
             },
             {
-              "id": 279,
+              "id": 282,
               "type": "timeseries",
               "title": "Версия калибровки",
               "datasource": {
@@ -18223,7 +18415,7 @@ data:
               }
             },
             {
-              "id": 280,
+              "id": 283,
               "type": "timeseries",
               "title": "Серийный номер",
               "datasource": {
@@ -18278,7 +18470,7 @@ data:
               }
             },
             {
-              "id": 281,
+              "id": 284,
               "type": "timeseries",
               "title": "Дата изготовления · Номер файла калибровки",
               "datasource": {
@@ -18333,7 +18525,7 @@ data:
               }
             },
             {
-              "id": 282,
+              "id": 285,
               "type": "timeseries",
               "title": "Дата загрузки ПО",
               "datasource": {
@@ -18388,7 +18580,7 @@ data:
               }
             },
             {
-              "id": 283,
+              "id": 286,
               "type": "timeseries",
               "title": "Идентификатор диагностики",
               "datasource": {
@@ -18443,7 +18635,7 @@ data:
               }
             },
             {
-              "id": 284,
+              "id": 287,
               "type": "timeseries",
               "title": "Доп. номер блока · Номер блока",
               "datasource": {
@@ -18500,7 +18692,7 @@ data:
           ]
         },
         {
-          "id": 294,
+          "id": 297,
           "type": "row",
           "title": "ABS/ESP (18)",
           "collapsed": false,
@@ -18513,7 +18705,7 @@ data:
           "panels": []
         },
         {
-          "id": 286,
+          "id": 289,
           "type": "timeseries",
           "title": "Тормозная жидкость ниже минимума",
           "datasource": {
@@ -18584,7 +18776,7 @@ data:
           "description": "1 - поплавок в бачке ГТЦ опустился. Либо утечка, либо колодки изношены до предела.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 287,
+          "id": 290,
           "type": "timeseries",
           "title": "Число загрузок ПО · Поставщик блока · Версия диагностики · Версия ПО",
           "datasource": {
@@ -18639,7 +18831,7 @@ data:
           }
         },
         {
-          "id": 288,
+          "id": 291,
           "type": "timeseries",
           "title": "Выключатель стоп-сигналов · Реле питания клапанов ABS · Реле насоса ABS",
           "datasource": {
@@ -18694,7 +18886,7 @@ data:
           }
         },
         {
-          "id": 289,
+          "id": 292,
           "type": "timeseries",
           "title": "Дата загрузки ПО · Дата изготовления",
           "datasource": {
@@ -18749,7 +18941,7 @@ data:
           }
         },
         {
-          "id": 290,
+          "id": 293,
           "type": "timeseries",
           "title": "Номер ПО",
           "datasource": {
@@ -18804,7 +18996,7 @@ data:
           }
         },
         {
-          "id": 291,
+          "id": 294,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер блока",
           "datasource": {
@@ -18859,7 +19051,7 @@ data:
           }
         },
         {
-          "id": 292,
+          "id": 295,
           "type": "timeseries",
           "title": "Скорость колеса, заднее правое · Скорость колеса, заднее левое · Скорость колеса, переднее левое · Скорость автомобиля",
           "datasource": {
@@ -18914,7 +19106,7 @@ data:
           }
         },
         {
-          "id": 293,
+          "id": 296,
           "type": "timeseries",
           "title": "Скорость колеса, переднее правое",
           "datasource": {
@@ -18941,7 +19133,7 @@ data:
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "",
+              "unit": "rotrpm",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -18969,7 +19161,7 @@ data:
           }
         },
         {
-          "id": 306,
+          "id": 309,
           "type": "row",
           "title": "электронасос (18)",
           "collapsed": false,
@@ -18982,7 +19174,7 @@ data:
           "panels": []
         },
         {
-          "id": 295,
+          "id": 298,
           "type": "timeseries",
           "title": "Температура электронасоса ГУР",
           "datasource": {
@@ -19104,7 +19296,7 @@ data:
           "description": "Каталог DiagBox даёт 110-118 °C как порог перегрева, не норму: на машине 26-47 °C. Жёлтая зона от 90 поставлена с запасом.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 296,
+          "id": 299,
           "type": "timeseries",
           "title": "Питание насоса гидроусилителя",
           "datasource": {
@@ -19263,7 +19455,7 @@ data:
           "description": "Питание насоса гидроусилителя. Границы 9 и 18 В - из подсказки DiagBox к этому параметру. Диапазон широкий потому, что насос должен работать и при просадке от стартера.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 297,
+          "id": 300,
           "type": "timeseries",
           "title": "Ток электронасоса ГУР",
           "datasource": {
@@ -19317,7 +19509,7 @@ data:
           }
         },
         {
-          "id": 298,
+          "id": 301,
           "type": "timeseries",
           "title": "Обороты электронасоса ГУР",
           "datasource": {
@@ -19371,7 +19563,7 @@ data:
           }
         },
         {
-          "id": 299,
+          "id": 302,
           "type": "timeseries",
           "title": "Скорость вращения руля",
           "datasource": {
@@ -19425,7 +19617,7 @@ data:
           }
         },
         {
-          "id": 300,
+          "id": 303,
           "type": "timeseries",
           "title": "Зажигание включено · Состояние усилителя руля · Состояние двигателя (по насосу) · Тип датчика угла руля",
           "datasource": {
@@ -19480,7 +19672,7 @@ data:
           }
         },
         {
-          "id": 301,
+          "id": 304,
           "type": "timeseries",
           "title": "Индекс диагностических сообщений · Номер поставщика",
           "datasource": {
@@ -19535,7 +19727,7 @@ data:
           }
         },
         {
-          "id": 302,
+          "id": 305,
           "type": "timeseries",
           "title": "Редакция ПО · Редакция калибровки · Версия ПО",
           "datasource": {
@@ -19590,7 +19782,7 @@ data:
           }
         },
         {
-          "id": 303,
+          "id": 306,
           "type": "timeseries",
           "title": "Номер ПО",
           "datasource": {
@@ -19645,7 +19837,7 @@ data:
           }
         },
         {
-          "id": 304,
+          "id": 307,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер PSA",
           "datasource": {
@@ -19700,7 +19892,7 @@ data:
           }
         },
         {
-          "id": 305,
+          "id": 308,
           "type": "timeseries",
           "title": "Скорость автомобиля",
           "datasource": {
@@ -19755,7 +19947,7 @@ data:
           }
         },
         {
-          "id": 315,
+          "id": 318,
           "type": "row",
           "title": "щиток приборов (15)",
           "collapsed": false,
@@ -19768,7 +19960,7 @@ data:
           "panels": []
         },
         {
-          "id": 307,
+          "id": 310,
           "type": "timeseries",
           "title": "Кнопка парктроника · Кнопка цвета подсветки шкал · Кнопка цвета экрана · Кнопка сброса суточного пробега",
           "datasource": {
@@ -19822,7 +20014,7 @@ data:
           }
         },
         {
-          "id": 308,
+          "id": 311,
           "type": "timeseries",
           "title": "Кнопка ESP · Кнопка яркости подсветки · Кнопка контроля слепых зон · Кнопка контроля полосы",
           "datasource": {
@@ -19876,7 +20068,7 @@ data:
           }
         },
         {
-          "id": 309,
+          "id": 312,
           "type": "timeseries",
           "title": "Часы в щитке",
           "datasource": {
@@ -19930,7 +20122,7 @@ data:
           }
         },
         {
-          "id": 310,
+          "id": 313,
           "type": "timeseries",
           "title": "Поставщик блока",
           "datasource": {
@@ -19985,7 +20177,7 @@ data:
           }
         },
         {
-          "id": 311,
+          "id": 314,
           "type": "timeseries",
           "title": "Версия ПО",
           "datasource": {
@@ -20040,7 +20232,7 @@ data:
           }
         },
         {
-          "id": 312,
+          "id": 315,
           "type": "timeseries",
           "title": "Серийный номер",
           "datasource": {
@@ -20095,7 +20287,7 @@ data:
           }
         },
         {
-          "id": 313,
+          "id": 316,
           "type": "timeseries",
           "title": "Дата изготовления",
           "datasource": {
@@ -20150,7 +20342,7 @@ data:
           }
         },
         {
-          "id": 314,
+          "id": 317,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер блока",
           "datasource": {
@@ -20205,7 +20397,7 @@ data:
           }
         },
         {
-          "id": 326,
+          "id": 329,
           "type": "row",
           "title": "датчик дождя и света (14)",
           "collapsed": false,
@@ -20218,7 +20410,7 @@ data:
           "panels": []
         },
         {
-          "id": 316,
+          "id": 319,
           "type": "timeseries",
           "title": "Дворники: состояние · Скорость дворников",
           "datasource": {
@@ -20272,7 +20464,7 @@ data:
           }
         },
         {
-          "id": 317,
+          "id": 320,
           "type": "timeseries",
           "title": "Датчик дождя, ячейка 1 · Датчик дождя, ячейка 2",
           "datasource": {
@@ -20326,7 +20518,7 @@ data:
           }
         },
         {
-          "id": 318,
+          "id": 321,
           "type": "timeseries",
           "title": "Освещённость вокруг · Освещённость спереди",
           "datasource": {
@@ -20380,7 +20572,7 @@ data:
           }
         },
         {
-          "id": 319,
+          "id": 322,
           "type": "timeseries",
           "title": "Число загрузок ПО",
           "datasource": {
@@ -20435,7 +20627,7 @@ data:
           }
         },
         {
-          "id": 320,
+          "id": 323,
           "type": "timeseries",
           "title": "Поставщик блока",
           "datasource": {
@@ -20490,7 +20682,7 @@ data:
           }
         },
         {
-          "id": 321,
+          "id": 324,
           "type": "timeseries",
           "title": "Версия ПО",
           "datasource": {
@@ -20545,7 +20737,7 @@ data:
           }
         },
         {
-          "id": 322,
+          "id": 325,
           "type": "timeseries",
           "title": "Версия калибровки",
           "datasource": {
@@ -20600,7 +20792,7 @@ data:
           }
         },
         {
-          "id": 323,
+          "id": 326,
           "type": "timeseries",
           "title": "Номер файла калибровки",
           "datasource": {
@@ -20655,7 +20847,7 @@ data:
           }
         },
         {
-          "id": 324,
+          "id": 327,
           "type": "timeseries",
           "title": "Дата загрузки ПО",
           "datasource": {
@@ -20710,7 +20902,7 @@ data:
           }
         },
         {
-          "id": 325,
+          "id": 328,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер блока",
           "datasource": {
@@ -20765,7 +20957,7 @@ data:
           }
         },
         {
-          "id": 335,
+          "id": 338,
           "type": "row",
           "title": "многофункциональный дисплей (13)",
           "collapsed": false,
@@ -20778,7 +20970,7 @@ data:
           "panels": []
         },
         {
-          "id": 327,
+          "id": 330,
           "type": "timeseries",
           "title": "Индекс диагностических сообщений · Признак применения · Версия ПО",
           "datasource": {
@@ -20833,7 +21025,7 @@ data:
           }
         },
         {
-          "id": 328,
+          "id": 331,
           "type": "timeseries",
           "title": "Поставщик блока · Номер поставщика",
           "datasource": {
@@ -20888,7 +21080,7 @@ data:
           }
         },
         {
-          "id": 329,
+          "id": 332,
           "type": "timeseries",
           "title": "Версия ПО · Код системы",
           "datasource": {
@@ -20943,7 +21135,7 @@ data:
           }
         },
         {
-          "id": 330,
+          "id": 333,
           "type": "timeseries",
           "title": "Дата загрузки ПО",
           "datasource": {
@@ -20998,7 +21190,7 @@ data:
           }
         },
         {
-          "id": 331,
+          "id": 334,
           "type": "timeseries",
           "title": "Дата изготовления",
           "datasource": {
@@ -21053,7 +21245,7 @@ data:
           }
         },
         {
-          "id": 332,
+          "id": 335,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер блока",
           "datasource": {
@@ -21108,7 +21300,7 @@ data:
           }
         },
         {
-          "id": 333,
+          "id": 336,
           "type": "timeseries",
           "title": "Число загрузок ПО",
           "datasource": {
@@ -21163,7 +21355,7 @@ data:
           }
         },
         {
-          "id": 334,
+          "id": 337,
           "type": "timeseries",
           "title": "Серийный номер",
           "datasource": {
@@ -21218,7 +21410,7 @@ data:
           }
         },
         {
-          "id": 342,
+          "id": 345,
           "type": "row",
           "title": "модуль двери (11)",
           "collapsed": false,
@@ -21231,7 +21423,7 @@ data:
           "panels": []
         },
         {
-          "id": 336,
+          "id": 339,
           "type": "timeseries",
           "title": "Реле питания CPC: команда · Запрос включения зажигания · Реле питания CPC: состояние · Главное реле ЭБУ двигателя",
           "datasource": {
@@ -21285,7 +21477,7 @@ data:
           }
         },
         {
-          "id": 337,
+          "id": 340,
           "type": "timeseries",
           "title": "Индекс диагностических сообщений · Поставщик блока",
           "datasource": {
@@ -21340,7 +21532,7 @@ data:
           }
         },
         {
-          "id": 338,
+          "id": 341,
           "type": "timeseries",
           "title": "Дата изготовления",
           "datasource": {
@@ -21395,7 +21587,7 @@ data:
           }
         },
         {
-          "id": 339,
+          "id": 342,
           "type": "timeseries",
           "title": "Серийный номер",
           "datasource": {
@@ -21450,7 +21642,7 @@ data:
           }
         },
         {
-          "id": 340,
+          "id": 343,
           "type": "timeseries",
           "title": "Идентификатор диагностики",
           "datasource": {
@@ -21505,7 +21697,7 @@ data:
           }
         },
         {
-          "id": 341,
+          "id": 344,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер блока",
           "datasource": {
@@ -21560,7 +21752,7 @@ data:
           }
         },
         {
-          "id": 348,
+          "id": 351,
           "type": "row",
           "title": "панель управления (8)",
           "collapsed": false,
@@ -21573,7 +21765,7 @@ data:
           "panels": []
         },
         {
-          "id": 343,
+          "id": 346,
           "type": "timeseries",
           "title": "Кнопка A/C · Кнопка AUTO климата · Кнопка обдува лобового стекла",
           "datasource": {
@@ -21627,7 +21819,7 @@ data:
           }
         },
         {
-          "id": 344,
+          "id": 347,
           "type": "timeseries",
           "title": "Регулятор громкости",
           "datasource": {
@@ -21681,7 +21873,7 @@ data:
           }
         },
         {
-          "id": 345,
+          "id": 348,
           "type": "timeseries",
           "title": "Поставщик блока",
           "datasource": {
@@ -21736,7 +21928,7 @@ data:
           }
         },
         {
-          "id": 346,
+          "id": 349,
           "type": "timeseries",
           "title": "Версия ПО",
           "datasource": {
@@ -21791,7 +21983,7 @@ data:
           }
         },
         {
-          "id": 347,
+          "id": 350,
           "type": "timeseries",
           "title": "Доп. номер блока · Номер блока",
           "datasource": {
@@ -21846,7 +22038,7 @@ data:
           }
         },
         {
-          "id": 351,
+          "id": 354,
           "type": "row",
           "title": "DTC (3)",
           "collapsed": false,
@@ -21859,7 +22051,7 @@ data:
           "panels": []
         },
         {
-          "id": 349,
+          "id": 352,
           "type": "timeseries",
           "title": "C1205",
           "datasource": {
@@ -21913,7 +22105,7 @@ data:
           }
         },
         {
-          "id": 350,
+          "id": 353,
           "type": "timeseries",
           "title": "P0116 · P2299",
           "datasource": {
