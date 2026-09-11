@@ -297,11 +297,15 @@ data:
                   expression: B
                   conditions:
                     - evaluator: { type: lt, params: [12.8] }
-
-          # Лампы и уровни из блока реле и ABS: давление масла, уровень ОЖ, тормозная
-          # жидкость. Одна строка - один флаг, алерт приходит с его названием.
-          - uid: citroen-lamps
-            title: Лампа или уровень
+          # Общее правило по КРАСНЫМ ЗОНАМ. Зоны лежат в таблице norm_zone, которую
+          # sync.py переписывает из norms.py при каждой досылке: новая зона на дашборде =
+          # новый алерт, без правки этого файла. Берётся последнее значение параметра за
+          # 30 минут; строка есть - значение в красном отрезке - и это отдельный экземпляр
+          # алерта со своим названием. Машина заглушена, данных нет - алерт гаснет сам.
+          # Условные вещи (напряжение только при работающем двигателе) зоной не выразить,
+          # они остаются ручными правилами выше.
+          - uid: citroen-red-zone
+            title: Красная зона
             condition: C
             noDataState: OK
             execErrState: OK
@@ -310,7 +314,7 @@ data:
               severity: critical
               service: citroen
             annotations:
-              summary: '{{ $labels.title }}: сработало.'
+              summary: '{{ $labels.title }}: значение в красной зоне ({{ $labels.zone }}).'
             data:
               - refId: A
                 relativeTimeRange: { from: 1800, to: 0 }
@@ -320,16 +324,14 @@ data:
                   format: table
                   rawQuery: true
                   rawSql: |
-                    SELECT t.title, l.value
-                    FROM (VALUES
-                      ('BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a', 'Лампа давления масла'),
-                      ('BSM_2010:MP_ALERTE_NIVEAU_EAU_MOTEUR', 'Лампа уровня охлаждающей жидкости'),
-                      ('ESP81:MP_NIVEAU_LIQUIDE_DE_FREIN', 'Тормозная жидкость ниже минимума')
-                    ) AS t(name, title)
-                    JOIN param p ON p.name = t.name
-                    JOIN LATERAL (SELECT value FROM reading WHERE param_id = p.id
-                                  AND ts > now() - interval '30 minutes'
+                    SELECT z.title, z.zone, 1 AS alarm
+                    FROM norm_zone z
+                    JOIN param p ON p.name = z.name
+                    JOIN LATERAL (SELECT value FROM reading
+                                  WHERE param_id = p.id AND ts > now() - interval '30 minutes'
                                   ORDER BY ts DESC LIMIT 1) l ON true
+                    WHERE (z.lo IS NULL OR l.value >= z.lo)
+                      AND (z.hi IS NULL OR l.value < z.hi)
               - refId: B
                 datasourceUid: __expr__
                 model: { refId: B, type: reduce, expression: A, reducer: last }
@@ -341,127 +343,3 @@ data:
                   expression: B
                   conditions:
                     - evaluator: { type: gt, params: [0.5] }
-          - uid: citroen-oil-temp-warn
-            title: Температура масла высокая
-            condition: C
-            # Машина стоит - данных нет, и это не повод для алерта,
-            # поэтому noDataState OK.
-            noDataState: OK
-            execErrState: OK
-            for: 5m
-            labels:
-              severity: warning
-              service: citroen
-            annotations:
-              summary: "Масло выше 125 °C ({{ $values.B }} °C). Долго так держать не стоит."
-            data:
-              - refId: A
-                relativeTimeRange: { from: 600, to: 0 }
-                datasourceUid: citroen-postgres
-                model:
-                  refId: A
-                  format: time_series
-                  rawQuery: true
-                  rawSql: |
-                    SELECT r.ts AS "time", r.value
-                    FROM reading r JOIN param p ON p.id = r.param_id
-                    WHERE p.name = 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE'
-                      AND $__timeFilter(r.ts)
-                    ORDER BY 1
-              - refId: B
-                datasourceUid: __expr__
-                model:
-                  refId: B
-                  type: reduce
-                  expression: A
-                  reducer: last
-              - refId: C
-                datasourceUid: __expr__
-                model:
-                  refId: C
-                  type: threshold
-                  expression: B
-                  conditions:
-                    - evaluator: { type: gt, params: [125] }
-
-          - uid: citroen-oil-temp-crit
-            title: Температура масла критическая
-            condition: C
-            noDataState: OK
-            execErrState: OK
-            for: 1m
-            labels:
-              severity: critical
-              service: citroen
-            annotations:
-              summary: "Масло выше 140 °C ({{ $values.B }} °C). Искать причину."
-            data:
-              - refId: A
-                relativeTimeRange: { from: 600, to: 0 }
-                datasourceUid: citroen-postgres
-                model:
-                  refId: A
-                  format: time_series
-                  rawQuery: true
-                  rawSql: |
-                    SELECT r.ts AS "time", r.value
-                    FROM reading r JOIN param p ON p.id = r.param_id
-                    WHERE p.name = 'MP_TEMPERATURE_HUILE_MOTEUR_CALCULEE'
-                      AND $__timeFilter(r.ts)
-                    ORDER BY 1
-              - refId: B
-                datasourceUid: __expr__
-                model:
-                  refId: B
-                  type: reduce
-                  expression: A
-                  reducer: last
-              - refId: C
-                datasourceUid: __expr__
-                model:
-                  refId: C
-                  type: threshold
-                  expression: B
-                  conditions:
-                    - evaluator: { type: gt, params: [140] }
-
-          - uid: citroen-batt-low
-            title: Напряжение бортсети низкое
-            condition: C
-            noDataState: OK
-            execErrState: OK
-            for: 10m
-            labels:
-              severity: warning
-              service: citroen
-            annotations:
-              summary: "Питание BSI ниже 11.5 В ({{ $values.B }} В). Похоже на разряд АКБ."
-            data:
-              - refId: A
-                relativeTimeRange: { from: 900, to: 0 }
-                datasourceUid: citroen-postgres
-                model:
-                  refId: A
-                  format: time_series
-                  rawQuery: true
-                  rawSql: |
-                    SELECT r.ts AS "time", r.value
-                    FROM reading r JOIN param p ON p.id = r.param_id
-                    WHERE p.name = 'MP_TENSION_ALIMENTION_BSI'
-                      AND $__timeFilter(r.ts)
-                    ORDER BY 1
-              - refId: B
-                datasourceUid: __expr__
-                model:
-                  refId: B
-                  type: reduce
-                  expression: A
-                  reducer: last
-              - refId: C
-                datasourceUid: __expr__
-                model:
-                  refId: C
-                  type: threshold
-                  expression: B
-                  conditions:
-                    - evaluator: { type: lt, params: [11.5] }
