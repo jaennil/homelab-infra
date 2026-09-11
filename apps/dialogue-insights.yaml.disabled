@@ -1,0 +1,23 @@
+# Enable after database, Telegram API and GHCR pull secrets are sealed.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dialogue-insights
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/jaennil/dialogue-insights
+    targetRevision: main
+    path: k8s/overlays/production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dialogue-insights
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
