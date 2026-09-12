@@ -11202,7 +11202,7 @@ data:
           }
         },
         {
-          "id": 238,
+          "id": 236,
           "type": "row",
           "title": "двигатель Valeo V46 (EC5) (106)",
           "collapsed": true,
@@ -11951,7 +11951,7 @@ data:
                         "color": "green"
                       },
                       {
-                        "value": 100.0,
+                        "value": 101,
                         "color": "red"
                       }
                     ]
@@ -12069,7 +12069,7 @@ data:
                         "color": "green"
                       },
                       {
-                        "value": 100.0,
+                        "value": 101,
                         "color": "red"
                       }
                     ]
@@ -15203,7 +15203,7 @@ data:
             {
               "id": 210,
               "type": "timeseries",
-              "title": "Момент двигателя по опережению (факт) · Момент двигателя по воздуху (задание) · Эффективный момент по опережению · Момент сопротивления (оценка)",
+              "title": "Момент сопротивления (оценка) · Подогрев лямбды до кат., скважность · Клапан фазовращателя впуска, скважност",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -15223,12 +15223,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COUPLE_MOTEUR_AVANCE' THEN 'Момент двигателя по опережению (факт)'\n       WHEN 'V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AIR' THEN 'Момент двигателя по воздуху (задание)'\n       WHEN 'V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AVANCE' THEN 'Эффективный момент по опережению'\n       WHEN 'V46_32:MP_COUPLE_RESISTANT_MOTEUR_ESTIME' THEN 'Момент сопротивления (оценка)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COUPLE_MOTEUR_AVANCE', 'V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AIR', 'V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AVANCE', 'V46_32:MP_COUPLE_RESISTANT_MOTEUR_ESTIME') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COUPLE_RESISTANT_MOTEUR_ESTIME' THEN 'Момент сопротивления (оценка)'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Подогрев лямбды до кат., скважность'\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя впуска, скважность'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COUPLE_RESISTANT_MOTEUR_ESTIME', 'V46_32:MP_RCOAMONT', 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "percent",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -15257,7 +15257,7 @@ data:
             {
               "id": 211,
               "type": "timeseries",
-              "title": "Момент, запрошенный водителем · Подогрев лямбды до кат., скважность",
+              "title": "Обучение педали газа: минимум, дорожка · Задание скорости вентилятора · Момент двигателя по опережению (факт)",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -15277,12 +15277,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COUPLE_VOLONTE_CONDUCTEUR' THEN 'Момент, запрошенный водителем'\n       WHEN 'V46_32:MP_RCOAMONT' THEN 'Подогрев лямбды до кат., скважность'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COUPLE_VOLONTE_CONDUCTEUR', 'V46_32:MP_RCOAMONT') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_APP_POS_MINI_PEDALE_1' THEN 'Обучение педали газа: минимум, дорожка 1'\n       WHEN 'V46_32:MP_APP_POS_MINI_PEDALE_2' THEN 'Обучение педали газа: минимум, дорожка 2'\n       WHEN 'V46_32:MP_CONSIGNE_VITESSE_GMV_C5' THEN 'Задание скорости вентилятора'\n       WHEN 'V46_32:MP_COUPLE_MOTEUR_AVANCE' THEN 'Момент двигателя по опережению (факт)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_APP_POS_MINI_PEDALE_1', 'V46_32:MP_APP_POS_MINI_PEDALE_2', 'V46_32:MP_CONSIGNE_VITESSE_GMV_C5', 'V46_32:MP_COUPLE_MOTEUR_AVANCE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "",
+                  "unit": "mvolt",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -15311,7 +15311,7 @@ data:
             {
               "id": 212,
               "type": "timeseries",
-              "title": "Обучение педали газа: минимум, дорожка · Задание скорости вентилятора · Положение педали сцепления",
+              "title": "Момент двигателя по воздуху (задание) · Эффективный момент по опережению · Момент, запрошенный водителем · Положение педали сцепления",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -15331,12 +15331,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_APP_POS_MINI_PEDALE_1' THEN 'Обучение педали газа: минимум, дорожка 1'\n       WHEN 'V46_32:MP_APP_POS_MINI_PEDALE_2' THEN 'Обучение педали газа: минимум, дорожка 2'\n       WHEN 'V46_32:MP_CONSIGNE_VITESSE_GMV_C5' THEN 'Задание скорости вентилятора'\n       WHEN 'V46_32:MP_POSITION_PEDALE_EMBRAYAGE' THEN 'Положение педали сцепления'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_APP_POS_MINI_PEDALE_1', 'V46_32:MP_APP_POS_MINI_PEDALE_2', 'V46_32:MP_CONSIGNE_VITESSE_GMV_C5', 'V46_32:MP_POSITION_PEDALE_EMBRAYAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AIR' THEN 'Момент двигателя по воздуху (задание)'\n       WHEN 'V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AVANCE' THEN 'Эффективный момент по опережению'\n       WHEN 'V46_32:MP_COUPLE_VOLONTE_CONDUCTEUR' THEN 'Момент, запрошенный водителем'\n       WHEN 'V46_32:MP_POSITION_PEDALE_EMBRAYAGE' THEN 'Положение педали сцепления'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AIR', 'V46_32:MP_COUPLE_MOTEUR_EFFECTIF_AVANCE', 'V46_32:MP_COUPLE_VOLONTE_CONDUCTEUR', 'V46_32:MP_POSITION_PEDALE_EMBRAYAGE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "mvolt",
+                  "unit": "",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -16013,7 +16013,7 @@ data:
             {
               "id": 225,
               "type": "timeseries",
-              "title": "Заданный угол дроссельной заслонки · Максимальный угол опережения · Минимальный угол опережения · Оптимальный угол опережения",
+              "title": "Максимальный угол опережения · Минимальный угол опережения · Оптимальный угол опережения",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -16033,7 +16033,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_CONSIGNE' THEN 'Заданный угол дроссельной заслонки'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM' THEN 'Максимальный угол опережения'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM' THEN 'Минимальный угол опережения'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL' THEN 'Оптимальный угол опережения'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_CONSIGNE', 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM' THEN 'Максимальный угол опережения'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM' THEN 'Минимальный угол опережения'\n       WHEN 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL' THEN 'Оптимальный угол опережения'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_AVANCE_ALLUMAGE_MAXIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_MINIMUM', 'V46_32:MP_AVANCE_ALLUMAGE_OPTIMAL') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -16067,7 +16067,7 @@ data:
             {
               "id": 226,
               "type": "timeseries",
-              "title": "Положение фазовращателя впуска",
+              "title": "Заданный угол дроссельной заслонки",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -16087,12 +16087,12 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_POS_DEPHASEUR_ACC_1' THEN 'Положение фазовращателя впуска'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_POS_DEPHASEUR_ACC_1') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_ANGLE_PAPILLON_CONSIGNE' THEN 'Заданный угол дроссельной заслонки'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_ANGLE_PAPILLON_CONSIGNE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
                 "defaults": {
-                  "unit": "suffix: ° КВ",
+                  "unit": "degree",
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
@@ -16121,7 +16121,7 @@ data:
             {
               "id": 227,
               "type": "timeseries",
-              "title": "Обучение нижнего упора фазовращателя",
+              "title": "Заданное положение фазовращателя впуск · Положение фазовращателя впуска · Обучение нижнего упора фазовращателя",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -16141,7 +16141,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_VALEUR_APPRENTISSAGE_BUTEE_BASSE_DEPHASEUR_AAC_ADMISSION' THEN 'Обучение нижнего упора фазовращателя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_VALEUR_APPRENTISSAGE_BUTEE_BASSE_DEPHASEUR_AAC_ADMISSION') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION' THEN 'Заданное положение фазовращателя впуска'\n       WHEN 'V46_32:MP_POS_DEPHASEUR_ACC_1' THEN 'Положение фазовращателя впуска'\n       WHEN 'V46_32:MP_VALEUR_APPRENTISSAGE_BUTEE_BASSE_DEPHASEUR_AAC_ADMISSION' THEN 'Обучение нижнего упора фазовращателя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION', 'V46_32:MP_POS_DEPHASEUR_ACC_1', 'V46_32:MP_VALEUR_APPRENTISSAGE_BUTEE_BASSE_DEPHASEUR_AAC_ADMISSION') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -16515,7 +16515,7 @@ data:
             {
               "id": 234,
               "type": "timeseries",
-              "title": "Клапан фазовращателя впуска, скважност",
+              "title": "Мощность, отбираемая компрессором конд",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -16525,61 +16525,6 @@ data:
                 "w": 12,
                 "x": 12,
                 "y": 513
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1' THEN 'Клапан фазовращателя впуска, скважность'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RCO_ELECTROVANNE_DEPHASEUR_ACC_1') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "percent",
-                  "custom": {
-                    "lineWidth": 1,
-                    "fillOpacity": 8,
-                    "showPoints": "auto",
-                    "lineInterpolation": "stepAfter"
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "displayMode": "table",
-                  "placement": "bottom",
-                  "calcs": [
-                    "last",
-                    "min",
-                    "max",
-                    "mean"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            },
-            {
-              "id": 235,
-              "type": "timeseries",
-              "title": "Мощность, отбираемая компрессором конд",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 0,
-                "y": 521
               },
               "targets": [
                 {
@@ -16623,9 +16568,9 @@ data:
               }
             },
             {
-              "id": 236,
+              "id": 235,
               "type": "timeseries",
-              "title": "Заданное положение фазовращателя впуск · Снижение опережения, цилиндр 1 · Снижение опережения, цилиндр 2 · Снижение опережения, цилиндр 3",
+              "title": "Снижение опережения, цилиндр 1 · Снижение опережения, цилиндр 2 · Снижение опережения, цилиндр 3 · Снижение опережения, цилиндр 4",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -16633,7 +16578,7 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 12,
+                "x": 0,
                 "y": 521
               },
               "targets": [
@@ -16645,62 +16590,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION' THEN 'Заданное положение фазовращателя впуска'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01' THEN 'Снижение опережения, цилиндр 1'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02' THEN 'Снижение опережения, цилиндр 2'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03' THEN 'Снижение опережения, цилиндр 3'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_CONSIGNE_POSITION_DEPHASEUR_AAC_ADMISSION', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "suffix: ° КВ",
-                  "custom": {
-                    "lineWidth": 1,
-                    "fillOpacity": 8,
-                    "showPoints": "auto",
-                    "lineInterpolation": "stepAfter"
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "displayMode": "table",
-                  "placement": "bottom",
-                  "calcs": [
-                    "last",
-                    "min",
-                    "max",
-                    "mean"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            },
-            {
-              "id": 237,
-              "type": "timeseries",
-              "title": "Снижение опережения, цилиндр 4",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 0,
-                "y": 529
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04' THEN 'Снижение опережения, цилиндр 4'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01' THEN 'Снижение опережения, цилиндр 1'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02' THEN 'Снижение опережения, цилиндр 2'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03' THEN 'Снижение опережения, цилиндр 3'\n       WHEN 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04' THEN 'Снижение опережения, цилиндр 4'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_01', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_02', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_03', 'V46_32:MP_RETRAIT_AVANCE_ALLUMAGE_CYLINDRE_04') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -16735,7 +16625,7 @@ data:
           ]
         },
         {
-          "id": 252,
+          "id": 251,
           "type": "row",
           "title": "блок реле моторного отсека (44)",
           "collapsed": true,
@@ -16747,7 +16637,61 @@ data:
           },
           "panels": [
             {
-              "id": 239,
+              "id": 237,
+              "type": "timeseries",
+              "title": "Задний ход",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 234
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_INFO_MARCHE_AR' THEN 'Задний ход'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_INFO_MARCHE_AR') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "auto"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 238,
               "type": "timeseries",
               "title": "Клапан компрессора кондиционера",
               "datasource": {
@@ -16758,7 +16702,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 234
+                "y": 242
               },
               "targets": [
                 {
@@ -16782,7 +16726,8 @@ data:
                     "spanNulls": true,
                     "thresholdsStyle": {
                       "mode": "area"
-                    }
+                    },
+                    "lineInterpolation": "stepAfter"
                   },
                   "thresholds": {
                     "mode": "absolute",
@@ -16906,7 +16851,7 @@ data:
               "description": "Управление клапаном компрессора кондиционера. Границы 5 и 95% из подсказки DiagBox: постоянно упёртый в 95% компрессор обычно значит нехватку хладагента.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 240,
+              "id": 239,
               "type": "timeseries",
               "title": "Главное реле: команда получена · Силовое реле: команда получена · Звуковой сигнал · Команда стартера",
               "datasource": {
@@ -16917,7 +16862,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 234
+                "y": 242
               },
               "targets": [
                 {
@@ -16937,7 +16882,63 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "table",
+                  "placement": "bottom",
+                  "calcs": [
+                    "last",
+                    "min",
+                    "max",
+                    "mean"
+                  ]
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            },
+            {
+              "id": 240,
+              "type": "timeseries",
+              "title": "Дворники, быстрая скорость · Дворники, медленная скорость · Статическая подсветка поворота, правая · Статическая подсветка поворота, левая",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 250
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "datasource": {
+                    "type": "postgres",
+                    "uid": "citroen-postgres"
+                  },
+                  "format": "time_series",
+                  "rawQuery": true,
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_GV' THEN 'Дворники, быстрая скорость'\n       WHEN 'BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_PV' THEN 'Дворники, медленная скорость'\n       WHEN 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_D' THEN 'Статическая подсветка поворота, правая'\n       WHEN 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_G' THEN 'Статическая подсветка поворота, левая'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_GV', 'BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_PV', 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_D', 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_G') AND $__timeFilter(r.ts)\nORDER BY 1"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "",
+                  "custom": {
+                    "lineWidth": 1,
+                    "fillOpacity": 8,
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -16962,7 +16963,7 @@ data:
             {
               "id": 241,
               "type": "timeseries",
-              "title": "Дворники, быстрая скорость · Дворники, медленная скорость · Статическая подсветка поворота, правая · Статическая подсветка поворота, левая",
+              "title": "Омыватель заднего стекла · Омыватель лобового стекла · Омыватель фар · Шторка фары, правая",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -16970,8 +16971,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 0,
-                "y": 242
+                "x": 12,
+                "y": 250
               },
               "targets": [
                 {
@@ -16982,7 +16983,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_GV' THEN 'Дворники, быстрая скорость'\n       WHEN 'BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_PV' THEN 'Дворники, медленная скорость'\n       WHEN 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_D' THEN 'Статическая подсветка поворота, правая'\n       WHEN 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_G' THEN 'Статическая подсветка поворота, левая'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_GV', 'BSM_2010:MP_COMMANDE_ESSUIE_VITRE_AV_PV', 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_D', 'BSM_2010:MP_COMMANDE_FEU_STATIQUE_G') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_LAVAGE_AR' THEN 'Омыватель заднего стекла'\n       WHEN 'BSM_2010:MP_COMMANDE_LAVAGE_AV' THEN 'Омыватель лобового стекла'\n       WHEN 'BSM_2010:MP_COMMANDE_LAVAGE_PROJECTEURS' THEN 'Омыватель фар'\n       WHEN 'BSM_2010:MP_COMMANDE_OCCULTANT_D' THEN 'Шторка фары, правая'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_LAVAGE_AR', 'BSM_2010:MP_COMMANDE_LAVAGE_AV', 'BSM_2010:MP_COMMANDE_LAVAGE_PROJECTEURS', 'BSM_2010:MP_COMMANDE_OCCULTANT_D') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -16991,7 +16992,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17016,7 +17018,7 @@ data:
             {
               "id": 242,
               "type": "timeseries",
-              "title": "Омыватель заднего стекла · Омыватель лобового стекла · Омыватель фар · Шторка фары, правая",
+              "title": "Шторка фары, левая · Противотуманная фара, правая (ШИМ) · Противотуманная фара, левая (ШИМ) · Реле воздушного насоса",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17024,8 +17026,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 12,
-                "y": 242
+                "x": 0,
+                "y": 258
               },
               "targets": [
                 {
@@ -17036,7 +17038,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_LAVAGE_AR' THEN 'Омыватель заднего стекла'\n       WHEN 'BSM_2010:MP_COMMANDE_LAVAGE_AV' THEN 'Омыватель лобового стекла'\n       WHEN 'BSM_2010:MP_COMMANDE_LAVAGE_PROJECTEURS' THEN 'Омыватель фар'\n       WHEN 'BSM_2010:MP_COMMANDE_OCCULTANT_D' THEN 'Шторка фары, правая'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_LAVAGE_AR', 'BSM_2010:MP_COMMANDE_LAVAGE_AV', 'BSM_2010:MP_COMMANDE_LAVAGE_PROJECTEURS', 'BSM_2010:MP_COMMANDE_OCCULTANT_D') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_OCCULTANT_G' THEN 'Шторка фары, левая'\n       WHEN 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVD' THEN 'Противотуманная фара, правая (ШИМ)'\n       WHEN 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVG' THEN 'Противотуманная фара, левая (ШИМ)'\n       WHEN 'BSM_2010:MP_COMMANDE_RELAIS_POMPE_AIR' THEN 'Реле воздушного насоса'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_OCCULTANT_G', 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVD', 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVG', 'BSM_2010:MP_COMMANDE_RELAIS_POMPE_AIR') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17045,7 +17047,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17070,7 +17073,7 @@ data:
             {
               "id": 243,
               "type": "timeseries",
-              "title": "Шторка фары, левая · Противотуманная фара, правая (ШИМ) · Противотуманная фара, левая (ШИМ) · Реле воздушного насоса",
+              "title": "Команда силового реле · Запрос пуска от BSI · Муфта компрессора кондиционера · Муфта компрессора кондиционера (силова",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17078,8 +17081,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 0,
-                "y": 250
+                "x": 12,
+                "y": 258
               },
               "targets": [
                 {
@@ -17090,7 +17093,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_OCCULTANT_G' THEN 'Шторка фары, левая'\n       WHEN 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVD' THEN 'Противотуманная фара, правая (ШИМ)'\n       WHEN 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVG' THEN 'Противотуманная фара, левая (ШИМ)'\n       WHEN 'BSM_2010:MP_COMMANDE_RELAIS_POMPE_AIR' THEN 'Реле воздушного насоса'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_OCCULTANT_G', 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVD', 'BSM_2010:MP_COMMANDE_PWM_ANTIBROUILLARD_AVG', 'BSM_2010:MP_COMMANDE_RELAIS_POMPE_AIR') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_RELAIS_PUISSANCE' THEN 'Команда силового реле'\n       WHEN 'BSM_2010:MP_DEMANDE_DEMARRAGE_BSI' THEN 'Запрос пуска от BSI'\n       WHEN 'BSM_2010:MP_EMBR_COMPR_CLIM' THEN 'Муфта компрессора кондиционера'\n       WHEN 'BSM_2010:MP_EMBR_COMPR_CLIM_P' THEN 'Муфта компрессора кондиционера (силовая)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_RELAIS_PUISSANCE', 'BSM_2010:MP_DEMANDE_DEMARRAGE_BSI', 'BSM_2010:MP_EMBR_COMPR_CLIM', 'BSM_2010:MP_EMBR_COMPR_CLIM_P') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17099,7 +17102,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17124,7 +17128,7 @@ data:
             {
               "id": 244,
               "type": "timeseries",
-              "title": "Команда силового реле · Запрос пуска от BSI · Муфта компрессора кондиционера · Муфта компрессора кондиционера (силова",
+              "title": "Выход подсветки поворота, правый · Выход подсветки поворота, левый · Дополнительный подогреватель · Реле +12 В после замка зажигания",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17132,8 +17136,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 12,
-                "y": 250
+                "x": 0,
+                "y": 266
               },
               "targets": [
                 {
@@ -17144,7 +17148,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_COMMANDE_RELAIS_PUISSANCE' THEN 'Команда силового реле'\n       WHEN 'BSM_2010:MP_DEMANDE_DEMARRAGE_BSI' THEN 'Запрос пуска от BSI'\n       WHEN 'BSM_2010:MP_EMBR_COMPR_CLIM' THEN 'Муфта компрессора кондиционера'\n       WHEN 'BSM_2010:MP_EMBR_COMPR_CLIM_P' THEN 'Муфта компрессора кондиционера (силовая)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_COMMANDE_RELAIS_PUISSANCE', 'BSM_2010:MP_DEMANDE_DEMARRAGE_BSI', 'BSM_2010:MP_EMBR_COMPR_CLIM', 'BSM_2010:MP_EMBR_COMPR_CLIM_P') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_DROIT' THEN 'Выход подсветки поворота, правый'\n       WHEN 'BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_GAUCHE' THEN 'Выход подсветки поворота, левый'\n       WHEN 'BSM_2010:MP_ETAT_RECHAUFFEUR' THEN 'Дополнительный подогреватель'\n       WHEN 'BSM_2010:MP_ETAT_RELAIS_PLUS_APC' THEN 'Реле +12 В после замка зажигания'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_DROIT', 'BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_GAUCHE', 'BSM_2010:MP_ETAT_RECHAUFFEUR', 'BSM_2010:MP_ETAT_RELAIS_PLUS_APC') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17153,7 +17157,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17178,7 +17183,7 @@ data:
             {
               "id": 245,
               "type": "timeseries",
-              "title": "Выход подсветки поворота, правый · Выход подсветки поворота, левый · Дополнительный подогреватель · Реле +12 В после замка зажигания",
+              "title": "Главное реле · Пробуждение от брелока · Настраиваемый выход · Запрос пуска к ЭБУ двигателя",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17186,8 +17191,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 0,
-                "y": 258
+                "x": 12,
+                "y": 266
               },
               "targets": [
                 {
@@ -17198,7 +17203,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_DROIT' THEN 'Выход подсветки поворота, правый'\n       WHEN 'BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_GAUCHE' THEN 'Выход подсветки поворота, левый'\n       WHEN 'BSM_2010:MP_ETAT_RECHAUFFEUR' THEN 'Дополнительный подогреватель'\n       WHEN 'BSM_2010:MP_ETAT_RELAIS_PLUS_APC' THEN 'Реле +12 В после замка зажигания'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_DROIT', 'BSM_2010:MP_ETAT_INHIBITION_SORTIE_ECLAIRAGE_VIRAGE_STATIQUE_GAUCHE', 'BSM_2010:MP_ETAT_RECHAUFFEUR', 'BSM_2010:MP_ETAT_RELAIS_PLUS_APC') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_ETAT_RELAIS_PRINCIPAL' THEN 'Главное реле'\n       WHEN 'BSM_2010:MP_ETAT_REVEIL_CMD_DISTANCE' THEN 'Пробуждение от брелока'\n       WHEN 'BSM_2010:MP_ETAT_SORTIE_CONFIGURABLE' THEN 'Настраиваемый выход'\n       WHEN 'BSM_2010:MP_INFO_DEMANDE_DEMARRAGE_CMM' THEN 'Запрос пуска к ЭБУ двигателя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_ETAT_RELAIS_PRINCIPAL', 'BSM_2010:MP_ETAT_REVEIL_CMD_DISTANCE', 'BSM_2010:MP_ETAT_SORTIE_CONFIGURABLE', 'BSM_2010:MP_INFO_DEMANDE_DEMARRAGE_CMM') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17207,7 +17212,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17232,7 +17238,7 @@ data:
             {
               "id": 246,
               "type": "timeseries",
-              "title": "Главное реле · Пробуждение от брелока · Настраиваемый выход · Запрос пуска к ЭБУ двигателя",
+              "title": "Вода в топливе (дизель) · Питание противотуманной фары, правая · Питание противотуманной фары, левая · Выход ближнего света, правый",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17240,8 +17246,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 12,
-                "y": 258
+                "x": 0,
+                "y": 274
               },
               "targets": [
                 {
@@ -17252,7 +17258,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_ETAT_RELAIS_PRINCIPAL' THEN 'Главное реле'\n       WHEN 'BSM_2010:MP_ETAT_REVEIL_CMD_DISTANCE' THEN 'Пробуждение от брелока'\n       WHEN 'BSM_2010:MP_ETAT_SORTIE_CONFIGURABLE' THEN 'Настраиваемый выход'\n       WHEN 'BSM_2010:MP_INFO_DEMANDE_DEMARRAGE_CMM' THEN 'Запрос пуска к ЭБУ двигателя'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_ETAT_RELAIS_PRINCIPAL', 'BSM_2010:MP_ETAT_REVEIL_CMD_DISTANCE', 'BSM_2010:MP_ETAT_SORTIE_CONFIGURABLE', 'BSM_2010:MP_INFO_DEMANDE_DEMARRAGE_CMM') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_INFO_PRESENCE_EAU_GAZOLE' THEN 'Вода в топливе (дизель)'\n       WHEN 'BSM_2010:MP_INHIB_BROUILLARD_AVD' THEN 'Питание противотуманной фары, правая'\n       WHEN 'BSM_2010:MP_INHIB_BROUILLARD_AVG' THEN 'Питание противотуманной фары, левая'\n       WHEN 'BSM_2010:MP_INHIB_CROISEMENT_D' THEN 'Выход ближнего света, правый'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_INFO_PRESENCE_EAU_GAZOLE', 'BSM_2010:MP_INHIB_BROUILLARD_AVD', 'BSM_2010:MP_INHIB_BROUILLARD_AVG', 'BSM_2010:MP_INHIB_CROISEMENT_D') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17261,7 +17267,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17286,7 +17293,7 @@ data:
             {
               "id": 247,
               "type": "timeseries",
-              "title": "Задний ход · Вода в топливе (дизель) · Питание противотуманной фары, правая · Питание противотуманной фары, левая",
+              "title": "Выход ближнего света, левый · Выход дневных огней, правый · Выход дневных огней, левый · Мотор изменения подъёма клапанов",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17294,8 +17301,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 0,
-                "y": 266
+                "x": 12,
+                "y": 274
               },
               "targets": [
                 {
@@ -17306,7 +17313,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_INFO_MARCHE_AR' THEN 'Задний ход'\n       WHEN 'BSM_2010:MP_INFO_PRESENCE_EAU_GAZOLE' THEN 'Вода в топливе (дизель)'\n       WHEN 'BSM_2010:MP_INHIB_BROUILLARD_AVD' THEN 'Питание противотуманной фары, правая'\n       WHEN 'BSM_2010:MP_INHIB_BROUILLARD_AVG' THEN 'Питание противотуманной фары, левая'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_INFO_MARCHE_AR', 'BSM_2010:MP_INFO_PRESENCE_EAU_GAZOLE', 'BSM_2010:MP_INHIB_BROUILLARD_AVD', 'BSM_2010:MP_INHIB_BROUILLARD_AVG') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_INHIB_CROISEMENT_G' THEN 'Выход ближнего света, левый'\n       WHEN 'BSM_2010:MP_INHIB_DIURNE_DEDIE_D' THEN 'Выход дневных огней, правый'\n       WHEN 'BSM_2010:MP_INHIB_DIURNE_DEDIE_G' THEN 'Выход дневных огней, левый'\n       WHEN 'BSM_2010:MP_MOTEUR_LEVEE_SOUPAPE_VARIABLE' THEN 'Мотор изменения подъёма клапанов'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_INHIB_CROISEMENT_G', 'BSM_2010:MP_INHIB_DIURNE_DEDIE_D', 'BSM_2010:MP_INHIB_DIURNE_DEDIE_G', 'BSM_2010:MP_MOTEUR_LEVEE_SOUPAPE_VARIABLE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17315,7 +17322,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17340,7 +17348,7 @@ data:
             {
               "id": 248,
               "type": "timeseries",
-              "title": "Выход ближнего света, правый · Выход ближнего света, левый · Выход дневных огней, правый · Выход дневных огней, левый",
+              "title": "Воздушный насос · Воздушный насос 1 · Дворники в парковочном положении · Подогрев топлива / паров масла",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17348,8 +17356,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 12,
-                "y": 266
+                "x": 0,
+                "y": 282
               },
               "targets": [
                 {
@@ -17360,7 +17368,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_INHIB_CROISEMENT_D' THEN 'Выход ближнего света, правый'\n       WHEN 'BSM_2010:MP_INHIB_CROISEMENT_G' THEN 'Выход ближнего света, левый'\n       WHEN 'BSM_2010:MP_INHIB_DIURNE_DEDIE_D' THEN 'Выход дневных огней, правый'\n       WHEN 'BSM_2010:MP_INHIB_DIURNE_DEDIE_G' THEN 'Выход дневных огней, левый'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_INHIB_CROISEMENT_D', 'BSM_2010:MP_INHIB_CROISEMENT_G', 'BSM_2010:MP_INHIB_DIURNE_DEDIE_D', 'BSM_2010:MP_INHIB_DIURNE_DEDIE_G') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_POMPE_AIR' THEN 'Воздушный насос'\n       WHEN 'BSM_2010:MP_POMPE_AIR1' THEN 'Воздушный насос 1'\n       WHEN 'BSM_2010:MP_POS_ARRET_FIXE_AV' THEN 'Дворники в парковочном положении'\n       WHEN 'BSM_2010:MP_RECHAUFFEUR_GAZOLE_VAPEURS_HUILE' THEN 'Подогрев топлива / паров масла'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_POMPE_AIR', 'BSM_2010:MP_POMPE_AIR1', 'BSM_2010:MP_POS_ARRET_FIXE_AV', 'BSM_2010:MP_RECHAUFFEUR_GAZOLE_VAPEURS_HUILE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17369,7 +17377,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17394,7 +17403,7 @@ data:
             {
               "id": 249,
               "type": "timeseries",
-              "title": "Мотор изменения подъёма клапанов · Воздушный насос · Воздушный насос 1 · Дворники в парковочном положении",
+              "title": "Питание после замка зажигания",
               "datasource": {
                 "type": "postgres",
                 "uid": "citroen-postgres"
@@ -17402,8 +17411,8 @@ data:
               "gridPos": {
                 "h": 8,
                 "w": 12,
-                "x": 0,
-                "y": 274
+                "x": 12,
+                "y": 282
               },
               "targets": [
                 {
@@ -17414,7 +17423,7 @@ data:
                   },
                   "format": "time_series",
                   "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_MOTEUR_LEVEE_SOUPAPE_VARIABLE' THEN 'Мотор изменения подъёма клапанов'\n       WHEN 'BSM_2010:MP_POMPE_AIR' THEN 'Воздушный насос'\n       WHEN 'BSM_2010:MP_POMPE_AIR1' THEN 'Воздушный насос 1'\n       WHEN 'BSM_2010:MP_POS_ARRET_FIXE_AV' THEN 'Дворники в парковочном положении'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_MOTEUR_LEVEE_SOUPAPE_VARIABLE', 'BSM_2010:MP_POMPE_AIR', 'BSM_2010:MP_POMPE_AIR1', 'BSM_2010:MP_POS_ARRET_FIXE_AV') AND $__timeFilter(r.ts)\nORDER BY 1"
+                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_REL_APC_BARRE' THEN 'Питание после замка зажигания'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_REL_APC_BARRE') AND $__timeFilter(r.ts)\nORDER BY 1"
                 }
               ],
               "fieldConfig": {
@@ -17423,7 +17432,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17448,60 +17458,6 @@ data:
             {
               "id": 250,
               "type": "timeseries",
-              "title": "Подогрев топлива / паров масла · Питание после замка зажигания",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 12,
-                "y": 274
-              },
-              "targets": [
-                {
-                  "refId": "A",
-                  "datasource": {
-                    "type": "postgres",
-                    "uid": "citroen-postgres"
-                  },
-                  "format": "time_series",
-                  "rawQuery": true,
-                  "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'BSM_2010:MP_RECHAUFFEUR_GAZOLE_VAPEURS_HUILE' THEN 'Подогрев топлива / паров масла'\n       WHEN 'BSM_2010:MP_REL_APC_BARRE' THEN 'Питание после замка зажигания'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('BSM_2010:MP_RECHAUFFEUR_GAZOLE_VAPEURS_HUILE', 'BSM_2010:MP_REL_APC_BARRE') AND $__timeFilter(r.ts)\nORDER BY 1"
-                }
-              ],
-              "fieldConfig": {
-                "defaults": {
-                  "unit": "",
-                  "custom": {
-                    "lineWidth": 1,
-                    "fillOpacity": 8,
-                    "showPoints": "auto"
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "legend": {
-                  "displayMode": "table",
-                  "placement": "bottom",
-                  "calcs": [
-                    "last",
-                    "min",
-                    "max",
-                    "mean"
-                  ]
-                },
-                "tooltip": {
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            },
-            {
-              "id": 251,
-              "type": "timeseries",
               "title": "Возбуждение генератора (признак)",
               "datasource": {
                 "type": "postgres",
@@ -17511,7 +17467,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 282
+                "y": 290
               },
               "targets": [
                 {
@@ -17531,7 +17487,8 @@ data:
                   "custom": {
                     "lineWidth": 1,
                     "fillOpacity": 8,
-                    "showPoints": "auto"
+                    "showPoints": "auto",
+                    "lineInterpolation": "stepAfter"
                   }
                 },
                 "overrides": []
@@ -17556,7 +17513,7 @@ data:
           ]
         },
         {
-          "id": 257,
+          "id": 256,
           "type": "row",
           "title": "подушки безопасности (13)",
           "collapsed": false,
@@ -17569,7 +17526,7 @@ data:
           "panels": []
         },
         {
-          "id": 253,
+          "id": 252,
           "type": "timeseries",
           "title": "Подушка водителя: состояние · Боковая подушка, правая: состояние · Боковая подушка, левая: состояние · Боковая подушка головы, правая: состоя",
           "datasource": {
@@ -17623,7 +17580,7 @@ data:
           }
         },
         {
-          "id": 254,
+          "id": 253,
           "type": "timeseries",
           "title": "Подушка пассажира: состояние · Шторка безопасности, правая: состояние · Шторка безопасности, левая: состояние · Преднатяжитель, правый: состояние",
           "datasource": {
@@ -17677,7 +17634,7 @@ data:
           }
         },
         {
-          "id": 255,
+          "id": 254,
           "type": "timeseries",
           "title": "Преднатяжитель, левый: состояние · Окончательная блокировка блока подушек",
           "datasource": {
@@ -17731,7 +17688,7 @@ data:
           }
         },
         {
-          "id": 256,
+          "id": 255,
           "type": "timeseries",
           "title": "Сервисная блокировка блока подушек · Датчик бокового удара, правый: поставщ · Датчик бокового удара, левый: поставщи",
           "datasource": {
@@ -17798,9 +17755,9 @@ data:
           "panels": []
         },
         {
-          "id": 258,
+          "id": 257,
           "type": "timeseries",
-          "title": "Звуковой сигнал · Указатели поворота · Однократный взмах дворников · Задний дворник",
+          "title": "Кольцо света, 4 положения",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -17820,7 +17777,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COM2008P:MP_AVERTISSEUR_SONORE' THEN 'Звуковой сигнал'\n       WHEN 'COM2008P:MP_COMMANDE_CLIGNOTANTS' THEN 'Указатели поворота'\n       WHEN 'COM2008P:MP_COMMANDE_ESSUYAGE_IMPULSIONNELLE_AVANT' THEN 'Однократный взмах дворников'\n       WHEN 'COM2008P:MP_COMMANDE_ESSUYAGE_LUNETTE_ARRIERE' THEN 'Задний дворник'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COM2008P:MP_AVERTISSEUR_SONORE', 'COM2008P:MP_COMMANDE_CLIGNOTANTS', 'COM2008P:MP_COMMANDE_ESSUYAGE_IMPULSIONNELLE_AVANT', 'COM2008P:MP_COMMANDE_ESSUYAGE_LUNETTE_ARRIERE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_4_POSITIONS' THEN 'Кольцо света, 4 положения'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_4_POSITIONS') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -17830,6 +17787,61 @@ data:
                 "lineWidth": 1,
                 "fillOpacity": 8,
                 "showPoints": "auto"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 258,
+          "type": "timeseries",
+          "title": "Звуковой сигнал · Указатели поворота · Однократный взмах дворников · Задний дворник",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 260
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COM2008P:MP_AVERTISSEUR_SONORE' THEN 'Звуковой сигнал'\n       WHEN 'COM2008P:MP_COMMANDE_CLIGNOTANTS' THEN 'Указатели поворота'\n       WHEN 'COM2008P:MP_COMMANDE_ESSUYAGE_IMPULSIONNELLE_AVANT' THEN 'Однократный взмах дворников'\n       WHEN 'COM2008P:MP_COMMANDE_ESSUYAGE_LUNETTE_ARRIERE' THEN 'Задний дворник'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COM2008P:MP_AVERTISSEUR_SONORE', 'COM2008P:MP_COMMANDE_CLIGNOTANTS', 'COM2008P:MP_COMMANDE_ESSUYAGE_IMPULSIONNELLE_AVANT', 'COM2008P:MP_COMMANDE_ESSUYAGE_LUNETTE_ARRIERE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "auto",
+                "lineInterpolation": "stepAfter"
               }
             },
             "overrides": []
@@ -17863,7 +17875,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 252
+            "y": 260
           },
           "targets": [
             {
@@ -17883,7 +17895,8 @@ data:
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
-                "showPoints": "auto"
+                "showPoints": "auto",
+                "lineInterpolation": "stepAfter"
               }
             },
             "overrides": []
@@ -17908,7 +17921,7 @@ data:
         {
           "id": 260,
           "type": "timeseries",
-          "title": "Омыватель лобового стекла · Омыватель заднего стекла · Кольцо света, 3 положения · Кольцо света, 4 положения",
+          "title": "Омыватель лобового стекла · Омыватель заднего стекла · Кольцо света, 3 положения · Ключ в замке",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -17917,7 +17930,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 260
+            "y": 268
           },
           "targets": [
             {
@@ -17928,7 +17941,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COM2008P:MP_COMMANDE_LAVAGE_PARE_BRISE' THEN 'Омыватель лобового стекла'\n       WHEN 'COM2008P:MP_DEMANDE_LAVAGE_LUNETTE' THEN 'Омыватель заднего стекла'\n       WHEN 'COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_3_POSITIONS' THEN 'Кольцо света, 3 положения'\n       WHEN 'COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_4_POSITIONS' THEN 'Кольцо света, 4 положения'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COM2008P:MP_COMMANDE_LAVAGE_PARE_BRISE', 'COM2008P:MP_DEMANDE_LAVAGE_LUNETTE', 'COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_3_POSITIONS', 'COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_4_POSITIONS') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COM2008P:MP_COMMANDE_LAVAGE_PARE_BRISE' THEN 'Омыватель лобового стекла'\n       WHEN 'COM2008P:MP_DEMANDE_LAVAGE_LUNETTE' THEN 'Омыватель заднего стекла'\n       WHEN 'COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_3_POSITIONS' THEN 'Кольцо света, 3 положения'\n       WHEN 'COM2008P:MP_PRESENCE_CLE' THEN 'Ключ в замке'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COM2008P:MP_COMMANDE_LAVAGE_PARE_BRISE', 'COM2008P:MP_DEMANDE_LAVAGE_LUNETTE', 'COM2008P:MP_ETAT_COMMANDE_ECLAIRAGE_COMMUTATEUR_3_POSITIONS', 'COM2008P:MP_PRESENCE_CLE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -17937,7 +17950,8 @@ data:
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
-                "showPoints": "auto"
+                "showPoints": "auto",
+                "lineInterpolation": "stepAfter"
               }
             },
             "overrides": []
@@ -17962,7 +17976,7 @@ data:
         {
           "id": 261,
           "type": "timeseries",
-          "title": "Ключ в замке · Кнопка на торце рычага света · Кнопка на торце рычага дворников · Синхронизация ключа",
+          "title": "Кнопка на торце рычага света · Кнопка на торце рычага дворников · Синхронизация ключа",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -17971,7 +17985,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 260
+            "y": 268
           },
           "targets": [
             {
@@ -17982,7 +17996,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COM2008P:MP_PRESENCE_CLE' THEN 'Ключ в замке'\n       WHEN 'COM2008P:MP_PUSH_COMMANDE_ECLAIRAGE' THEN 'Кнопка на торце рычага света'\n       WHEN 'COM2008P:MP_PUSH_COMMANDE_ESSUYAGE' THEN 'Кнопка на торце рычага дворников'\n       WHEN 'COM2008P:MP_SYNCHRO_CLE' THEN 'Синхронизация ключа'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COM2008P:MP_PRESENCE_CLE', 'COM2008P:MP_PUSH_COMMANDE_ECLAIRAGE', 'COM2008P:MP_PUSH_COMMANDE_ESSUYAGE', 'COM2008P:MP_SYNCHRO_CLE') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COM2008P:MP_PUSH_COMMANDE_ECLAIRAGE' THEN 'Кнопка на торце рычага света'\n       WHEN 'COM2008P:MP_PUSH_COMMANDE_ESSUYAGE' THEN 'Кнопка на торце рычага дворников'\n       WHEN 'COM2008P:MP_SYNCHRO_CLE' THEN 'Синхронизация ключа'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COM2008P:MP_PUSH_COMMANDE_ECLAIRAGE', 'COM2008P:MP_PUSH_COMMANDE_ESSUYAGE', 'COM2008P:MP_SYNCHRO_CLE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -17991,7 +18005,8 @@ data:
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
-                "showPoints": "auto"
+                "showPoints": "auto",
+                "lineInterpolation": "stepAfter"
               }
             },
             "overrides": []
@@ -18022,7 +18037,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 268
+            "y": 276
           },
           "panels": []
         },
@@ -18038,7 +18053,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 269
+            "y": 277
           },
           "targets": [
             {
@@ -18092,7 +18107,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 269
+            "y": 277
           },
           "targets": [
             {
@@ -18146,7 +18161,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 277
+            "y": 285
           },
           "targets": [
             {
@@ -18200,7 +18215,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 277
+            "y": 285
           },
           "targets": [
             {
@@ -18243,7 +18258,7 @@ data:
           }
         },
         {
-          "id": 270,
+          "id": 271,
           "type": "row",
           "title": "ABS/ESP (4)",
           "collapsed": false,
@@ -18251,12 +18266,66 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 285
+            "y": 293
           },
           "panels": []
         },
         {
           "id": 268,
+          "type": "timeseries",
+          "title": "Выключатель стоп-сигналов",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 294
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигналов'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_CONTACTEUR_FEUX_STOP1') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "auto"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 269,
           "type": "timeseries",
           "title": "Скорость автомобиля (по ABS)",
           "datasource": {
@@ -18267,7 +18336,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 286
+            "y": 302
           },
           "targets": [
             {
@@ -18329,9 +18398,9 @@ data:
           "description": "Правдоподобие.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 269,
+          "id": 270,
           "type": "timeseries",
-          "title": "Выключатель стоп-сигналов · Реле питания клапанов ABS · Реле насоса ABS",
+          "title": "Реле питания клапанов ABS · Реле насоса ABS",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -18340,7 +18409,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 286
+            "y": 302
           },
           "targets": [
             {
@@ -18351,7 +18420,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_CONTACTEUR_FEUX_STOP1' THEN 'Выключатель стоп-сигналов'\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания клапанов ABS'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса ABS'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_CONTACTEUR_FEUX_STOP1', 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV', 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV' THEN 'Реле питания клапанов ABS'\n       WHEN 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1' THEN 'Реле насоса ABS'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('ESP81:MP_ETAT_RELAIS_ALIMENTATION_EV', 'ESP81:MP_ETAT_RELAIS_POMPE_RECIRCULATION_1') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -18384,7 +18453,7 @@ data:
           }
         },
         {
-          "id": 275,
+          "id": 276,
           "type": "row",
           "title": "электронасос (4)",
           "collapsed": false,
@@ -18392,12 +18461,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 294
+            "y": 310
           },
           "panels": []
         },
         {
-          "id": 271,
+          "id": 272,
           "type": "timeseries",
           "title": "Скорость вращения руля",
           "datasource": {
@@ -18408,7 +18477,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 295
+            "y": 311
           },
           "targets": [
             {
@@ -18469,7 +18538,7 @@ data:
           "description": "Правдоподобие: руками быстрее ~800°/с не крутят.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 272,
+          "id": 273,
           "type": "timeseries",
           "title": "Обороты электронасоса ГУР",
           "datasource": {
@@ -18480,7 +18549,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 295
+            "y": 311
           },
           "targets": [
             {
@@ -18523,7 +18592,61 @@ data:
           }
         },
         {
-          "id": 273,
+          "id": 274,
+          "type": "timeseries",
+          "title": "Скорость автомобиля (по насосу ГУР)",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 319
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля (по насосу ГУР)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "velocitykmh",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "auto"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 275,
           "type": "state-timeline",
           "title": "Состояние двигателя (по насосу)",
           "datasource": {
@@ -18534,7 +18657,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 303
+            "y": 327
           },
           "targets": [
             {
@@ -18585,9 +18708,22 @@ data:
           }
         },
         {
-          "id": 274,
+          "id": 280,
+          "type": "row",
+          "title": "щиток приборов (9)",
+          "collapsed": false,
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 327
+          },
+          "panels": []
+        },
+        {
+          "id": 277,
           "type": "timeseries",
-          "title": "Скорость автомобиля (по насосу ГУР)",
+          "title": "Кнопка парктроника · Кнопка цвета подсветки шкал · Кнопка цвета экрана · Кнопка сброса суточного пробега",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
@@ -18595,8 +18731,8 @@ data:
           "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
-            "y": 303
+            "x": 0,
+            "y": 328
           },
           "targets": [
             {
@@ -18607,12 +18743,67 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'GEP:MP_VITESSE_VEHICULE_a' THEN 'Скорость автомобиля (по насосу ГУР)'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('GEP:MP_VITESSE_VEHICULE_a') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_AIDE_STATIONNEMENT' THEN 'Кнопка парктроника'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_COURONNE' THEN 'Кнопка цвета подсветки шкал'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_LCD' THEN 'Кнопка цвета экрана'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_CHECK_RAZ_ODOMETRE' THEN 'Кнопка сброса суточного пробега'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COMBINE_UDS:MP_COMMUTATEUR_AIDE_STATIONNEMENT', 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_COURONNE', 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_LCD', 'COMBINE_UDS:MP_COMMUTATEUR_CHECK_RAZ_ODOMETRE') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "velocitykmh",
+              "unit": "",
+              "custom": {
+                "lineWidth": 1,
+                "fillOpacity": 8,
+                "showPoints": "auto",
+                "lineInterpolation": "stepAfter"
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "last",
+                "min",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 278,
+          "type": "timeseries",
+          "title": "Кнопка ESP · Кнопка яркости подсветки · Кнопка контроля слепых зон · Кнопка контроля полосы",
+          "datasource": {
+            "type": "postgres",
+            "uid": "citroen-postgres"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 328
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "datasource": {
+                "type": "postgres",
+                "uid": "citroen-postgres"
+              },
+              "format": "time_series",
+              "rawQuery": true,
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_ESP' THEN 'Кнопка ESP'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_REGLAGE_LUMINOSITE' THEN 'Кнопка яркости подсветки'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_SAM' THEN 'Кнопка контроля слепых зон'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_SYSTEME_ALERTE_FRANCH_INVOL_LIGNE' THEN 'Кнопка контроля полосы'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COMBINE_UDS:MP_COMMUTATEUR_ESP', 'COMBINE_UDS:MP_COMMUTATEUR_REGLAGE_LUMINOSITE', 'COMBINE_UDS:MP_COMMUTATEUR_SAM', 'COMBINE_UDS:MP_COMMUTATEUR_SYSTEME_ALERTE_FRANCH_INVOL_LIGNE') AND $__timeFilter(r.ts)\nORDER BY 1"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "",
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
@@ -18641,127 +18832,6 @@ data:
         },
         {
           "id": 279,
-          "type": "row",
-          "title": "щиток приборов (9)",
-          "collapsed": false,
-          "gridPos": {
-            "h": 1,
-            "w": 24,
-            "x": 0,
-            "y": 311
-          },
-          "panels": []
-        },
-        {
-          "id": 276,
-          "type": "timeseries",
-          "title": "Кнопка парктроника · Кнопка цвета подсветки шкал · Кнопка цвета экрана · Кнопка сброса суточного пробега",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 312
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_AIDE_STATIONNEMENT' THEN 'Кнопка парктроника'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_COURONNE' THEN 'Кнопка цвета подсветки шкал'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_LCD' THEN 'Кнопка цвета экрана'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_CHECK_RAZ_ODOMETRE' THEN 'Кнопка сброса суточного пробега'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COMBINE_UDS:MP_COMMUTATEUR_AIDE_STATIONNEMENT', 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_COURONNE', 'COMBINE_UDS:MP_COMMUTATEUR_CHANGE_COULEUR_LCD', 'COMBINE_UDS:MP_COMMUTATEUR_CHECK_RAZ_ODOMETRE') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "auto"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 277,
-          "type": "timeseries",
-          "title": "Кнопка ESP · Кнопка яркости подсветки · Кнопка контроля слепых зон · Кнопка контроля полосы",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 312
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "time_series",
-              "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_ESP' THEN 'Кнопка ESP'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_REGLAGE_LUMINOSITE' THEN 'Кнопка яркости подсветки'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_SAM' THEN 'Кнопка контроля слепых зон'\n       WHEN 'COMBINE_UDS:MP_COMMUTATEUR_SYSTEME_ALERTE_FRANCH_INVOL_LIGNE' THEN 'Кнопка контроля полосы'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('COMBINE_UDS:MP_COMMUTATEUR_ESP', 'COMBINE_UDS:MP_COMMUTATEUR_REGLAGE_LUMINOSITE', 'COMBINE_UDS:MP_COMMUTATEUR_SAM', 'COMBINE_UDS:MP_COMMUTATEUR_SYSTEME_ALERTE_FRANCH_INVOL_LIGNE') AND $__timeFilter(r.ts)\nORDER BY 1"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "unit": "",
-              "custom": {
-                "lineWidth": 1,
-                "fillOpacity": 8,
-                "showPoints": "auto"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "legend": {
-              "displayMode": "table",
-              "placement": "bottom",
-              "calcs": [
-                "last",
-                "min",
-                "max",
-                "mean"
-              ]
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          }
-        },
-        {
-          "id": 278,
           "type": "timeseries",
           "title": "Часы в щитке",
           "datasource": {
@@ -18772,7 +18842,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 320
+            "y": 336
           },
           "targets": [
             {
@@ -18792,7 +18862,8 @@ data:
               "custom": {
                 "lineWidth": 1,
                 "fillOpacity": 8,
-                "showPoints": "auto"
+                "showPoints": "auto",
+                "lineInterpolation": "stepAfter"
               }
             },
             "overrides": []
@@ -18815,7 +18886,7 @@ data:
           }
         },
         {
-          "id": 283,
+          "id": 284,
           "type": "row",
           "title": "датчик дождя и света (6)",
           "collapsed": false,
@@ -18823,12 +18894,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 328
+            "y": 344
           },
           "panels": []
         },
         {
-          "id": 280,
+          "id": 281,
           "type": "timeseries",
           "title": "Дворники: состояние · Скорость дворников",
           "datasource": {
@@ -18839,7 +18910,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 329
+            "y": 345
           },
           "targets": [
             {
@@ -18882,7 +18953,7 @@ data:
           }
         },
         {
-          "id": 281,
+          "id": 282,
           "type": "timeseries",
           "title": "Датчик дождя, ячейка 1 · Датчик дождя, ячейка 2",
           "datasource": {
@@ -18893,7 +18964,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 329
+            "y": 345
           },
           "targets": [
             {
@@ -18936,7 +19007,7 @@ data:
           }
         },
         {
-          "id": 282,
+          "id": 283,
           "type": "timeseries",
           "title": "Освещённость вокруг · Освещённость спереди",
           "datasource": {
@@ -18947,7 +19018,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 337
+            "y": 353
           },
           "targets": [
             {
@@ -18990,7 +19061,7 @@ data:
           }
         },
         {
-          "id": 284,
+          "id": 285,
           "type": "row",
           "title": "многофункциональный дисплей (0)",
           "collapsed": false,
@@ -18998,12 +19069,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 345
+            "y": 361
           },
           "panels": []
         },
         {
-          "id": 286,
+          "id": 287,
           "type": "row",
           "title": "модуль двери (4)",
           "collapsed": false,
@@ -19011,12 +19082,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 346
+            "y": 362
           },
           "panels": []
         },
         {
-          "id": 285,
+          "id": 286,
           "type": "timeseries",
           "title": "Реле питания CPC: команда · Запрос включения зажигания · Реле питания CPC: состояние · Главное реле ЭБУ двигателя",
           "datasource": {
@@ -19027,7 +19098,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 347
+            "y": 363
           },
           "targets": [
             {
@@ -19070,7 +19141,7 @@ data:
           }
         },
         {
-          "id": 289,
+          "id": 290,
           "type": "row",
           "title": "панель управления (4)",
           "collapsed": false,
@@ -19078,12 +19149,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 355
+            "y": 371
           },
           "panels": []
         },
         {
-          "id": 287,
+          "id": 288,
           "type": "timeseries",
           "title": "Кнопка A/C · Кнопка AUTO климата · Кнопка обдува лобового стекла",
           "datasource": {
@@ -19094,7 +19165,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 356
+            "y": 372
           },
           "targets": [
             {
@@ -19137,7 +19208,7 @@ data:
           }
         },
         {
-          "id": 288,
+          "id": 289,
           "type": "timeseries",
           "title": "Регулятор громкости",
           "datasource": {
@@ -19148,7 +19219,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 356
+            "y": 372
           },
           "targets": [
             {
@@ -19191,7 +19262,7 @@ data:
           }
         },
         {
-          "id": 292,
+          "id": 293,
           "type": "row",
           "title": "DTC (3)",
           "collapsed": false,
@@ -19199,12 +19270,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 364
+            "y": 380
           },
           "panels": []
         },
         {
-          "id": 290,
+          "id": 291,
           "type": "timeseries",
           "title": "C1205",
           "datasource": {
@@ -19215,7 +19286,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 365
+            "y": 381
           },
           "targets": [
             {
@@ -19258,7 +19329,7 @@ data:
           }
         },
         {
-          "id": 291,
+          "id": 292,
           "type": "timeseries",
           "title": "P0116 · P2299",
           "datasource": {
@@ -19269,7 +19340,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 373
+            "y": 389
           },
           "targets": [
             {
@@ -19313,7 +19384,7 @@ data:
           }
         },
         {
-          "id": 293,
+          "id": 294,
           "type": "row",
           "title": "Идентификация блоков (121)",
           "collapsed": true,
@@ -19321,11 +19392,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 373
+            "y": 389
           },
           "panels": [
             {
-              "id": 294,
+              "id": 295,
               "type": "table",
               "title": "Номера, версии ПО и серийные номера всех блоков",
               "datasource": {
@@ -19336,7 +19407,7 @@ data:
                 "h": 24,
                 "w": 24,
                 "x": 0,
-                "y": 374
+                "y": 390
               },
               "targets": [
                 {
