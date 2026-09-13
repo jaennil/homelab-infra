@@ -2024,54 +2024,6 @@ data:
         },
         {
           "id": 20,
-          "type": "table",
-          "title": "Коды неисправностей: блок, код, состояние",
-          "datasource": {
-            "type": "postgres",
-            "uid": "citroen-postgres"
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 73
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "postgres",
-                "uid": "citroen-postgres"
-              },
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT split_part(p.name, ':', 2) AS \"Блок\",\n       split_part(p.name, ':', 3) AS \"Код\",\n       CASE WHEN l.value::int & 1 = 1 THEN 'активна сейчас'\n            WHEN l.value::int & 8 = 8 THEN 'сохранена'\n            ELSE 'статус ' || l.value::int END AS \"Состояние\",\n       coalesce(p.label, '') AS \"Описание\",\n       l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name LIKE 'DTC:%' AND l.value > 0\nORDER BY 3 DESC, 1, 2"
-            }
-          ],
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "align": "auto"
-              }
-            },
-            "overrides": []
-          },
-          "options": {
-            "showHeader": true,
-            "footer": {
-              "show": false
-            },
-            "sortBy": [
-              {
-                "displayName": "Параметр",
-                "desc": false
-              }
-            ]
-          },
-          "description": "Байт статуса: бит 0 - неисправность активна ПРЯМО СЕЙЧАС, бит 3 - подтверждена и сохранена в памяти блока. Поэтому 8 это история (было и записано), 9 это 8+1, то есть записано и происходит сейчас. Коды со статусом 0 (пропали) в таблицу не попадают, их видно на графике истории. Суффикс у кода вида -02 - тип отказа: обрыв, замыкание на массу, замыкание на плюс."
-        },
-        {
-          "id": 21,
           "type": "timeseries",
           "title": "Обороты / скорость (для расчёта передачи)",
           "datasource": {
@@ -2082,7 +2034,7 @@ data:
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 79
+            "y": 73
           },
           "targets": [
             {
@@ -2126,7 +2078,7 @@ data:
           "description": "Каждой передаче соответствует своё отношение оборотов к скорости, поэтому по нему передача определяется однозначно. Набери данных в поездке с ровной скоростью на каждой передаче - на графике проявятся горизонтальные полосы, и я привяжу их к номерам передач."
         },
         {
-          "id": 22,
+          "id": 21,
           "type": "row",
           "title": "Другие блоки: главное",
           "collapsed": false,
@@ -2134,12 +2086,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 87
+            "y": 81
           },
           "panels": []
         },
         {
-          "id": 23,
+          "id": 22,
           "type": "timeseries",
           "title": "Свет: команды блока реле (1 = включено)",
           "datasource": {
@@ -2150,7 +2102,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 88
+            "y": 82
           },
           "targets": [
             {
@@ -2195,7 +2147,7 @@ data:
           "description": "Что блок реле моторного отсека велит фарам. Это независимый контроль для перехватчика дальнего света на шине подрулевого: если перехват сработал, здесь дальний станет 1."
         },
         {
-          "id": 24,
+          "id": 23,
           "type": "timeseries",
           "title": "Дневные ходовые огни, ШИМ",
           "datasource": {
@@ -2206,7 +2158,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 88
+            "y": 82
           },
           "targets": [
             {
@@ -2249,7 +2201,7 @@ data:
           }
         },
         {
-          "id": 25,
+          "id": 24,
           "type": "timeseries",
           "title": "Напряжения по блокам",
           "datasource": {
@@ -2260,7 +2212,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 96
+            "y": 90
           },
           "targets": [
             {
@@ -2304,7 +2256,7 @@ data:
           "description": "Бортовое напряжение глазами четырёх блоков и линия возбуждения генератора. Расхождение между блоками - плохая масса или контакт; возбуждение к нулю при работающем двигателе - генератор не заряжает."
         },
         {
-          "id": 26,
+          "id": 25,
           "type": "timeseries",
           "title": "Ток электронасоса ГУР",
           "datasource": {
@@ -2315,7 +2267,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 96
+            "y": 90
           },
           "targets": [
             {
@@ -2357,7 +2309,7 @@ data:
           }
         },
         {
-          "id": 27,
+          "id": 26,
           "type": "timeseries",
           "title": "Температура электронасоса ГУР",
           "datasource": {
@@ -2368,7 +2320,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 104
+            "y": 98
           },
           "targets": [
             {
@@ -2479,7 +2431,7 @@ data:
           "description": "Каталог DiagBox даёт 110-118 °C как порог перегрева, не норму: на машине 26-47 °C. Жёлтая зона от 90 поставлена с запасом.\n\nИсточник границ: подсказка каталога DiagBox."
         },
         {
-          "id": 28,
+          "id": 27,
           "type": "timeseries",
           "title": "Скорости колёс (ABS)",
           "datasource": {
@@ -2490,7 +2442,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 104
+            "y": 98
           },
           "targets": [
             {
@@ -2534,7 +2486,7 @@ data:
           "description": "Снимок раз в три минуты, динамику торможения так не увидеть. Зато видно колесо, которое стоит отдельно от остальных - датчик ABS."
         },
         {
-          "id": 29,
+          "id": 28,
           "type": "timeseries",
           "title": "Лампы и уровни (1 = сработало)",
           "datasource": {
@@ -2545,7 +2497,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 112
+            "y": 106
           },
           "targets": [
             {
@@ -2590,7 +2542,7 @@ data:
           "description": "Тормозная жидкость ниже минимума, лампа давления масла, лампа уровня ОЖ, омывайка. Всё в норме - четыре нуля."
         },
         {
-          "id": 30,
+          "id": 29,
           "type": "timeseries",
           "title": "Датчик уровня масла, напряжение",
           "datasource": {
@@ -2601,7 +2553,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 112
+            "y": 106
           },
           "targets": [
             {
@@ -2643,7 +2595,7 @@ data:
           }
         },
         {
-          "id": 31,
+          "id": 30,
           "type": "timeseries",
           "title": "Цепи подушек и преднатяжителей",
           "datasource": {
@@ -2654,7 +2606,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 120
+            "y": 114
           },
           "targets": [
             {
@@ -2718,7 +2670,7 @@ data:
           "description": "Сопротивление пиропатрона с проводкой. Норма 1.5-4.5 Ом: ниже - замыкание, выше - плохой контакт или обрыв. Цепь выключателя подушки пассажира (400 Ом) вынесена в ряд подушек, у неё другая норма."
         },
         {
-          "id": 32,
+          "id": 31,
           "type": "timeseries",
           "title": "Подушки: счётчик срабатываний и выключатель пассажира",
           "datasource": {
@@ -2729,7 +2681,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 120
+            "y": 114
           },
           "targets": [
             {
@@ -2774,7 +2726,7 @@ data:
           "description": "Счётчик должен быть 0. Выключатель 1 - подушка пассажира включена."
         },
         {
-          "id": 33,
+          "id": 32,
           "type": "row",
           "title": "Коды неисправностей (65)",
           "collapsed": false,
@@ -2782,12 +2734,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 128
+            "y": 122
           },
           "panels": []
         },
         {
-          "id": 34,
+          "id": 33,
           "type": "state-timeline",
           "title": "История кодов: когда появлялись и уходили",
           "datasource": {
@@ -2795,10 +2747,10 @@ data:
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 9,
+            "h": 17,
             "w": 24,
             "x": 0,
-            "y": 129
+            "y": 123
           },
           "targets": [
             {
@@ -2809,7 +2761,7 @@ data:
               },
               "format": "time_series",
               "rawQuery": true,
-              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'DTC:BSI2010:B1003' THEN 'B1003'\n       WHEN 'DTC:BSI2010:B1011' THEN 'B1011'\n       WHEN 'DTC:BSI2010:B1137' THEN 'B1137'\n       WHEN 'DTC:BSI2010:B1138' THEN 'B1138'\n       WHEN 'DTC:BSI2010:B114A' THEN 'B114A'\n       WHEN 'DTC:BSI2010:B114B' THEN 'B114B'\n       WHEN 'DTC:BSI2010:B1163' THEN 'B1163'\n       WHEN 'DTC:BSI2010:B1166' THEN 'B1166'\n       WHEN 'DTC:BSI2010:B1167' THEN 'B1167'\n       WHEN 'DTC:BSI2010:B1168' THEN 'B1168'\n       WHEN 'DTC:BSI2010:B1223' THEN 'B1223'\n       WHEN 'DTC:BSI2010:B1224' THEN 'B1224'\n       WHEN 'DTC:BSI2010:B1227' THEN 'B1227'\n       WHEN 'DTC:BSI2010:B1228' THEN 'B1228'\n       WHEN 'DTC:BSI2010:B1278' THEN 'B1278'\n       WHEN 'DTC:BSI2010:B1301' THEN 'B1301'\n       WHEN 'DTC:BSI2010:B130E' THEN 'B130E'\n       WHEN 'DTC:BSI2010:B132A' THEN 'B132A'\n       WHEN 'DTC:BSI2010:B132B' THEN 'B132B'\n       WHEN 'DTC:BSI2010:B1507' THEN 'B1507'\n       WHEN 'DTC:BSI2010:B1716' THEN 'B1716'\n       WHEN 'DTC:BSI2010:B171D' THEN 'B171D'\n       WHEN 'DTC:BSI2010:B173D' THEN 'B173D'\n       WHEN 'DTC:BSI2010:B1805' THEN 'B1805'\n       WHEN 'DTC:BSI2010:B1816' THEN 'B1816'\n       WHEN 'DTC:BSI2010:C1205' THEN 'C1205'\n       WHEN 'DTC:BSI2010:C1510' THEN 'C1510'\n       WHEN 'DTC:BSI2010:P000A' THEN 'P000A'\n       WHEN 'DTC:BSI2010:P0031' THEN 'P0031'\n       WHEN 'DTC:BSI2010:P0115' THEN 'P0115'\n       WHEN 'DTC:BSI2010:P0116' THEN 'P0116'\n       WHEN 'DTC:BSI2010:P0117' THEN 'P0117'\n       WHEN 'DTC:BSI2010:P0130' THEN 'P0130'\n       WHEN 'DTC:BSI2010:P0132' THEN 'P0132'\n       WHEN 'DTC:BSI2010:P0444' THEN 'P0444'\n       WHEN 'DTC:BSI2010:P0691' THEN 'P0691'\n       WHEN 'DTC:BSI2010:P0693' THEN 'P0693'\n       WHEN 'DTC:BSI2010:P2299' THEN 'P2299'\n       WHEN 'DTC:BSI2010:U0073' THEN 'U0073'\n       WHEN 'DTC:BSI2010:U0121' THEN 'U0121'\n       WHEN 'DTC:BSI2010:U0140' THEN 'U0140'\n       WHEN 'DTC:BSI2010:U1003' THEN 'U1003'\n       WHEN 'DTC:BSI2010:U1108' THEN 'U1108'\n       WHEN 'DTC:BSI2010:U1113' THEN 'U1113'\n       WHEN 'DTC:BSI2010:U1118' THEN 'U1118'\n       WHEN 'DTC:BSI2010:U1218' THEN 'U1218'\n       WHEN 'DTC:BSI2010:U1308' THEN 'U1308'\n       WHEN 'DTC:BSI2010:U1318' THEN 'U1318'\n       WHEN 'DTC:BSI2010:U1802' THEN 'U1802'\n       WHEN 'DTC:BSI2010:U1807' THEN 'U1807'\n       WHEN 'DTC:BSI2010:U1809' THEN 'U1809'\n       WHEN 'DTC:BSI2010:U1F03' THEN 'U1F03'\n       WHEN 'DTC:BSI2010:U1F0E' THEN 'U1F0E'\n       WHEN 'DTC:BSI2010:U1F1B' THEN 'U1F1B'\n       WHEN 'DTC:BSI2010:U1F2E' THEN 'U1F2E'\n       WHEN 'DTC:BSI2010:U1F41' THEN 'U1F41'\n       WHEN 'DTC:BSI2010:U1F71' THEN 'U1F71'\n       WHEN 'DTC:BSI2010:U2000' THEN 'U2000'\n       WHEN 'DTC:BSI2010:U3FFF' THEN 'U3FFF'\n       WHEN 'DTC:BSM_2010:B1137' THEN 'B1137'\n       WHEN 'DTC:BSM_2010:B1138' THEN 'B1138'\n       WHEN 'DTC:BSM_2010:B1301' THEN 'B1301'\n       WHEN 'DTC:GEP:C1205' THEN 'C1205'\n       WHEN 'DTC:V46_32:P0116' THEN 'P0116'\n       WHEN 'DTC:V46_32:P2299' THEN 'P2299'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('DTC:BSI2010:B1003', 'DTC:BSI2010:B1011', 'DTC:BSI2010:B1137', 'DTC:BSI2010:B1138', 'DTC:BSI2010:B114A', 'DTC:BSI2010:B114B', 'DTC:BSI2010:B1163', 'DTC:BSI2010:B1166', 'DTC:BSI2010:B1167', 'DTC:BSI2010:B1168', 'DTC:BSI2010:B1223', 'DTC:BSI2010:B1224', 'DTC:BSI2010:B1227', 'DTC:BSI2010:B1228', 'DTC:BSI2010:B1278', 'DTC:BSI2010:B1301', 'DTC:BSI2010:B130E', 'DTC:BSI2010:B132A', 'DTC:BSI2010:B132B', 'DTC:BSI2010:B1507', 'DTC:BSI2010:B1716', 'DTC:BSI2010:B171D', 'DTC:BSI2010:B173D', 'DTC:BSI2010:B1805', 'DTC:BSI2010:B1816', 'DTC:BSI2010:C1205', 'DTC:BSI2010:C1510', 'DTC:BSI2010:P000A', 'DTC:BSI2010:P0031', 'DTC:BSI2010:P0115', 'DTC:BSI2010:P0116', 'DTC:BSI2010:P0117', 'DTC:BSI2010:P0130', 'DTC:BSI2010:P0132', 'DTC:BSI2010:P0444', 'DTC:BSI2010:P0691', 'DTC:BSI2010:P0693', 'DTC:BSI2010:P2299', 'DTC:BSI2010:U0073', 'DTC:BSI2010:U0121', 'DTC:BSI2010:U0140', 'DTC:BSI2010:U1003', 'DTC:BSI2010:U1108', 'DTC:BSI2010:U1113', 'DTC:BSI2010:U1118', 'DTC:BSI2010:U1218', 'DTC:BSI2010:U1308', 'DTC:BSI2010:U1318', 'DTC:BSI2010:U1802', 'DTC:BSI2010:U1807', 'DTC:BSI2010:U1809', 'DTC:BSI2010:U1F03', 'DTC:BSI2010:U1F0E', 'DTC:BSI2010:U1F1B', 'DTC:BSI2010:U1F2E', 'DTC:BSI2010:U1F41', 'DTC:BSI2010:U1F71', 'DTC:BSI2010:U2000', 'DTC:BSI2010:U3FFF', 'DTC:BSM_2010:B1137', 'DTC:BSM_2010:B1138', 'DTC:BSM_2010:B1301', 'DTC:GEP:C1205', 'DTC:V46_32:P0116', 'DTC:V46_32:P2299') AND $__timeFilter(r.ts)\nORDER BY 1"
+              "rawSql": "SELECT r.ts AS \"time\", CASE p.name\n       WHEN 'DTC:BSI2010:B1163' THEN 'B1163'\n       WHEN 'DTC:BSI2010:B1227' THEN 'B1227'\n       WHEN 'DTC:BSI2010:B1228' THEN 'B1228'\n       WHEN 'DTC:BSI2010:C1205' THEN 'C1205'\n       WHEN 'DTC:BSI2010:P000A' THEN 'P000A'\n       WHEN 'DTC:BSI2010:P0115' THEN 'P0115'\n       WHEN 'DTC:BSI2010:P0117' THEN 'P0117'\n       WHEN 'DTC:BSI2010:P0130' THEN 'P0130'\n       WHEN 'DTC:BSI2010:P0444' THEN 'P0444'\n       WHEN 'DTC:BSI2010:P0691' THEN 'P0691'\n       WHEN 'DTC:BSI2010:P0693' THEN 'P0693'\n       WHEN 'DTC:GEP:C1205' THEN 'C1205'\n       WHEN 'DTC:V46_32:P0116' THEN 'P0116'\n       WHEN 'DTC:V46_32:P2299' THEN 'P2299'\n       ELSE coalesce(p.label, p.name) END AS metric, r.value\nFROM reading r JOIN param p ON p.id = r.param_id\nWHERE p.name IN ('DTC:BSI2010:B1163', 'DTC:BSI2010:B1227', 'DTC:BSI2010:B1228', 'DTC:BSI2010:C1205', 'DTC:BSI2010:P000A', 'DTC:BSI2010:P0115', 'DTC:BSI2010:P0117', 'DTC:BSI2010:P0130', 'DTC:BSI2010:P0444', 'DTC:BSI2010:P0691', 'DTC:BSI2010:P0693', 'DTC:GEP:C1205', 'DTC:V46_32:P0116', 'DTC:V46_32:P2299') AND $__timeFilter(r.ts)\nORDER BY 1"
             }
           ],
           "fieldConfig": {
@@ -2875,21 +2827,21 @@ data:
               "sort": "none"
             }
           },
-          "description": "Значение - байт статуса, ноль значит кода нет. Служба читает коды двигателя раз в 5 минут, остальные блоки раз в четверть часа, и все блоки сразу при подключении Lexia - так что даже в короткой поездке коды снимаются."
+          "description": "Служба читает коды двигателя раз в 5 минут, остальные блоки раз в четверть часа, и все блоки сразу при подключении Lexia - так что даже в короткой поездке коды снимаются."
         },
         {
-          "id": 35,
+          "id": 34,
           "type": "table",
-          "title": "Найденные коды: блок, описание, статус",
+          "title": "Какие коды сейчас записаны",
           "datasource": {
             "type": "postgres",
             "uid": "citroen-postgres"
           },
           "gridPos": {
-            "h": 14,
+            "h": 16,
             "w": 24,
             "x": 0,
-            "y": 138
+            "y": 140
           },
           "targets": [
             {
@@ -2900,7 +2852,7 @@ data:
               },
               "format": "table",
               "rawQuery": true,
-              "rawSql": "SELECT split_part(p.name, ':', 3) || ' · ' || coalesce(p.label, '') AS \"Параметр\", p.unit AS \"Ед.\",\n       l.value AS \"Значение\", l.ts AS \"Обновлено\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name IN ('DTC:BSI2010:B1003', 'DTC:BSI2010:B1011', 'DTC:BSI2010:B1137', 'DTC:BSI2010:B1138', 'DTC:BSI2010:B114A', 'DTC:BSI2010:B114B', 'DTC:BSI2010:B1163', 'DTC:BSI2010:B1166', 'DTC:BSI2010:B1167', 'DTC:BSI2010:B1168', 'DTC:BSI2010:B1223', 'DTC:BSI2010:B1224', 'DTC:BSI2010:B1227', 'DTC:BSI2010:B1228', 'DTC:BSI2010:B1278', 'DTC:BSI2010:B1301', 'DTC:BSI2010:B130E', 'DTC:BSI2010:B132A', 'DTC:BSI2010:B132B', 'DTC:BSI2010:B1507', 'DTC:BSI2010:B1716', 'DTC:BSI2010:B171D', 'DTC:BSI2010:B173D', 'DTC:BSI2010:B1805', 'DTC:BSI2010:B1816', 'DTC:BSI2010:C1205', 'DTC:BSI2010:C1510', 'DTC:BSI2010:P000A', 'DTC:BSI2010:P0031', 'DTC:BSI2010:P0115', 'DTC:BSI2010:P0116', 'DTC:BSI2010:P0117', 'DTC:BSI2010:P0130', 'DTC:BSI2010:P0132', 'DTC:BSI2010:P0444', 'DTC:BSI2010:P0691', 'DTC:BSI2010:P0693', 'DTC:BSI2010:P2299', 'DTC:BSI2010:U0073', 'DTC:BSI2010:U0121', 'DTC:BSI2010:U0140', 'DTC:BSI2010:U1003', 'DTC:BSI2010:U1108', 'DTC:BSI2010:U1113', 'DTC:BSI2010:U1118', 'DTC:BSI2010:U1218', 'DTC:BSI2010:U1308', 'DTC:BSI2010:U1318', 'DTC:BSI2010:U1802', 'DTC:BSI2010:U1807', 'DTC:BSI2010:U1809', 'DTC:BSI2010:U1F03', 'DTC:BSI2010:U1F0E', 'DTC:BSI2010:U1F1B', 'DTC:BSI2010:U1F2E', 'DTC:BSI2010:U1F41', 'DTC:BSI2010:U1F71', 'DTC:BSI2010:U2000', 'DTC:BSI2010:U3FFF', 'DTC:BSM_2010:B1137', 'DTC:BSM_2010:B1138', 'DTC:BSM_2010:B1301', 'DTC:GEP:C1205', 'DTC:V46_32:P0116', 'DTC:V46_32:P2299')\nORDER BY 1"
+              "rawSql": "SELECT split_part(p.name, ':', 2) AS \"Блок\",\n       split_part(p.name, ':', 3) AS \"Код\",\n       CASE WHEN l.value::int & 1 = 1 THEN 'происходит сейчас'\n            WHEN l.value::int & 8 = 8 THEN 'записана, сейчас нет'\n            ELSE 'редкий статус ' || l.value::int END AS \"Состояние\",\n       coalesce(p.label, '') AS \"Что это\",\n       l.ts AS \"Прочитано\"\nFROM param p\nJOIN LATERAL (SELECT value, ts FROM reading WHERE param_id = p.id\n              ORDER BY ts DESC LIMIT 1) l ON true\nWHERE p.name LIKE 'DTC:%' AND l.value > 0\nORDER BY 3, 1, 2"
             }
           ],
           "fieldConfig": {
@@ -2922,10 +2874,11 @@ data:
                 "desc": false
               }
             ]
-          }
+          },
+          "description": "Коды, которые сейчас лежат в памяти блоков. Пропавшие сюда не попадают, их видно на графике истории выше. Суффикс у кода вида -02 это тип отказа: обрыв, замыкание на массу, замыкание на плюс - у PSA это разные неисправности с одним номером."
         },
         {
-          "id": 36,
+          "id": 35,
           "type": "row",
           "title": "Обозреватель - любой из параметров",
           "collapsed": false,
@@ -2933,12 +2886,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 152
+            "y": 156
           },
           "panels": []
         },
         {
-          "id": 37,
+          "id": 36,
           "type": "timeseries",
           "title": "Выбранные параметры",
           "datasource": {
@@ -2949,7 +2902,7 @@ data:
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 153
+            "y": 157
           },
           "targets": [
             {
@@ -2992,7 +2945,7 @@ data:
           }
         },
         {
-          "id": 43,
+          "id": 42,
           "type": "row",
           "title": "Температуры (5)",
           "collapsed": false,
@@ -3000,12 +2953,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 163
+            "y": 167
           },
           "panels": []
         },
         {
-          "id": 38,
+          "id": 37,
           "type": "timeseries",
           "title": "Температура за бортом",
           "datasource": {
@@ -3016,7 +2969,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 164
+            "y": 168
           },
           "targets": [
             {
@@ -3081,7 +3034,7 @@ data:
           "description": "Правдоподобие: за -45..60 °C датчик или его цепь.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 39,
+          "id": 38,
           "type": "timeseries",
           "title": "Температура за бортом (расчётная)",
           "datasource": {
@@ -3092,7 +3045,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 164
+            "y": 168
           },
           "targets": [
             {
@@ -3157,7 +3110,7 @@ data:
           "description": "Правдоподобие, см. температуру за бортом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 40,
+          "id": 39,
           "type": "timeseries",
           "title": "Температура испарителя",
           "datasource": {
@@ -3168,7 +3121,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 172
+            "y": 176
           },
           "targets": [
             {
@@ -3233,7 +3186,7 @@ data:
           "description": "Ниже 0 испаритель обмерзает и перестаёт дуть.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 41,
+          "id": 40,
           "type": "timeseries",
           "title": "Температура масла (замер)",
           "datasource": {
@@ -3244,7 +3197,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 172
+            "y": 176
           },
           "targets": [
             {
@@ -3437,7 +3390,7 @@ data:
           "description": "То же, что и у расчётной температуры: 110 / 125 / 140 °C."
         },
         {
-          "id": 42,
+          "id": 41,
           "type": "timeseries",
           "title": "Температура масла (расчётная)",
           "datasource": {
@@ -3448,7 +3401,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 180
+            "y": 184
           },
           "targets": [
             {
@@ -3641,7 +3594,7 @@ data:
           "description": "Пороговые линии: 110 °C - высокая нагрузка (трасса, жара, прицеп), 125 °C - долго держать не стоит, 140 °C - масло деградирует быстро, искать причину. Норма 90-110 °C. На холостых без обдува температура ползёт вверх - это ожидаемо."
         },
         {
-          "id": 46,
+          "id": 45,
           "type": "row",
           "title": "Напряжения и ток (2)",
           "collapsed": false,
@@ -3649,12 +3602,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 188
+            "y": 192
           },
           "panels": []
         },
         {
-          "id": 44,
+          "id": 43,
           "type": "timeseries",
           "title": "Напряжение питания BSI",
           "datasource": {
@@ -3665,7 +3618,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 189
+            "y": 193
           },
           "targets": [
             {
@@ -3858,7 +3811,7 @@ data:
           "description": "Ниже 11.5 В - глубокий разряд, 12.4 В - нижняя граница нормы покоя, выше 15 В - перезаряд, подозрение на регулятор генератора."
         },
         {
-          "id": 45,
+          "id": 44,
           "type": "timeseries",
           "title": "Напряжение аккумулятора в покое",
           "datasource": {
@@ -3869,7 +3822,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 189
+            "y": 193
           },
           "targets": [
             {
@@ -4062,7 +4015,7 @@ data:
           "description": "Напряжение питания BSI в момент пробуждения, то есть ДО того, как генератор начал давать зарядку - самое близкое к напряжению покоя аккумулятора, что удаётся прочитать. Пользоваться лучше этим графиком, а не MP_TENSION_BATTERIE_AU_REPOS: тот показывает 16.1 В, что для покоящейся свинцовой батареи невозможно, у него неверно разобран масштаб.\n\n12.7 В - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд и сульфатация. На этой машине 12.7 В, то есть аккумулятор в порядке. Замер честен только после нескольких часов стоянки: сразу после поездки батарея держит поверхностный заряд и завышает показание на 0.2-0.3 В.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 50,
+          "id": 49,
           "type": "row",
           "title": "Проценты (6)",
           "collapsed": false,
@@ -4070,12 +4023,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 197
+            "y": 201
           },
           "panels": []
         },
         {
-          "id": 47,
+          "id": 46,
           "type": "timeseries",
           "title": "Подсветка салона",
           "datasource": {
@@ -4086,7 +4039,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 198
+            "y": 202
           },
           "targets": [
             {
@@ -4129,7 +4082,7 @@ data:
           }
         },
         {
-          "id": 48,
+          "id": 47,
           "type": "timeseries",
           "title": "Лампа в кнопке аварийки · Наружная боковая подсветка · Освещение заднего плафона · Освещение переднего плафона",
           "datasource": {
@@ -4140,7 +4093,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 198
+            "y": 202
           },
           "targets": [
             {
@@ -4183,7 +4136,7 @@ data:
           }
         },
         {
-          "id": 49,
+          "id": 48,
           "type": "timeseries",
           "title": "Подсветка дисплеев и кнопок",
           "datasource": {
@@ -4194,7 +4147,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 206
+            "y": 210
           },
           "targets": [
             {
@@ -4237,7 +4190,7 @@ data:
           }
         },
         {
-          "id": 57,
+          "id": 56,
           "type": "row",
           "title": "Пробег и обслуживание (10)",
           "collapsed": false,
@@ -4245,12 +4198,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 214
+            "y": 218
           },
           "panels": []
         },
         {
-          "id": 51,
+          "id": 50,
           "type": "timeseries",
           "title": "Км до обслуживания",
           "datasource": {
@@ -4261,7 +4214,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 215
+            "y": 219
           },
           "targets": [
             {
@@ -4409,7 +4362,7 @@ data:
           "description": "Интервал у этой машины около 10 400 км (посчитано: 9784 км пройдено с последнего сброса плюс 630 остатка). Ниже 1500 км - пора планировать, ниже 500 - записываться."
         },
         {
-          "id": 52,
+          "id": 51,
           "type": "timeseries",
           "title": "Дней с последнего сброса ТО",
           "datasource": {
@@ -4420,7 +4373,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 215
+            "y": 219
           },
           "targets": [
             {
@@ -4463,7 +4416,7 @@ data:
           }
         },
         {
-          "id": 53,
+          "id": 52,
           "type": "timeseries",
           "title": "Запас хода · Пробег с последнего сброса суточного с · Пробег частичный, сохранённый в BSI",
           "datasource": {
@@ -4474,7 +4427,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 223
+            "y": 227
           },
           "targets": [
             {
@@ -4517,7 +4470,7 @@ data:
           }
         },
         {
-          "id": 54,
+          "id": 53,
           "type": "timeseries",
           "title": "Пробег поездки 1 · Пробег поездки 2",
           "datasource": {
@@ -4528,7 +4481,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 223
+            "y": 227
           },
           "targets": [
             {
@@ -4571,7 +4524,7 @@ data:
           }
         },
         {
-          "id": 55,
+          "id": 54,
           "type": "timeseries",
           "title": "Пробег общий · Пробег общий, сохранённый в BSI",
           "datasource": {
@@ -4582,7 +4535,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 231
+            "y": 235
           },
           "targets": [
             {
@@ -4625,7 +4578,7 @@ data:
           }
         },
         {
-          "id": 56,
+          "id": 55,
           "type": "timeseries",
           "title": "Пробег при последнем сбросе ТО",
           "datasource": {
@@ -4636,7 +4589,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 231
+            "y": 235
           },
           "targets": [
             {
@@ -4679,7 +4632,7 @@ data:
           }
         },
         {
-          "id": 162,
+          "id": 161,
           "type": "row",
           "title": "Состояния и флаги (272)",
           "collapsed": true,
@@ -4687,11 +4640,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 239
+            "y": 243
           },
           "panels": [
             {
-              "id": 58,
+              "id": 57,
               "type": "timeseries",
               "title": "Давление хладагента",
               "datasource": {
@@ -4702,7 +4655,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 240
+                "y": 244
               },
               "targets": [
                 {
@@ -4768,7 +4721,7 @@ data:
               "description": "Ниже 2 бар - хладагент вытек, выше 25 - перезаправка или не крутится вентилятор. Зависит от температуры за бортом, поэтому без алерта.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 59,
+              "id": 58,
               "type": "timeseries",
               "title": "Напряжение АКБ в покое",
               "datasource": {
@@ -4779,7 +4732,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 240
+                "y": 244
               },
               "targets": [
                 {
@@ -4973,7 +4926,7 @@ data:
               "description": "ВНИМАНИЕ: сам ряд отмасштабирован неверно. Показывает 16.1 В, что для покоящегося свинцового аккумулятора невозможно - физический предел около 13 В. В базе DiagBox factor=0.01, offset=11.0, byte_length=2. Но при таких множителе и смещении ДВУХбайтовое поле охватывает 11-666 В, что бессмысленно, а ОДНОбайтовое - ровно 11.00-13.55 В, то есть именно диапазон напряжения покоя. Похоже, длина поля в базе неверна; подтверждается сырыми байтами через probe_raw.py. Сами границы верны: 12.7 - полный заряд, 12.4 - около половины, ниже 12.0 - глубокий разряд."
             },
             {
-              "id": 60,
+              "id": 59,
               "type": "timeseries",
               "title": "Обороты двигателя",
               "datasource": {
@@ -4984,7 +4937,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 248
+                "y": 252
               },
               "targets": [
                 {
@@ -5046,7 +4999,7 @@ data:
               "description": "Правдоподобие: отсечка EC5 около 6500, выше 7000 - расшифровка или битый кадр.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 61,
+              "id": 60,
               "type": "timeseries",
               "title": "Расход мгновенный",
               "datasource": {
@@ -5057,7 +5010,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 248
+                "y": 252
               },
               "targets": [
                 {
@@ -5119,7 +5072,7 @@ data:
               "description": "Правдоподобие: мгновенный расход на разгоне доходит до 40-50; без алерта, скачки на старте законны.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 62,
+              "id": 61,
               "type": "timeseries",
               "title": "Расход средний, поездка 1",
               "datasource": {
@@ -5130,7 +5083,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 256
+                "y": 260
               },
               "targets": [
                 {
@@ -5324,7 +5277,7 @@ data:
               "description": "Средний расход по счётчику поездки 1. У этой машины он 8 л/100 км, что для бензинового двигателя нормально. Выше 11 - обычно город и пробки, выше 14 стоит искать причину: свечи, датчик кислорода, забитый фильтр. Внимание: счётчик поездки 1 упёрся в 9999 км, поэтому средний расход считается за очень длинный период и на изменения реагирует медленно - сбрось счётчик поездки, чтобы он ожил."
             },
             {
-              "id": 63,
+              "id": 62,
               "type": "timeseries",
               "title": "Скорость автомобиля",
               "datasource": {
@@ -5335,7 +5288,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 256
+                "y": 260
               },
               "targets": [
                 {
@@ -5397,7 +5350,7 @@ data:
               "description": "Правдоподобие: EC5 больше 200 не едет.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 64,
+              "id": 63,
               "type": "timeseries",
               "title": "Сопротивление датчика уровня топлива",
               "datasource": {
@@ -5408,7 +5361,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 264
+                "y": 268
               },
               "targets": [
                 {
@@ -5474,7 +5427,7 @@ data:
               "description": "Поплавок ходит примерно 50-345 Ом. Около нуля - замыкание, выше 400 - обрыв.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 65,
+              "id": 64,
               "type": "timeseries",
               "title": "Топливо в баке (замер)",
               "datasource": {
@@ -5485,7 +5438,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 264
+                "y": 268
               },
               "targets": [
                 {
@@ -5634,7 +5587,7 @@ data:
               "description": "Бак примерно 61 л (посчитано: 49.5 л при указателе 81%). Ниже 10 л - резерв. Ниже 5 л реальный риск: погружной насос охлаждается и смазывается самим бензином, и при малом остатке греется сильнее, а на торможении и в повороте может хватить воздуха. Плюс со дна тянется осадок. А вот распространённое \"не ниже половины бака\" - миф, до резерва ездить нормально."
             },
             {
-              "id": 66,
+              "id": 65,
               "type": "timeseries",
               "title": "Уровень масла (среднее)",
               "datasource": {
@@ -5645,7 +5598,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 272
+                "y": 276
               },
               "targets": [
                 {
@@ -5794,7 +5747,7 @@ data:
               "description": "Процент между метками min и max на щупе, а не от объёма картера. Ниже 20% пора долить, ниже нуля - уровень под минимумом. Точная привязка процентов к меткам не проверена на этой машине."
             },
             {
-              "id": 67,
+              "id": 66,
               "type": "timeseries",
               "title": "Уровень топлива (расчётный)",
               "datasource": {
@@ -5805,7 +5758,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 272
+                "y": 276
               },
               "targets": [
                 {
@@ -5871,7 +5824,7 @@ data:
               "description": "Правдоподобие: бак 61 л, больше 65 быть не может.\n\nИсточник границ: замеры этой машины."
             },
             {
-              "id": 68,
+              "id": 67,
               "type": "state-timeline",
               "title": "Автомобиль заперт",
               "datasource": {
@@ -5882,7 +5835,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 280
+                "y": 284
               },
               "targets": [
                 {
@@ -5941,7 +5894,7 @@ data:
               }
             },
             {
-              "id": 69,
+              "id": 68,
               "type": "state-timeline",
               "title": "Данные силового агрегата",
               "datasource": {
@@ -5952,7 +5905,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 280
+                "y": 284
               },
               "targets": [
                 {
@@ -6007,7 +5960,7 @@ data:
               }
             },
             {
-              "id": 70,
+              "id": 69,
               "type": "state-timeline",
               "title": "Датчик день/ночь",
               "datasource": {
@@ -6018,7 +5971,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 288
+                "y": 292
               },
               "targets": [
                 {
@@ -6073,7 +6026,7 @@ data:
               }
             },
             {
-              "id": 71,
+              "id": 70,
               "type": "state-timeline",
               "title": "Ключ или метка опознаны",
               "datasource": {
@@ -6084,7 +6037,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 288
+                "y": 292
               },
               "targets": [
                 {
@@ -6139,7 +6092,7 @@ data:
               }
             },
             {
-              "id": 72,
+              "id": 71,
               "type": "state-timeline",
               "title": "Основное состояние BSI",
               "datasource": {
@@ -6150,7 +6103,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 296
+                "y": 300
               },
               "targets": [
                 {
@@ -6205,7 +6158,7 @@ data:
               }
             },
             {
-              "id": 73,
+              "id": 72,
               "type": "state-timeline",
               "title": "Отображаемая функция регулирования",
               "datasource": {
@@ -6216,7 +6169,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 296
+                "y": 300
               },
               "targets": [
                 {
@@ -6271,7 +6224,7 @@ data:
               }
             },
             {
-              "id": 74,
+              "id": 73,
               "type": "state-timeline",
               "title": "Подсветка салона при встрече",
               "datasource": {
@@ -6282,7 +6235,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 304
+                "y": 308
               },
               "targets": [
                 {
@@ -6341,7 +6294,7 @@ data:
               }
             },
             {
-              "id": 75,
+              "id": 74,
               "type": "state-timeline",
               "title": "Положение ключа зажигания",
               "datasource": {
@@ -6352,7 +6305,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 304
+                "y": 308
               },
               "targets": [
                 {
@@ -6415,7 +6368,7 @@ data:
               }
             },
             {
-              "id": 76,
+              "id": 75,
               "type": "state-timeline",
               "title": "Положение селектора передач",
               "datasource": {
@@ -6426,7 +6379,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 312
+                "y": 316
               },
               "targets": [
                 {
@@ -6481,7 +6434,7 @@ data:
               }
             },
             {
-              "id": 77,
+              "id": 76,
               "type": "state-timeline",
               "title": "Причина запирания автомобиля",
               "datasource": {
@@ -6492,7 +6445,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 312
+                "y": 316
               },
               "targets": [
                 {
@@ -6555,7 +6508,7 @@ data:
               }
             },
             {
-              "id": 78,
+              "id": 77,
               "type": "state-timeline",
               "title": "Разрешение пуска от ЭБУ двигателя",
               "datasource": {
@@ -6566,7 +6519,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 320
+                "y": 324
               },
               "targets": [
                 {
@@ -6625,7 +6578,7 @@ data:
               }
             },
             {
-              "id": 79,
+              "id": 78,
               "type": "state-timeline",
               "title": "Состояние бортовой сети",
               "datasource": {
@@ -6636,7 +6589,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 320
+                "y": 324
               },
               "targets": [
                 {
@@ -6691,7 +6644,7 @@ data:
               }
             },
             {
-              "id": 80,
+              "id": 79,
               "type": "state-timeline",
               "title": "Состояние силового агрегата",
               "datasource": {
@@ -6702,7 +6655,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 328
+                "y": 332
               },
               "targets": [
                 {
@@ -6757,7 +6710,7 @@ data:
               }
             },
             {
-              "id": 81,
+              "id": 80,
               "type": "state-timeline",
               "title": "ЭБУ двигателя заблокирован",
               "datasource": {
@@ -6768,7 +6721,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 328
+                "y": 332
               },
               "targets": [
                 {
@@ -6823,7 +6776,7 @@ data:
               }
             },
             {
-              "id": 82,
+              "id": 81,
               "type": "timeseries",
               "title": "BSI без кода противоугонной системы · Аварийная сигнализация · Автоматический режим стеклоочистителя · Багажник",
               "datasource": {
@@ -6834,7 +6787,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 336
+                "y": 340
               },
               "targets": [
                 {
@@ -6878,7 +6831,7 @@ data:
               }
             },
             {
-              "id": 83,
+              "id": 82,
               "type": "timeseries",
               "title": "Брелок 1 синхронизирован · Брелок 2 синхронизирован · Брелок 3 синхронизирован · Брелок 4 синхронизирован",
               "datasource": {
@@ -6889,7 +6842,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 336
+                "y": 340
               },
               "targets": [
                 {
@@ -6933,7 +6886,7 @@ data:
               }
             },
             {
-              "id": 84,
+              "id": 83,
               "type": "timeseries",
               "title": "Брелок 5 синхронизирован · Брелок распознан · Включена задняя передача · Габаритные огни",
               "datasource": {
@@ -6944,7 +6897,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 344
+                "y": 348
               },
               "targets": [
                 {
@@ -6988,7 +6941,7 @@ data:
               }
             },
             {
-              "id": 85,
+              "id": 84,
               "type": "timeseries",
               "title": "Двойное нажатие кнопки старт-стоп · День недели · Детский замок слева включён · Детский замок справа включён",
               "datasource": {
@@ -6999,7 +6952,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 344
+                "y": 348
               },
               "targets": [
                 {
@@ -7043,7 +6996,7 @@ data:
               }
             },
             {
-              "id": 86,
+              "id": 85,
               "type": "timeseries",
               "title": "Диагностика вентилятора охлаждения · Долгое нажатие на брелоке · Достоверность продольной скорости · Достоверность пройденного расстояния",
               "datasource": {
@@ -7054,7 +7007,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 352
+                "y": 356
               },
               "targets": [
                 {
@@ -7098,7 +7051,7 @@ data:
               }
             },
             {
-              "id": 87,
+              "id": 86,
               "type": "timeseries",
               "title": "Доступно автопереключение дальний/ближ · Задание скорости вентилятора · Заданная скорость достигнута · Задние противотуманные",
               "datasource": {
@@ -7109,7 +7062,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 352
+                "y": 356
               },
               "targets": [
                 {
@@ -7153,7 +7106,7 @@ data:
               }
             },
             {
-              "id": 88,
+              "id": 87,
               "type": "timeseries",
               "title": "Задний проём заперт · Задний стеклоочиститель · Задний стеклоочиститель в парковке · Задняя левая дверь",
               "datasource": {
@@ -7164,7 +7117,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 360
+                "y": 364
               },
               "targets": [
                 {
@@ -7208,7 +7161,7 @@ data:
               }
             },
             {
-              "id": 89,
+              "id": 88,
               "type": "timeseries",
               "title": "Задняя правая дверь · Запрет визуального отклика парктроника · Запрет звукового отклика парктроника · Запрет объёмного датчика и датчика под",
               "datasource": {
@@ -7219,7 +7172,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 360
+                "y": 364
               },
               "targets": [
                 {
@@ -7263,7 +7216,7 @@ data:
               }
             },
             {
-              "id": 90,
+              "id": 89,
               "type": "timeseries",
               "title": "Запрет подсветки номерного знака · Запрос ЭБУ двигателя отключить компрес · Запрос аварийной сигнализации · Запрос автоматической стеклоочистки",
               "datasource": {
@@ -7274,7 +7227,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 368
+                "y": 372
               },
               "targets": [
                 {
@@ -7318,7 +7271,7 @@ data:
               }
             },
             {
-              "id": 91,
+              "id": 90,
               "type": "timeseries",
               "title": "Запрос аутентификации · Запрос включения детского замка · Запрос включения круиз-контроля · Запрос включения ограничителя скорости",
               "datasource": {
@@ -7329,7 +7282,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 368
+                "y": 372
               },
               "targets": [
                 {
@@ -7373,7 +7326,7 @@ data:
               }
             },
             {
-              "id": 92,
+              "id": 91,
               "type": "timeseries",
               "title": "Запрос зимнего режима АКПП · Запрос наружной боковой подсветки · Запрос открывания багажника · Запрос открывания стекла багажника",
               "datasource": {
@@ -7384,7 +7337,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 376
+                "y": 380
               },
               "targets": [
                 {
@@ -7428,7 +7381,7 @@ data:
               }
             },
             {
-              "id": 93,
+              "id": 92,
               "type": "timeseries",
               "title": "Запрос показа меню · Запрос предподготовки от внешнего блок · Запрос разгрузки компрессора · Запрос смены состояния старт-стоп",
               "datasource": {
@@ -7439,7 +7392,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 376
+                "y": 380
               },
               "targets": [
                 {
@@ -7483,7 +7436,7 @@ data:
               }
             },
             {
-              "id": 94,
+              "id": 93,
               "type": "timeseries",
               "title": "Запрос спортивного режима АКПП · Запрос увеличения заданной скорости · Запрос уменьшения заданной скорости · Запрос: включить передний плафон вручн",
               "datasource": {
@@ -7494,7 +7447,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 384
+                "y": 388
               },
               "targets": [
                 {
@@ -7538,7 +7491,7 @@ data:
               }
             },
             {
-              "id": 95,
+              "id": 94,
               "type": "timeseries",
               "title": "Запрос: выключить передний плафон · Запрос: отключить центральный плафон · Засыпание BSI · Зафиксирован взлом",
               "datasource": {
@@ -7549,7 +7502,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 384
+                "y": 388
               },
               "targets": [
                 {
@@ -7593,7 +7546,7 @@ data:
               }
             },
             {
-              "id": 96,
+              "id": 95,
               "type": "timeseries",
               "title": "Зафиксирован взлом по периметру · Защита BSI от сканирования · Защита испарителя от обмерзания · Защита по высокому давлению хладагента",
               "datasource": {
@@ -7604,7 +7557,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 392
+                "y": 396
               },
               "targets": [
                 {
@@ -7648,7 +7601,7 @@ data:
               }
             },
             {
-              "id": 97,
+              "id": 96,
               "type": "timeseries",
               "title": "Защита по низкому давлению хладагента · Защита по оборотам двигателя · Звуковой сигнал на сирену · Идёт омывание",
               "datasource": {
@@ -7659,7 +7612,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 392
+                "y": 396
               },
               "targets": [
                 {
@@ -7703,7 +7656,7 @@ data:
               }
             },
             {
-              "id": 98,
+              "id": 97,
               "type": "timeseries",
               "title": "Идёт управление замками · Индикация ключа обслуживания · Капот · Ключ или метка в салоне",
               "datasource": {
@@ -7714,7 +7667,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 400
+                "y": 404
               },
               "targets": [
                 {
@@ -7758,7 +7711,7 @@ data:
               }
             },
             {
-              "id": 99,
+              "id": 98,
               "type": "timeseries",
               "title": "Кнопка брелока отпущена · Кнопка включения магнитолы · Кнопка лючка бака · Команда удержания LIN2",
               "datasource": {
@@ -7769,7 +7722,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 400
+                "y": 404
               },
               "targets": [
                 {
@@ -7813,7 +7766,7 @@ data:
               }
             },
             {
-              "id": 100,
+              "id": 99,
               "type": "timeseries",
               "title": "Контакт замка передней левой двери · Контакт замка передней правой двери · Контроль сирены сигнализации · Короткое нажатие на брелоке",
               "datasource": {
@@ -7824,7 +7777,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 408
+                "y": 412
               },
               "targets": [
                 {
@@ -7868,7 +7821,7 @@ data:
               }
             },
             {
-              "id": 101,
+              "id": 100,
               "type": "timeseries",
               "title": "Круиз и ограничитель в BSI · Круиз и ограничитель в ЭБУ двигателя · Лампа детского замка на панели · Лампа центрального запирания",
               "datasource": {
@@ -7879,7 +7832,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 408
+                "y": 412
               },
               "targets": [
                 {
@@ -7923,7 +7876,7 @@ data:
               }
             },
             {
-              "id": 102,
+              "id": 101,
               "type": "timeseries",
               "title": "Левый поворотник · Лючок топливного бака · Меню единиц измерения и языка · Меню настройки круиза и ограничителя",
               "datasource": {
@@ -7934,7 +7887,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 416
+                "y": 420
               },
               "targets": [
                 {
@@ -7978,7 +7931,7 @@ data:
               }
             },
             {
-              "id": 103,
+              "id": 102,
               "type": "timeseries",
               "title": "Меню пользовательских настроек · Меню приветствия водителя · Муфта компрессора кондиционера · Нажата кнопка 1 брелока",
               "datasource": {
@@ -7989,7 +7942,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 416
+                "y": 420
               },
               "targets": [
                 {
@@ -8033,7 +7986,7 @@ data:
               }
             },
             {
-              "id": 104,
+              "id": 103,
               "type": "timeseries",
               "title": "Нажата кнопка 2 брелока · Нажата кнопка 3 брелока · Нажата кнопка детского замка · Нажата кнопка центрального замка",
               "datasource": {
@@ -8044,7 +7997,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 424
+                "y": 428
               },
               "targets": [
                 {
@@ -8088,7 +8041,7 @@ data:
               }
             },
             {
-              "id": 105,
+              "id": 104,
               "type": "timeseries",
               "title": "Неизвестный параметр DA4E · Обнаружен водитель · Обнаружен передний пассажир · Обнаружен прицеп",
               "datasource": {
@@ -8099,7 +8052,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 424
+                "y": 428
               },
               "targets": [
                 {
@@ -8143,7 +8096,7 @@ data:
               }
             },
             {
-              "id": 106,
+              "id": 105,
               "type": "timeseries",
               "title": "Обогрев стёкол · Общее состояние кондиционера · Омыватель фар · Основной контакт педали тормоза",
               "datasource": {
@@ -8154,7 +8107,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 432
+                "y": 436
               },
               "targets": [
                 {
@@ -8198,7 +8151,7 @@ data:
               }
             },
             {
-              "id": 107,
+              "id": 106,
               "type": "timeseries",
               "title": "Ответ BSI на опознание ключа · Отказ датчика левого заднего колеса · Отказ датчика правого заднего колеса · Отказ датчика присутствия водителя",
               "datasource": {
@@ -8209,7 +8162,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 432
+                "y": 436
               },
               "targets": [
                 {
@@ -8253,7 +8206,7 @@ data:
               }
             },
             {
-              "id": 108,
+              "id": 107,
               "type": "timeseries",
               "title": "Отказ запирания заднего проёма · Отключение контроля сирены · Открывание багажника · Открывание лючка бака",
               "datasource": {
@@ -8264,7 +8217,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 440
+                "y": 444
               },
               "targets": [
                 {
@@ -8308,7 +8261,7 @@ data:
               }
             },
             {
-              "id": 109,
+              "id": 108,
               "type": "timeseries",
               "title": "Открывание стекла багажника · Передача данных ЭБУ двигателя · Передний стеклоочиститель (провод) · Передняя левая дверь",
               "datasource": {
@@ -8319,7 +8272,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 440
+                "y": 444
               },
               "targets": [
                 {
@@ -8363,7 +8316,7 @@ data:
               }
             },
             {
-              "id": 110,
+              "id": 109,
               "type": "timeseries",
               "title": "Передняя левая дверь заперта · Передняя правая дверь · Передняя правая дверь заперта · Переключатель объёмного датчика",
               "datasource": {
@@ -8374,7 +8327,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 448
+                "y": 452
               },
               "targets": [
                 {
@@ -8418,7 +8371,7 @@ data:
               }
             },
             {
-              "id": 111,
+              "id": 110,
               "type": "timeseries",
               "title": "Переключатель старт-стоп · Подрулевой лепесток: передача выше · Подрулевой лепесток: передача ниже · Подсветка порогов дверей",
               "datasource": {
@@ -8429,7 +8382,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 448
+                "y": 452
               },
               "targets": [
                 {
@@ -8473,7 +8426,7 @@ data:
               }
             },
             {
-              "id": 112,
+              "id": 111,
               "type": "timeseries",
               "title": "Поиск автомобиля с брелока · Положение ключа: дополнительный пуск · Положение люка · Постановка на охрану",
               "datasource": {
@@ -8484,7 +8437,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 456
+                "y": 460
               },
               "targets": [
                 {
@@ -8528,7 +8481,7 @@ data:
               }
             },
             {
-              "id": 113,
+              "id": 112,
               "type": "timeseries",
               "title": "Правый поворотник · Предупреждение: низкое давление масла · Принят неопознанный сигнал брелока · Принят опознанный сигнал брелока",
               "datasource": {
@@ -8539,7 +8492,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 456
+                "y": 460
               },
               "targets": [
                 {
@@ -8583,7 +8536,7 @@ data:
               }
             },
             {
-              "id": 114,
+              "id": 113,
               "type": "timeseries",
               "title": "Приём сигнала брелока (Япония) · Приём сигнала основного брелока · Просрочено ТО по времени · Просрочено ТО по пробегу",
               "datasource": {
@@ -8594,7 +8547,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 464
+                "y": 468
               },
               "targets": [
                 {
@@ -8638,7 +8591,7 @@ data:
               }
             },
             {
-              "id": 115,
+              "id": 114,
               "type": "timeseries",
               "title": "Разрешение включения кондиционера · Разрешение задних стеклоподъёмников · Разрешение подзарядки накопителей · Разрешение подзарядки сирены",
               "datasource": {
@@ -8649,7 +8602,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 464
+                "y": 468
               },
               "targets": [
                 {
@@ -8693,7 +8646,7 @@ data:
               }
             },
             {
-              "id": 116,
+              "id": 115,
               "type": "timeseries",
               "title": "Разрешение подогрева сидений · Разрешение подсветки вещевого ящика · Разрешение подсветки кнопки пуска · Разрешение подсветки считывателя ключа",
               "datasource": {
@@ -8704,7 +8657,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 472
+                "y": 476
               },
               "targets": [
                 {
@@ -8748,7 +8701,7 @@ data:
               }
             },
             {
-              "id": 117,
+              "id": 116,
               "type": "timeseries",
               "title": "Разрешение пуска с АКПП · Режим работы BSI · Режим работы кондиционера · Ремень водителя застёгнут",
               "datasource": {
@@ -8759,7 +8712,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 472
+                "y": 476
               },
               "targets": [
                 {
@@ -8803,7 +8756,7 @@ data:
               }
             },
             {
-              "id": 118,
+              "id": 117,
               "type": "timeseries",
               "title": "Ремень заднего левого застёгнут · Ремень заднего правого застёгнут · Ремень заднего центрального застёгнут · Ремень переднего пассажира застёгнут",
               "datasource": {
@@ -8814,7 +8767,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 480
+                "y": 484
               },
               "targets": [
                 {
@@ -8858,7 +8811,7 @@ data:
               }
             },
             {
-              "id": 119,
+              "id": 118,
               "type": "timeseries",
               "title": "Ремень третьего ряда слева застёгнут · Ремень третьего ряда справа застёгнут · Сброс поездки 1 · Сброс поездки 2",
               "datasource": {
@@ -8869,7 +8822,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 480
+                "y": 484
               },
               "targets": [
                 {
@@ -8913,7 +8866,7 @@ data:
               }
             },
             {
-              "id": 120,
+              "id": 119,
               "type": "timeseries",
               "title": "Светодиод кнопки старт-стоп · Снятие с охраны · Состояние меню настроек · Состояние меню приветствия",
               "datasource": {
@@ -8924,7 +8877,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 488
+                "y": 492
               },
               "targets": [
                 {
@@ -8968,7 +8921,7 @@ data:
               }
             },
             {
-              "id": 121,
+              "id": 120,
               "type": "timeseries",
               "title": "Сохранённые скорости включены · Стекло двери багажника · Стеклоподъёмники (провод) · Стоп-сигналы",
               "datasource": {
@@ -8979,7 +8932,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 488
+                "y": 492
               },
               "targets": [
                 {
@@ -9023,7 +8976,7 @@ data:
               }
             },
             {
-              "id": 122,
+              "id": 121,
               "type": "timeseries",
               "title": "Удержание кнопки брелока · Удержание шины: идёт постановка на охр · Фонари заднего хода · Формат отображения даты и времени",
               "datasource": {
@@ -9034,7 +8987,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 496
+                "y": 500
               },
               "targets": [
                 {
@@ -9078,7 +9031,7 @@ data:
               }
             },
             {
-              "id": 123,
+              "id": 122,
               "type": "timeseries",
               "title": "Функция Black Panel · Функция детского замка · Функция доступа без ключа",
               "datasource": {
@@ -9089,7 +9042,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 496
+                "y": 500
               },
               "targets": [
                 {
@@ -9133,7 +9086,7 @@ data:
               }
             },
             {
-              "id": 124,
+              "id": 123,
               "type": "timeseries",
               "title": "Выбранный язык · Программа пробуждения для предподготов · Яркость подсветки блока дверей",
               "datasource": {
@@ -9144,7 +9097,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 504
+                "y": 508
               },
               "targets": [
                 {
@@ -9188,7 +9141,7 @@ data:
               }
             },
             {
-              "id": 125,
+              "id": 124,
               "type": "timeseries",
               "title": "Неизвестный параметр DA26 · Ненормальное удержание шины систем · Последнее пробуждение LIN2 · Последнее пробуждение шины салона",
               "datasource": {
@@ -9199,7 +9152,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 504
+                "y": 508
               },
               "targets": [
                 {
@@ -9243,7 +9196,7 @@ data:
               }
             },
             {
-              "id": 126,
+              "id": 125,
               "type": "timeseries",
               "title": "Последнее пробуждение шины систем · Последняя причина пробуждения BSI · Последняя причина удержания BSI · Последняя причина удержания питания",
               "datasource": {
@@ -9254,7 +9207,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 512
+                "y": 516
               },
               "targets": [
                 {
@@ -9298,7 +9251,7 @@ data:
               }
             },
             {
-              "id": 127,
+              "id": 126,
               "type": "timeseries",
               "title": "Разрешение предподготовки салона · Статус заряда АКБ · Уровень заряда АКБ",
               "datasource": {
@@ -9309,7 +9262,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 512
+                "y": 516
               },
               "targets": [
                 {
@@ -9353,7 +9306,7 @@ data:
               }
             },
             {
-              "id": 128,
+              "id": 127,
               "type": "timeseries",
               "title": "Поставщик блока",
               "datasource": {
@@ -9364,7 +9317,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 520
+                "y": 524
               },
               "targets": [
                 {
@@ -9408,7 +9361,7 @@ data:
               }
             },
             {
-              "id": 129,
+              "id": 128,
               "type": "timeseries",
               "title": "Версия ПО блока",
               "datasource": {
@@ -9419,7 +9372,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 520
+                "y": 524
               },
               "targets": [
                 {
@@ -9463,7 +9416,7 @@ data:
               }
             },
             {
-              "id": 130,
+              "id": 129,
               "type": "timeseries",
               "title": "Серийный номер блока",
               "datasource": {
@@ -9474,7 +9427,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 528
+                "y": 532
               },
               "targets": [
                 {
@@ -9518,7 +9471,7 @@ data:
               }
             },
             {
-              "id": 131,
+              "id": 130,
               "type": "timeseries",
               "title": "VIN",
               "datasource": {
@@ -9529,7 +9482,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 528
+                "y": 532
               },
               "targets": [
                 {
@@ -9573,7 +9526,7 @@ data:
               }
             },
             {
-              "id": 132,
+              "id": 131,
               "type": "timeseries",
               "title": "Дополнительные электронагреватели · Светодиод сигнализации",
               "datasource": {
@@ -9584,7 +9537,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 536
+                "y": 540
               },
               "targets": [
                 {
@@ -9628,7 +9581,7 @@ data:
               }
             },
             {
-              "id": 133,
+              "id": 132,
               "type": "timeseries",
               "title": "Расход текущий",
               "datasource": {
@@ -9639,7 +9592,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 536
+                "y": 540
               },
               "targets": [
                 {
@@ -9683,7 +9636,7 @@ data:
               }
             },
             {
-              "id": 134,
+              "id": 133,
               "type": "timeseries",
               "title": "Сопротивление датчика температуры масл",
               "datasource": {
@@ -9694,7 +9647,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 544
+                "y": 548
               },
               "targets": [
                 {
@@ -9738,7 +9691,7 @@ data:
               }
             },
             {
-              "id": 135,
+              "id": 134,
               "type": "timeseries",
               "title": "Задание напряжения генератора",
               "datasource": {
@@ -9749,7 +9702,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 544
+                "y": 548
               },
               "targets": [
                 {
@@ -9793,7 +9746,7 @@ data:
               }
             },
             {
-              "id": 136,
+              "id": 135,
               "type": "timeseries",
               "title": "Обучено ключей и меток",
               "datasource": {
@@ -9804,7 +9757,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 552
+                "y": 556
               },
               "targets": [
                 {
@@ -9848,7 +9801,7 @@ data:
               }
             },
             {
-              "id": 137,
+              "id": 136,
               "type": "timeseries",
               "title": "Предупреждение о ТО за, км · Пробег до скачка · Пробег после скачка",
               "datasource": {
@@ -9859,7 +9812,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 552
+                "y": 556
               },
               "targets": [
                 {
@@ -9903,7 +9856,7 @@ data:
               }
             },
             {
-              "id": 138,
+              "id": 137,
               "type": "timeseries",
               "title": "Интервал ТО по пробегу",
               "datasource": {
@@ -9914,7 +9867,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 560
+                "y": 564
               },
               "targets": [
                 {
@@ -9958,7 +9911,7 @@ data:
               }
             },
             {
-              "id": 139,
+              "id": 138,
               "type": "timeseries",
               "title": "Задание скорости с руля",
               "datasource": {
@@ -9969,7 +9922,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 560
+                "y": 564
               },
               "targets": [
                 {
@@ -10013,7 +9966,7 @@ data:
               }
             },
             {
-              "id": 140,
+              "id": 139,
               "type": "timeseries",
               "title": "Указатель уровня топлива",
               "datasource": {
@@ -10024,7 +9977,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 568
+                "y": 572
               },
               "targets": [
                 {
@@ -10068,7 +10021,7 @@ data:
               }
             },
             {
-              "id": 141,
+              "id": 140,
               "type": "timeseries",
               "title": "Расход средний, поездка 2",
               "datasource": {
@@ -10079,7 +10032,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 568
+                "y": 572
               },
               "targets": [
                 {
@@ -10123,7 +10076,7 @@ data:
               }
             },
             {
-              "id": 142,
+              "id": 141,
               "type": "timeseries",
               "title": "Внутреннее сопротивление АКБ",
               "datasource": {
@@ -10134,7 +10087,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 576
+                "y": 580
               },
               "targets": [
                 {
@@ -10178,7 +10131,7 @@ data:
               }
             },
             {
-              "id": 143,
+              "id": 142,
               "type": "timeseries",
               "title": "Срок до следующего ТО",
               "datasource": {
@@ -10189,7 +10142,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 576
+                "y": 580
               },
               "targets": [
                 {
@@ -10233,7 +10186,7 @@ data:
               }
             },
             {
-              "id": 144,
+              "id": 143,
               "type": "timeseries",
               "title": "Интервал ТО по времени",
               "datasource": {
@@ -10244,7 +10197,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 584
+                "y": 588
               },
               "targets": [
                 {
@@ -10288,7 +10241,7 @@ data:
               }
             },
             {
-              "id": 145,
+              "id": 144,
               "type": "timeseries",
               "title": "City Park не дал заглушить, 0-20 км · City Park не дал заглушить, 20-40 км · City Park не дал заглушить, 40-60 км · Аномальных скачков пробега",
               "datasource": {
@@ -10299,7 +10252,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 584
+                "y": 588
               },
               "targets": [
                 {
@@ -10343,7 +10296,7 @@ data:
               }
             },
             {
-              "id": 146,
+              "id": 145,
               "type": "timeseries",
               "title": "Кондиционер не дал заглушить, 0-20 км · Кондиционер не дал заглушить, 20-40 км · Кондиционер не дал заглушить, 40-60 км · Месяц",
               "datasource": {
@@ -10354,7 +10307,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 592
+                "y": 596
               },
               "targets": [
                 {
@@ -10398,7 +10351,7 @@ data:
               }
             },
             {
-              "id": 147,
+              "id": 146,
               "type": "timeseries",
               "title": "Не заглушил из-за неисправности, 0-20  · Не заглушил из-за неисправности, 20-40 · Не заглушил из-за неисправности, 40-60 · Не заглушил по запросу запрета, 0-20 к",
               "datasource": {
@@ -10409,7 +10362,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 592
+                "y": 596
               },
               "targets": [
                 {
@@ -10453,7 +10406,7 @@ data:
               }
             },
             {
-              "id": 148,
+              "id": 147,
               "type": "timeseries",
               "title": "Не заглушил по запросу запрета, 20-40  · Не заглушил по запросу запрета, 40-60  · Неисправность стартера, 0-20 км · Неисправность стартера, 20-40 км",
               "datasource": {
@@ -10464,7 +10417,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 600
+                "y": 604
               },
               "targets": [
                 {
@@ -10508,7 +10461,7 @@ data:
               }
             },
             {
-              "id": 149,
+              "id": 148,
               "type": "timeseries",
               "title": "Неисправность стартера, 40-60 км · Обучено брелоков 2004 · Обучено брелоков 2010 · Обучено меток доступа без ключа",
               "datasource": {
@@ -10519,7 +10472,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 600
+                "y": 604
               },
               "targets": [
                 {
@@ -10563,7 +10516,7 @@ data:
               }
             },
             {
-              "id": 150,
+              "id": 149,
               "type": "timeseries",
               "title": "Обучено упрощённых брелоков · Обучено электронных ключей · Сопротивление АКБ не дало заглушить, 0 · Сопротивление АКБ не дало заглушить, 2",
               "datasource": {
@@ -10574,7 +10527,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 608
+                "y": 612
               },
               "targets": [
                 {
@@ -10618,7 +10571,7 @@ data:
               }
             },
             {
-              "id": 151,
+              "id": 150,
               "type": "timeseries",
               "title": "Сопротивление АКБ не дало заглушить, 4 · Стартер не дал заглушить, 0-20 км · Стартер не дал заглушить, 20-40 км · Стартер не дал заглушить, 40-60 км",
               "datasource": {
@@ -10629,7 +10582,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 608
+                "y": 612
               },
               "targets": [
                 {
@@ -10673,7 +10626,7 @@ data:
               }
             },
             {
-              "id": 152,
+              "id": 151,
               "type": "timeseries",
               "title": "Стартер: запрет старт-стоп, 0-20 км · Стартер: запрет старт-стоп, 20-40 км · Стартер: запрет старт-стоп, 40-60 км · Счётчик перезапусков старт-стоп",
               "datasource": {
@@ -10684,7 +10637,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 616
+                "y": 620
               },
               "targets": [
                 {
@@ -10728,7 +10681,7 @@ data:
               }
             },
             {
-              "id": 153,
+              "id": 152,
               "type": "timeseries",
               "title": "Температура АКБ не дала заглушить, 0-2 · Температура АКБ не дала заглушить, 20- · Температура АКБ не дала заглушить, 40-",
               "datasource": {
@@ -10739,7 +10692,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 616
+                "y": 620
               },
               "targets": [
                 {
@@ -10783,7 +10736,7 @@ data:
               }
             },
             {
-              "id": 154,
+              "id": 153,
               "type": "timeseries",
               "title": "Выполнено обслуживаний · День · Минуты",
               "datasource": {
@@ -10794,7 +10747,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 624
+                "y": 628
               },
               "targets": [
                 {
@@ -10838,7 +10791,7 @@ data:
               }
             },
             {
-              "id": 155,
+              "id": 154,
               "type": "timeseries",
               "title": "Освещение багажника",
               "datasource": {
@@ -10849,7 +10802,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 624
+                "y": 628
               },
               "targets": [
                 {
@@ -10893,7 +10846,7 @@ data:
               }
             },
             {
-              "id": 156,
+              "id": 155,
               "type": "timeseries",
               "title": "Год",
               "datasource": {
@@ -10904,7 +10857,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 632
+                "y": 636
               },
               "targets": [
                 {
@@ -10948,7 +10901,7 @@ data:
               }
             },
             {
-              "id": 157,
+              "id": 156,
               "type": "timeseries",
               "title": "Счётчик импульсов левого заднего колес · Счётчик импульсов правого заднего коле",
               "datasource": {
@@ -10959,7 +10912,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 632
+                "y": 636
               },
               "targets": [
                 {
@@ -11003,7 +10956,7 @@ data:
               }
             },
             {
-              "id": 158,
+              "id": 157,
               "type": "timeseries",
               "title": "Часы",
               "datasource": {
@@ -11014,7 +10967,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 640
+                "y": 644
               },
               "targets": [
                 {
@@ -11058,7 +11011,7 @@ data:
               }
             },
             {
-              "id": 159,
+              "id": 158,
               "type": "timeseries",
               "title": "Счётчик наработки автомобиля",
               "datasource": {
@@ -11069,7 +11022,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 640
+                "y": 644
               },
               "targets": [
                 {
@@ -11113,7 +11066,7 @@ data:
               }
             },
             {
-              "id": 160,
+              "id": 159,
               "type": "timeseries",
               "title": "Длительность поездки 1 · Длительность поездки 2",
               "datasource": {
@@ -11124,7 +11077,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 648
+                "y": 652
               },
               "targets": [
                 {
@@ -11168,7 +11121,7 @@ data:
               }
             },
             {
-              "id": 161,
+              "id": 160,
               "type": "timeseries",
               "title": "Угол поворота руля",
               "datasource": {
@@ -11179,7 +11132,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 648
+                "y": 652
               },
               "targets": [
                 {
@@ -11225,7 +11178,7 @@ data:
           ]
         },
         {
-          "id": 164,
+          "id": 163,
           "type": "row",
           "title": "Конфигурация (4)",
           "collapsed": false,
@@ -11233,12 +11186,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 240
+            "y": 244
           },
           "panels": []
         },
         {
-          "id": 163,
+          "id": 162,
           "type": "timeseries",
           "title": "Конфиг: блок на шине UDS включён · Конфиг: блок на шине UDS выключен · Конфиг: опция · Конфиг: подушка переднего пассажира",
           "datasource": {
@@ -11249,7 +11202,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 241
+            "y": 245
           },
           "targets": [
             {
@@ -11293,7 +11246,7 @@ data:
           }
         },
         {
-          "id": 237,
+          "id": 236,
           "type": "row",
           "title": "двигатель Valeo V46 (EC5) (106)",
           "collapsed": true,
@@ -11301,11 +11254,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 249
+            "y": 253
           },
           "panels": [
             {
-              "id": 165,
+              "id": 164,
               "type": "timeseries",
               "title": "Измеренный угол дроссельной заслонки",
               "datasource": {
@@ -11316,7 +11269,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 250
+                "y": 254
               },
               "targets": [
                 {
@@ -11381,7 +11334,7 @@ data:
               "description": "Правдоподобие: 0..~90°.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 166,
+              "id": 165,
               "type": "timeseries",
               "title": "Угол опережения зажигания",
               "datasource": {
@@ -11392,7 +11345,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 250
+                "y": 254
               },
               "targets": [
                 {
@@ -11457,7 +11410,7 @@ data:
               "description": "Правдоподобие: у бензинового атмосферника от -10 на пуске до ~45° на частичной нагрузке. За границами -30..50 - расшифровка.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 167,
+              "id": 166,
               "type": "timeseries",
               "title": "Клапан продувки адсорбера",
               "datasource": {
@@ -11468,7 +11421,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 258
+                "y": 262
               },
               "targets": [
                 {
@@ -11525,7 +11478,7 @@ data:
               "description": "Команда ЭБУ на электроклапан продувки, % открытия. Норма - переменная: 27 % времени закрыт, 52 % приоткрыт до 30 %, 9 % времени открыт больше 70 %. Зон нет намеренно: любое значение штатно, важна лишь динамика. Тревожно, если он ВСЕГДА 0 (продувки нет, адсорбер переполнится) или ВСЕГДА высоко (ЭБУ не может вытянуть пары - засор или подсос).\n\nИсточник границ: замеры этой машины."
             },
             {
-              "id": 168,
+              "id": 167,
               "type": "timeseries",
               "title": "Насыщение адсорбера паров бензина",
               "datasource": {
@@ -11536,7 +11489,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 258
+                "y": 262
               },
               "targets": [
                 {
@@ -11601,7 +11554,7 @@ data:
               "description": "Оценка ЭБУ, насколько адсорбер (угольная канистра под баком) набрал паров бензина. В базе DiagBox единица %, но шкала у этого блока 0..20, и 20 - потолок. Измерено на машине за 3365 замеров: среднее 6, 19 % времени 0, выше 15 - лишь 3 % времени, 20 - два замера. То есть адсорбер регулярно продувается до пустого, и 'постоянно забит', как когда-то показывал DiagBox, - не про сегодня. Забитый или переполненный держался бы у потолка. Жёлтая зона от 15, красная от 18: если стрелка живёт там, продувка не справляется - клапан, шланги или сам уголь. Механически адсорбер болтается, крепление не восстановлено (ТО 06.09.2026): перетёртый шланг даст утечку паров и код P044x - следить за этой панелью.\n\nИсточник границ: замеры этой машины."
             },
             {
-              "id": 169,
+              "id": 168,
               "type": "timeseries",
               "title": "Расход воздуха",
               "datasource": {
@@ -11612,7 +11565,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 266
+                "y": 270
               },
               "targets": [
                 {
@@ -11673,7 +11626,7 @@ data:
               "description": "Правдоподобие: 1.6 л на 6000 об/мин не прокачает больше ~450 кг/ч.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 170,
+              "id": 169,
               "type": "timeseries",
               "title": "Коррекция смеси по лямбде до кат.",
               "datasource": {
@@ -11684,7 +11637,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 266
+                "y": 270
               },
               "targets": [
                 {
@@ -11757,7 +11710,7 @@ data:
               "description": "Доля, не проценты (единица в базе DiagBox врёт): 0.10 = 10 %. До ±10 % ЭБУ просто подстраивается, ±10-20 % - что-то уводит смесь (подсос воздуха, давление топлива, форсунки), за ±20 % коррекция на пределе.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 171,
+              "id": 170,
               "type": "timeseries",
               "title": "Коррекция смеси по лямбде после кат.",
               "datasource": {
@@ -11768,7 +11721,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 274
+                "y": 278
               },
               "targets": [
                 {
@@ -11841,7 +11794,7 @@ data:
               "description": "ЭБУ копирует сюда коррекцию до катализатора, регулирование по нижней лямбде отключено прошивкой. Зона та же.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 172,
+              "id": 171,
               "type": "timeseries",
               "title": "Педаль газа, датчик 1, напряжение",
               "datasource": {
@@ -11852,7 +11805,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 274
+                "y": 278
               },
               "targets": [
                 {
@@ -11917,7 +11870,7 @@ data:
               "description": "Дорожка 1 живёт в 0.4-4.5 В. Ниже 0.2 или выше 4.8 - обрыв или замыкание.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 173,
+              "id": 172,
               "type": "timeseries",
               "title": "Педаль газа, датчик 2, напряжение",
               "datasource": {
@@ -11928,7 +11881,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 282
+                "y": 286
               },
               "targets": [
                 {
@@ -11993,7 +11946,7 @@ data:
               "description": "Дорожка 2 - половина первой, 0.2-2.25 В.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 174,
+              "id": 173,
               "type": "timeseries",
               "title": "Педаль акселератора, датчик 1",
               "datasource": {
@@ -12004,7 +11957,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 282
+                "y": 286
               },
               "targets": [
                 {
@@ -12111,7 +12064,7 @@ data:
               "description": "Положение педали акселератора, первый датчик. Их два, как и у дросселя. Выход за 0-100% значит неисправность датчика. На этой машине сохранён код P2299 - положения педалей тормоза и акселератора несовместимы, так что за этими двумя графиками стоит присмотреться вместе с тормозом.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 175,
+              "id": 174,
               "type": "timeseries",
               "title": "Педаль акселератора, датчик 2",
               "datasource": {
@@ -12122,7 +12075,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 290
+                "y": 294
               },
               "targets": [
                 {
@@ -12229,7 +12182,7 @@ data:
               "description": "Положение педали акселератора, второй датчик - должен повторять первый. Расхождение между ними и есть то, на что жалуется сохранённый код P2299.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 176,
+              "id": 175,
               "type": "timeseries",
               "title": "Давление во впускном коллекторе",
               "datasource": {
@@ -12240,7 +12193,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 290
+                "y": 294
               },
               "targets": [
                 {
@@ -12305,7 +12258,7 @@ data:
               "description": "Атмосферник: от ~250 мбар на холостых до атмосферного на полном газу. Выше атмосферного или ниже 150 - датчик.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 177,
+              "id": 176,
               "type": "timeseries",
               "title": "Атмосферное давление по ЭБУ",
               "datasource": {
@@ -12316,7 +12269,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 298
+                "y": 302
               },
               "targets": [
                 {
@@ -12381,7 +12334,7 @@ data:
               "description": "В Москве 970-1010 мбар. За границами 850-1050 врёт датчик, а по нему ЭБУ считает наполнение.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 178,
+              "id": 177,
               "type": "timeseries",
               "title": "Разрежение в вакуумном усилителе",
               "datasource": {
@@ -12392,7 +12345,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 298
+                "y": 302
               },
               "targets": [
                 {
@@ -12457,7 +12410,7 @@ data:
               "description": "Абсолютное давление в усилителе тормозов: чем ниже, тем больше запас вакуума. Выше 700 гПа при работающем двигателе тормоза станут тяжёлыми. При заглушенном двигателе законно равно атмосферному - поэтому без алерта.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 179,
+              "id": 178,
               "type": "timeseries",
               "title": "Обороты двигателя (по блоку двигателя)",
               "datasource": {
@@ -12468,7 +12421,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 306
+                "y": 310
               },
               "targets": [
                 {
@@ -12657,7 +12610,7 @@ data:
               "description": "Холостой ход этой машины около 750 об/мин - если он заметно выше на прогретом двигателе или плавает, ищи подсос воздуха. Отсечка у EC5 около 6200 об/мин.\n\nИсточник границ: замеры этой машины."
             },
             {
-              "id": 180,
+              "id": 179,
               "type": "timeseries",
               "title": "Заданное наполнение цилиндров",
               "datasource": {
@@ -12668,7 +12621,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 306
+                "y": 310
               },
               "targets": [
                 {
@@ -12733,7 +12686,7 @@ data:
               "description": "Правдоподобие, см. измеренное наполнение.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 181,
+              "id": 180,
               "type": "timeseries",
               "title": "Измеренное наполнение цилиндров",
               "datasource": {
@@ -12744,7 +12697,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 314
+                "y": 318
               },
               "targets": [
                 {
@@ -12809,7 +12762,7 @@ data:
               "description": "Правдоподобие: атмосферник не наполняется больше ~100 %.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 182,
+              "id": 181,
               "type": "timeseries",
               "title": "Температура наружного воздуха (по ЭБУ)",
               "datasource": {
@@ -12820,7 +12773,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 314
+                "y": 318
               },
               "targets": [
                 {
@@ -12885,7 +12838,7 @@ data:
               "description": "Правдоподобие, см. температуру за бортом.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 183,
+              "id": 182,
               "type": "timeseries",
               "title": "Температура охлаждающей жидкости",
               "datasource": {
@@ -12896,7 +12849,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 322
+                "y": 326
               },
               "targets": [
                 {
@@ -13089,7 +13042,7 @@ data:
               "description": "Норма после прогрева 85-100 °C. Термостат открывается около 89 °C, вентилятор включается около 99 и 103 °C, поэтому выше 105 °C - уже не штатный нагрев. При прогреве значение идёт снизу, это нормально.\n\nВАЖНО для этой машины: в двигателе сохранён код P0116 - цепь датчика температуры ОЖ, показания вне допустимого диапазона. Пока код сохранён, вентилятор работает в аварийном режиме и включается чаще, даже когда живое показание в норме. То есть ровный график здесь НЕ значит, что датчик исправен.\n\n31.08.2026 датчик поймали с поличным: 93 °C ровно 11 секунд, потом ОДИН замер 108 °C и возврат к 93 за три секунды. Так антифриз себя вести не может - это выброс датчика, и блок на него отреагировал обдувом на 100%. Поэтому одиночная игла вверх здесь означает НЕ перегрев, а именно датчик; смотреть надо на длительность: настоящий перегрев держится минуты, а не полсекунды.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 184,
+              "id": 183,
               "type": "timeseries",
               "title": "Время впрыска, цилиндр 1",
               "datasource": {
@@ -13100,7 +13053,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 322
+                "y": 326
               },
               "targets": [
                 {
@@ -13161,7 +13114,7 @@ data:
               "description": "Правдоподобие: 2-4 мс холостые, до 15 под нагрузкой; 0 при отсечке на сбросе газа законно. Больше 25 мс форсунка открыта почти постоянно - расшифровка или ЭБУ.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 185,
+              "id": 184,
               "type": "timeseries",
               "title": "Время впрыска, цилиндр 2",
               "datasource": {
@@ -13172,7 +13125,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 330
+                "y": 334
               },
               "targets": [
                 {
@@ -13233,7 +13186,7 @@ data:
               "description": "Правдоподобие, см. цилиндр 1.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 186,
+              "id": 185,
               "type": "timeseries",
               "title": "Время впрыска, цилиндр 3",
               "datasource": {
@@ -13244,7 +13197,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 330
+                "y": 334
               },
               "targets": [
                 {
@@ -13305,7 +13258,7 @@ data:
               "description": "Правдоподобие, см. цилиндр 1.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 187,
+              "id": 186,
               "type": "timeseries",
               "title": "Время впрыска, цилиндр 4",
               "datasource": {
@@ -13316,7 +13269,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 338
+                "y": 342
               },
               "targets": [
                 {
@@ -13377,7 +13330,7 @@ data:
               "description": "Правдоподобие, см. цилиндр 1.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 188,
+              "id": 187,
               "type": "timeseries",
               "title": "Температура воздуха на впуске",
               "datasource": {
@@ -13388,7 +13341,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 338
+                "y": 342
               },
               "targets": [
                 {
@@ -13536,7 +13489,7 @@ data:
               "description": "Температура воздуха на впуске. Норма - наружная температура плюс небольшой нагрев на ходу. На стоянке и в пробке подкапотный жар легко даёт плюс 25-30 °C, это ещё не неисправность. Выше 75 °C двигатель теряет мощность и растёт риск детонации: смотреть, не забор ли горячего воздуха. Сравнивать с наружной температурой на соседнем графике.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 189,
+              "id": 188,
               "type": "timeseries",
               "title": "Питание датчиков, шина 1",
               "datasource": {
@@ -13547,7 +13500,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 346
+                "y": 350
               },
               "targets": [
                 {
@@ -13612,7 +13565,7 @@ data:
               "description": "Опорные 5 В для датчиков. Просадка - замыкание в датчике на этой шине.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 190,
+              "id": 189,
               "type": "timeseries",
               "title": "Питание датчиков, шина 2",
               "datasource": {
@@ -13623,7 +13576,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 346
+                "y": 350
               },
               "targets": [
                 {
@@ -13688,7 +13641,7 @@ data:
               "description": "Опорные 5 В, см. шину 1.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 191,
+              "id": 190,
               "type": "timeseries",
               "title": "Питание датчиков, шина 3",
               "datasource": {
@@ -13699,7 +13652,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 354
+                "y": 358
               },
               "targets": [
                 {
@@ -13764,7 +13717,7 @@ data:
               "description": "Опорные 5 В, см. шину 1.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 192,
+              "id": 191,
               "type": "timeseries",
               "title": "Датчик дросселя 1",
               "datasource": {
@@ -13775,7 +13728,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 354
+                "y": 358
               },
               "targets": [
                 {
@@ -13923,7 +13876,7 @@ data:
               "description": "Первый датчик положения дросселя, питание 5 В. На холостых около 680 мВ. Датчиков два, направлены противоположно: сумма первого и второго держится около 5000 мВ, и если она уехала - врёт один из них. Выход за 200 или 4800 мВ - это уже не положение, а обрыв либо замыкание проводки.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 193,
+              "id": 192,
               "type": "timeseries",
               "title": "Датчик дросселя 2",
               "datasource": {
@@ -13934,7 +13887,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 362
+                "y": 366
               },
               "targets": [
                 {
@@ -14082,7 +14035,7 @@ data:
               "description": "Второй датчик положения дросселя, направлен противоположно первому: на холостых около 4350 мВ, тогда как первый 680 мВ. Сумма двух должна держаться около 5000 мВ.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 194,
+              "id": 193,
               "type": "timeseries",
               "title": "Датчик кислорода до катализатора",
               "datasource": {
@@ -14093,7 +14046,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 362
+                "y": 366
               },
               "targets": [
                 {
@@ -14282,7 +14235,7 @@ data:
               "description": "Верхний (до катализатора) датчик кислорода. У исправного напряжение непрерывно качается примерно между 100 и 900 мВ вокруг 450 мВ - смысл именно в колебании, а не в конкретном значении. Плохой признак - РОВНАЯ линия: датчик замер. Замерло около 450 мВ - обрыв или он остыл, у нижнего края - постоянно бедная смесь (подсос воздуха), у верхнего - богатая. На холодном двигателе колебаний ещё нет, это норма.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 195,
+              "id": 194,
               "type": "timeseries",
               "title": "Датчик кислорода после катализатора",
               "datasource": {
@@ -14293,7 +14246,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 370
+                "y": 374
               },
               "targets": [
                 {
@@ -14350,7 +14303,7 @@ data:
               "description": "Нижний (после катализатора) датчик кислорода. На этой машине катализатор ВЫРЕЗАН, поэтому датчик стоит в пустой трубе и видит сырой выхлоп: он качается от 0 до 900 мВ примерно как верхний, и это нормально именно здесь.\n\nПравило \"ровная полка 550-800 мВ\" из учебников относится к машине с работающим катализатором и к этой машине НЕ применимо - поэтому пороговых линий на панели нет.\n\nЧем он всё-таки полезен: это вторая копия верхнего датчика. Сравнивай два графика между собой - если один качается, а второй замер ровной линией, значит замерший умер. Одинаковое качание обоих - оба живы.\n\nИсточник границ: свойства самой величины, не база DiagBox."
             },
             {
-              "id": 196,
+              "id": 195,
               "type": "state-timeline",
               "title": "Состояние команды стартера",
               "datasource": {
@@ -14361,7 +14314,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 370
+                "y": 374
               },
               "targets": [
                 {
@@ -14416,7 +14369,7 @@ data:
               }
             },
             {
-              "id": 197,
+              "id": 196,
               "type": "state-timeline",
               "title": "Выключатель педали тормоза",
               "datasource": {
@@ -14427,7 +14380,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 378
+                "y": 382
               },
               "targets": [
                 {
@@ -14482,7 +14435,7 @@ data:
               }
             },
             {
-              "id": 198,
+              "id": 197,
               "type": "state-timeline",
               "title": "Реле вентилятора, малая скорость",
               "datasource": {
@@ -14493,7 +14446,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 378
+                "y": 382
               },
               "targets": [
                 {
@@ -14548,7 +14501,7 @@ data:
               }
             },
             {
-              "id": 199,
+              "id": 198,
               "type": "state-timeline",
               "title": "Состояние двигателя",
               "datasource": {
@@ -14559,7 +14512,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 386
+                "y": 390
               },
               "targets": [
                 {
@@ -14614,7 +14567,7 @@ data:
               }
             },
             {
-              "id": 200,
+              "id": 199,
               "type": "state-timeline",
               "title": "Регулирование по лямбде до катализатора",
               "datasource": {
@@ -14625,7 +14578,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 386
+                "y": 390
               },
               "targets": [
                 {
@@ -14680,7 +14633,7 @@ data:
               }
             },
             {
-              "id": 201,
+              "id": 200,
               "type": "state-timeline",
               "title": "Реле вентилятора охлаждения",
               "datasource": {
@@ -14691,7 +14644,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 394
+                "y": 398
               },
               "targets": [
                 {
@@ -14746,7 +14699,7 @@ data:
               }
             },
             {
-              "id": 202,
+              "id": 201,
               "type": "state-timeline",
               "title": "Реле вентилятора, большая скорость",
               "datasource": {
@@ -14757,7 +14710,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 394
+                "y": 398
               },
               "targets": [
                 {
@@ -14812,7 +14765,7 @@ data:
               }
             },
             {
-              "id": 203,
+              "id": 202,
               "type": "state-timeline",
               "title": "Пробуждение ЭБУ: состояние",
               "datasource": {
@@ -14823,7 +14776,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 402
+                "y": 406
               },
               "targets": [
                 {
@@ -14878,7 +14831,7 @@ data:
               }
             },
             {
-              "id": 204,
+              "id": 203,
               "type": "state-timeline",
               "title": "Лямбда до катализатора: состояние",
               "datasource": {
@@ -14889,7 +14842,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 402
+                "y": 406
               },
               "targets": [
                 {
@@ -14944,7 +14897,7 @@ data:
               }
             },
             {
-              "id": 205,
+              "id": 204,
               "type": "state-timeline",
               "title": "Лямбда после катализатора: состояние",
               "datasource": {
@@ -14955,7 +14908,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 410
+                "y": 414
               },
               "targets": [
                 {
@@ -15010,7 +14963,7 @@ data:
               }
             },
             {
-              "id": 206,
+              "id": 205,
               "type": "state-timeline",
               "title": "Датчик сцепления",
               "datasource": {
@@ -15021,7 +14974,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 410
+                "y": 414
               },
               "targets": [
                 {
@@ -15076,7 +15029,7 @@ data:
               }
             },
             {
-              "id": 207,
+              "id": 206,
               "type": "timeseries",
               "title": "Команда силового реле · Превышен порог закоксовывания · Обучение фазовращателя впуска: состоян · Режим работы двигателя",
               "datasource": {
@@ -15087,7 +15040,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 418
+                "y": 422
               },
               "targets": [
                 {
@@ -15130,7 +15083,7 @@ data:
               }
             },
             {
-              "id": 208,
+              "id": 207,
               "type": "timeseries",
               "title": "Ограничитель скорости: состояние · Круиз-контроль: состояние",
               "datasource": {
@@ -15141,7 +15094,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 418
+                "y": 422
               },
               "targets": [
                 {
@@ -15184,7 +15137,7 @@ data:
               }
             },
             {
-              "id": 209,
+              "id": 208,
               "type": "timeseries",
               "title": "Подогрев лямбды после кат., скважность",
               "datasource": {
@@ -15195,7 +15148,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 426
+                "y": 430
               },
               "targets": [
                 {
@@ -15238,7 +15191,7 @@ data:
               }
             },
             {
-              "id": 210,
+              "id": 209,
               "type": "timeseries",
               "title": "Счётчик пусков двигателя",
               "datasource": {
@@ -15249,7 +15202,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 426
+                "y": 430
               },
               "targets": [
                 {
@@ -15292,7 +15245,7 @@ data:
               }
             },
             {
-              "id": 211,
+              "id": 210,
               "type": "timeseries",
               "title": "Момент сопротивления (оценка) · Подогрев лямбды до кат., скважность · Клапан фазовращателя впуска, скважност",
               "datasource": {
@@ -15303,7 +15256,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 434
+                "y": 438
               },
               "targets": [
                 {
@@ -15346,7 +15299,7 @@ data:
               }
             },
             {
-              "id": 212,
+              "id": 211,
               "type": "timeseries",
               "title": "Обучение педали газа: минимум, дорожка · Задание скорости вентилятора · Момент двигателя по опережению (факт)",
               "datasource": {
@@ -15357,7 +15310,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 434
+                "y": 438
               },
               "targets": [
                 {
@@ -15400,7 +15353,7 @@ data:
               }
             },
             {
-              "id": 213,
+              "id": 212,
               "type": "timeseries",
               "title": "Момент двигателя по воздуху (задание) · Эффективный момент по опережению · Момент, запрошенный водителем · Положение педали сцепления",
               "datasource": {
@@ -15411,7 +15364,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 442
+                "y": 446
               },
               "targets": [
                 {
@@ -15454,7 +15407,7 @@ data:
               }
             },
             {
-              "id": 214,
+              "id": 213,
               "type": "timeseries",
               "title": "Давление масла",
               "datasource": {
@@ -15465,7 +15418,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 442
+                "y": 446
               },
               "targets": [
                 {
@@ -15508,7 +15461,7 @@ data:
               }
             },
             {
-              "id": 215,
+              "id": 214,
               "type": "timeseries",
               "title": "Требуемый расход воздуха",
               "datasource": {
@@ -15519,7 +15472,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 450
+                "y": 454
               },
               "targets": [
                 {
@@ -15562,7 +15515,7 @@ data:
               }
             },
             {
-              "id": 216,
+              "id": 215,
               "type": "timeseries",
               "title": "Заданная скорость ограничителя",
               "datasource": {
@@ -15573,7 +15526,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 450
+                "y": 454
               },
               "targets": [
                 {
@@ -15616,7 +15569,7 @@ data:
               }
             },
             {
-              "id": 217,
+              "id": 216,
               "type": "timeseries",
               "title": "Уровень топлива (по ЭБУ)",
               "datasource": {
@@ -15627,7 +15580,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 458
+                "y": 462
               },
               "targets": [
                 {
@@ -15670,7 +15623,7 @@ data:
               }
             },
             {
-              "id": 218,
+              "id": 217,
               "type": "timeseries",
               "title": "Шум по датчику детонации",
               "datasource": {
@@ -15681,7 +15634,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 458
+                "y": 462
               },
               "targets": [
                 {
@@ -15724,7 +15677,7 @@ data:
               }
             },
             {
-              "id": 219,
+              "id": 218,
               "type": "timeseries",
               "title": "Давление хладагента кондиционера",
               "datasource": {
@@ -15735,7 +15688,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 466
+                "y": 470
               },
               "targets": [
                 {
@@ -15778,7 +15731,7 @@ data:
               }
             },
             {
-              "id": 220,
+              "id": 219,
               "type": "timeseries",
               "title": "Заданное давление во впуске",
               "datasource": {
@@ -15789,7 +15742,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 466
+                "y": 470
               },
               "targets": [
                 {
@@ -15832,7 +15785,7 @@ data:
               }
             },
             {
-              "id": 221,
+              "id": 220,
               "type": "timeseries",
               "title": "Заданный состав смеси",
               "datasource": {
@@ -15843,7 +15796,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 474
+                "y": 478
               },
               "targets": [
                 {
@@ -15886,7 +15839,7 @@ data:
               }
             },
             {
-              "id": 222,
+              "id": 221,
               "type": "timeseries",
               "title": "Обучение нижнего упора дросселя, дорож · Аварийное положение дросселя, сигнал 1 · Аварийное положение дросселя, сигнал 2",
               "datasource": {
@@ -15897,7 +15850,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 474
+                "y": 478
               },
               "targets": [
                 {
@@ -15940,7 +15893,7 @@ data:
               }
             },
             {
-              "id": 223,
+              "id": 222,
               "type": "timeseries",
               "title": "Обучение педали газа: максимум, дорожк",
               "datasource": {
@@ -15951,7 +15904,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 482
+                "y": 486
               },
               "targets": [
                 {
@@ -15994,7 +15947,7 @@ data:
               }
             },
             {
-              "id": 224,
+              "id": 223,
               "type": "timeseries",
               "title": "Заданные обороты холостого хода",
               "datasource": {
@@ -16005,7 +15958,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 482
+                "y": 486
               },
               "targets": [
                 {
@@ -16048,7 +16001,7 @@ data:
               }
             },
             {
-              "id": 225,
+              "id": 224,
               "type": "timeseries",
               "title": "Время с остановки двигателя",
               "datasource": {
@@ -16059,7 +16012,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 490
+                "y": 494
               },
               "targets": [
                 {
@@ -16102,7 +16055,7 @@ data:
               }
             },
             {
-              "id": 226,
+              "id": 225,
               "type": "timeseries",
               "title": "Максимальный угол опережения · Минимальный угол опережения · Оптимальный угол опережения",
               "datasource": {
@@ -16113,7 +16066,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 490
+                "y": 494
               },
               "targets": [
                 {
@@ -16156,7 +16109,7 @@ data:
               }
             },
             {
-              "id": 227,
+              "id": 226,
               "type": "timeseries",
               "title": "Заданный угол дроссельной заслонки",
               "datasource": {
@@ -16167,7 +16120,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 498
+                "y": 502
               },
               "targets": [
                 {
@@ -16210,7 +16163,7 @@ data:
               }
             },
             {
-              "id": 228,
+              "id": 227,
               "type": "timeseries",
               "title": "Заданное положение фазовращателя впуск · Положение фазовращателя впуска · Обучение нижнего упора фазовращателя",
               "datasource": {
@@ -16221,7 +16174,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 498
+                "y": 502
               },
               "targets": [
                 {
@@ -16264,7 +16217,7 @@ data:
               }
             },
             {
-              "id": 229,
+              "id": 228,
               "type": "timeseries",
               "title": "Температура ОЖ при последней остановке",
               "datasource": {
@@ -16275,7 +16228,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 506
+                "y": 510
               },
               "targets": [
                 {
@@ -16318,7 +16271,7 @@ data:
               }
             },
             {
-              "id": 230,
+              "id": 229,
               "type": "state-timeline",
               "title": "Регулирование по лямбде после катализатора",
               "datasource": {
@@ -16329,7 +16282,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 514
+                "y": 518
               },
               "targets": [
                 {
@@ -16384,7 +16337,7 @@ data:
               }
             },
             {
-              "id": 231,
+              "id": 230,
               "type": "timeseries",
               "title": "Разрешение пуска от блока КПП · Требуется обучение упоров дросселя · Счётчик холодных пусков · Обучение упоров дросселя: состояние",
               "datasource": {
@@ -16395,7 +16348,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 514
+                "y": 518
               },
               "targets": [
                 {
@@ -16439,7 +16392,7 @@ data:
               }
             },
             {
-              "id": 232,
+              "id": 231,
               "type": "timeseries",
               "title": "Согласованность впускного вала и колен · Состояние силового агрегата · Иммобилайзер: состояние программирован · Блокировка ЭБУ: состояние",
               "datasource": {
@@ -16450,7 +16403,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 522
+                "y": 526
               },
               "targets": [
                 {
@@ -16494,7 +16447,7 @@ data:
               }
             },
             {
-              "id": 233,
+              "id": 232,
               "type": "timeseries",
               "title": "Педаль газа: точка сопротивления · Обнаружен удар · Выбранный вариант сопряжения · Сбой передачи кода разблокировки",
               "datasource": {
@@ -16505,7 +16458,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 522
+                "y": 526
               },
               "targets": [
                 {
@@ -16549,7 +16502,7 @@ data:
               }
             },
             {
-              "id": 234,
+              "id": 233,
               "type": "timeseries",
               "title": "Включённая передача · Первое обучение фазовращателя: состоян · Тип коробки передач",
               "datasource": {
@@ -16560,7 +16513,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 530
+                "y": 534
               },
               "targets": [
                 {
@@ -16604,7 +16557,7 @@ data:
               }
             },
             {
-              "id": 235,
+              "id": 234,
               "type": "timeseries",
               "title": "Мощность, отбираемая компрессором конд",
               "datasource": {
@@ -16615,7 +16568,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 530
+                "y": 534
               },
               "targets": [
                 {
@@ -16659,7 +16612,7 @@ data:
               }
             },
             {
-              "id": 236,
+              "id": 235,
               "type": "timeseries",
               "title": "Снижение опережения, цилиндр 1 · Снижение опережения, цилиндр 2 · Снижение опережения, цилиндр 3 · Снижение опережения, цилиндр 4",
               "datasource": {
@@ -16670,7 +16623,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 538
+                "y": 542
               },
               "targets": [
                 {
@@ -16716,7 +16669,7 @@ data:
           ]
         },
         {
-          "id": 251,
+          "id": 250,
           "type": "row",
           "title": "блок реле моторного отсека (44)",
           "collapsed": true,
@@ -16724,11 +16677,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 250
+            "y": 254
           },
           "panels": [
             {
-              "id": 238,
+              "id": 237,
               "type": "timeseries",
               "title": "Главное реле: команда получена · Силовое реле: команда получена · Команда силового реле · Реле +12 В после замка зажигания",
               "datasource": {
@@ -16739,7 +16692,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 251
+                "y": 255
               },
               "targets": [
                 {
@@ -16782,7 +16735,7 @@ data:
               }
             },
             {
-              "id": 239,
+              "id": 238,
               "type": "timeseries",
               "title": "Главное реле · Задний ход",
               "datasource": {
@@ -16793,7 +16746,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 251
+                "y": 255
               },
               "targets": [
                 {
@@ -16836,7 +16789,7 @@ data:
               }
             },
             {
-              "id": 240,
+              "id": 239,
               "type": "timeseries",
               "title": "Возбуждение генератора (признак)",
               "datasource": {
@@ -16847,7 +16800,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 259
+                "y": 263
               },
               "targets": [
                 {
@@ -16890,7 +16843,7 @@ data:
               }
             },
             {
-              "id": 241,
+              "id": 240,
               "type": "timeseries",
               "title": "Клапан компрессора кондиционера",
               "datasource": {
@@ -16901,7 +16854,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 267
+                "y": 271
               },
               "targets": [
                 {
@@ -17050,7 +17003,7 @@ data:
               "description": "Управление клапаном компрессора кондиционера. Границы 5 и 95% из подсказки DiagBox: постоянно упёртый в 95% компрессор обычно значит нехватку хладагента.\n\nИсточник границ: подсказка каталога DiagBox."
             },
             {
-              "id": 242,
+              "id": 241,
               "type": "timeseries",
               "title": "Звуковой сигнал · Команда стартера · Дворники, быстрая скорость · Дворники, медленная скорость",
               "datasource": {
@@ -17061,7 +17014,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 267
+                "y": 271
               },
               "targets": [
                 {
@@ -17105,7 +17058,7 @@ data:
               }
             },
             {
-              "id": 243,
+              "id": 242,
               "type": "timeseries",
               "title": "Статическая подсветка поворота, правая · Статическая подсветка поворота, левая · Омыватель заднего стекла · Омыватель лобового стекла",
               "datasource": {
@@ -17116,7 +17069,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 275
+                "y": 279
               },
               "targets": [
                 {
@@ -17160,7 +17113,7 @@ data:
               }
             },
             {
-              "id": 244,
+              "id": 243,
               "type": "timeseries",
               "title": "Омыватель фар · Шторка фары, правая · Шторка фары, левая · Противотуманная фара, правая (ШИМ)",
               "datasource": {
@@ -17171,7 +17124,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 275
+                "y": 279
               },
               "targets": [
                 {
@@ -17215,7 +17168,7 @@ data:
               }
             },
             {
-              "id": 245,
+              "id": 244,
               "type": "timeseries",
               "title": "Противотуманная фара, левая (ШИМ) · Реле воздушного насоса · Запрос пуска от BSI · Муфта компрессора кондиционера",
               "datasource": {
@@ -17226,7 +17179,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 283
+                "y": 287
               },
               "targets": [
                 {
@@ -17270,7 +17223,7 @@ data:
               }
             },
             {
-              "id": 246,
+              "id": 245,
               "type": "timeseries",
               "title": "Муфта компрессора кондиционера (силова · Выход подсветки поворота, правый · Выход подсветки поворота, левый · Дополнительный подогреватель",
               "datasource": {
@@ -17281,7 +17234,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 283
+                "y": 287
               },
               "targets": [
                 {
@@ -17325,7 +17278,7 @@ data:
               }
             },
             {
-              "id": 247,
+              "id": 246,
               "type": "timeseries",
               "title": "Пробуждение от брелока · Настраиваемый выход · Запрос пуска к ЭБУ двигателя · Вода в топливе (дизель)",
               "datasource": {
@@ -17336,7 +17289,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 291
+                "y": 295
               },
               "targets": [
                 {
@@ -17380,7 +17333,7 @@ data:
               }
             },
             {
-              "id": 248,
+              "id": 247,
               "type": "timeseries",
               "title": "Питание противотуманной фары, правая · Питание противотуманной фары, левая · Выход ближнего света, правый · Выход ближнего света, левый",
               "datasource": {
@@ -17391,7 +17344,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 291
+                "y": 295
               },
               "targets": [
                 {
@@ -17435,7 +17388,7 @@ data:
               }
             },
             {
-              "id": 249,
+              "id": 248,
               "type": "timeseries",
               "title": "Выход дневных огней, правый · Выход дневных огней, левый · Мотор изменения подъёма клапанов · Воздушный насос",
               "datasource": {
@@ -17446,7 +17399,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 299
+                "y": 303
               },
               "targets": [
                 {
@@ -17490,7 +17443,7 @@ data:
               }
             },
             {
-              "id": 250,
+              "id": 249,
               "type": "timeseries",
               "title": "Воздушный насос 1 · Дворники в парковочном положении · Подогрев топлива / паров масла · Питание после замка зажигания",
               "datasource": {
@@ -17501,7 +17454,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 299
+                "y": 303
               },
               "targets": [
                 {
@@ -17547,7 +17500,7 @@ data:
           ]
         },
         {
-          "id": 317,
+          "id": 316,
           "type": "row",
           "title": "DTC (65)",
           "collapsed": true,
@@ -17555,11 +17508,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 251
+            "y": 255
           },
           "panels": [
             {
-              "id": 252,
+              "id": 251,
               "type": "state-timeline",
               "title": "B1003",
               "datasource": {
@@ -17570,7 +17523,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 252
+                "y": 256
               },
               "targets": [
                 {
@@ -17649,7 +17602,7 @@ data:
               }
             },
             {
-              "id": 253,
+              "id": 252,
               "type": "state-timeline",
               "title": "B1011",
               "datasource": {
@@ -17660,7 +17613,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 252
+                "y": 256
               },
               "targets": [
                 {
@@ -17739,7 +17692,7 @@ data:
               }
             },
             {
-              "id": 254,
+              "id": 253,
               "type": "state-timeline",
               "title": "B1138",
               "datasource": {
@@ -17750,7 +17703,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 260
+                "y": 264
               },
               "targets": [
                 {
@@ -17829,7 +17782,7 @@ data:
               }
             },
             {
-              "id": 255,
+              "id": 254,
               "type": "state-timeline",
               "title": "B114a",
               "datasource": {
@@ -17840,7 +17793,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 260
+                "y": 264
               },
               "targets": [
                 {
@@ -17919,7 +17872,7 @@ data:
               }
             },
             {
-              "id": 256,
+              "id": 255,
               "type": "state-timeline",
               "title": "B114b",
               "datasource": {
@@ -17930,7 +17883,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 268
+                "y": 272
               },
               "targets": [
                 {
@@ -18009,7 +17962,7 @@ data:
               }
             },
             {
-              "id": 257,
+              "id": 256,
               "type": "state-timeline",
               "title": "B1163",
               "datasource": {
@@ -18020,7 +17973,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 268
+                "y": 272
               },
               "targets": [
                 {
@@ -18099,7 +18052,7 @@ data:
               }
             },
             {
-              "id": 258,
+              "id": 257,
               "type": "state-timeline",
               "title": "B1166",
               "datasource": {
@@ -18110,7 +18063,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 276
+                "y": 280
               },
               "targets": [
                 {
@@ -18189,7 +18142,7 @@ data:
               }
             },
             {
-              "id": 259,
+              "id": 258,
               "type": "state-timeline",
               "title": "B1167",
               "datasource": {
@@ -18200,7 +18153,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 276
+                "y": 280
               },
               "targets": [
                 {
@@ -18279,7 +18232,7 @@ data:
               }
             },
             {
-              "id": 260,
+              "id": 259,
               "type": "state-timeline",
               "title": "B1168",
               "datasource": {
@@ -18290,7 +18243,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 284
+                "y": 288
               },
               "targets": [
                 {
@@ -18369,7 +18322,7 @@ data:
               }
             },
             {
-              "id": 261,
+              "id": 260,
               "type": "state-timeline",
               "title": "B1223",
               "datasource": {
@@ -18380,7 +18333,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 284
+                "y": 288
               },
               "targets": [
                 {
@@ -18459,7 +18412,7 @@ data:
               }
             },
             {
-              "id": 262,
+              "id": 261,
               "type": "state-timeline",
               "title": "B1224",
               "datasource": {
@@ -18470,7 +18423,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 292
+                "y": 296
               },
               "targets": [
                 {
@@ -18549,7 +18502,7 @@ data:
               }
             },
             {
-              "id": 263,
+              "id": 262,
               "type": "state-timeline",
               "title": "B1227",
               "datasource": {
@@ -18560,7 +18513,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 292
+                "y": 296
               },
               "targets": [
                 {
@@ -18639,7 +18592,7 @@ data:
               }
             },
             {
-              "id": 264,
+              "id": 263,
               "type": "state-timeline",
               "title": "B1228",
               "datasource": {
@@ -18650,7 +18603,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 300
+                "y": 304
               },
               "targets": [
                 {
@@ -18729,7 +18682,7 @@ data:
               }
             },
             {
-              "id": 265,
+              "id": 264,
               "type": "state-timeline",
               "title": "B1278",
               "datasource": {
@@ -18740,7 +18693,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 300
+                "y": 304
               },
               "targets": [
                 {
@@ -18819,7 +18772,7 @@ data:
               }
             },
             {
-              "id": 266,
+              "id": 265,
               "type": "state-timeline",
               "title": "B1301",
               "datasource": {
@@ -18830,7 +18783,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 308
+                "y": 312
               },
               "targets": [
                 {
@@ -18909,7 +18862,7 @@ data:
               }
             },
             {
-              "id": 267,
+              "id": 266,
               "type": "state-timeline",
               "title": "B130e",
               "datasource": {
@@ -18920,7 +18873,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 308
+                "y": 312
               },
               "targets": [
                 {
@@ -18999,7 +18952,7 @@ data:
               }
             },
             {
-              "id": 268,
+              "id": 267,
               "type": "state-timeline",
               "title": "B132a",
               "datasource": {
@@ -19010,7 +18963,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 316
+                "y": 320
               },
               "targets": [
                 {
@@ -19089,7 +19042,7 @@ data:
               }
             },
             {
-              "id": 269,
+              "id": 268,
               "type": "state-timeline",
               "title": "B132b",
               "datasource": {
@@ -19100,7 +19053,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 316
+                "y": 320
               },
               "targets": [
                 {
@@ -19179,7 +19132,7 @@ data:
               }
             },
             {
-              "id": 270,
+              "id": 269,
               "type": "state-timeline",
               "title": "B1507",
               "datasource": {
@@ -19190,7 +19143,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 324
+                "y": 328
               },
               "targets": [
                 {
@@ -19269,7 +19222,7 @@ data:
               }
             },
             {
-              "id": 271,
+              "id": 270,
               "type": "state-timeline",
               "title": "B1716",
               "datasource": {
@@ -19280,7 +19233,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 324
+                "y": 328
               },
               "targets": [
                 {
@@ -19359,7 +19312,7 @@ data:
               }
             },
             {
-              "id": 272,
+              "id": 271,
               "type": "state-timeline",
               "title": "B171d",
               "datasource": {
@@ -19370,7 +19323,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 332
+                "y": 336
               },
               "targets": [
                 {
@@ -19449,7 +19402,7 @@ data:
               }
             },
             {
-              "id": 273,
+              "id": 272,
               "type": "state-timeline",
               "title": "B173d",
               "datasource": {
@@ -19460,7 +19413,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 332
+                "y": 336
               },
               "targets": [
                 {
@@ -19539,7 +19492,7 @@ data:
               }
             },
             {
-              "id": 274,
+              "id": 273,
               "type": "state-timeline",
               "title": "B1805",
               "datasource": {
@@ -19550,7 +19503,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 340
+                "y": 344
               },
               "targets": [
                 {
@@ -19629,7 +19582,7 @@ data:
               }
             },
             {
-              "id": 275,
+              "id": 274,
               "type": "state-timeline",
               "title": "B1816",
               "datasource": {
@@ -19640,7 +19593,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 340
+                "y": 344
               },
               "targets": [
                 {
@@ -19719,7 +19672,7 @@ data:
               }
             },
             {
-              "id": 276,
+              "id": 275,
               "type": "state-timeline",
               "title": "C1205",
               "datasource": {
@@ -19730,7 +19683,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 348
+                "y": 352
               },
               "targets": [
                 {
@@ -19809,7 +19762,7 @@ data:
               }
             },
             {
-              "id": 277,
+              "id": 276,
               "type": "state-timeline",
               "title": "C1510",
               "datasource": {
@@ -19820,7 +19773,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 348
+                "y": 352
               },
               "targets": [
                 {
@@ -19899,7 +19852,7 @@ data:
               }
             },
             {
-              "id": 278,
+              "id": 277,
               "type": "state-timeline",
               "title": "P000a",
               "datasource": {
@@ -19910,7 +19863,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 356
+                "y": 360
               },
               "targets": [
                 {
@@ -19989,7 +19942,7 @@ data:
               }
             },
             {
-              "id": 279,
+              "id": 278,
               "type": "state-timeline",
               "title": "P0031",
               "datasource": {
@@ -20000,7 +19953,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 356
+                "y": 360
               },
               "targets": [
                 {
@@ -20079,7 +20032,7 @@ data:
               }
             },
             {
-              "id": 280,
+              "id": 279,
               "type": "state-timeline",
               "title": "P0115",
               "datasource": {
@@ -20090,7 +20043,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 364
+                "y": 368
               },
               "targets": [
                 {
@@ -20169,7 +20122,7 @@ data:
               }
             },
             {
-              "id": 281,
+              "id": 280,
               "type": "state-timeline",
               "title": "P0116",
               "datasource": {
@@ -20180,7 +20133,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 364
+                "y": 368
               },
               "targets": [
                 {
@@ -20259,7 +20212,7 @@ data:
               }
             },
             {
-              "id": 282,
+              "id": 281,
               "type": "state-timeline",
               "title": "P0117",
               "datasource": {
@@ -20270,7 +20223,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 372
+                "y": 376
               },
               "targets": [
                 {
@@ -20349,7 +20302,7 @@ data:
               }
             },
             {
-              "id": 283,
+              "id": 282,
               "type": "state-timeline",
               "title": "P0130",
               "datasource": {
@@ -20360,7 +20313,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 372
+                "y": 376
               },
               "targets": [
                 {
@@ -20439,7 +20392,7 @@ data:
               }
             },
             {
-              "id": 284,
+              "id": 283,
               "type": "state-timeline",
               "title": "P0132",
               "datasource": {
@@ -20450,7 +20403,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 380
+                "y": 384
               },
               "targets": [
                 {
@@ -20529,7 +20482,7 @@ data:
               }
             },
             {
-              "id": 285,
+              "id": 284,
               "type": "state-timeline",
               "title": "P0444",
               "datasource": {
@@ -20540,7 +20493,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 380
+                "y": 384
               },
               "targets": [
                 {
@@ -20619,7 +20572,7 @@ data:
               }
             },
             {
-              "id": 286,
+              "id": 285,
               "type": "state-timeline",
               "title": "P0691",
               "datasource": {
@@ -20630,7 +20583,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 388
+                "y": 392
               },
               "targets": [
                 {
@@ -20709,7 +20662,7 @@ data:
               }
             },
             {
-              "id": 287,
+              "id": 286,
               "type": "state-timeline",
               "title": "P0693",
               "datasource": {
@@ -20720,7 +20673,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 388
+                "y": 392
               },
               "targets": [
                 {
@@ -20799,7 +20752,7 @@ data:
               }
             },
             {
-              "id": 288,
+              "id": 287,
               "type": "state-timeline",
               "title": "P2299",
               "datasource": {
@@ -20810,7 +20763,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 396
+                "y": 400
               },
               "targets": [
                 {
@@ -20889,7 +20842,7 @@ data:
               }
             },
             {
-              "id": 289,
+              "id": 288,
               "type": "state-timeline",
               "title": "U0073",
               "datasource": {
@@ -20900,7 +20853,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 396
+                "y": 400
               },
               "targets": [
                 {
@@ -20979,7 +20932,7 @@ data:
               }
             },
             {
-              "id": 290,
+              "id": 289,
               "type": "state-timeline",
               "title": "U0121",
               "datasource": {
@@ -20990,7 +20943,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 404
+                "y": 408
               },
               "targets": [
                 {
@@ -21069,7 +21022,7 @@ data:
               }
             },
             {
-              "id": 291,
+              "id": 290,
               "type": "state-timeline",
               "title": "U0140",
               "datasource": {
@@ -21080,7 +21033,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 404
+                "y": 408
               },
               "targets": [
                 {
@@ -21159,7 +21112,7 @@ data:
               }
             },
             {
-              "id": 292,
+              "id": 291,
               "type": "state-timeline",
               "title": "U1003",
               "datasource": {
@@ -21170,7 +21123,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 412
+                "y": 416
               },
               "targets": [
                 {
@@ -21249,7 +21202,7 @@ data:
               }
             },
             {
-              "id": 293,
+              "id": 292,
               "type": "state-timeline",
               "title": "U1108",
               "datasource": {
@@ -21260,7 +21213,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 412
+                "y": 416
               },
               "targets": [
                 {
@@ -21339,7 +21292,7 @@ data:
               }
             },
             {
-              "id": 294,
+              "id": 293,
               "type": "state-timeline",
               "title": "U1113",
               "datasource": {
@@ -21350,7 +21303,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 420
+                "y": 424
               },
               "targets": [
                 {
@@ -21429,7 +21382,7 @@ data:
               }
             },
             {
-              "id": 295,
+              "id": 294,
               "type": "state-timeline",
               "title": "U1118",
               "datasource": {
@@ -21440,7 +21393,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 420
+                "y": 424
               },
               "targets": [
                 {
@@ -21519,7 +21472,7 @@ data:
               }
             },
             {
-              "id": 296,
+              "id": 295,
               "type": "state-timeline",
               "title": "U1218",
               "datasource": {
@@ -21530,7 +21483,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 428
+                "y": 432
               },
               "targets": [
                 {
@@ -21609,7 +21562,7 @@ data:
               }
             },
             {
-              "id": 297,
+              "id": 296,
               "type": "state-timeline",
               "title": "U1308",
               "datasource": {
@@ -21620,7 +21573,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 428
+                "y": 432
               },
               "targets": [
                 {
@@ -21699,7 +21652,7 @@ data:
               }
             },
             {
-              "id": 298,
+              "id": 297,
               "type": "state-timeline",
               "title": "U1318",
               "datasource": {
@@ -21710,7 +21663,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 436
+                "y": 440
               },
               "targets": [
                 {
@@ -21789,7 +21742,7 @@ data:
               }
             },
             {
-              "id": 299,
+              "id": 298,
               "type": "state-timeline",
               "title": "U1802",
               "datasource": {
@@ -21800,7 +21753,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 436
+                "y": 440
               },
               "targets": [
                 {
@@ -21879,7 +21832,7 @@ data:
               }
             },
             {
-              "id": 300,
+              "id": 299,
               "type": "state-timeline",
               "title": "U1807",
               "datasource": {
@@ -21890,7 +21843,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 444
+                "y": 448
               },
               "targets": [
                 {
@@ -21969,7 +21922,7 @@ data:
               }
             },
             {
-              "id": 301,
+              "id": 300,
               "type": "state-timeline",
               "title": "U1809",
               "datasource": {
@@ -21980,7 +21933,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 444
+                "y": 448
               },
               "targets": [
                 {
@@ -22059,7 +22012,7 @@ data:
               }
             },
             {
-              "id": 302,
+              "id": 301,
               "type": "state-timeline",
               "title": "U1f03",
               "datasource": {
@@ -22070,7 +22023,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 452
+                "y": 456
               },
               "targets": [
                 {
@@ -22149,7 +22102,7 @@ data:
               }
             },
             {
-              "id": 303,
+              "id": 302,
               "type": "state-timeline",
               "title": "U1f0e",
               "datasource": {
@@ -22160,7 +22113,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 452
+                "y": 456
               },
               "targets": [
                 {
@@ -22239,7 +22192,7 @@ data:
               }
             },
             {
-              "id": 304,
+              "id": 303,
               "type": "state-timeline",
               "title": "U1f1b",
               "datasource": {
@@ -22250,7 +22203,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 460
+                "y": 464
               },
               "targets": [
                 {
@@ -22329,7 +22282,7 @@ data:
               }
             },
             {
-              "id": 305,
+              "id": 304,
               "type": "state-timeline",
               "title": "U1f2e",
               "datasource": {
@@ -22340,7 +22293,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 460
+                "y": 464
               },
               "targets": [
                 {
@@ -22419,7 +22372,7 @@ data:
               }
             },
             {
-              "id": 306,
+              "id": 305,
               "type": "state-timeline",
               "title": "U1f41",
               "datasource": {
@@ -22430,7 +22383,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 468
+                "y": 472
               },
               "targets": [
                 {
@@ -22509,7 +22462,7 @@ data:
               }
             },
             {
-              "id": 307,
+              "id": 306,
               "type": "state-timeline",
               "title": "U1f71",
               "datasource": {
@@ -22520,7 +22473,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 468
+                "y": 472
               },
               "targets": [
                 {
@@ -22599,7 +22552,7 @@ data:
               }
             },
             {
-              "id": 308,
+              "id": 307,
               "type": "state-timeline",
               "title": "U2000",
               "datasource": {
@@ -22610,7 +22563,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 476
+                "y": 480
               },
               "targets": [
                 {
@@ -22689,7 +22642,7 @@ data:
               }
             },
             {
-              "id": 309,
+              "id": 308,
               "type": "state-timeline",
               "title": "U3fff",
               "datasource": {
@@ -22700,7 +22653,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 476
+                "y": 480
               },
               "targets": [
                 {
@@ -22779,7 +22732,7 @@ data:
               }
             },
             {
-              "id": 310,
+              "id": 309,
               "type": "state-timeline",
               "title": "B1137",
               "datasource": {
@@ -22790,7 +22743,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 484
+                "y": 488
               },
               "targets": [
                 {
@@ -22869,7 +22822,7 @@ data:
               }
             },
             {
-              "id": 311,
+              "id": 310,
               "type": "state-timeline",
               "title": "B1138",
               "datasource": {
@@ -22880,7 +22833,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 484
+                "y": 488
               },
               "targets": [
                 {
@@ -22959,7 +22912,7 @@ data:
               }
             },
             {
-              "id": 312,
+              "id": 311,
               "type": "state-timeline",
               "title": "B1301",
               "datasource": {
@@ -22970,7 +22923,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 492
+                "y": 496
               },
               "targets": [
                 {
@@ -23049,7 +23002,7 @@ data:
               }
             },
             {
-              "id": 313,
+              "id": 312,
               "type": "state-timeline",
               "title": "C1205",
               "datasource": {
@@ -23060,7 +23013,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 492
+                "y": 496
               },
               "targets": [
                 {
@@ -23139,7 +23092,7 @@ data:
               }
             },
             {
-              "id": 314,
+              "id": 313,
               "type": "state-timeline",
               "title": "P0116",
               "datasource": {
@@ -23150,7 +23103,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 500
+                "y": 504
               },
               "targets": [
                 {
@@ -23229,7 +23182,7 @@ data:
               }
             },
             {
-              "id": 315,
+              "id": 314,
               "type": "state-timeline",
               "title": "P2299",
               "datasource": {
@@ -23240,7 +23193,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 500
+                "y": 504
               },
               "targets": [
                 {
@@ -23319,7 +23272,7 @@ data:
               }
             },
             {
-              "id": 316,
+              "id": 315,
               "type": "state-timeline",
               "title": "B1137",
               "datasource": {
@@ -23330,7 +23283,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 508
+                "y": 512
               },
               "targets": [
                 {
@@ -23411,7 +23364,7 @@ data:
           ]
         },
         {
-          "id": 322,
+          "id": 321,
           "type": "row",
           "title": "подушки безопасности (13)",
           "collapsed": false,
@@ -23419,12 +23372,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 252
+            "y": 256
           },
           "panels": []
         },
         {
-          "id": 318,
+          "id": 317,
           "type": "timeseries",
           "title": "Боковая подушка, правая: состояние · Боковая подушка головы, правая: состоя · Подушка пассажира: состояние · Шторка безопасности, правая: состояние",
           "datasource": {
@@ -23435,7 +23388,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 253
+            "y": 257
           },
           "targets": [
             {
@@ -23478,7 +23431,7 @@ data:
           }
         },
         {
-          "id": 319,
+          "id": 318,
           "type": "timeseries",
           "title": "Шторка безопасности, левая: состояние · Преднатяжитель, правый: состояние · Окончательная блокировка блока подушек",
           "datasource": {
@@ -23489,7 +23442,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 253
+            "y": 257
           },
           "targets": [
             {
@@ -23532,7 +23485,7 @@ data:
           }
         },
         {
-          "id": 320,
+          "id": 319,
           "type": "timeseries",
           "title": "Подушка водителя: состояние · Боковая подушка, левая: состояние · Преднатяжитель, левый: состояние · Сервисная блокировка блока подушек",
           "datasource": {
@@ -23543,7 +23496,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 261
+            "y": 265
           },
           "targets": [
             {
@@ -23586,7 +23539,7 @@ data:
           }
         },
         {
-          "id": 321,
+          "id": 320,
           "type": "timeseries",
           "title": "Датчик бокового удара, правый: поставщ · Датчик бокового удара, левый: поставщи",
           "datasource": {
@@ -23597,7 +23550,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 261
+            "y": 265
           },
           "targets": [
             {
@@ -23640,7 +23593,7 @@ data:
           }
         },
         {
-          "id": 328,
+          "id": 327,
           "type": "row",
           "title": "подрулевой переключатель (16)",
           "collapsed": false,
@@ -23648,12 +23601,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 269
+            "y": 273
           },
           "panels": []
         },
         {
-          "id": 323,
+          "id": 322,
           "type": "timeseries",
           "title": "Кольцо света, 4 положения",
           "datasource": {
@@ -23664,7 +23617,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 270
+            "y": 274
           },
           "targets": [
             {
@@ -23707,7 +23660,7 @@ data:
           }
         },
         {
-          "id": 324,
+          "id": 323,
           "type": "timeseries",
           "title": "Звуковой сигнал · Указатели поворота · Однократный взмах дворников · Задний дворник",
           "datasource": {
@@ -23718,7 +23671,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 278
+            "y": 282
           },
           "targets": [
             {
@@ -23762,7 +23715,7 @@ data:
           }
         },
         {
-          "id": 325,
+          "id": 324,
           "type": "timeseries",
           "title": "Передние дворники · Противотуманные фары · Мигание дальним · Переключатель ближний/дальний",
           "datasource": {
@@ -23773,7 +23726,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 278
+            "y": 282
           },
           "targets": [
             {
@@ -23817,7 +23770,7 @@ data:
           }
         },
         {
-          "id": 326,
+          "id": 325,
           "type": "timeseries",
           "title": "Омыватель лобового стекла · Омыватель заднего стекла · Кольцо света, 3 положения · Ключ в замке",
           "datasource": {
@@ -23828,7 +23781,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 286
+            "y": 290
           },
           "targets": [
             {
@@ -23872,7 +23825,7 @@ data:
           }
         },
         {
-          "id": 327,
+          "id": 326,
           "type": "timeseries",
           "title": "Кнопка на торце рычага света · Кнопка на торце рычага дворников · Синхронизация ключа",
           "datasource": {
@@ -23883,7 +23836,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 286
+            "y": 290
           },
           "targets": [
             {
@@ -23927,7 +23880,7 @@ data:
           }
         },
         {
-          "id": 333,
+          "id": 332,
           "type": "row",
           "title": "парктроник (7)",
           "collapsed": false,
@@ -23935,12 +23888,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 294
+            "y": 298
           },
           "panels": []
         },
         {
-          "id": 329,
+          "id": 328,
           "type": "timeseries",
           "title": "Парктроник задний: состояние · Кнопка отключения парктроника · Измерение места для парковки: состояни · Прицеп подключён",
           "datasource": {
@@ -23951,7 +23904,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 295
+            "y": 299
           },
           "targets": [
             {
@@ -23994,7 +23947,7 @@ data:
           }
         },
         {
-          "id": 330,
+          "id": 329,
           "type": "timeseries",
           "title": "Парктроник отключён (лампа BSI)",
           "datasource": {
@@ -24005,7 +23958,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 295
+            "y": 299
           },
           "targets": [
             {
@@ -24048,7 +24001,7 @@ data:
           }
         },
         {
-          "id": 331,
+          "id": 330,
           "type": "timeseries",
           "title": "Парктроник передний: состояние",
           "datasource": {
@@ -24059,7 +24012,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 303
+            "y": 307
           },
           "targets": [
             {
@@ -24102,7 +24055,7 @@ data:
           }
         },
         {
-          "id": 332,
+          "id": 331,
           "type": "timeseries",
           "title": "Длина измеренного места",
           "datasource": {
@@ -24113,7 +24066,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 303
+            "y": 307
           },
           "targets": [
             {
@@ -24156,7 +24109,7 @@ data:
           }
         },
         {
-          "id": 337,
+          "id": 336,
           "type": "row",
           "title": "ABS/ESP (4)",
           "collapsed": false,
@@ -24164,12 +24117,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 311
+            "y": 315
           },
           "panels": []
         },
         {
-          "id": 334,
+          "id": 333,
           "type": "timeseries",
           "title": "Скорость автомобиля (по ABS)",
           "datasource": {
@@ -24180,7 +24133,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 312
+            "y": 316
           },
           "targets": [
             {
@@ -24241,7 +24194,7 @@ data:
           "description": "Правдоподобие.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 335,
+          "id": 334,
           "type": "timeseries",
           "title": "Выключатель стоп-сигналов",
           "datasource": {
@@ -24252,7 +24205,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 312
+            "y": 316
           },
           "targets": [
             {
@@ -24295,7 +24248,7 @@ data:
           }
         },
         {
-          "id": 336,
+          "id": 335,
           "type": "timeseries",
           "title": "Реле питания клапанов ABS · Реле насоса ABS",
           "datasource": {
@@ -24306,7 +24259,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 320
+            "y": 324
           },
           "targets": [
             {
@@ -24350,7 +24303,7 @@ data:
           }
         },
         {
-          "id": 342,
+          "id": 341,
           "type": "row",
           "title": "электронасос (4)",
           "collapsed": false,
@@ -24358,12 +24311,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 328
+            "y": 332
           },
           "panels": []
         },
         {
-          "id": 338,
+          "id": 337,
           "type": "timeseries",
           "title": "Скорость вращения руля",
           "datasource": {
@@ -24374,7 +24327,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 329
+            "y": 333
           },
           "targets": [
             {
@@ -24435,7 +24388,7 @@ data:
           "description": "Правдоподобие: руками быстрее ~800°/с не крутят.\n\nИсточник границ: свойства самой величины, не база DiagBox."
         },
         {
-          "id": 339,
+          "id": 338,
           "type": "timeseries",
           "title": "Обороты электронасоса ГУР",
           "datasource": {
@@ -24446,7 +24399,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 329
+            "y": 333
           },
           "targets": [
             {
@@ -24489,7 +24442,7 @@ data:
           }
         },
         {
-          "id": 340,
+          "id": 339,
           "type": "timeseries",
           "title": "Скорость автомобиля (по насосу ГУР)",
           "datasource": {
@@ -24500,7 +24453,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 337
+            "y": 341
           },
           "targets": [
             {
@@ -24543,7 +24496,7 @@ data:
           }
         },
         {
-          "id": 341,
+          "id": 340,
           "type": "state-timeline",
           "title": "Состояние двигателя (по насосу)",
           "datasource": {
@@ -24554,7 +24507,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 345
+            "y": 349
           },
           "targets": [
             {
@@ -24605,7 +24558,7 @@ data:
           }
         },
         {
-          "id": 346,
+          "id": 345,
           "type": "row",
           "title": "щиток приборов (9)",
           "collapsed": false,
@@ -24613,12 +24566,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 345
+            "y": 349
           },
           "panels": []
         },
         {
-          "id": 343,
+          "id": 342,
           "type": "timeseries",
           "title": "Кнопка парктроника · Кнопка цвета подсветки шкал · Кнопка цвета экрана · Кнопка сброса суточного пробега",
           "datasource": {
@@ -24629,7 +24582,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 346
+            "y": 350
           },
           "targets": [
             {
@@ -24673,7 +24626,7 @@ data:
           }
         },
         {
-          "id": 344,
+          "id": 343,
           "type": "timeseries",
           "title": "Кнопка ESP · Кнопка яркости подсветки · Кнопка контроля слепых зон · Кнопка контроля полосы",
           "datasource": {
@@ -24684,7 +24637,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 346
+            "y": 350
           },
           "targets": [
             {
@@ -24728,7 +24681,7 @@ data:
           }
         },
         {
-          "id": 345,
+          "id": 344,
           "type": "timeseries",
           "title": "Часы в щитке",
           "datasource": {
@@ -24739,7 +24692,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 354
+            "y": 358
           },
           "targets": [
             {
@@ -24783,7 +24736,7 @@ data:
           }
         },
         {
-          "id": 350,
+          "id": 349,
           "type": "row",
           "title": "датчик дождя и света (6)",
           "collapsed": false,
@@ -24791,12 +24744,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 362
+            "y": 366
           },
           "panels": []
         },
         {
-          "id": 347,
+          "id": 346,
           "type": "timeseries",
           "title": "Дворники: состояние · Скорость дворников",
           "datasource": {
@@ -24807,7 +24760,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 363
+            "y": 367
           },
           "targets": [
             {
@@ -24850,7 +24803,7 @@ data:
           }
         },
         {
-          "id": 348,
+          "id": 347,
           "type": "timeseries",
           "title": "Датчик дождя, ячейка 1 · Датчик дождя, ячейка 2",
           "datasource": {
@@ -24861,7 +24814,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 363
+            "y": 367
           },
           "targets": [
             {
@@ -24904,7 +24857,7 @@ data:
           }
         },
         {
-          "id": 349,
+          "id": 348,
           "type": "timeseries",
           "title": "Освещённость вокруг · Освещённость спереди",
           "datasource": {
@@ -24915,7 +24868,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 371
+            "y": 375
           },
           "targets": [
             {
@@ -24958,7 +24911,7 @@ data:
           }
         },
         {
-          "id": 351,
+          "id": 350,
           "type": "row",
           "title": "многофункциональный дисплей (0)",
           "collapsed": false,
@@ -24966,12 +24919,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 379
+            "y": 383
           },
           "panels": []
         },
         {
-          "id": 353,
+          "id": 352,
           "type": "row",
           "title": "модуль двери (4)",
           "collapsed": false,
@@ -24979,12 +24932,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 380
+            "y": 384
           },
           "panels": []
         },
         {
-          "id": 352,
+          "id": 351,
           "type": "timeseries",
           "title": "Реле питания CPC: команда · Запрос включения зажигания · Реле питания CPC: состояние · Главное реле ЭБУ двигателя",
           "datasource": {
@@ -24995,7 +24948,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 381
+            "y": 385
           },
           "targets": [
             {
@@ -25038,7 +24991,7 @@ data:
           }
         },
         {
-          "id": 356,
+          "id": 355,
           "type": "row",
           "title": "панель управления (4)",
           "collapsed": false,
@@ -25046,12 +24999,12 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 389
+            "y": 393
           },
           "panels": []
         },
         {
-          "id": 354,
+          "id": 353,
           "type": "timeseries",
           "title": "Кнопка A/C · Кнопка AUTO климата · Кнопка обдува лобового стекла",
           "datasource": {
@@ -25062,7 +25015,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 390
+            "y": 394
           },
           "targets": [
             {
@@ -25105,7 +25058,7 @@ data:
           }
         },
         {
-          "id": 355,
+          "id": 354,
           "type": "timeseries",
           "title": "Регулятор громкости",
           "datasource": {
@@ -25116,7 +25069,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 390
+            "y": 394
           },
           "targets": [
             {
@@ -25159,7 +25112,7 @@ data:
           }
         },
         {
-          "id": 357,
+          "id": 356,
           "type": "row",
           "title": "Идентификация блоков (121)",
           "collapsed": true,
@@ -25167,11 +25120,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 398
+            "y": 402
           },
           "panels": [
             {
-              "id": 358,
+              "id": 357,
               "type": "table",
               "title": "Номера, версии ПО и серийные номера всех блоков",
               "datasource": {
@@ -25182,7 +25135,7 @@ data:
                 "h": 24,
                 "w": 24,
                 "x": 0,
-                "y": 399
+                "y": 403
               },
               "targets": [
                 {
