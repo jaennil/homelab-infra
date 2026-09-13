@@ -89,12 +89,15 @@ spec:
             up == 0
             and on()
             (time() - max(process_start_time_seconds{job="apiserver"}) > 900)
-          for: 2m
+          # Деплой с strategy: Recreate убивает старый под раньше, чем встаёт
+          # новый, и на распберри это две-три минуты без цели для скрейпа. При
+          # for: 2m каждый выкат приходил в телеграм как падение сервиса.
+          for: 5m
           labels:
             severity: critical
           annotations:
             summary: "Service {{ $labels.job }} is down"
-            description: "Target {{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes"
+            description: "Target {{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes"
 
         - alert: NginxDown
           expr: |
