@@ -29,7 +29,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "de1.gofizzin.com", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
@@ -43,7 +43,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "nl1.gofizzin.com", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
@@ -57,7 +57,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "se3.gofizzin.com", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
@@ -71,7 +71,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "ee1.gofizzin.com", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
@@ -85,7 +85,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "pl1.gofizz.in", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
@@ -99,7 +99,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "fi1.gofizzin.com", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
@@ -113,7 +113,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "lv1.gofizzin.com", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
@@ -127,7 +127,7 @@ data:
           "settings": {
             "vnext": [{
               "address": "uk1.gofizz.in", "port": 443,
-              "users": [{ "id": "c87fada7-5e2c-4851-9089-423b31d31d51", "encryption": "none", "flow": "xtls-rprx-vision" }]
+              "users": [{ "id": "d5722c98-da26-444f-bf8e-7f9d175948d9", "encryption": "none", "flow": "xtls-rprx-vision" }]
             }]
           },
           "streamSettings": {
