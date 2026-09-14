@@ -5,6 +5,20 @@ metadata:
   namespace: monitoring
 spec:
   groups:
+    - name: subscriptions
+      interval: 1h
+      rules:
+        - alert: FizzVPNSubscriptionExpiring
+          expr: vector(1805058000 - time()) < 86400
+          for: 5m
+          labels:
+            severity: warning
+            namespace: proxy
+            pod: xray
+          annotations:
+            summary: "FizzVPN subscription expires tomorrow"
+            description: "FizzVPN expires on 15 March 2027 at 00:00 MSK. Buy a new subscription and update the Xray credentials."
+
     - name: pods
       rules:
         - alert: PodCrashLooping
