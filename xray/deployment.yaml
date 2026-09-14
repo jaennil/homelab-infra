@@ -10,6 +10,8 @@ spec:
       app: xray
   template:
     metadata:
+      annotations:
+        reloader.stakater.com/auto: "true"
       labels:
         app: xray
     spec:
