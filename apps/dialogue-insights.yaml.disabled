@@ -1,4 +1,6 @@
-# Enable after database, Telegram API and GHCR pull secrets are sealed.
+# Включать после dialogue-insights-infra: тот поднимает namespace, CNPG-кластер
+# и секреты, без которых поды здесь встанут в CreateContainerConfigError.
+# Команды запечатывания - в dialogue-insights/sealed-secrets.yaml.example.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

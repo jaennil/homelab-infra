@@ -1,0 +1,24 @@
+# Включать вместе с dialogue-insights.yaml, после dialogue-insights/sealed-secrets.yaml.
+# Держит namespace, CNPG-кластер и секреты; сами сервисы приезжают из репозитория приложения.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dialogue-insights-infra
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/jaennil/homelab-infra
+    targetRevision: main
+    path: dialogue-insights
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dialogue-insights
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

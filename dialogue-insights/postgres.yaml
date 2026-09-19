@@ -1,0 +1,39 @@
+# Анализ личных переписок: identity хранит инвайты и сессии, telegram -
+# подключения и задания импорта, conversation - сами сообщения и версии их
+# редактирования. Каждый сервис владеет своей базой и в чужие не ходит.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: dialogue-insights
+spec:
+  instances: 1
+  enableSuperuserAccess: true
+  storage:
+    # Переписка за несколько лет с исходным JSON каждого сообщения.
+    size: 20Gi
+  bootstrap:
+    initdb:
+      database: identity
+      owner: identity
+      secret:
+        name: dialogue-identity-credentials
+      postInitSQL:
+        # Роли заводятся без пароля - его выставит блок managed ниже из
+        # запечатанных секретов, как это сделано для grafana_reader в citroen.
+        - CREATE ROLE telegram LOGIN
+        - CREATE DATABASE telegram OWNER telegram
+        - CREATE ROLE conversation LOGIN
+        - CREATE DATABASE conversation OWNER conversation
+  managed:
+    roles:
+      - name: telegram
+        ensure: present
+        login: true
+        passwordSecret:
+          name: dialogue-telegram-credentials
+      - name: conversation
+        ensure: present
+        login: true
+        passwordSecret:
+          name: dialogue-conversation-credentials
