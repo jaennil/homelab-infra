@@ -1,6 +1,6 @@
 # Анализ личных переписок: identity хранит инвайты и сессии, telegram -
 # подключения и задания импорта, conversation - сами сообщения и версии их
-# редактирования. Каждый сервис владеет своей базой и в чужие не ходит.
+# редактирования, search - индекс поиска. Каждый сервис владеет своей базой.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -37,3 +37,11 @@ spec:
         login: true
         passwordSecret:
           name: dialogue-conversation-credentials
+      - name: search
+        ensure: present
+        login: true
+        superuser: false
+        createdb: false
+        createrole: false
+        passwordSecret:
+          name: dialogue-search-credentials

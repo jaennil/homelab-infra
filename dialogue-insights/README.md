@@ -7,9 +7,10 @@ Application'ом `dialogue-insights`, который смотрит в `k8s/over
 
 ## Что поднимается
 
-- CNPG-кластер `postgres` с тремя базами - `identity`, `telegram`,
-  `conversation`. Роли создаются без пароля в `postInitSQL`, пароли им
-  выставляет блок `managed.roles` из запечатанных секретов.
+- CNPG-кластер `postgres` с базами `identity`, `telegram`, `conversation`
+  и `search`. Роли и пароли управляются через `managed.roles` и sealed secrets.
+  База `search` добавляется ресурсом CNPG `Database`, поэтому создаётся и в уже
+  работающем кластере. При удалении ресурса база сохраняется (`retain`).
 - Секреты подключения для сервисов, креды Telegram API и pull-секрет GHCR.
 
 NATS с JetStream приезжает из репозитория приложения вместе с сервисами -
