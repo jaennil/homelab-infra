@@ -40,8 +40,5 @@ spec:
       - name: search
         ensure: present
         login: true
-        superuser: false
-        createdb: false
-        createrole: false
         passwordSecret:
           name: dialogue-search-credentials
