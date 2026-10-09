@@ -308,6 +308,51 @@ data:
                   expression: B
                   conditions:
                     - evaluator: { type: lt, params: [12.8] }
+          # Лампа давления масла горит при каждом включении зажигания без запуска мотора,
+          # поэтому она выведена из общего правила красных зон (alert=False в norms.py) и
+          # проверяется здесь: только если мотор работал 20 с до и после замера лампы.
+          # Лампу читает вылазка в BSM, поток оборотов BSI в это время стоит - отсюда
+          # окно +-20 с и минимум оборотов, а не точное совпадение времени.
+          - uid: citroen-oil-lamp
+            title: Лампа давления масла при работающем двигателе
+            condition: C
+            noDataState: OK
+            execErrState: OK
+            for: 0s
+            labels:
+              severity: critical
+              service: citroen
+            annotations:
+              summary: 'Горит лампа давления масла при работающем двигателе - заглушить, проверить уровень масла.'
+            data:
+              - refId: A
+                relativeTimeRange: { from: 1800, to: 0 }
+                datasourceUid: citroen-postgres
+                model:
+                  refId: A
+                  format: time_series
+                  rawQuery: true
+                  rawSql: |
+                    SELECT l.ts AS "time", l.value
+                    FROM reading l JOIN param pl ON pl.id = l.param_id
+                    WHERE pl.name = 'BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a'
+                      AND l.ts > now() - interval '30 minutes'
+                      AND (SELECT min(e.value) FROM reading e JOIN param pe ON pe.id = e.param_id
+                           WHERE pe.name = 'MP_REGIME_MOTEUR_AFFICHE'
+                             AND e.ts BETWEEN l.ts - interval '20 seconds'
+                                          AND l.ts + interval '20 seconds') > 500
+                    ORDER BY 1
+              - refId: B
+                datasourceUid: __expr__
+                model: { refId: B, type: reduce, expression: A, reducer: last }
+              - refId: C
+                datasourceUid: __expr__
+                model:
+                  refId: C
+                  type: threshold
+                  expression: B
+                  conditions:
+                    - evaluator: { type: gt, params: [0.5] }
           # Общее правило по КРАСНЫМ ЗОНАМ. Зоны лежат в таблице norm_zone, которую
           # sync.py переписывает из norms.py при каждой досылке: новая зона на дашборде =
           # новый алерт, без правки этого файла. Берётся последнее значение параметра за
