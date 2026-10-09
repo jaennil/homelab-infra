@@ -252,7 +252,7 @@ data:
                     SELECT r.ts AS "time", r.value
                     FROM reading r JOIN param p ON p.id = r.param_id
                     WHERE p.name = 'V46_32:MP_TEMPERATURE_D_EAU_MOTEUR_d'
-                      AND r.ts > now() - interval '10 minutes'
+                      AND r.received_at > now() - interval '10 minutes'
                     ORDER BY 1
               - refId: B
                 datasourceUid: __expr__
@@ -295,7 +295,7 @@ data:
                     JOIN param pe ON pe.id = e.param_id
                     WHERE pv.name = 'MP_TENSION_ALIMENTION_BSI'
                       AND pe.name = 'MP_REGIME_MOTEUR_AFFICHE' AND e.value > 500
-                      AND v.ts > now() - interval '5 minutes'
+                      AND v.received_at > now() - interval '5 minutes'
                     ORDER BY 1
               - refId: B
                 datasourceUid: __expr__
@@ -336,7 +336,7 @@ data:
                     SELECT l.ts AS "time", l.value
                     FROM reading l JOIN param pl ON pl.id = l.param_id
                     WHERE pl.name = 'BSM_2010:MP_ALERTE_PRESSION_HUILE_MOTEUR_a'
-                      AND l.ts > now() - interval '30 minutes'
+                      AND l.received_at > now() - interval '30 minutes'
                       AND (SELECT min(e.value) FROM reading e JOIN param pe ON pe.id = e.param_id
                            WHERE pe.name = 'MP_REGIME_MOTEUR_AFFICHE'
                              AND e.ts BETWEEN l.ts - interval '20 seconds'
@@ -356,7 +356,9 @@ data:
           # Общее правило по КРАСНЫМ ЗОНАМ. Зоны лежат в таблице norm_zone, которую
           # sync.py переписывает из norms.py при каждой досылке: новая зона на дашборде =
           # новый алерт, без правки этого файла. Берётся последнее значение параметра за
-          # 30 минут; строка есть - значение в красном отрезке - и это отдельный экземпляр
+          # 30 минут ПРИХОДА (received_at, а не ts: поездка без интернета доезжает часами
+          # позже и иначе не давала бы алерта никогда; опоздавший замер помечается в
+          # тексте); строка есть - значение в красном отрезке - и это отдельный экземпляр
           # алерта со своим названием. Машина заглушена, данных нет - алерт гаснет сам.
           # Условные вещи (напряжение только при работающем двигателе) зоной не выразить,
           # они остаются ручными правилами выше.
@@ -370,7 +372,7 @@ data:
               severity: critical
               service: citroen
             annotations:
-              summary: '{{ $labels.title }}: значение в красной зоне ({{ $labels.zone }}).'
+              summary: '{{ $labels.title }}: значение в красной зоне ({{ $labels.zone }}).{{ if $labels.measured }} Замер от {{ $labels.measured }}, данные пришли с опозданием.{{ end }}'
             data:
               - refId: A
                 relativeTimeRange: { from: 1800, to: 0 }
@@ -380,12 +382,16 @@ data:
                   format: table
                   rawQuery: true
                   rawSql: |
-                    SELECT z.title, z.zone, 1 AS alarm
+                    SELECT z.title, z.zone, 1 AS alarm,
+                           CASE WHEN l.received_at - l.ts > interval '10 minutes'
+                                THEN to_char(l.ts AT TIME ZONE 'Europe/Moscow', 'DD.MM HH24:MI')
+                           END AS measured
                     FROM norm_zone z
                     JOIN param p ON p.name = z.name
-                    JOIN LATERAL (SELECT value FROM reading
-                                  WHERE param_id = p.id AND ts > now() - interval '30 minutes'
-                                  ORDER BY ts DESC LIMIT 1) l ON true
+                    JOIN LATERAL (SELECT value, ts, received_at FROM reading
+                                  WHERE param_id = p.id
+                                    AND received_at > now() - interval '30 minutes'
+                                  ORDER BY received_at DESC, ts DESC LIMIT 1) l ON true
                     WHERE (z.lo IS NULL OR l.value >= z.lo)
                       AND (z.hi IS NULL OR l.value < z.hi)
               - refId: B
