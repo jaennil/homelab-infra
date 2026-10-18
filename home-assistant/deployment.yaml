@@ -20,6 +20,8 @@ spec:
       annotations:
         configmap.reloader.stakater.com/reload: "home-assistant-config"
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: raspberrypi
       containers:
         - name: home-assistant
           image: ghcr.io/home-assistant/home-assistant:stable
